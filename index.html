@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pixa — the chain behind Pixagram, for developers</title>
+<meta name="description" content="pixa.org indexes the open-source stack behind Pixagram: the Pixa blockchain, its node software, the client libraries, the AI pixel-art converter, the agent skill file and the live network.">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ---- component map ---- */
+.mapwrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;align-items:start;margin:8px 0 12px}
+.map{border:2px solid var(--ink);padding:18px 18px 14px;background:var(--paper)}
+.map svg{width:100%;height:auto;display:block;font-family:var(--display)}
+.map .node{cursor:pointer}
+.map .node rect{fill:var(--paper);stroke:var(--ink);stroke-width:2}
+.map .node text{fill:var(--ink)}
+.map .node .sub{fill:var(--g4);font-family:var(--text);font-size:12.5px}
+.map .node:hover rect,.map .node:focus rect,.map .node.on rect{fill:var(--ink)}
+.map .node:hover text,.map .node:focus text,.map .node.on text{fill:var(--paper)}
+.map .node:focus{outline:none}
+.map .node.private rect{stroke-dasharray:6 4}
+.map .band{fill:var(--g3);font-family:var(--text);font-size:12.5px}
+.map .bandh{font-weight:700;font-size:15px;fill:var(--ink)}
+.map .frame{fill:none;stroke:var(--g2);stroke-width:1.5}
+.map .framelabel{fill:var(--g4);font-family:var(--text);font-size:12.5px}
+.map .wire{stroke:var(--ink);stroke-width:1.5;fill:none}
+.map .wire.thin{stroke:var(--g3);stroke-width:1}
+.map .wirelabel{fill:var(--g4);font-family:var(--text);font-size:12px}
+.map .chain{fill:var(--ink)}
+.map .chaintext{fill:var(--paper);font-size:15px}
+.map .chaintext.b{font-weight:700}
+.map .chainsub{fill:#bdbdbd;font-family:var(--text);font-size:12px}
+.map .tick{fill:var(--paper)}
+.panel{border-top:2px solid var(--ink);padding-top:14px;position:sticky;top:78px}
+.panel h3{margin:0 0 4px;font-size:24px;line-height:1.05}
+.panel .kind{color:var(--g3);font-size:14px;margin:0 0 12px}
+.panel p{font-size:15.5px}
+.panel .btnrow{margin:14px 0 0}
+.panel .hint{color:var(--g3);font-size:14px}
+.legend{font-size:14px;color:var(--g4);margin:12px 0 0}
+.legend span{display:inline-block;width:26px;height:12px;border:2px solid var(--ink);vertical-align:-1px;margin:0 6px 0 0}
+.legend span.p{border-style:dashed}
+@media (max-width:900px){.mapwrap{grid-template-columns:1fr}.panel{position:static}}
+@media (max-width:600px){.map{padding:10px 8px 8px;overflow-x:auto}.map svg{min-width:640px}}
+
+/* ---- quick links ---- */
+.quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 40px;border-top:2px solid var(--ink)}
+.quick a{display:block;padding:14px 0 12px;border-bottom:1px solid var(--g2);text-decoration:none}
+.quick a b{display:block;font-family:var(--display);font-size:20px;line-height:1.1;margin-bottom:3px}
+.quick a span{display:block;color:var(--g4);font-size:15px}
+.quick a:hover b{text-decoration:underline}
+.dl{border:2px solid var(--ink);padding:22px 24px;margin:0 0 28px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 32px;align-items:center}
+.dl h3{margin:0 0 6px}
+.dl p{margin:0;font-size:15.5px}
+.dl .btnrow{margin:0;justify-content:flex-end}
+@media (max-width:640px){.dl{grid-template-columns:1fr}.dl .btnrow{justify-content:flex-start}}
+
+/* ---- repository index ---- */
+table.idx td:first-child{white-space:nowrap}
+table.idx td:first-child a{font-family:var(--display);font-weight:700;text-decoration:none;font-size:16.5px}
+table.idx td:first-child a:hover{text-decoration:underline}
+table.idx td .sm{display:block;color:var(--g3);font-size:13.5px;font-family:var(--text);font-weight:400}
+.pill{font-family:var(--display);font-size:13px;border:1px solid var(--ink);padding:2px 6px;white-space:nowrap}
+.pill.p{border-style:dashed;color:var(--g4)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="index.html" aria-label="Pixa home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <div class="word">Pixa<small>pixa.org — developer resources</small></div>
+    </a>
+    <nav aria-label="Site">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="witness.html">Witness setup</a>
+      <a href="library.html">Library</a>
+      <a href="interface.html">Interface</a>
+      <a href="activity.html">Activity</a>
+    </nav>
+  </div>
+</header>
+
+
+<div class="hero">
+  <div>
+    <h1>The chain<br>behind Pixagram</h1>
+    <p class="lead">Pixagram is a pixel-art social network whose posts, votes, images and payments live on their own blockchain, Pixa. This site is the developer side of it: the repositories, the libraries, the node software and the live network, indexed in one place.</p>
+  </div>
+  <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+</div>
+
+<div class="pulse" aria-live="polite">
+  <p class="pulse-in">Block <b id="hb">31,899</b> was signed <b id="hage">a moment</b> ago by <b id="hwit">initminer</b>. <b id="hn">6</b> witnesses are producing and the median price feed puts one PXS at <b id="hfeed">51</b> PIXA.
+  <span class="stamp" id="hstamp">Snapshot of 5 September 2026, 15:05 UTC. Live figures load from api.pixagram.com when the page can reach it.</span></p>
+</div>
+
+<div class="wrap full">
+<main>
+
+<!-- ============================================================================ -->
+<section id="map">
+  <h2>How the pieces fit</h2>
+  <p class="lede">Every box is a component you can run, install or read. Select one to see what it does and where its code lives; dashed boxes are repositories that are not public yet.</p>
+  <div class="mapwrap">
+    <div class="map" id="mapbox" role="group" aria-label="Component map"></div>
+    <aside class="panel" id="panel" aria-live="polite">
+      <h3>Select a component</h3>
+      <p class="kind">Use the map or the Tab key</p>
+      <p>Requests flow from the top down: people and agents use the interfaces, the interfaces use the libraries, the libraries talk JSON-RPC to public API nodes, and the API nodes follow the chain that the witnesses produce. The bottom row watches all of it.</p>
+      <p class="hint">Everything here is open source under the <a href="https://github.com/pixagram-blockchain">pixagram-blockchain</a> organisation, except the four chain forks marked as not yet public.</p>
+    </aside>
+  </div>
+  <p class="legend"><span></span>public repository or service &nbsp; <span class="p"></span>repository not yet public</p>
+</section>
+
+<!-- ============================================================================ -->
+<section id="start">
+  <h2>Start here</h2>
+  <div class="dl">
+    <div>
+      <h3>Give your AI agent the chain</h3>
+      <p><code>SKILL.md</code> is a compact context file for Claude Code, Codex and similar agents: endpoints, token names, renamed fields, genesis accounts and the deltas from Hive. Drop it in <code>~/.claude/skills/pixagram/</code> and the agent knows Pixagram.</p>
+    </div>
+    <div class="btnrow">
+      <a class="btn" href="skill/SKILL.md" download="SKILL.md">Download SKILL.md</a>
+      <a class="btn ghost" href="https://github.com/pixagram-blockchain/pixagram-skill">Install notes</a>
+    </div>
+  </div>
+  <div class="quick">
+    <a href="witness.html"><b>Run a witness or an API node</b><span>From an empty server to a block producer, one command at a time.</span></a>
+    <a href="library.html"><b>Build with @pixagram/dpixa</b><span>The chain client for Node and the browser, plus fourteen more libraries.</span></a>
+    <a href="activity.html"><b>Witness status and recent activity</b><span>Who is producing, missed blocks, price feeds, and the latest commits.</span></a>
+    <a href="interface.html"><b>pixagram.com or pixagram.dev</b><span>The app and its canary build: what differs and which one to use.</span></a>
+    <a href="https://github.com/pixagram-blockchain"><b>GitHub</b><span>github.com/pixagram-blockchain — every repository, issue tracker and release.</span></a>
+    <a id="linkedin" href="https://www.linkedin.com/company/pixagram"><b>LinkedIn</b><span>Company news, launches and hiring.</span></a>
+    <a href="https://pixagram.com"><b>Open the app</b><span>pixagram.com — post, vote, comment, earn.</span></a>
+    <a href="https://huggingface.co/spaces/primerz/face-to-pixel-art-4K"><b>Turn a photo into pixel art</b><span>The AI converter, running on Hugging Face. <span id="hfstate"></span></span></a>
+  </div>
+</section>
+
+<!-- ============================================================================ -->
+<section id="what">
+  <h2>What Pixagram is</h2>
+  <div class="two">
+    <div>
+      <h3>A social network on a chain</h3>
+      <p>Pixagram looks like a photo app: a feed, profiles, likes, comments, communities. Underneath, every post and every vote is a transaction on Pixa, and the images themselves are stored on chain as base64 PNG, WebP or SVG — no hashes pointing at a server that may disappear. Posting is free through recharging resource credits, and authors and curators are paid from the chain's own inflation.</p>
+      <h3>A Hive fork, tuned</h3>
+      <p>Pixa tracks hived 1.28.7, the software behind Hive and, before it, Steem. Blocks close every three seconds and are signed by up to 21 elected witnesses. What changed: the tokens are PIXA (liquid), PXS (the stable unit, worth one Big Mac by convention) and VESTS (staked PIXA); keys start with <code>PIX</code>; transactions may be twice as large; and both of Hive's passive-yield levers are welded to zero, so holding earns nothing — only producing blocks, posting and curating does.</p>
+    </div>
+    <div>
+      <h3>Pictures into pixel art</h3>
+      <p>The one piece that is not a blockchain is the converter: an SDXL pipeline with a depth ControlNet, a pixel-art LoRA and InstantID face preservation, running as a Hugging Face Space. It turns any photo with a face into 4K pixel art that still looks like the person. Nothing uploaded is stored.</p>
+      <h3>Who runs what</h3>
+      <p>The chain is run by its witnesses, elected by stake-weighted vote; six produce today and the guide on this site explains how to become the seventh. The app is served by public API nodes in Warsaw, Singapore, France and Iowa. The code is developed under the pixagram-blockchain organisation on GitHub and published to npm under <code>@pixagram</code> and to Docker Hub under <code>pixadock</code>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================ -->
+<section id="index">
+  <h2>Repository index</h2>
+  <p>Everything under <a href="https://github.com/pixagram-blockchain">github.com/pixagram-blockchain</a>, grouped by what it is for. The activity page shows which of these changed recently.</p>
+
+  <h3>Run the network</h3>
+  <div class="tbl"><table class="idx">
+    <thead><tr><th>Repository</th><th>What it is</th><th>Links</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://github.com/pixagram-blockchain/witness">witness</a><span class="sm">Shell, Docker Compose</span></td><td>Two-container witness stack: hived with the four plugins a producer needs, and the price feed. Joins the network at <code>api.pixagram.com:2001</code>. 2 vCPU, 4 GB, 50 GB.</td><td><a href="witness.html#s5">Guide, step 5</a></td></tr>
+      <tr><td><a href="https://github.com/pixagram-blockchain/pixagram-node">pixagram-node</a><span class="sm">Shell, Docker Compose</span></td><td>Full public API node: hived, HAF (hived + PostgreSQL), Hivemind, Jussi and Caddy for TLS. Nine containers, 4 vCPU, 16 GB, 100 GB.</td><td><a href="witness.html#s8">Guide, step 8</a></td></tr>
+      <tr><td><a href="https://github.com/pixagram-blockchain/bigmac-feed">bigmac-feed</a><span class="sm">Go</span></td><td>Price-feed publisher. Reads the US Big Mac price from The Economist's index, divides it by a PIXA/USD reference and broadcasts <code>feed_publish</code> through your own node every hour.</td><td><a href="https://hub.docker.com/r/pixadock/bigmac-feed">pixadock/bigmac-feed</a></td></tr>
+      <tr><td><a href="https://github.com/pixagram-blockchain/pixagram">pixagram</a> <span class="pill p">not public</span><span class="sm">C++</span></td><td>The chain itself: the hived fork with Pixa's tokens, limits, restricted accounts and monetary policy. Shipped as the <code>pixadock/pixagram</code> image.</td><td><a href="https://hub.docker.com/r/pixadock/pixagram">pixadock/pixagram</a></td></tr>
+      <tr><td><a href="https://github.com/pixagram-blockchain/haf">haf</a> <span class="pill p">not public</span><span class="sm">C++, PL/pgSQL</span></td><td>Hive Application Framework fork: a hived paired with PostgreSQL that records every block in a database for applications to index.</td><td><a href="https://hub.docker.com/r/pixadock/pixagram-haf">pixadock/pixagram-haf</a></td></tr>
+      <tr><td><a href="https://github.com/pixagram-blockchain/hivemind">hivemind</a> <span class="pill p">not public</span><span class="sm">Python, SQL</span></td><td>Social-layer indexer and API: feeds, follows, communities, notifications, served as <code>bridge.*</code>, <code>follow_api.*</code> and <code>tags_api.*</code>.</td><td><a href="https://hub.docker.com/r/pixadock/hivemind">pixadock/hivemind</a></td></tr>
+      <tr><td><a href="https://github.com/pixagram-blockchain/alphanet">alphanet</a> <span class="pill p">not public</span><span class="sm">Docker Compose</span></td><td>The full-stack Compose file used for the pre-launch network: hived, HAF, Hivemind setup/sync/server, Jussi, TLS and the feed in one file.</td><td></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Build on it</h3>
+  <div class="tbl"><table class="idx">
+    <thead><tr><th>Repository</th><th>What it is</th><th>Links</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://github.com/pixagram-blockchain/dpixa">dpixa</a><span class="sm">TypeScript</span></td><td>The chain client library for Node and the browser: database, blockchain, broadcast, resource-credit and social APIs, keys, assets, failover between nodes.</td><td><a href="https://www.npmjs.com/package/@pixagram/dpixa">@pixagram/dpixa</a>, <a href="library.html#dpixa">docs</a></td></tr>
+      <tr><td><a href="https://github.com/pixagram-blockchain/pixagram-skill">pixagram-skill</a><span class="sm">Markdown</span></td><td>The agent skill: one file that tells Claude Code or Codex how Pixa differs from Hive and which endpoints to use.</td><td><a href="skill/SKILL.md" download="SKILL.md">Download</a></td></tr>
+      <tr><td><a href="https://github.com/pixagram-blockchain/face-to-pixelart-4K">face-to-pixelart-4K</a><span class="sm">Python, GPL-3.0</span></td><td>Source of the AI converter: SDXL, depth ControlNet, retro-art and VGA LoRAs, InstantID face preservation, tiled high-resolution generation.</td><td><a href="https://huggingface.co/spaces/primerz/face-to-pixel-art-4K">Hugging Face Space</a></td></tr>
+      <tr><td><a href="library.html#more">fourteen npm libraries</a><span class="sm">JavaScript, Rust/WASM</span></td><td>Storage, serialisation, rendering, upscaling, content safety, perceptual hashing and a post-quantum vault — the pieces the app is built from, published under <code>@pixagram</code>.</td><td><a href="https://www.npmjs.com/org/pixagram">npmjs.com/org/pixagram</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Watch it</h3>
+  <div class="tbl"><table class="idx">
+    <thead><tr><th>Repository</th><th>What it is</th><th>Links</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://github.com/pixagram-blockchain/witness-status">witness-status</a><span class="sm">JavaScript, MIT</span></td><td>Live technical status of the witnesses, computed in the browser from the public node. Also a dependency-free CLI with exit codes for cron, and a <code>status.json</code> snapshot refreshed every ten minutes for bots.</td><td><a href="activity.html">Activity</a>, <a href="https://pixagram.com/witness-status/">dashboard</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Public endpoints</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Node</th><th>Location</th></tr></thead>
+    <tbody>
+      <tr><td><code>https://api.pixagram.com</code></td><td>Warsaw — also the P2P seed, port 2001</td></tr>
+      <tr><td><code>https://merlion.surf</code></td><td>Singapore</td></tr>
+      <tr><td><code>https://blockforge.lol</code></td><td>France</td></tr>
+      <tr><td><code>https://pixarex.net</code></td><td>Iowa, United States</td></tr>
+    </tbody>
+  </table></div>
+  <p>All four serve the same Hive-compatible JSON-RPC over HTTPS POST, batches included, with CORS open. There is no testnet: <code>pixagram.dev</code> is the app's canary build, and anything broadcast through it is real.</p>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+    <span>pixa.org — developer resources for the Pixa blockchain.</span>
+    <span><a href="https://github.com/pixagram-blockchain">GitHub</a>, <a class="linkedin" href="https://www.linkedin.com/company/pixagram">LinkedIn</a>, <a href="https://pixagram.com">pixagram.com</a></span>
+    <span>© 2026 Pixagram</span>
+    <span class="live" id="footlive">Connecting to api.pixagram.com</span>
+  </div>
+</footer>
+
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+  "use strict";
+  var P = window.PIXA, C = P.CONFIG, $ = P.$;
+  document.querySelectorAll("#linkedin, .linkedin").forEach(function(a){ a.href = C.linkedin; });
+
+  /* ---------- component map ---------- */
+  var GH = C.github + "/";
+  var NODES = [
+    /* row 1 — use */
+    { id:"app",    r:1, x:170, w:190, label:"pixagram.com", sub:"the app", kind:"Interface", links:[["Open", C.app],["About the two builds","interface.html"]],
+      desc:"The production interface: a Preact single-page app that renders the chain as a social network. Feeds, profiles, communities and the pixel-art editor, with keys kept in a post-quantum vault in the browser. Everything it shows is read from the public API nodes and everything it does is a signed transaction." },
+    { id:"canary", r:1, x:383, w:190, label:"pixagram.dev", sub:"canary build", kind:"Interface", links:[["Open", C.canary],["What differs","interface.html"]],
+      desc:"The same application, one release ahead. New builds land here first and move to pixagram.com once they have run without incident. Same chain, same accounts, same keys — there is no testnet, so what you do here is real." },
+    { id:"agents", r:1, x:597, w:190, label:"AI agents", sub:"SKILL.md", kind:"Agent context", links:[["Download SKILL.md","skill/SKILL.md"],["Repository", GH+"pixagram-skill"]],
+      desc:"A skill file for Claude Code, Codex and similar tools. It carries only the deltas from Hive — endpoints, token names, renamed fields, genesis accounts, tuned constants — and points at Hive's documentation for everything that did not change." },
+    { id:"ai",     r:1, x:810, w:190, label:"face-to-pixel-art-4K", sub:"AI converter", kind:"Hugging Face Space", links:[["Open the Space", C.hfSpace],["Source", GH+"face-to-pixelart-4K"]],
+      desc:"Turns a photo with a face into 4K pixel art that still looks like the person: SDXL with a depth ControlNet, a retro-art LoRA and InstantID face preservation, generating in square tiles for high resolution. Uploaded images are not stored." },
+    /* row 2 — build with */
+    { id:"dpixa",  r:2, x:170, w:125, label:"dpixa", sub:"chain client", kind:"Library — @pixagram/dpixa", links:[["Docs","library.html#dpixa"],["npm","https://www.npmjs.com/package/@pixagram/dpixa"],["Repository", GH+"dpixa"]],
+      desc:"The client library, a dhive fork: JSON-RPC with failover, typed database and blockchain APIs, broadcast with signing, resource credits, and the Hivemind social API. Runs in Node and the browser." },
+    { id:"storage",r:2, x:311, w:125, label:"lacerta-db", sub:"on-device storage", kind:"Libraries — storage", links:[["Docs","library.html#more"],["npm","https://www.npmjs.com/package/@pixagram/lacerta-db"]],
+      desc:"How the app keeps state on the device: LacertaDB, an encrypted IndexedDB database with B-tree indexes, serialising with TurboSerial and encoding with TurboBase64." },
+    { id:"render", r:2, x:452, w:125, label:"renderart", sub:"upscaler", kind:"Libraries — rendering", links:[["Docs","library.html#more"],["npm","https://www.npmjs.com/package/@pixagram/renderart"]],
+      desc:"Pixel-art rendering engines with WebGL2 and WebAssembly backends, and the xBRZ-family upscaler that draws small on-chain images crisply at any size." },
+    { id:"safety", r:2, x:593, w:125, label:"sanitizer", sub:"nsfw, toxicity", kind:"Libraries — content safety", links:[["Docs","library.html#more"],["npm","https://www.npmjs.com/package/@pixagram/sanitizer"]],
+      desc:"Everything read from the chain is treated as untrusted: Markdown and HTML sanitisation, on-device NSFW image classification, and a tiny offline toxicity classifier. No content leaves the browser to be checked." },
+    { id:"similar",r:2, x:734, w:125, label:"paph-js", sub:"pixahash", kind:"Libraries — similarity", links:[["Docs","library.html#more"],["npm","https://www.npmjs.com/package/@pixagram/paph-js"],["Repository", GH+"paph-js"]],
+      desc:"PAPH, an integer-only perceptual hash and calibrated comparator built for pixel art, used to detect copies and near-copies deterministically. pixahash is the fast non-cryptographic fingerprint for payloads." },
+    { id:"vault",  r:2, x:875, w:125, label:"pixa-vault", sub:"keys and secrets", kind:"Library — @pixagram/pixa-vault", links:[["Docs","library.html#more"],["npm","https://www.npmjs.com/package/@pixagram/pixa-vault"],["Repository", GH+"pixa-vault"]],
+      desc:"The post-quantum hardened vault the app keeps keys in: Argon2id, ChaCha20-Poly1305 and BLAKE3 in Rust compiled to WebAssembly." },
+    /* row 3 — API node internals */
+    { id:"caddy",  r:3, x:190, w:130, y:0, label:"Caddy", sub:"TLS", kind:"API node — ssl-proxy", links:[["pixagram-node", GH+"pixagram-node"],["Guide, step 8","witness.html#s8"]],
+      desc:"Terminates HTTPS in front of the node and fetches its Let's Encrypt certificate on its own, provided ports 80 and 443 are reachable." },
+    { id:"jussi",  r:3, x:350, w:130, y:0, label:"Jussi", sub:"routing", kind:"API node — jussi", links:[["pixagram-node", GH+"pixagram-node"]],
+      desc:"Routes each JSON-RPC method to hived or Hivemind and rewrites Hive-derived field names on the wire, so clients see pxs_balance rather than hbd_balance." },
+    { id:"hived",  r:3, x:520, w:130, y:0, label:"hived", sub:"chain queries", kind:"API node — pixagram", links:[["pixagram-node", GH+"pixagram-node"],["Image","https://hub.docker.com/r/pixadock/pixagram"]],
+      desc:"The consensus node: validates every block, keeps the current state and answers database_api and condenser_api. The same program signs blocks when configured as a witness." },
+    { id:"hivemind",r:3,x:680, w:130, y:0, label:"Hivemind", sub:"social API", kind:"API node — hivemind", priv:true, links:[["pixagram-node", GH+"pixagram-node"],["Image","https://hub.docker.com/r/pixadock/hivemind"]],
+      desc:"Indexes posts, votes, follows and communities into a social API — feeds, notifications, ranked posts — served under bridge.*. Fork of Hive's Hivemind; the repository is not public yet." },
+    { id:"haf",    r:3, x:840, w:140, y:0, label:"HAF", sub:"hived + PostgreSQL", kind:"API node — pixagram_haf", priv:true, links:[["pixagram-node", GH+"pixagram-node"],["Image","https://hub.docker.com/r/pixadock/pixagram-haf"]],
+      desc:"A second hived that writes every block into PostgreSQL, which Hivemind reads. Fork of the Hive Application Framework; the repository is not public yet." },
+    /* row 4 — produce */
+    { id:"witness",r:4, x:170, w:260, label:"Witness node", sub:"hived signs blocks", kind:"Repository — witness", links:[["Set one up","witness.html"],["Repository", GH+"witness"]],
+      desc:"A hived with the witness plugin and a signing key. Up to 21 witnesses, elected by stake-weighted vote, take turns signing a block every three seconds; each signed block pays the producer in VESTS. Two containers, a small VPS." },
+    { id:"feed",   r:4, x:460, w:260, label:"bigmac-feed", sub:"1 PXS = 1 Big Mac", kind:"Repository — bigmac-feed", links:[["Repository", GH+"bigmac-feed"],["Guide, step 7","witness.html#s7"]],
+      desc:"Each witness publishes how many PIXA one PXS is worth; the chain uses the median. The feed fetches the US Big Mac price from The Economist's index, divides it by a PIXA/USD reference and broadcasts through the witness's own node every hour." },
+    { id:"core",   r:4, x:750, w:250, label:"Chain software", sub:"pixagram, haf, hivemind, alphanet", kind:"Repositories — not yet public", priv:true, links:[["pixagram", GH+"pixagram"],["haf", GH+"haf"],["hivemind", GH+"hivemind"],["alphanet", GH+"alphanet"]],
+      desc:"The forks that make Pixa: hived with Pixa's tokens, limits, restricted accounts and zero-yield monetary policy; HAF; Hivemind; and the alphanet Compose file that ran the pre-launch network. Published as pixadock images; the source repositories are not public yet." },
+    /* row 5 — watch */
+    { id:"status", r:5, x:170, w:260, label:"witness-status", sub:"dashboard, CLI, status.json", kind:"Repository — witness-status", links:[["Live on this site","activity.html"],["Repository", GH+"witness-status"],["status.json", C.statusJson]],
+      desc:"Computes the health of the network and of every witness in the browser, straight from the public node: verdict, participation, missed blocks, feeds, versions. The same code runs as a CLI with exit codes for cron and writes a snapshot every ten minutes." },
+    { id:"pixaorg",r:5, x:460, w:260, label:"pixa.org", sub:"this site", kind:"Website", links:[["Activity","activity.html"],["Library","library.html"]],
+      desc:"Static pages, no backend: the node guide, the library index, the interface notes and a live activity page that reads the chain and the GitHub organisation directly from your browser." },
+    { id:"images", r:5, x:750, w:250, label:"Docker images", sub:"pixadock/*", kind:"Docker Hub", links:[["pixadock/pixagram","https://hub.docker.com/r/pixadock/pixagram"],["pixagram-haf","https://hub.docker.com/r/pixadock/pixagram-haf"],["hivemind","https://hub.docker.com/r/pixadock/hivemind"],["bigmac-feed","https://hub.docker.com/r/pixadock/bigmac-feed"]],
+      desc:"Prebuilt images for amd64: pixadock/pixagram:mainnet (hived and the CLI wallet), pixadock/pixagram-haf:mainnet, pixadock/hivemind:mainnet and pixadock/bigmac-feed:v1.0.2. Both Compose stacks pull from here." }
+  ];
+  var ROWS = { 1:{y:28,h:70,name:"Use",role:"people and agents"}, 2:{y:158,h:70,name:"Build with",role:"@pixagram libraries"}, 3:{y:318,h:62,name:"Serve",role:"public API nodes"}, 4:{y:484,h:70,name:"Produce",role:"the chain"}, 5:{y:664,h:70,name:"Watch",role:"status and index"} };
+  var W = 1000, H = 760, SPINE = 585;
+  var NS = "http://www.w3.org/2000/svg";
+  function el(n, a, text){ var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; return e; }
+
+  function build(){
+    var svg = el("svg", { viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "Component map of the Pixa ecosystem" });
+    var defs = el("defs"); var mk = el("marker", { id:"arr", viewBox:"0 0 10 10", refX:"9", refY:"5", markerWidth:"7", markerHeight:"7", orient:"auto-start-reverse" });
+    mk.appendChild(el("path", { d:"M0,0 L10,5 L0,10 z", fill:"#000" })); defs.appendChild(mk); svg.appendChild(defs);
+
+    // band labels
+    for (var r in ROWS){ var R = ROWS[r]; svg.appendChild(el("text", { x:0, y:R.y+22, "class":"band bandh" }, R.name)); svg.appendChild(el("text", { x:0, y:R.y+40, "class":"band" }, R.role)); }
+
+    // API node frame (row 3)
+    svg.appendChild(el("rect", { x:170, y:ROWS[3].y-26, width:830, height:ROWS[3].h+56, "class":"frame" }));
+    svg.appendChild(el("text", { x:180, y:ROWS[3].y-10, "class":"framelabel" }, "One public API node — pixagram-node, nine containers on one server"));
+    // internal arrows Caddy → Jussi → hived / Hivemind ← HAF
+    var y3 = ROWS[3].y + ROWS[3].h/2;
+    svg.appendChild(el("path", { d:"M320,"+y3+" L348,"+y3, "class":"wire", "marker-end":"url(#arr)" }));
+    svg.appendChild(el("path", { d:"M480,"+y3+" L518,"+y3, "class":"wire", "marker-end":"url(#arr)" }));
+    svg.appendChild(el("path", { d:"M480,"+(y3-14)+" L500,"+(y3-14)+" L500,"+(y3-30)+" L740,"+(y3-30)+" L740,"+(ROWS[3].y-2), "class":"wire", "marker-end":"url(#arr)" }));
+    svg.appendChild(el("path", { d:"M838,"+y3+" L812,"+y3, "class":"wire", "marker-end":"url(#arr)" }));
+
+    // spine between rows with labels
+    function link(y1, y2, label, up){
+      var d = up ? "M"+SPINE+","+y2+" L"+SPINE+","+y1 : "M"+SPINE+","+y1+" L"+SPINE+","+y2;
+      svg.appendChild(el("path", { d:d, "class":"wire", "marker-end":"url(#arr)" }));
+      svg.appendChild(el("text", { x:SPINE+10, y:(y1+y2)/2+4, "class":"wirelabel" }, label));
+    }
+    link(ROWS[1].y+ROWS[1].h, ROWS[2].y-2, "import, run in the browser or in Node");
+    link(ROWS[2].y+ROWS[2].h, ROWS[3].y-28, "JSON-RPC over HTTPS, CORS open");
+    link(ROWS[3].y+ROWS[3].h+30, ROWS[4].y-2, "P2P on port 2001: sync blocks, forward transactions");
+    link(ROWS[4].y+ROWS[4].h+44, ROWS[5].y-2, "read the public node every few seconds", false);
+
+    // chain bar under row 4
+    var cy = ROWS[4].y + ROWS[4].h + 12;
+    svg.appendChild(el("rect", { x:170, y:cy, width:830, height:30, "class":"chain" }));
+    for (var i = 0; i < 40; i++) svg.appendChild(el("rect", { x:176 + i*20.6, y:cy+22, width:3, height:3, "class":"tick", opacity:(i%7===3?".35":"1") }));
+    svg.appendChild(el("text", { x:180, y:cy+17, "class":"chaintext b" }, "Pixa mainnet"));
+    svg.appendChild(el("text", { x:292, y:cy+17, "class":"chaintext", id:"chainlive" }, "a block every 3 s, up to 21 witnesses"));
+    svg.appendChild(el("text", { x:990, y:cy+17, "class":"chainsub", "text-anchor":"end", id:"chainhead" }, "head block 31,899"));
+
+    // nodes
+    NODES.forEach(function(n){
+      var R = ROWS[n.r], y = R.y, h = R.h;
+      var g = el("g", { "class":"node" + (n.priv ? " private" : ""), tabindex:"0", role:"button", "aria-label": n.label + ", " + n.sub, "data-id": n.id });
+      g.appendChild(el("rect", { x:n.x, y:y, width:n.w, height:h }));
+      var fs = n.w < 140 ? 15 : 17;
+      g.appendChild(el("text", { x:n.x+12, y:y+(h>62?29:27), "font-size":fs, "font-weight":"700" }, n.label));
+      g.appendChild(el("text", { x:n.x+12, y:y+(h>62?49:46), "class":"sub" }, n.sub));
+      g.addEventListener("click", function(){ select(n, g); });
+      g.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " "){ e.preventDefault(); select(n, g); } });
+      g.addEventListener("mouseenter", function(){ if (!selected) show(n); });
+      g.addEventListener("focus", function(){ show(n); });
+      svg.appendChild(g);
+    });
+    $("mapbox").appendChild(svg);
+  }
+  var selected = null;
+  function show(n){
+    var p = $("panel");
+    var links = n.links.map(function(l, i){ return '<a class="btn small' + (i ? ' ghost' : '') + '" href="' + P.esc(l[1]) + '"' + (/SKILL\.md$/.test(l[1]) ? ' download="SKILL.md"' : '') + '>' + P.esc(l[0]) + '</a>'; }).join("");
+    p.innerHTML = '<h3>' + P.esc(n.label) + '</h3><p class="kind">' + P.esc(n.kind) + (n.priv ? ' — repository not yet public' : '') + '</p><p>' + P.esc(n.desc) + '</p><div class="btnrow">' + links + '</div>';
+  }
+  function select(n, g){
+    document.querySelectorAll(".map .node.on").forEach(function(x){ x.classList.remove("on"); });
+    g.classList.add("on"); selected = n; show(n);
+    if (window.innerWidth <= 900) $("panel").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+  build();
+
+  /* ---------- live figures ---------- */
+  var live = { head: 31899, time: null, witness: "initminer", n: 6, feed: 51, ok: false };
+  function paint(){
+    $("hb").textContent = P.fmtInt(live.head); $("hwit").textContent = live.witness; $("hn").textContent = live.n; $("hfeed").textContent = live.feed;
+    if (live.time) $("hage").textContent = P.ago((Date.now() - P.parseUtc(live.time)) / 1000);
+    if (live.ok) $("hstamp").textContent = "Live from api.pixagram.com, refreshed every six seconds.";
+    var ch = $("chainhead"); if (ch) ch.textContent = "head block " + P.fmtInt(live.head) + (live.ok ? ", signed by " + live.witness : "");
+  }
+  function tick(){
+    P.rpc("condenser_api.get_dynamic_global_properties").then(function(d){ live.head = d.head_block_number; live.time = d.time; live.witness = d.current_witness; live.ok = true; paint(); }).catch(function(){});
+  }
+  function slow(){
+    P.rpc("condenser_api.get_witness_schedule").then(function(s){ live.n = s.num_scheduled_witnesses || live.n; paint(); }).catch(function(){});
+    P.rpc("condenser_api.get_current_median_history_price").then(function(p){ var q = parseFloat(p.quote), b = parseFloat(p.base); if (q && b){ live.feed = Math.round(q / b); paint(); } }).catch(function(){});
+  }
+  paint(); tick(); slow(); setInterval(tick, 6000); setInterval(slow, 60000); setInterval(function(){ if (live.ok) paint(); }, 1000);
+  document.addEventListener("visibilitychange", function(){ if (!document.hidden) tick(); });
+
+  /* ---------- Hugging Face Space state ---------- */
+  fetch("https://huggingface.co/api/spaces/primerz/face-to-pixel-art-4K").then(function(r){ return r.json(); }).then(function(s){
+    var st = s.runtime && s.runtime.stage, hw = s.runtime && s.runtime.hardware && s.runtime.hardware.current;
+    if (st) $("hfstate").textContent = (st === "RUNNING" ? "Running now" : "Currently " + st.toLowerCase()) + (hw ? " on " + hw.toUpperCase() : "") + ".";
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>

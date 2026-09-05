@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Library — @pixagram/dpixa and the other Pixagram packages</title>
+<meta name="description" content="The client library for the Pixa blockchain, @pixagram/dpixa, with install and quick-start examples, and the fourteen other @pixagram packages the app is built from.">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.pkg{border-top:2px solid var(--ink);padding:16px 0 18px;display:grid;grid-template-columns:minmax(200px,260px) minmax(0,1fr);gap:8px 28px}
+.pkg:last-child{border-bottom:1px solid var(--g2)}
+.pkg .name{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.1;text-decoration:none;word-break:break-word}
+.pkg .name:hover{text-decoration:underline}
+.pkg .ver{display:block;font-family:var(--text);font-size:14px;color:var(--g4);margin-top:6px}
+.pkg .ver b{font-family:var(--display);font-weight:700;color:var(--ink)}
+.pkg p{margin:0 0 8px;font-size:15.5px}
+.pkg .meta{font-size:14px;color:var(--g4)}
+.pkg .meta a{margin-right:14px}
+.pkg code.inst{display:inline-block;margin:6px 0 0;font-size:13.5px}
+@media (max-width:640px){.pkg{grid-template-columns:1fr;gap:4px}}
+.api td:first-child code{font-weight:700}
+.jump{display:flex;flex-wrap:wrap;gap:8px 18px;font-family:var(--display);font-size:16px;margin:0 0 6px}
+.jump a{text-decoration:none;border-bottom:2px solid var(--g2)}
+.jump a:hover{border-bottom-color:var(--ink)}
+</style>
+</head>
+<body>
+
+{{HEADER}}
+
+<div class="hero">
+  <div>
+    <h1>Library</h1>
+    <p class="lead">Everything Pixagram runs in the browser is published to npm under <code>@pixagram</code>. Start with dpixa, the chain client. The rest are the parts the app is built from — storage, rendering, content safety, similarity, key protection — and each one works on its own.</p>
+  </div>
+  {{MARK}}
+</div>
+
+<div class="wrap">
+
+<aside class="toc" aria-label="Contents">
+  <ol>
+    <li class="grp">Chain client</li>
+    <li><a href="#dpixa">dpixa</a></li>
+    <li><a href="#install">Install and connect</a></li>
+    <li><a href="#surface">What the client exposes</a></li>
+    <li><a href="#specifics">Pixa specifics</a></li>
+    <li class="grp">Other libraries</li>
+    <li><a href="#more">All packages</a></li>
+    <li><a href="#storage">Storage and data</a></li>
+    <li><a href="#rendering">Rendering</a></li>
+    <li><a href="#safety">Content safety</a></li>
+    <li><a href="#similarity">Similarity</a></li>
+    <li><a href="#security">Key protection</a></li>
+    <li class="grp">Beyond JavaScript</li>
+    <li><a href="#other">Other languages, other tools</a></li>
+    <li><a href="#images">Docker images</a></li>
+  </ol>
+</aside>
+
+<main>
+
+<details class="toc-m"><summary>Contents</summary><div class="toc" id="tocm"></div></details>
+
+<!-- ============================================================================ -->
+<section id="dpixa">
+  <h2>dpixa, the chain client</h2>
+  <p class="lede"><code>@pixagram/dpixa</code> is a fork of dhive, Hive's TypeScript client, with Pixa's chain ID, key prefix and asset symbols built in. It runs in Node and in the browser, speaks JSON-RPC over HTTPS with failover between nodes, and covers the whole surface: reading state and blocks, signing and broadcasting operations, resource credits, and the social API served by Hivemind.</p>
+  <p class="pkg-meta"><span class="tag fill" id="dpixa-ver">v1.5.4</span> &nbsp; <a href="https://www.npmjs.com/package/@pixagram/dpixa">npm</a> &nbsp; <a href="https://github.com/pixagram-blockchain/dpixa">GitHub</a> &nbsp; <a href="https://github.com/pixagram-blockchain/dpixa#readme">Full API reference</a></p>
+</section>
+
+<!-- ============================================================================ -->
+<section id="install">
+  <h2>Install and connect</h2>
+<pre><code>npm install @pixagram/dpixa</code></pre>
+  <h3>Node, ES modules</h3>
+<pre><code>import { Client } from "@pixagram/dpixa";
+
+const client = new Client(["https://api.pixagram.com", "https://merlion.surf", "https://blockforge.lol", "https://pixarex.net"]);
+
+const props = await client.database.getDynamicGlobalProperties();
+console.log(`head block ${props.head_block_number}, signed by ${props.current_witness}`);</code></pre>
+  <h3>Node, CommonJS</h3>
+  <p>The prebuilt bundle is the path used by the registration script in the node guide; it needs no bundler and no polyfills.</p>
+<pre><code>const { Client, PrivateKey } = require("@pixagram/dpixa/dist/dpixa.js");
+
+const client = new Client(["https://api.pixagram.com"]);
+const key = PrivateKey.fromString(process.env.POSTING_WIF);   <span class="c">// never write a key into a file</span>
+
+client.broadcast.vote({ voter: "<span class="v">you</span>", author: "<span class="v">author</span>", permlink: "<span class="v">permlink</span>", weight: 10000 }, key)
+  .then(r =&gt; console.log("included in block", r.block_num));</code></pre>
+  <h3>Browser, no build step</h3>
+<pre><code>&lt;script src="https://unpkg.com/@pixagram/dpixa@1.5.4/dist/dpixa.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  const client = new dpixa.Client(["https://api.pixagram.com"]);
+  client.pixamind.getRankedPosts({ sort: "trending", tag: "", limit: 5 })
+    .then(posts =&gt; posts.forEach(p =&gt; console.log(p.title, "by", p.author)));
+&lt;/script&gt;</code></pre>
+  <p>Give the client several nodes: it retries the next one when a request fails, and <code>consoleOnFailover: true</code> in the options logs when it does. All four public endpoints answer identically and allow browser requests from any origin.</p>
+</section>
+
+<!-- ============================================================================ -->
+<section id="surface">
+  <h2>What the client exposes</h2>
+  <div class="tbl"><table class="api">
+    <thead><tr><th>Property</th><th>Purpose</th><th>Examples</th></tr></thead>
+    <tbody>
+      <tr><td><code>client.database</code></td><td>Chain state and history</td><td><code>getDynamicGlobalProperties()</code>, <code>getAccounts([names])</code>, <code>getBlock(n)</code>, <code>getAccountHistory(account, from, limit)</code>, <code>getCurrentMedianHistoryPrice()</code>, <code>getConfig()</code></td></tr>
+      <tr><td><code>client.blockchain</code></td><td>Follow blocks as they arrive</td><td><code>getCurrentBlockNum(mode)</code>, <code>getBlocks()</code>, <code>getOperations()</code> as async iterators; Node streams</td></tr>
+      <tr><td><code>client.broadcast</code></td><td>Sign and send operations</td><td><code>vote()</code>, <code>transfer()</code>, <code>comment()</code>, <code>json()</code>, <code>claimRewardBalance()</code>, <code>sendOperations(ops, key)</code> for anything else, including <code>witness_update</code></td></tr>
+      <tr><td><code>client.rc</code></td><td>Resource credits — the fee-less bandwidth model</td><td><code>getRCMana(account)</code>, <code>getVPMana(account)</code>, <code>findRCAccounts([names])</code>, <code>getResourcePool()</code></td></tr>
+      <tr><td><code>client.pixamind</code></td><td>The social API served by Hivemind (<code>bridge.*</code>)</td><td><code>getRankedPosts()</code>, <code>getAccountPosts()</code>, <code>getCommunity()</code>, <code>listCommunities()</code>, <code>getAccountNotifications()</code></td></tr>
+      <tr><td><code>client.keys</code></td><td>Reverse lookup</td><td><code>getKeyReferences([publicKeys])</code> — which accounts a key belongs to</td></tr>
+      <tr><td><code>client.call(api, method, params)</code></td><td>Any JSON-RPC method, raw</td><td><code>client.call("database_api", "list_witnesses", { start: "", limit: 100, order: "by_name" })</code></td></tr>
+      <tr><td><code>PrivateKey</code>, <code>PublicKey</code></td><td>Keys in WIF and <code>PIX…</code> form</td><td><code>PrivateKey.fromString(wif)</code>, <code>PrivateKey.fromLogin(name, password, role)</code>, <code>key.createPublic("PIX")</code></td></tr>
+      <tr><td><code>Asset</code>, <code>Price</code></td><td>Amounts with three decimals and their symbol</td><td><code>Asset.from("1.000 PIXA")</code>, <code>getVestingSharePrice(props)</code>, <code>getVests(account)</code></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============================================================================ -->
+<section id="specifics">
+  <h2>Pixa specifics</h2>
+  <p>The client already carries the chain ID (<code>706978616772616d…</code>, the ASCII string <code>pixagram</code> padded to 32 bytes) and the <code>PIX</code> key prefix as defaults. What you still need to know:</p>
+  <div class="tbl"><table class="plain">
+    <tbody>
+      <tr><td>Assets</td><td><code>PIXA</code> is the liquid coin, <code>PXS</code> the stable unit, <code>VESTS</code> the staked form. Three decimals for PIXA and PXS, six for VESTS. Legacy-format payloads carry these symbols on the wire, not the Hive ones.</td></tr>
+      <tr><td>Renamed fields</td><td>Jussi rewrites Hive names in responses: <code>pxs_balance</code>, <code>pxs_exchange_rate</code>, <code>reward_pixa</code>, <code>total_vesting_fund_pixa</code>, <code>current_pxs_supply</code>, <code>dpf_interval_ledger</code>. Requests accept the new names.</td></tr>
+      <tr><td>Manabar percentages</td><td><code>Manabar.percentage</code> is in basis points — 0 to 10,000 — not the 0 to 100 that the README example suggests. Divide by 100 to display.</td></tr>
+      <tr><td>Bigger payloads</td><td>Transactions up to 128 KiB and <code>custom_json</code> up to 64 KiB, twice Hive's limits. This is what lets a full base64 image sit inside a post.</td></tr>
+      <tr><td>No passive yield</td><td><code>pxs_interest_rate</code> is always 0 and the vesting fund receives no inflation. Do not build anything that expects VESTS to appreciate.</td></tr>
+      <tr><td>Restricted accounts</td><td><code>pixa.rex</code> and <code>pixa.team</code> can only transfer VESTS; every other operation is rejected. <code>pixa.omnibus</code>, the treasury, is keyless.</td></tr>
+      <tr><td>Communities</td><td>Hivemind community names keep Hive's shape: <code>portal-</code> followed by a digit 1–3 and four to six more digits, for example <code>portal-100001</code>.</td></tr>
+      <tr><td>No testnet</td><td>Whatever endpoint you pass, you are on mainnet. Test with small amounts and with posting keys where a posting key will do.</td></tr>
+    </tbody>
+  </table></div>
+  <p>The complete list of deltas from Hive — genesis allocations, reward-curve tuning, the feed quorum — is the <a href="skill/SKILL.md" download="SKILL.md">SKILL.md</a> file, written for AI agents but just as useful to a person.</p>
+</section>
+
+<!-- ============================================================================ -->
+<section id="more">
+  <h2>All packages</h2>
+  <p>Versions are read live from the npm registry when the page can reach it; otherwise the figures are those of 5 September 2026.</p>
+  <p class="jump"><a href="#storage">Storage and data</a><a href="#rendering">Rendering</a><a href="#safety">Content safety</a><a href="#similarity">Similarity</a><a href="#security">Key protection</a></p>
+
+  <h3 id="storage">Storage and data</h3>
+  <div class="pkgs">
+    <div class="pkg" data-pkg="lacerta-db">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/lacerta-db">@pixagram/lacerta-db</a><span class="ver">version <b>0.14.1</b></span></div>
+      <div><p>The app's on-device database, on top of IndexedDB: B-tree indexes, encryption, OPFS storage, a quick key-value store for settings. A cold open of the app's settings takes two milliseconds. Serialises with TurboSerial.</p><p class="meta"><a href="https://github.com/pixagram-blockchain/LacertaDB">GitHub</a>MIT<code class="inst">npm install @pixagram/lacerta-db</code></p></div>
+    </div>
+    <div class="pkg" data-pkg="turboserial">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/turboserial">@pixagram/turboserial</a><span class="ver">version <b>0.4.1</b></span></div>
+      <div><p>Binary serialisation for any JavaScript value — typed arrays, BigInt, Map, Set, Date, circular references — into a compact wire format, faster than JSON for the payloads the app moves.</p><p class="meta"><a href="https://github.com/pixagram-blockchain/turboserial">GitHub</a>MIT<code class="inst">npm install @pixagram/turboserial</code></p></div>
+    </div>
+    <div class="pkg" data-pkg="turbobase64">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/turbobase64">@pixagram/turbobase64</a><span class="ver">version <b>0.0.2</b></span></div>
+      <div><p>Base64 encoding and decoding tuned for speed, used wherever the app moves images between the chain's text fields and pixels.</p><p class="meta">MIT<code class="inst">npm install @pixagram/turbobase64</code></p></div>
+    </div>
+    <div class="pkg" data-pkg="pixahash">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/pixahash">@pixagram/pixahash</a><span class="ver">version <b>0.1.0</b></span></div>
+      <div><p>A fast non-cryptographic fingerprint in WebAssembly, tuned for 5–30 kB payloads: 32, 64, 128 or 256-bit output as bytes, hex or base58, with a worker pool for batches.</p><p class="meta"><a href="https://github.com/pixagram-blockchain/pixahash">GitHub</a>MIT<code class="inst">npm install @pixagram/pixahash</code></p></div>
+    </div>
+  </div>
+
+  <h3 id="rendering">Rendering</h3>
+  <div class="pkgs">
+    <div class="pkg" data-pkg="renderart">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/renderart">@pixagram/renderart</a><span class="ver">version <b>1.0.3</b></span></div>
+      <div><p>Pixel-art rendering engines with a WebGL2 backend and a WebAssembly fallback: draws small on-chain images crisply at any display size, with the filters the editor offers.</p><p class="meta">MIT<code class="inst">npm install @pixagram/renderart</code></p></div>
+    </div>
+    <div class="pkg" data-pkg="renderart-wasm">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/renderart-wasm">@pixagram/renderart-wasm</a><span class="ver">version <b>1.0.3</b></span></div>
+      <div><p>The WebAssembly core of renderart on its own, for environments without WebGL2 or outside the browser.</p><p class="meta">MIT<code class="inst">npm install @pixagram/renderart-wasm</code></p></div>
+    </div>
+    <div class="pkg" data-pkg="upscaler">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/upscaler">@pixagram/upscaler</a><span class="ver">version <b>0.3.6</b></span></div>
+      <div><p>High-ratio pixel-art upscaling, including xBRZ at 7× and 8×, as WebGL2 shaders and a Rust port compiled to WebAssembly.</p><p class="meta"><a href="https://github.com/pixagram-blockchain/pixagram-upscaler">GitHub</a>MIT<code class="inst">npm install @pixagram/upscaler</code></p></div>
+    </div>
+    <div class="pkg" data-pkg="virtualized">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/virtualized">@pixagram/virtualized</a><span class="ver">version <b>10.0.5</b></span></div>
+      <div><p>A maintained, optimised fork of react-virtualized 9.22 for long feeds and tables. Needs React.</p><p class="meta"><a href="https://github.com/pixagram-blockchain/virtualized">GitHub</a>MIT<code class="inst">npm install @pixagram/virtualized</code></p></div>
+    </div>
+  </div>
+
+  <h3 id="safety">Content safety</h3>
+  <p>Everything read from the chain is treated as untrusted, and all checks run on the device — no content leaves the browser to be classified.</p>
+  <div class="pkgs">
+    <div class="pkg" data-pkg="sanitizer">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/sanitizer">@pixagram/sanitizer</a><span class="ver">version <b>0.6.0</b></span></div>
+      <div><p>Markdown and HTML rendering with sanitisation, metadata parsing and summaries for post bodies, compiled to WebAssembly. Insecure images are removed entirely rather than rewritten.</p><p class="meta"><a href="https://github.com/pixagram-blockchain/sanitizer">GitHub</a>Proprietary licence<code class="inst">npm install @pixagram/sanitizer</code></p></div>
+    </div>
+    <div class="pkg" data-pkg="nsfw">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/nsfw">@pixagram/nsfw</a><span class="ver">version <b>0.1.4</b></span></div>
+      <div><p>NSFW image classification in the browser with an EfficientNet model over onnxruntime-web, running in a Web Worker with a main-thread fallback. The model ships in the package.</p><p class="meta"><a href="https://github.com/pixagram-blockchain/nsfw">GitHub</a>Apache-2.0<code class="inst">npm install @pixagram/nsfw onnxruntime-web</code></p></div>
+    </div>
+    <div class="pkg" data-pkg="nsfw-lite">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/nsfw-lite">@pixagram/nsfw-lite</a><span class="ver">version <b>0.5.6</b></span></div>
+      <div><p>The fast binary variant: a quantised MobileNetV4 under one megabyte gzipped, about 65 ms per image on CPU at 160 px, tuned for pixel art.</p><p class="meta"><a href="https://github.com/pixagram-blockchain/nsfw-lite">GitHub</a>Apache-2.0<code class="inst">npm install @pixagram/nsfw-lite onnxruntime-web</code></p></div>
+    </div>
+    <div class="pkg" data-pkg="toxicity">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/toxicity">@pixagram/toxicity</a><span class="ver">version <b>1.0.1</b></span></div>
+      <div><p>A 4.5 MB int8-quantised bert-tiny toxicity classifier for comments and posts, offline, over onnxruntime-web.</p><p class="meta"><a href="https://github.com/pixagram-blockchain/toxicity">GitHub</a>Model licence in the package<code class="inst">npm install @pixagram/toxicity onnxruntime-web</code></p></div>
+    </div>
+  </div>
+
+  <h3 id="similarity">Similarity</h3>
+  <div class="pkgs">
+    <div class="pkg" data-pkg="paph-js">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/paph-js">@pixagram/paph-js</a><span class="ver">version <b>5.3.0</b></span></div>
+      <div><p>PAPH, Pixagram's perceptual hash for pixel art: integer-only, deterministic, with a calibrated comparator that weighs structural, geometric and diversity evidence to tell a copy from a coincidence. Used for plagiarism detection before an image becomes an NFT.</p><p class="meta"><a href="https://github.com/pixagram-blockchain/paph-js">GitHub</a>MIT<code class="inst">npm install @pixagram/paph-js</code></p></div>
+    </div>
+    <div class="pkg" data-pkg="paph3">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/paph3">@pixagram/paph3</a><span class="ver">version <b>3.0.1</b></span></div>
+      <div><p>The previous generation of the hash, kept for wires already written with it. Two backends, byte-identical output.</p><p class="meta"><a href="https://github.com/pixagram-blockchain/paph">GitHub</a>MIT<code class="inst">npm install @pixagram/paph3</code></p></div>
+    </div>
+  </div>
+
+  <h3 id="security">Key protection</h3>
+  <div class="pkgs">
+    <div class="pkg" data-pkg="pixa-vault">
+      <div><a class="name" href="https://www.npmjs.com/package/@pixagram/pixa-vault">@pixagram/pixa-vault</a><span class="ver">version <b>1.0.4</b></span></div>
+      <div><p>The vault the app keeps keys in: Argon2id key derivation, ChaCha20-Poly1305 encryption and BLAKE3, in Rust compiled to WebAssembly, designed so that a short PIN still costs an attacker real time. A drop-in replacement for PBKDF2-based schemes.</p><p class="meta"><a href="https://github.com/pixagram-blockchain/pixa-vault">GitHub</a>MIT<code class="inst">npm install @pixagram/pixa-vault</code></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================ -->
+<section id="other">
+  <h2>Other languages, other tools</h2>
+  <p>Pixa is a Hive fork, so every Hive client that lets you set the chain ID and the key prefix can talk to it: pass the chain ID above, <code>PIX</code> as the prefix, and one of the four endpoints. Legacy-format asset strings must read <code>PIXA</code> and <code>PXS</code>; the HF26 numeric asset identifiers work unchanged. Everything the Hive developer portal documents about operations and API methods applies, with PIXA for HIVE and PXS for HBD.</p>
+  <p>Without any library, one <code>curl</code> is enough:</p>
+<pre><code>curl -s -X POST https://api.pixagram.com -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","method":"condenser_api.get_accounts","params":[["<span class="v">account</span>"]],"id":1}'</code></pre>
+  <p>The witness-status project ships a dependency-free command-line tool that runs the whole health pipeline: <code>npx github:pixagram-blockchain/witness-status --check</code> exits 0, 1 or 2 like a monitoring plugin, and <code>--format json</code> prints the full model. The <a href="https://github.com/pixagram-blockchain/witness-status/blob/main/AGENT.md">AGENT.md</a> file documents every formula it uses.</p>
+</section>
+
+<!-- ============================================================================ -->
+<section id="images">
+  <h2>Docker images</h2>
+  <p>The node software is published to Docker Hub under <code>pixadock</code>, for amd64. Both Compose stacks in the <a href="witness.html">node guide</a> pull from here.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Image</th><th>Contents</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://hub.docker.com/r/pixadock/pixagram"><code>pixadock/pixagram:mainnet</code></a></td><td>hived 1.28.7 for Pixa, and <code>/home/hived/bin/cli_wallet</code> for offline key generation and signing</td></tr>
+      <tr><td><a href="https://hub.docker.com/r/pixadock/pixagram-haf"><code>pixadock/pixagram-haf:mainnet</code></a></td><td>HAF: hived paired with PostgreSQL, recording every block for applications</td></tr>
+      <tr><td><a href="https://hub.docker.com/r/pixadock/hivemind"><code>pixadock/hivemind:mainnet</code></a></td><td>Hivemind setup, sync and the social API server</td></tr>
+      <tr><td><a href="https://hub.docker.com/r/pixadock/bigmac-feed"><code>pixadock/bigmac-feed:v1.0.2</code></a></td><td>The price-feed publisher, <code>--witness</code>, <code>--rpc</code>, <code>--token-price</code>, <code>--interval</code></td></tr>
+    </tbody>
+  </table></div>
+  <p>Without a <code>config.ini</code> in the bind-mounted data directory, hived starts in isolation — no seed node, no witness, default plugins only. The <a href="witness.html#s5">witness stack</a> is the shortest path to a node that joins the live network.</p>
+</section>
+
+</main>
+</div>
+
+{{FOOTER}}
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+  "use strict";
+  var P = window.PIXA;
+  document.querySelectorAll(".linkedin").forEach(function(a){ a.href = P.CONFIG.linkedin; });
+  /* live versions from the npm registry (CORS open); baked-in figures stay if it fails */
+  function ver(pkg, cb){
+    fetch("https://registry.npmjs.org/@pixagram%2F" + pkg + "/latest").then(function(r){ return r.json(); }).then(function(d){ if (d && d.version) cb(d.version); }).catch(function(){});
+  }
+  ver("dpixa", function(v){ document.getElementById("dpixa-ver").textContent = "v" + v; });
+  document.querySelectorAll(".pkg[data-pkg]").forEach(function(el){
+    ver(el.getAttribute("data-pkg"), function(v){ var b = el.querySelector(".ver b"); if (b) b.textContent = v; el.querySelector(".ver").title = "read from the npm registry just now"; });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Activity — Pixa witness status and recent development</title>
+<meta name="description" content="Live status of the Pixa network and its witnesses — verdict, participation, schedule, missed blocks, price feeds, versions — and the latest activity across the pixagram-blockchain repositories.">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.wrap.wide main{max-width:none}
+/* controls */
+.ctl{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;font-family:var(--display);font-size:15px;margin:0 0 18px}
+.ctl label{display:flex;align-items:center;gap:8px}
+.ctl select{font:inherit;font-family:var(--display);font-size:15px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);padding:5px 8px;border-radius:0}
+.ctl .stamp{color:var(--g3);font-family:var(--text);font-size:14px;margin-left:auto}
+@media (max-width:640px){.ctl .stamp{margin-left:0}}
+/* verdict */
+.verdict{border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:16px 0 14px;margin:0 0 22px}
+.verdict .line{font-family:var(--display);font-size:clamp(19px,2.5vw,28px);line-height:1.35;margin:0 0 12px}
+.verdict .line b{font-weight:700}
+.verdict .line .lvl{display:inline-block;padding:0 8px;border:2px solid var(--ink)}
+.verdict .line .lvl.critical{background:var(--ink);color:var(--paper)}
+.verdict .line .lvl.warn{border-style:dashed}
+.strip{display:grid;grid-template-columns:repeat(64,1fr);gap:2px;max-width:640px}
+.strip i{display:block;aspect-ratio:1;background:var(--ink)}
+.strip i.miss{background:var(--paper);outline:1px solid var(--ink);outline-offset:-1px}
+.verdict .stripcap{font-size:14px;color:var(--g4);margin:8px 0 0}
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px 28px;margin:0 0 8px}
+.tile{border-top:2px solid var(--ink);padding-top:8px}
+.tile .k{font-size:14px;color:var(--g4)}
+.tile .v{font-family:var(--display);font-weight:700;font-size:26px;line-height:1.1;margin:4px 0 2px;font-variant-numeric:tabular-nums;word-break:break-word}
+.tile .s{font-size:13.5px;color:var(--g3)}
+/* schedule */
+.round{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.round span{font-family:var(--display);font-size:16px;border:2px solid var(--ink);padding:6px 10px;line-height:1.1}
+.round span.now{background:var(--ink);color:var(--paper)}
+.round span.next{border-style:dashed}
+.round span.now::before{content:"producing ";font-size:12px;font-family:var(--text);opacity:.8}
+.round span.next::before{content:"next ";font-size:12px;font-family:var(--text);color:var(--g4)}
+/* table */
+table.wt{font-size:14px}
+table.wt th,table.wt td{padding:8px 9px}
+table.wt th{font-size:14.5px;white-space:nowrap}
+table.wt td{white-space:nowrap;vertical-align:middle}
+table.wt td.name a{font-family:var(--display);font-weight:700;font-size:16px;text-decoration:none}
+table.wt td.name a:hover{text-decoration:underline}
+table.wt td .sub{display:block;font-size:12.5px;color:var(--g3)}
+table.wt tr.cur td.name a::after{content:"";display:inline-block;width:8px;height:8px;background:var(--ink);margin-left:8px;vertical-align:1px}
+table.wt tr.dis td{color:var(--g3)}
+table.wt td .flag{display:inline-block;font-family:var(--display);font-size:12px;border:1px solid var(--ink);padding:1px 5px;margin:1px 2px 1px 0;line-height:1.3}
+table.wt td .flag.warn{border-style:dashed}
+table.wt td .flag.critical{background:var(--ink);color:var(--paper)}
+table.wt td .flag.info{border-color:var(--g2);color:var(--g4)}
+table.wt th[data-sort]{cursor:pointer}
+table.wt th[data-sort]:hover{text-decoration:underline}
+table.wt th.on::after{content:" ▾"}
+table.wt th.on.asc::after{content:" ▴"}
+table.wt tr.det td{white-space:normal;background:var(--g1);font-size:13.5px}
+table.wt tr.det dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 16px;margin:6px 0}
+table.wt tr.det dt{color:var(--g4)}
+table.wt tr.det dd{margin:0;font-family:var(--mono);font-size:12.5px;word-break:break-all}
+table.wt td.tog button{border:0;background:none;font:inherit;cursor:pointer;padding:0 6px;color:var(--g3)}
+table.wt td.tog button:hover{color:var(--ink)}
+/* blocks */
+.blocks svg{width:100%;height:auto;display:block}
+.legend2{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--g4);margin:10px 0 0}
+.legend2 i{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-right:6px;border:1px solid var(--ink)}
+/* findings */
+.find{list-style:none;padding:0;margin:0;border-top:2px solid var(--ink)}
+.find li{margin:0;padding:10px 0;border-bottom:1px solid var(--g2);display:grid;grid-template-columns:90px 1fr;gap:12px;font-size:15px}
+.find li b{font-family:var(--display);font-weight:700}
+.find li b.critical{background:var(--ink);color:var(--paper);padding:0 6px;justify-self:start}
+.find li b.warn{text-decoration:underline dashed}
+.find li b.info{color:var(--g4)}
+/* github */
+.gh{list-style:none;padding:0;margin:0}
+.gh li.day{margin:22px 0 6px;font-family:var(--display);font-weight:700;font-size:17px;border-bottom:2px solid var(--ink);padding-bottom:4px}
+.gh li.ev{margin:0;padding:9px 0;border-bottom:1px solid var(--g2);display:grid;grid-template-columns:52px minmax(150px,200px) 1fr;gap:6px 16px;font-size:15px;align-items:start}
+.gh li.ev time{color:var(--g3);font-size:13.5px;font-variant-numeric:tabular-nums;padding-top:2px}
+.gh li.ev .repo{font-family:var(--display);font-weight:700;text-decoration:none;font-size:16px}
+.gh li.ev .repo:hover{text-decoration:underline}
+.gh li.ev .msg{color:var(--g4);display:block;font-size:14px;margin-top:2px}
+.gh li.ev .who{color:var(--g3);font-size:13.5px}
+@media (max-width:640px){.gh li.ev{grid-template-columns:52px 1fr}.gh li.ev .repo{grid-column:2}.gh li.ev .what{grid-column:2}}
+.err{border-left:6px solid var(--ink);background:var(--g1);padding:10px 16px;margin:14px 0;font-size:15px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="index.html" aria-label="Pixa home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <div class="word">Pixa<small>pixa.org — developer resources</small></div>
+    </a>
+    <nav aria-label="Site">
+      <a href="index.html">Home</a>
+      <a href="witness.html">Witness setup</a>
+      <a href="library.html">Library</a>
+      <a href="interface.html">Interface</a>
+      <a href="activity.html" aria-current="page">Activity</a>
+    </nav>
+  </div>
+</header>
+
+
+<div class="hero">
+  <div>
+    <h1>Activity</h1>
+    <p class="lead">Who is producing blocks, how healthy the network is, and what changed in the code this week. Your browser reads all of it directly — the chain from a public node, the code from GitHub — and nothing here is stored anywhere else.</p>
+  </div>
+  <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+</div>
+
+<div class="wrap wide">
+
+<aside class="toc" aria-label="Contents">
+  <ol>
+    <li class="grp">Network</li>
+    <li><a href="#network">Verdict</a></li>
+    <li><a href="#chain">Chain</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+    <li class="grp">Witnesses</li>
+    <li><a href="#witnesses">Witness table</a></li>
+    <li><a href="#blocks">Recent blocks</a></li>
+    <li><a href="#health">Health findings</a></li>
+    <li><a href="#how">How this is computed</a></li>
+    <li class="grp">Code</li>
+    <li><a href="#github">Latest on GitHub</a></li>
+    <li><a href="#repos">Repositories</a></li>
+  </ol>
+</aside>
+
+<main>
+
+<details class="toc-m"><summary>Contents</summary><div class="toc" id="tocm"></div></details>
+
+<!-- ============================================================================ -->
+<section id="network">
+  <h2>Network</h2>
+  <div class="ctl">
+    <label>Node <select id="node"></select></label>
+    <label>Refresh <select id="interval"><option value="10">every 10 s</option><option value="30" selected>every 30 s</option><option value="60">every minute</option><option value="0">paused</option></select></label>
+    <span class="stamp" id="stamp">Loading from the node…</span>
+  </div>
+  <div class="verdict" aria-live="polite">
+    <p class="line" id="vline">Reading the chain…</p>
+    <div class="strip" id="strip" aria-label="The last 128 block slots, oldest first; a white square is a missed slot"></div>
+    <p class="stripcap" id="stripcap">The last 128 slots, oldest on the left. Filled: a block was produced. Empty: the slot was missed.</p>
+  </div>
+  <div id="neterr"></div>
+</section>
+
+<!-- ============================================================================ -->
+<section id="chain">
+  <h2>Chain</h2>
+  <div class="tiles" id="tiles"></div>
+</section>
+
+<!-- ============================================================================ -->
+<section id="schedule">
+  <h2>Schedule</h2>
+  <p>Witnesses take turns in a round that is reshuffled every 21 blocks. The order below is the current round; the filled name is producing this block and the dashed one is next.</p>
+  <div class="round" id="round"></div>
+  <p class="muted" id="roundcap"></p>
+</section>
+
+<!-- ============================================================================ -->
+<section id="witnesses">
+  <h2>Witnesses</h2>
+  <p>Votes weigh by the voter's VESTS, and each account can vote for thirty witnesses, so shares do not add up to one stake. Missed blocks only ever grow; the two right-hand counts are computed from samples this page took itself, in this browser. Click a column to sort, a row to see every raw field.</p>
+  <div class="tbl"><table class="wt" id="wt">
+    <thead><tr>
+      <th data-sort="rank" class="num on asc">#</th>
+      <th data-sort="owner">Witness</th>
+      <th data-sort="votes" class="num">Votes, VESTS</th>
+      <th data-sort="totalMissed" class="num">Missed</th>
+      <th data-sort="missed24h" class="num">1 h / 24 h</th>
+      <th data-sort="blocksSinceConfirmed" class="num">Last block</th>
+      <th data-sort="feedPrice" class="num">Feed</th>
+      <th data-sort="version">Version</th>
+      <th>Findings</th>
+      <th></th>
+    </tr></thead>
+    <tbody id="wtb"><tr><td colspan="10">Loading…</td></tr></tbody>
+  </table></div>
+</section>
+
+<!-- ============================================================================ -->
+<section id="blocks">
+  <h2>Recent blocks</h2>
+  <p id="blockscap">The last 300 blocks, oldest on the left, shaded by producer. A gap marks a missed slot: the round moved on without a block.</p>
+  <div class="blocks" id="blockstrip"></div>
+  <div class="legend2" id="blegend"></div>
+</section>
+
+<!-- ============================================================================ -->
+<section id="health">
+  <h2>Health findings</h2>
+  <p>The same rules the <a href="https://github.com/pixagram-blockchain/witness-status">witness-status</a> command-line check applies, so what you see here is what a cron job would page you for. Info is worth knowing, warn is worth a look, critical is worth a call.</p>
+  <ul class="find" id="find"><li><span></span>Waiting for the first sample.</li></ul>
+</section>
+
+<!-- ============================================================================ -->
+<section id="how">
+  <h2>How this is computed</h2>
+  <p>One JSON-RPC batch to the selected node returns the dynamic global properties, the witness schedule, every witness object, the feed history, the hardfork properties and the node version; a second one fetches the witness accounts and the vote list; a third fetches the recent blocks. Head age is your clock against the block's timestamp, so a computer with a wrong clock sees false lagging. Missed slots all time is <code>current_aslot − head_block_number</code>; participation is <code>participation_count / 128</code>; a witness is disabled when its signing key is the null key; a feed is stale after seven days. The full set of formulas and thresholds is in <a href="https://github.com/pixagram-blockchain/witness-status/blob/main/AGENT.md">AGENT.md</a>, and a bot that wants the same figures without a browser can read <a href="https://raw.githubusercontent.com/pixagram-blockchain/witness-status/data/status.json">status.json</a>, regenerated every ten minutes.</p>
+</section>
+
+<!-- ============================================================================ -->
+<section id="github">
+  <h2>Latest on GitHub</h2>
+  <p>Public events across the <a href="https://github.com/pixagram-blockchain">pixagram-blockchain</a> organisation: pushes with their commit messages, releases, new repositories, issues and pull requests. GitHub allows sixty anonymous requests an hour from one address, so this list refreshes only when you reload the page.</p>
+  <div id="gherr"></div>
+  <ul class="gh" id="gh"><li class="ev"><time></time><span>Loading…</span></li></ul>
+</section>
+
+<!-- ============================================================================ -->
+<section id="repos">
+  <h2>Repositories</h2>
+  <p>Every public repository of the organisation, most recently pushed first.</p>
+  <div class="tbl"><table id="repos">
+    <thead><tr><th>Repository</th><th>Description</th><th>Language</th><th class="num">Last push</th></tr></thead>
+    <tbody><tr><td colspan="4">Loading…</td></tr></tbody>
+  </table></div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+    <span>pixa.org — developer resources for the Pixa blockchain.</span>
+    <span><a href="https://github.com/pixagram-blockchain">GitHub</a>, <a class="linkedin" href="https://www.linkedin.com/company/pixagram">LinkedIn</a>, <a href="https://pixagram.com">pixagram.com</a></span>
+    <span>© 2026 Pixagram</span>
+    <span class="live" id="footlive">Connecting to api.pixagram.com</span>
+  </div>
+</footer>
+
+
+<script src="assets/site.js"></script>
+<script>
+(function(){
+  "use strict";
+  var P = window.PIXA, C = P.CONFIG, $ = P.$, esc = P.esc;
+  document.querySelectorAll(".linkedin").forEach(function(a){ a.href = C.linkedin; });
+
+  /* =========================================================================
+     Settings: node and interval, from the URL, then localStorage, then defaults
+     ========================================================================= */
+  var qs = new URLSearchParams(location.search);
+  function store(k, v){ try { localStorage.setItem("pixa.activity." + k, v); } catch (e) {} }
+  function load(k){ try { return localStorage.getItem("pixa.activity." + k); } catch (e) { return null; } }
+  var node = qs.get("node") || load("node") || C.node;
+  var interval = qs.has("interval") ? +qs.get("interval") : (load("interval") != null ? +load("interval") : 30);
+  (function(){
+    var sel = $("node");
+    C.nodes.forEach(function(n){ var o = document.createElement("option"); o.value = n.url; o.textContent = n.url.replace(/^https?:\/\//, "") + " — " + n.where; sel.appendChild(o); });
+    if (!C.nodes.some(function(n){ return n.url === node; })){ var o = document.createElement("option"); o.value = node; o.textContent = node; sel.appendChild(o); }
+    sel.value = node;
+    sel.addEventListener("change", function(){ node = sel.value; store("node", node); history.replaceState(null, "", "?node=" + encodeURIComponent(node) + "&interval=" + interval); reset(); refresh(); });
+    var iv = $("interval"); iv.value = String(interval);
+    iv.addEventListener("change", function(){ interval = +iv.value; store("interval", interval); schedule(); });
+  })();
+
+  /* =========================================================================
+     Chain fetch — the same calls the witness-status project makes
+     ========================================================================= */
+  var PAGE = 1000, WINDOW = 300;
+  var DEFAULT_CONFIG = { blockInterval: 3, maxWitnesses: 21, shutdownThreshold: 28800, maxFeedAgeSec: 604800, addressPrefix: "PIX", genesisTime: null };
+  var cfg = null, prevBlocks = [], sessionBase = null, prevModel = null;
+
+  function unwrap(res, calls){ return res.results.map(function(r, i){ if (r.error) throw new Error(calls[i].method + ": " + r.error.message); return r.result; }); }
+
+  function fetchConfig(){
+    return P.rpc("condenser_api.get_config", [], node).then(function(c){
+      return { blockInterval: c.HIVE_BLOCK_INTERVAL, maxWitnesses: c.HIVE_MAX_WITNESSES, shutdownThreshold: c.HIVE_WITNESS_SHUTDOWN_THRESHOLD, maxFeedAgeSec: c.HIVE_MAX_FEED_AGE_SECONDS, addressPrefix: c.HIVE_ADDRESS_PREFIX, genesisTime: c.HIVE_GENESIS_TIME };
+    }).catch(function(){ return DEFAULT_CONFIG; });
+  }
+  function fetchCore(){
+    var calls = [
+      { method: "condenser_api.get_dynamic_global_properties", params: [] },
+      { method: "database_api.get_witness_schedule", params: {} },
+      { method: "database_api.list_witnesses", params: { start: "", limit: PAGE, order: "by_name" } },
+      { method: "condenser_api.get_witness_count", params: [] },
+      { method: "condenser_api.get_feed_history", params: [] },
+      { method: "database_api.get_hardfork_properties", params: {} },
+      { method: "condenser_api.get_version", params: [] }
+    ];
+    var fetchedAt = Date.now();
+    return P.rpcBatch(calls, node).then(function(res){
+      var r = unwrap(res, calls);
+      return { dgp: r[0], schedule: r[1], witnesses: r[2].witnesses, witnessCount: r[3], feedHistory: r[4], hardfork: r[5], version: r[6], latencyMs: res.latencyMs, fetchedAt: fetchedAt };
+    });
+  }
+  function fetchExtras(owners){
+    var calls = [], i;
+    for (i = 0; i < owners.length; i += 100) calls.push({ method: "condenser_api.get_accounts", params: [owners.slice(i, i + 100)] });
+    calls.push({ method: "database_api.list_witness_votes", params: { start: ["", ""], limit: PAGE, order: "by_witness_account" } });
+    return P.rpcBatch(calls, node).then(function(res){
+      var errors = [], accounts = {}, votes = null, voteRes = res.results.pop();
+      res.results.forEach(function(r){ if (r.error){ accounts = null; errors.push("get_accounts: " + r.error.message); } else if (accounts) r.result.forEach(function(a){ accounts[a.name] = a; }); });
+      if (voteRes.error) errors.push("list_witness_votes: " + voteRes.error.message);
+      else { votes = {}; voteRes.result.votes.forEach(function(v){ votes[v.witness] = (votes[v.witness] || 0) + 1; }); }
+      return { accounts: accounts, votes: votes, truncated: !voteRes.error && voteRes.result.votes.length >= PAGE, errors: errors };
+    }).catch(function(e){ return { accounts: null, votes: null, truncated: false, errors: ["extras: " + e.message] }; });
+  }
+  function fetchBlocks(from, to){
+    if (from > to) return Promise.resolve([]);
+    return P.rpc("block_api.get_block_range", { starting_block_num: from, count: Math.min(PAGE, to - from + 1) }, node).then(function(r){
+      return (r.blocks || []).map(function(b){ return { num: parseInt(b.block_id.slice(0, 8), 16), timestamp: b.timestamp, witness: b.witness, txCount: (b.transactions || []).length }; });
+    });
+  }
+
+  /* =========================================================================
+     Derivation — pure, mirrors witness-status/src/lib/derive.js
+     ========================================================================= */
+  function isNullKey(k){ return typeof k === "string" && /^[A-Za-z]{3}1{30,}/.test(k); }
+  function cmpVer(a, b){ var pa = String(a).split(".").map(Number), pb = String(b).split(".").map(Number); for (var i = 0; i < 3; i++){ var d = (pa[i] || 0) - (pb[i] || 0); if (d) return d < 0 ? -1 : 1; } return 0; }
+  function priceOf(p){ if (!p) return null; var b = P.parseAsset(p.base), q = P.parseAsset(p.quote); return b && q && b.amount > 0 && q.amount > 0 ? q.amount / b.amount : null; }
+  function decodeSlots(str){
+    if (typeof BigInt === "undefined") return null;
+    var v = BigInt(str), bits = new Array(128);
+    for (var i = 127; i >= 0; i--){ bits[i] = (v & BigInt(1)) === BigInt(1); v >>= BigInt(1); }
+    return bits;
+  }
+  function networkStatus(headBlock, headAgeSec, bi, prev, now){
+    if (!headBlock) return { status: "not_started", rate: null };
+    var rate = null;
+    if (prev && prev.network && prev.fetchedAt){
+      var el = (now - prev.fetchedAt) / 1000;
+      if (el > 0){ var hd = headBlock - prev.network.headBlock, obs = hd / el, exp = 1 / bi; rate = { observed: obs, expected: exp, ratio: obs / exp, headDelta: hd, elapsedSec: el }; }
+    }
+    var status = "progressing";
+    if (headAgeSec > 60 || (rate && rate.elapsedSec >= 15 && rate.headDelta === 0)) status = "stalled";
+    else if (headAgeSec > 3 * bi || (rate && rate.elapsedSec >= 30 && rate.ratio < 0.8)) status = "lagging";
+    return { status: status, rate: rate };
+  }
+  function blockStats(blocks, bi){
+    var out = [], per = {}, tx = 0, missed = 0;
+    for (var i = 0; i < blocks.length; i++){
+      var b = blocks[i], gap = 0;
+      if (i > 0){ var dt = (P.parseUtc(b.timestamp) - P.parseUtc(blocks[i - 1].timestamp)) / 1000; gap = Math.max(0, Math.round(dt / bi) - 1); }
+      missed += gap; tx += b.txCount; per[b.witness] = (per[b.witness] || 0) + 1;
+      out.push({ num: b.num, timestamp: b.timestamp, witness: b.witness, txCount: b.txCount, gapBefore: gap });
+    }
+    return { window: out, perWitness: per, txTotal: tx, missedInWindow: missed };
+  }
+  /* local history of total_missed per witness, for the 1 h and 24 h columns */
+  function histKey(){ return "history." + node; }
+  function histLoad(){ try { return JSON.parse(load(histKey()) || "[]"); } catch (e) { return []; } }
+  function histSave(h){ store(histKey(), JSON.stringify(h)); }
+  function histRecord(now, witnesses){
+    var h = histLoad(), m = {}; witnesses.forEach(function(w){ m[w.owner] = w.total_missed; });
+    var last = h[h.length - 1];
+    if (!last || now - last.t >= 60000) h.push({ t: now, m: m });
+    h = h.filter(function(s){ return now - s.t <= 86400000 + 120000; });
+    histSave(h); return h;
+  }
+  function deltaSince(h, owner, cur, sec, now){
+    for (var i = 0; i < h.length; i++) if (now - h[i].t <= sec * 1000){ if (!(owner in h[i].m)) return null; if (now - h[i].t < Math.min(sec * 1000 * 0.5, 120000) && i === 0) return null; return cur - h[i].m[owner]; }
+    return null;
+  }
+
+  function derive(raw, now){
+    var dgp = raw.core.dgp, sch = raw.core.schedule, bi = raw.config.blockInterval;
+    var head = dgp.head_block_number, headAge = (now - P.parseUtc(dgp.time)) / 1000;
+    var totalVests = P.parseAsset(dgp.total_vesting_shares).amount, totalFund = P.parseAsset(dgp.total_vesting_fund_pixa).amount;
+    var ratio = totalVests > 0 ? totalFund / totalVests : 1;
+    var median = priceOf(raw.core.feedHistory.current_median_history);
+    var shuffled = sch.current_shuffled_witnesses.filter(Boolean), sched = {}; shuffled.forEach(function(o){ sched[o] = true; });
+    var n = sch.num_scheduled_witnesses, aslot = dgp.current_aslot, majority = sch.majority_version;
+    var mp = sch.median_props, medianProps = { fee: P.parseAsset(mp.account_creation_fee).amount, maxBlockSize: mp.maximum_block_size, interest: mp.pxs_interest_rate };
+    var stats = blockStats(raw.blocks, bi);
+    var votesTotal = raw.core.witnesses.reduce(function(s, w){ return s + Number(w.votes); }, 0);
+    var hist = histRecord(now, raw.core.witnesses);
+    var prevMissed = null; if (prevModel){ prevMissed = {}; prevModel.witnesses.forEach(function(w){ prevMissed[w.owner] = w.totalMissed; }); }
+    if (!sessionBase){ sessionBase = {}; raw.core.witnesses.forEach(function(w){ sessionBase[w.owner] = w.total_missed; }); }
+
+    var witnesses = raw.core.witnesses.slice().sort(function(a, b){ return Number(b.votes) - Number(a.votes) || (a.owner < b.owner ? -1 : a.owner > b.owner ? 1 : 0); }).map(function(w, i){
+      var votes = Number(w.votes), disabled = isNullKey(w.signing_key), last = w.last_confirmed_block_num;
+      var since = last > 0 ? head - last : null;
+      var fp = priceOf(w.pxs_exchange_rate), never = P.isEpoch(w.last_pxs_exchange_update);
+      var fage = never ? null : (now - P.parseUtc(w.last_pxs_exchange_update)) / 1000;
+      var acc = raw.extras.accounts ? raw.extras.accounts[w.owner] : null;
+      return {
+        owner: w.owner, rank: i + 1, status: disabled ? "disabled" : sched[w.owner] ? "active" : "standby", disabled: disabled, isCurrent: w.owner === dgp.current_witness,
+        votes: votes, votesVests: votes / 1e6, votesPixa: votes / 1e6 * ratio, voteShare: votesTotal ? votes / votesTotal : 0,
+        voters: raw.extras.votes ? (raw.extras.votes[w.owner] || 0) : null,
+        totalMissed: w.total_missed,
+        missedSincePrev: prevMissed ? w.total_missed - (w.owner in prevMissed ? prevMissed[w.owner] : w.total_missed) : null,
+        missedSinceLoad: w.total_missed - (w.owner in sessionBase ? sessionBase[w.owner] : w.total_missed),
+        missed1h: deltaSince(hist, w.owner, w.total_missed, 3600, now), missed24h: deltaSince(hist, w.owner, w.total_missed, 86400, now),
+        lastConfirmed: last || null, blocksSinceConfirmed: since, secondsSinceConfirmed: since == null ? null : since * bi,
+        shutdownRisk: !disabled && since != null && since > raw.config.shutdownThreshold,
+        producedInWindow: stats.perWitness[w.owner] || 0,
+        feedPrice: fp, feedAge: fage, feedUpdated: never ? null : w.last_pxs_exchange_update,
+        feedDeviation: fp != null && median ? (fp - median) / median * 100 : null,
+        feedStale: fp == null || never || fage > raw.config.maxFeedAgeSec,
+        version: w.running_version, versionBehind: cmpVer(w.running_version, majority) < 0,
+        hfVote: w.hardfork_version_vote, hfTime: w.hardfork_time_vote,
+        props: { fee: P.parseAsset(w.props.account_creation_fee).amount, maxBlockSize: w.props.maximum_block_size, interest: w.props.pxs_interest_rate, differs: w.props.maximum_block_size !== medianProps.maxBlockSize },
+        signingKey: w.signing_key, url: w.url, created: P.isEpoch(w.created) ? null : w.created, id: w.id, lastAslot: w.last_aslot,
+        account: acc ? { vests: P.parseAsset(acc.vesting_shares).amount, pixa: P.parseAsset(acc.balance).amount, pxs: P.parseAsset(acc.pxs_balance).amount, votedFor: acc.witnesses_voted_for, created: acc.created } : null
+      };
+    });
+    var counts = { total: witnesses.length, active: 0, standby: 0, disabled: 0 }; witnesses.forEach(function(w){ counts[w.status]++; });
+    var net = networkStatus(head, headAge, bi, prevModel, now);
+    var maxW = raw.config.maxWitnesses || 21, nextShuffle = (Math.floor(head / maxW) + 1) * maxW;
+    return {
+      fetchedAt: raw.core.fetchedAt, latencyMs: raw.core.latencyMs, node: node,
+      network: { status: net.status, rate: net.rate, headBlock: head, headTime: dgp.time, headAgeSec: headAge, lib: dgp.last_irreversible_block_num, libLag: head - dgp.last_irreversible_block_num,
+        currentWitness: dgp.current_witness, currentAslot: aslot, missedSlotsTotal: aslot - head, participationCount: dgp.participation_count, participationPct: dgp.participation_count / 128 * 100,
+        recentSlots: decodeSlots(dgp.recent_slots_filled) },
+      chain: { blockInterval: bi, maxWitnesses: maxW, nodeVersion: raw.core.version.blockchain_version, majorityVersion: majority, hfCurrent: raw.core.hardfork.current_hardfork_version, hfNext: raw.core.hardfork.next_hardfork,
+        vestingRatio: ratio, totalVests: totalVests, medianFeed: median, minFeed: priceOf(raw.core.feedHistory.current_min_history), maxFeed: priceOf(raw.core.feedHistory.current_max_history), feedCount: (raw.core.feedHistory.price_history || []).length,
+        medianProps: medianProps, supply: { pixa: P.parseAsset(dgp.current_supply).amount, pxs: P.parseAsset(dgp.current_pxs_supply).amount, virtual: P.parseAsset(dgp.virtual_supply).amount }, maxBlockSize: dgp.maximum_block_size, genesisTime: raw.config.genesisTime },
+      schedule: { shuffled: shuffled, n: n, currentIndex: n ? aslot % n : null, nextIndex: n ? (aslot + 1) % n : null, nextShuffleBlock: nextShuffle, blocksToShuffle: nextShuffle - head },
+      counts: counts, witnesses: witnesses, blocks: stats, errors: raw.errors
+    };
+  }
+
+  /* =========================================================================
+     Health — mirrors witness-status/src/lib/health.js and AGENT.md §5
+     ========================================================================= */
+  var ORDER = { ok: 0, info: 1, warn: 2, critical: 3 };
+  function evaluate(m){
+    var network = [], witnesses = {}, n = m.schedule.n || 0, net = m.network, started = net.status !== "not_started";
+    function f(arr, level, code, msg){ arr.push({ level: level, code: code, message: msg }); }
+    if (!started) f(network, "info", "not_started", "the chain has not started");
+    if (net.status === "lagging") f(network, "warn", "lagging", "head block is " + Math.round(net.headAgeSec) + " s old" + (net.rate ? " (" + (net.rate.ratio * 100).toFixed(0) + " % of the expected block rate)" : ""));
+    if (net.status === "stalled") f(network, "critical", "stalled", "no new blocks: head block is " + Math.round(net.headAgeSec) + " s old");
+    if (started){
+      if (net.participationPct < 66) f(network, "critical", "participation", "participation " + net.participationPct.toFixed(1) + " % of the last 128 slots");
+      else if (net.participationPct < 90) f(network, "warn", "participation", "participation " + net.participationPct.toFixed(1) + " % of the last 128 slots");
+      if (net.libLag > 30) f(network, "warn", "lib_lag", "last irreversible block is " + net.libLag + " blocks behind head");
+      if (n < 3) f(network, "info", "few_witnesses", "only " + n + " witness(es) scheduled to produce");
+    }
+    m.witnesses.forEach(function(w){
+      var a = witnesses[w.owner] = [];
+      if (w.disabled){ f(a, "info", "disabled", "signing key disabled (null key)"); return; }
+      if (!started) return;
+      if (w.missedSincePrev > 0) f(a, "warn", "missed_recent", "missed " + w.missedSincePrev + " block(s) since the previous sample");
+      if (w.shutdownRisk) f(a, "critical", "shutdown_risk", "no block confirmed for " + w.blocksSinceConfirmed + " blocks; the next missed block disables this witness");
+      else if (w.status === "active" && w.blocksSinceConfirmed != null && w.blocksSinceConfirmed > 2 * n + 21) f(a, "warn", "not_producing", "scheduled but the last produced block was " + w.blocksSinceConfirmed + " blocks ago");
+      if (w.feedPrice == null) f(a, "warn", "feed_missing", "no price feed published");
+      else if (w.feedStale) f(a, "warn", "feed_stale", "price feed is older than the maximum feed age");
+      if (w.versionBehind) f(a, "warn", "version_behind", "running " + w.version + ", behind the majority version");
+      if (w.props.differs) f(a, "info", "block_size_differs", "proposes a max block size of " + w.props.maxBlockSize + " bytes, different from the median");
+    });
+    var all = network.slice(); Object.keys(witnesses).forEach(function(k){ all = all.concat(witnesses[k]); });
+    var level = all.reduce(function(acc, x){ return ORDER[x.level] > ORDER[acc] ? x.level : acc; }, "ok");
+    return { level: level, network: network, witnesses: witnesses };
+  }
+
+  /* =========================================================================
+     Rendering
+     ========================================================================= */
+  var model = null, health = null, sortKey = "rank", sortDir = 1, open = {};
+  var SHADES = ["#000000", "#3c3c3c", "#626262", "#8a8a8a", "#ababab", "#c9c9c9", "#e0e0e0"];
+  function shade(rank){ return SHADES[Math.min(rank - 1, SHADES.length - 1)] || "#e0e0e0"; }
+  function tile(k, v, s){ return '<div class="tile"><div class="k">' + k + '</div><div class="v">' + v + '</div>' + (s ? '<div class="s">' + s + '</div>' : '') + '</div>'; }
+  function verb(status){ return { progressing: "progressing", lagging: "lagging", stalled: "stalled", not_started: "not started" }[status] || status; }
+
+  function render(){
+    var m = model, h = health, net = m.network, now = Date.now();
+    var age = (now - P.parseUtc(net.headTime)) / 1000;
+    /* verdict */
+    var lvlClass = h.level === "critical" ? "critical" : h.level === "warn" ? "warn" : "";
+    $("vline").innerHTML = 'The network is <span class="lvl ' + lvlClass + '">' + verb(net.status) + '</span>. Block <b>' + P.fmtInt(net.headBlock) + '</b> was signed <b>' + P.ago(age) + '</b> ago by <b>' + esc(net.currentWitness) + '</b>; <b>' + net.participationPct.toFixed(net.participationPct === 100 ? 0 : 1) + ' %</b> of the last 128 slots were filled and the last irreversible block is <b>' + net.libLag + '</b> behind.' +
+      (net.rate && net.rate.elapsedSec >= 30 ? ' Observed rate <b>' + (net.rate.ratio * 100).toFixed(0) + ' %</b> of one block per ' + m.chain.blockInterval + ' s.' : '');
+    var strip = $("strip");
+    if (net.recentSlots){ strip.innerHTML = net.recentSlots.map(function(b){ return '<i' + (b ? '' : ' class="miss"') + '></i>'; }).join(""); }
+    else strip.innerHTML = "";
+    /* tiles */
+    var c = m.chain, cnt = m.counts;
+    $("tiles").innerHTML = [
+      tile("Head block", P.fmtInt(net.headBlock), "irreversible " + P.fmtInt(net.lib) + ", lag " + net.libLag),
+      tile("Witnesses", cnt.active + " active", cnt.standby + " standby, " + cnt.disabled + " disabled, " + cnt.total + " registered"),
+      tile("Scheduled per round", m.schedule.n, "of " + c.maxWitnesses + " seats; reshuffle in " + m.schedule.blocksToShuffle + " block" + (m.schedule.blocksToShuffle === 1 ? "" : "s")),
+      tile("Missed slots, all time", P.fmtInt(net.missedSlotsTotal), P.fmtInt(net.currentAslot) + " slots since genesis"),
+      tile("Median feed", c.medianFeed != null ? P.fmtNum(c.medianFeed, 0) + " PIXA" : "—", "per PXS; " + c.feedCount + " hourly samples" + (c.minFeed != null && c.maxFeed != null && c.minFeed !== c.maxFeed ? ", range " + P.fmtNum(Math.min(c.minFeed, c.maxFeed), 0) + "–" + P.fmtNum(Math.max(c.minFeed, c.maxFeed), 0) : "")),
+      tile("Software", "hived " + esc(c.nodeVersion), "hardfork " + esc(c.hfCurrent) + (c.majorityVersion && c.majorityVersion !== "0.0.0" ? ", majority " + esc(c.majorityVersion) : "")),
+      tile("VESTS to PIXA", P.fmtNum(c.vestingRatio, 4), P.fmtNum(c.totalVests, 0) + " VESTS staked"),
+      tile("Supply", P.fmtNum(c.supply.pixa, 0) + " PIXA", P.fmtNum(c.supply.pxs, 0) + " PXS, virtual " + P.fmtNum(c.supply.virtual, 0)),
+      tile("Median properties", (c.medianProps.maxBlockSize / 1024) + " KiB blocks", "account fee " + P.fmtNum(c.medianProps.fee, 3) + " PIXA, PXS interest " + c.medianProps.interest),
+      tile("Node latency", m.latencyMs + " ms", esc(node.replace(/^https?:\/\//, "")))
+    ].join("");
+    /* schedule */
+    var s = m.schedule;
+    $("round").innerHTML = s.shuffled.map(function(o, i){ return '<span class="' + (i === s.currentIndex ? "now" : i === s.nextIndex ? "next" : "") + '">' + esc(o) + '</span>'; }).join("");
+    $("roundcap").textContent = "Round of " + s.n + "; next reshuffle at block " + P.fmtInt(s.nextShuffleBlock) + ".";
+    /* table */
+    renderTable();
+    /* blocks */
+    renderBlocks();
+    /* findings */
+    var items = h.network.map(function(x){ return { who: "network", x: x }; });
+    Object.keys(h.witnesses).forEach(function(k){ h.witnesses[k].forEach(function(x){ items.push({ who: k, x: x }); }); });
+    items.sort(function(a, b){ return ORDER[b.x.level] - ORDER[a.x.level]; });
+    $("find").innerHTML = items.length ? items.map(function(it){ return '<li><b class="' + it.x.level + '">' + it.x.level + '</b><span>' + esc(it.who) + ': ' + esc(it.x.message) + ' <span class="muted">(' + esc(it.x.code) + ')</span></span></li>'; }).join("") : '<li><b class="ok">ok</b><span>No findings. Every scheduled witness is producing, every feed is fresh, every version matches.</span></li>';
+    /* stamp */
+    $("stamp").textContent = "Read " + new Date(m.fetchedAt).toLocaleTimeString("en-GB") + " in " + m.latencyMs + " ms" + (m.errors.length ? "; partial: " + m.errors.join("; ") : "");
+    $("neterr").innerHTML = "";
+  }
+
+  function fmtFeed(w){
+    if (w.feedPrice == null) return '<span class="muted">none</span>';
+    var dev = w.feedDeviation == null ? "" : (Math.abs(w.feedDeviation) < 0.05 ? "at median" : (w.feedDeviation > 0 ? "+" : "") + w.feedDeviation.toFixed(1) + " %");
+    return P.fmtNum(w.feedPrice, 0) + '<span class="sub">' + (w.feedAge != null ? P.ago(w.feedAge) + " old, " : "") + dev + (w.feedStale ? ", stale" : "") + '</span>';
+  }
+  function renderTable(){
+    var ws = model.witnesses.slice(), flags = health.witnesses;
+    ws.sort(function(a, b){
+      var va = a[sortKey], vb = b[sortKey];
+      if (va == null && vb == null) return a.rank - b.rank; if (va == null) return 1; if (vb == null) return -1;
+      if (typeof va === "string") return sortDir * va.localeCompare(vb) || a.rank - b.rank;
+      return sortDir * (va - vb) || a.rank - b.rank;
+    });
+    $("wtb").innerHTML = ws.map(function(w){
+      var fl = (flags[w.owner] || []).map(function(x){ return '<span class="flag ' + x.level + '" title="' + esc(x.message) + '">' + esc(x.code.replace(/_/g, " ")) + '</span>'; }).join("");
+      var last = w.blocksSinceConfirmed == null ? '<span class="muted">never</span>' : P.ago(w.secondsSinceConfirmed) + '<span class="sub">#' + P.fmtInt(w.lastConfirmed) + ', ' + w.producedInWindow + ' in window</span>';
+      var row = '<tr class="' + (w.isCurrent ? "cur " : "") + (w.disabled ? "dis" : "") + '" data-owner="' + esc(w.owner) + '">' +
+        '<td class="num">' + w.rank + '</td>' +
+        '<td class="name">' + (w.url ? '<a href="' + esc(w.url) + '" rel="nofollow">' + esc(w.owner) + '</a>' : '<a>' + esc(w.owner) + '</a>') + '<span class="sub">' + w.status + (w.voters != null ? ', ' + w.voters + ' voter' + (w.voters === 1 ? "" : "s") : '') + '</span></td>' +
+        '<td class="num">' + P.fmtNum(w.votesVests, 0) + '<span class="sub">' + (w.voteShare * 100).toFixed(1) + ' % of votes' + (Math.abs(model.chain.vestingRatio - 1) > 0.001 ? ', ≈ ' + P.fmtNum(w.votesPixa, 0) + ' PIXA' : '') + '</span></td>' +
+        '<td class="num">' + P.fmtInt(w.totalMissed) + (w.missedSinceLoad ? '<span class="sub">+' + w.missedSinceLoad + ' since load</span>' : '') + '</td>' +
+        '<td class="num">' + (w.missed1h == null ? '<span class="muted">—</span>' : w.missed1h) + ' / ' + (w.missed24h == null ? '<span class="muted">—</span>' : w.missed24h) + '</td>' +
+        '<td class="num">' + last + '</td>' +
+        '<td class="num">' + fmtFeed(w) + '</td>' +
+        '<td>' + esc(w.version) + (w.versionBehind ? '<span class="sub">behind</span>' : '') + '</td>' +
+        '<td>' + (fl || '<span class="muted">—</span>') + '</td>' +
+        '<td class="tog"><button type="button" aria-expanded="' + (open[w.owner] ? "true" : "false") + '" aria-label="Details for ' + esc(w.owner) + '">' + (open[w.owner] ? "▴" : "▾") + '</button></td></tr>';
+      if (open[w.owner]) row += '<tr class="det"><td colspan="10"><dl>' + [
+        ["signing key", w.signingKey], ["url", w.url || "—"], ["created", w.created || "—"], ["witness id", w.id], ["last aslot", w.lastAslot],
+        ["hardfork vote", w.hfVote + " at " + w.hfTime], ["account creation fee", P.fmtNum(w.props.fee, 3) + " PIXA"], ["max block size", w.props.maxBlockSize + " bytes"], ["PXS interest", w.props.interest],
+        ["feed updated", w.feedUpdated || "never"], ["missed since previous sample", w.missedSincePrev == null ? "—" : w.missedSincePrev]
+      ].concat(w.account ? [["own stake", P.fmtNum(w.account.vests, 3) + " VESTS"], ["balances", P.fmtNum(w.account.pixa, 3) + " PIXA, " + P.fmtNum(w.account.pxs, 3) + " PXS"], ["votes for witnesses", w.account.votedFor], ["account created", w.account.created]] : []).map(function(kv){ return '<dt>' + esc(kv[0]) + '</dt><dd>' + esc(kv[1]) + '</dd>'; }).join("") + '</dl></td></tr>';
+      return row;
+    }).join("");
+    document.querySelectorAll("#wt th[data-sort]").forEach(function(th){ th.classList.toggle("on", th.getAttribute("data-sort") === sortKey); th.classList.toggle("asc", sortDir === 1); });
+  }
+  document.querySelectorAll("#wt th[data-sort]").forEach(function(th){
+    th.addEventListener("click", function(){ var k = th.getAttribute("data-sort"); if (sortKey === k) sortDir = -sortDir; else { sortKey = k; sortDir = (k === "rank" || k === "owner" || k === "version") ? 1 : -1; } if (model) renderTable(); });
+  });
+  $("wtb").addEventListener("click", function(e){
+    var b = e.target.closest("button"); if (!b) return;
+    var o = b.closest("tr").getAttribute("data-owner"); open[o] = !open[o]; renderTable();
+  });
+
+  function renderBlocks(){
+    var w = model.blocks.window, box = $("blockstrip");
+    if (!w.length){ box.innerHTML = '<p class="muted">No blocks fetched yet.</p>'; return; }
+    var rank = {}; model.witnesses.forEach(function(x){ rank[x.owner] = x.rank; });
+    var cells = [];
+    w.forEach(function(b){ for (var g = 0; g < Math.min(b.gapBefore, 20); g++) cells.push(null); cells.push(b); });
+    var n = cells.length, cw = 1000 / n, h = 28;
+    var svg = '<svg viewBox="0 0 1000 ' + (h + 4) + '" preserveAspectRatio="none" role="img" aria-label="' + w.length + ' recent blocks by producer">';
+    cells.forEach(function(b, i){
+      var x = (i * cw).toFixed(2);
+      if (!b) svg += '<rect x="' + x + '" y="2" width="' + Math.max(cw - 0.6, 0.4).toFixed(2) + '" height="' + h + '" fill="#fff" stroke="#000" stroke-width="0.8"><title>missed slot</title></rect>';
+      else svg += '<rect x="' + x + '" y="' + (b.txCount ? 2 : 10) + '" width="' + Math.max(cw - 0.6, 0.4).toFixed(2) + '" height="' + (b.txCount ? h : h - 8) + '" fill="' + shade(rank[b.witness] || 7) + '"><title>#' + b.num + ' ' + esc(b.witness) + ', ' + b.txCount + ' tx, ' + esc(b.timestamp) + 'Z</title></rect>';
+    });
+    box.innerHTML = svg + '</svg>';
+    var span = w.length > 1 ? (P.parseUtc(w[w.length - 1].timestamp) - P.parseUtc(w[0].timestamp)) / 1000 : 0;
+    $("blockscap").textContent = "Blocks " + P.fmtInt(w[0].num) + " to " + P.fmtInt(w[w.length - 1].num) + ", " + Math.round(span / 60) + " minutes, " + model.blocks.txTotal + " transaction" + (model.blocks.txTotal === 1 ? "" : "s") + ", " + model.blocks.missedInWindow + " missed slot" + (model.blocks.missedInWindow === 1 ? "" : "s") + ". Full-height bars carry transactions; short bars are empty blocks.";
+    $("blegend").innerHTML = model.witnesses.filter(function(x){ return model.blocks.perWitness[x.owner]; }).map(function(x){ return '<span><i style="background:' + shade(x.rank) + '"></i>' + esc(x.owner) + ' ' + model.blocks.perWitness[x.owner] + '</span>'; }).join("") + '<span><i style="background:#fff"></i>missed slot</span>';
+  }
+
+  /* =========================================================================
+     Refresh loop, with the published snapshot as a fallback
+     ========================================================================= */
+  var timer = null, busy = false;
+  function reset(){ prevBlocks = []; sessionBase = null; prevModel = null; cfg = null; }
+  function schedule(){ if (timer) clearInterval(timer); timer = null; if (interval > 0) timer = setInterval(function(){ if (!document.hidden) refresh(); }, interval * 1000); }
+  function refresh(){
+    if (busy) return; busy = true;
+    var start = cfg ? Promise.resolve(cfg) : fetchConfig().then(function(c){ cfg = c; return c; });
+    start.then(function(config){
+      return fetchCore().then(function(core){
+        var owners = core.witnesses.map(function(w){ return w.owner; });
+        var head = core.dgp.head_block_number;
+        var keep = prevBlocks.filter(function(b){ return b.num > head - WINDOW && b.num <= head; });
+        var from = Math.max(keep.length ? keep[keep.length - 1].num + 1 : 0, head - WINDOW + 1, 1);
+        return Promise.all([fetchExtras(owners), fetchBlocks(from, head).catch(function(e){ return { error: "get_block_range: " + e.message }; })]).then(function(r){
+          var extras = r[0], errors = extras.errors.slice(), blocks = keep;
+          if (r[1].error) errors.push(r[1].error); else blocks = keep.concat(r[1]);
+          prevBlocks = blocks;
+          var now = Date.now();
+          model = derive({ config: config, core: core, extras: extras, blocks: blocks, errors: errors }, now);
+          health = evaluate(model);
+          render();
+          prevModel = model;
+        });
+      });
+    }).catch(function(e){
+      $("neterr").innerHTML = '<div class="err">Could not read ' + esc(node) + ' from this page (' + esc(e.message) + '). ' + (model ? 'Showing the last successful read.' : 'Trying the published snapshot instead.') + '</div>';
+      if (!model) fallback();
+    }).finally(function(){ busy = false; });
+  }
+  function fallback(){
+    fetch(C.statusJson).then(function(r){ return r.json(); }).then(function(s){
+      var mm = s.model, sub = s.health;
+      $("vline").innerHTML = 'Snapshot of ' + esc(new Date(s.generatedAt).toLocaleString("en-GB")) + ': the network was <span class="lvl">' + verb(mm.network.status) + '</span> at block <b>' + P.fmtInt(mm.network.headBlock) + '</b> with <b>' + mm.network.participationPct.toFixed(0) + ' %</b> participation; overall health <b>' + esc(sub.level) + '</b>.';
+      $("strip").innerHTML = (mm.network.recentSlots || []).map(function(b){ return '<i' + (b ? '' : ' class="miss"') + '></i>'; }).join("");
+      $("wtb").innerHTML = mm.witnesses.map(function(w){ return '<tr><td class="num">' + w.rank + '</td><td class="name"><a href="' + esc(w.url) + '">' + esc(w.owner) + '</a><span class="sub">' + w.status + '</span></td><td class="num">' + P.fmtNum(w.votesVests, 0) + '<span class="sub">' + (w.voteShare * 100).toFixed(1) + ' % of votes</span></td><td class="num">' + w.totalMissed + '</td><td class="num">— / —</td><td class="num">' + (w.secondsSinceConfirmed != null ? P.ago(w.secondsSinceConfirmed) : "—") + '</td><td class="num">' + (w.feed && w.feed.price != null ? P.fmtNum(w.feed.price, 0) : "none") + '</td><td>' + esc(w.version.running) + '</td><td>' + ((sub.witnesses[w.owner] || []).map(function(x){ return '<span class="flag ' + x.level + '">' + esc(x.code.replace(/_/g, " ")) + '</span>'; }).join("") || "—") + '</td><td></td></tr>'; }).join("");
+      $("stamp").textContent = "From the ten-minute snapshot published by witness-status; the node itself was not reachable from this page.";
+    }).catch(function(){ $("stamp").textContent = "Neither the node nor the published snapshot could be read from this page."; });
+  }
+  refresh(); schedule();
+  setInterval(function(){ if (model && !document.hidden){ var age = (Date.now() - P.parseUtc(model.network.headTime)) / 1000; var b = $("vline").querySelectorAll("b")[1]; if (b) b.textContent = P.ago(age); } }, 1000);
+  document.addEventListener("visibilitychange", function(){ if (!document.hidden) refresh(); });
+
+  /* =========================================================================
+     GitHub — public events and repositories, cached with ETags
+     ========================================================================= */
+  function gh(path, key){
+    var cached = null; try { cached = JSON.parse(localStorage.getItem("pixa.gh." + key) || "null"); } catch (e) {}
+    var headers = { Accept: "application/vnd.github+json" };
+    if (cached && cached.etag) headers["If-None-Match"] = cached.etag;
+    return fetch("https://api.github.com" + path, { headers: headers }).then(function(r){
+      if (r.status === 304 && cached) return { data: cached.data, cachedAt: cached.t, fresh: true };
+      if (!r.ok){
+        var reset = r.headers.get("X-RateLimit-Reset"), remaining = r.headers.get("X-RateLimit-Remaining");
+        var why = r.status === 403 && remaining === "0" ? "GitHub's anonymous limit of sixty requests an hour is used up for your address" + (reset ? "; it resets at " + new Date(reset * 1000).toLocaleTimeString("en-GB") : "") : "GitHub answered HTTP " + r.status;
+        if (cached) return { data: cached.data, cachedAt: cached.t, stale: why };
+        throw new Error(why);
+      }
+      return r.json().then(function(d){ try { localStorage.setItem("pixa.gh." + key, JSON.stringify({ etag: r.headers.get("ETag"), t: Date.now(), data: d })); } catch (e) {} return { data: d, cachedAt: Date.now(), fresh: true }; });
+    });
+  }
+  function describe(ev){
+    var p = ev.payload || {}, t = ev.type, repo = ev.repo.name.split("/")[1], url = "https://github.com/" + ev.repo.name, msg = "";
+    switch (t){
+      case "PushEvent": {
+        var n = p.size != null ? p.size : (p.commits || []).length, branch = (p.ref || "").replace("refs/heads/", "");
+        var text = n + " commit" + (n === 1 ? "" : "s") + " to " + branch;
+        var msgs = (p.commits || []).slice().reverse().map(function(c){ return c.message.split("\n")[0]; });
+        msg = msgs.slice(0, 3).map(esc).join(" — ") + (msgs.length > 3 ? " and " + (msgs.length - 3) + " more" : "");
+        return { text: text, msg: msg, url: url + "/commits/" + branch };
+      }
+      case "CreateEvent": return { text: p.ref_type === "repository" ? "created the repository" : "created " + p.ref_type + " " + p.ref, url: url };
+      case "DeleteEvent": return { text: "deleted " + p.ref_type + " " + p.ref, url: url };
+      case "ReleaseEvent": return { text: p.action + " release " + (p.release && (p.release.tag_name || p.release.name)), msg: p.release && p.release.name && p.release.name !== p.release.tag_name ? esc(p.release.name) : "", url: p.release ? p.release.html_url : url };
+      case "IssuesEvent": return { text: p.action + " issue #" + (p.issue && p.issue.number), msg: esc(p.issue && p.issue.title), url: p.issue ? p.issue.html_url : url };
+      case "IssueCommentEvent": return { text: "commented on #" + (p.issue && p.issue.number), msg: esc(p.issue && p.issue.title), url: p.comment ? p.comment.html_url : url };
+      case "PullRequestEvent": return { text: p.action + " pull request #" + p.number, msg: esc(p.pull_request && p.pull_request.title), url: p.pull_request ? p.pull_request.html_url : url };
+      case "PullRequestReviewEvent": return { text: "reviewed pull request #" + (p.pull_request && p.pull_request.number), msg: esc(p.pull_request && p.pull_request.title), url: p.pull_request ? p.pull_request.html_url : url };
+      case "PullRequestReviewCommentEvent": return { text: "commented on pull request #" + (p.pull_request && p.pull_request.number), url: p.comment ? p.comment.html_url : url };
+      case "WatchEvent": return { text: "starred the repository", url: url };
+      case "ForkEvent": return { text: "forked the repository", url: p.forkee ? p.forkee.html_url : url };
+      case "PublicEvent": return { text: "made the repository public", url: url };
+      case "MemberEvent": return { text: p.action + " a collaborator", url: url };
+      case "GollumEvent": return { text: "edited the wiki", url: url + "/wiki" };
+      default: return { text: t.replace(/Event$/, "").replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase(), url: url };
+    }
+  }
+  function dayLabel(d){
+    var today = new Date(), y = new Date(); y.setDate(today.getDate() - 1);
+    var same = function(a, b){ return a.toDateString() === b.toDateString(); };
+    if (same(d, today)) return "Today"; if (same(d, y)) return "Yesterday";
+    return d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: d.getFullYear() === today.getFullYear() ? undefined : "numeric" });
+  }
+  gh("/orgs/" + C.githubOrg + "/events?per_page=100", "events").then(function(r){
+    var evs = r.data || [], out = "", lastDay = null;
+    evs.forEach(function(ev){
+      var d = new Date(ev.created_at), label = dayLabel(d);
+      if (label !== lastDay){ out += '<li class="day">' + label + '</li>'; lastDay = label; }
+      var x = describe(ev), repo = ev.repo.name.split("/")[1];
+      out += '<li class="ev"><time datetime="' + esc(ev.created_at) + '">' + d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) + '</time><a class="repo" href="https://github.com/' + esc(ev.repo.name) + '">' + esc(repo) + '</a><span class="what"><a href="' + esc(x.url) + '">' + esc(x.text) + '</a> <span class="who">by ' + esc(ev.actor.login) + '</span>' + (x.msg ? '<span class="msg">' + x.msg + '</span>' : '') + '</span></li>';
+    });
+    $("gh").innerHTML = out || '<li class="ev"><time></time><span>No public events in the last ninety days.</span></li>';
+    if (r.stale) $("gherr").innerHTML = '<div class="err">Showing what this browser saw at ' + new Date(r.cachedAt).toLocaleTimeString("en-GB") + ': ' + esc(r.stale) + '.</div>';
+  }).catch(function(e){ $("gh").innerHTML = ""; $("gherr").innerHTML = '<div class="err">Could not load the activity feed: ' + esc(e.message) + '. <a href="https://github.com/orgs/' + C.githubOrg + '/repositories">See the repositories on GitHub</a>.</div>'; });
+
+  gh("/orgs/" + C.githubOrg + "/repos?per_page=100&sort=pushed", "repos").then(function(r){
+    var rows = (r.data || []).filter(function(x){ return !x.archived; }).map(function(x){
+      return '<tr><td><a href="' + esc(x.html_url) + '">' + esc(x.name) + '</a>' + (x.fork ? ' <span class="tag dim">fork</span>' : '') + '</td><td>' + esc(x.description || "") + '</td><td>' + esc(x.language || "") + '</td><td class="num" title="' + esc(x.pushed_at) + '">' + P.ago((Date.now() - Date.parse(x.pushed_at)) / 1000) + ' ago</td></tr>';
+    });
+    $("repos").querySelector("tbody").innerHTML = rows.join("") || '<tr><td colspan="4">No public repositories.</td></tr>';
+  }).catch(function(e){ $("repos").querySelector("tbody").innerHTML = '<tr><td colspan="4">Could not load the list: ' + esc(e.message) + '. <a href="https://github.com/orgs/' + C.githubOrg + '/repositories">Open it on GitHub</a>.</td></tr>'; });
+})();
+</script>
+</body>
+</html>
