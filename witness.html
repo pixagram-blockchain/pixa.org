@@ -77,8 +77,8 @@ ul.check input:checked + label{color:var(--g3);text-decoration:line-through}
 </div>
 
 <div class="pulse" aria-live="polite">
-  <p class="pulse-in">Block <b id="hb">25,400</b> was signed <b id="hage">a moment</b> ago by <b id="hwit">rex</b>. <b id="hn">5</b> witnesses are producing, the chain weighs about <b id="hsize">4 MB</b>, and the median price feed puts one PXS at <b id="hfeed">51</b> PIXA.
-  <span class="stamp" id="hstamp">Snapshot of 5 September 2026, 09:40 UTC. Live figures load from api.pixagram.com when the page can reach it.</span></p>
+  <p class="pulse-in">Block <b id="hb">544,672</b> was signed <b id="hage">a moment</b> ago by <b id="hwit">boitata</b>. <b id="hn">8</b> witnesses are producing, the chain weighs about <b id="hsize">65 MB</b>, and the median price feed puts one PXS at <b id="hfeed">51</b> PIXA.
+  <span class="stamp" id="hstamp">Snapshot of 23 September 2026, 10:44 UTC. Live figures load from api.pixagram.com when the page can reach it.</span></p>
 </div>
 
 <div class="wrap">
@@ -114,7 +114,7 @@ ul.check input:checked + label{color:var(--g3);text-decoration:line-through}
 <!-- ============================================================================ -->
 <section id="what">
   <h2>What you are about to run</h2>
-  <p>Pixagram is a fork of Hive. The chain closes a block every three seconds, and each block is signed by one of up to 21 servers called witnesses, in a shuffled order. Twenty of those seats go to the witnesses with the most stake-weighted votes; the twenty-first rotates among everyone else. While fewer than 21 witnesses exist — five at the time of writing — every registered witness with a valid signing key is scheduled, votes or not.</p>
+  <p>Pixagram is a fork of Hive. The chain closes a block every three seconds, and each block is signed by one of up to 21 servers called witnesses, in a shuffled order. Twenty of those seats go to the witnesses with the most stake-weighted votes; the twenty-first rotates among everyone else. While fewer than 21 witnesses exist — eight at the time of writing — every registered witness with a valid signing key is scheduled, votes or not.</p>
   <p>There are two kinds of node, and they are very different in size.</p>
   <div class="tbl"><table>
     <thead><tr><th></th><th>Witness node</th><th>API node</th></tr></thead>
@@ -134,14 +134,14 @@ ul.check input:checked + label{color:var(--g3);text-decoration:line-through}
 
   <div class="note">
     <strong class="h">What a witness earns</strong>
-    <p>Every block a witness signs pays it VESTS — PIXA staked in the account — straight away. At the time of writing one block pays <b id="rwd">0.588</b> VESTS. <span id="rwdn">5</span> witnesses share 28,800 blocks a day, so each signs about <b id="rwdb">5,760</b> and receives about <b id="rwdd">3,400</b> VESTS a day. The price feed values PIXA at a reference of 0.12 USD, so you can do the conversion yourself. Pay per block falls as more witnesses join (with the full 21, a top-20 seat comes to roughly 160 VESTS a day) and inflation narrows every 250,000 blocks, so treat these as today's figures, not a promise. VESTS become liquid PIXA through a power-down paid in 13 weekly instalments.</p>
+    <p>Every block a witness signs pays it VESTS — PIXA staked in the account — straight away. At the time of writing one block pays <b id="rwd">0.370</b> VESTS. <span id="rwdn">8</span> witnesses share 28,800 blocks a day, so each signs about <b id="rwdb">3,600</b> and receives about <b id="rwdd">1,332</b> VESTS a day. The price feed values PIXA at a reference of 0.12 USD, so you can do the conversion yourself. Pay per block falls as more witnesses join (with the full 21, a top-20 seat comes to roughly 160 VESTS a day) and inflation narrows every 250,000 blocks, so treat these as today's figures, not a promise. VESTS become liquid PIXA through a power-down paid in 13 weekly instalments.</p>
   </div>
 </section>
 
 <!-- ============================================================================ -->
 <section id="where">
   <h2>Where to put it</h2>
-  <p>Pick the region and the provider that nobody else picked. Today's witnesses sit in Warsaw, Singapore, France and Iowa. A chain is exactly as resilient as its least correlated failure: if six witnesses rent from the same company in the same city, one incident at that company — a fire, a routing mistake, a court order, a sanctions list — silences a third of the schedule at once. Spread across continents, providers and jurisdictions, the same incident costs one seat.</p>
+  <p>Pick the region and the provider that nobody else picked. Today's witnesses sit in Warsaw, Frankfurt, Singapore, Iowa, São Paulo and Montréal, and three of the eight share one server. A chain is exactly as resilient as its least correlated failure: if six witnesses rent from the same company in the same city, one incident at that company — a fire, a routing mistake, a court order, a sanctions list — silences a third of the schedule at once. Spread across continents, providers and jurisdictions, the same incident costs one seat.</p>
   <p>Distance matters twice. The app is only as quick as the nearest API node, so a node in South America or Africa improves the experience of everyone there. And a block signed in Singapore has to reach the next producer within its three-second slot; a network with witnesses on every continent keeps that path short for everyone.</p>
   <p>Against denial-of-service, diversity is also the cheapest defence: an attacker can saturate one address, not a dozen behind different networks. Publish your API behind your provider's filtering if it offers one, and keep the witness itself quiet — nothing open but its peer port, and no reason for anyone to know its address.</p>
 </section>
@@ -155,8 +155,8 @@ ul.check input:checked + label{color:var(--g3);text-decoration:line-through}
     <div class="calc-head">
       <div>
         <div class="lbl">Chain size (block log) to plan for</div>
-        <div class="big" id="cval">4 MB</div>
-        <div class="sub" id="ctoday">Today the chain is about 4 MB and grows about 5 MB a day at the current pace.</div>
+        <div class="big" id="cval">65 MB</div>
+        <div class="sub" id="ctoday">Today the chain is about 65 MB and grows about 3.5 MB a day at the current pace.</div>
       </div>
     </div>
     <div class="range" id="rangewrap">
@@ -191,8 +191,8 @@ ul.check input:checked + label{color:var(--g3);text-decoration:line-through}
   </div>
 
   <h3>Bandwidth, and why the numbers are small</h3>
-  <p>Blocks are at most 256 KiB — the size the witnesses currently vote — and there is one every three seconds. Your node downloads each block once, from whichever peer offers it first, and forwards it to the peers that do not have it yet; hived aims for about twenty peer connections. In the worst case, with every block full, that is 85 KB/s in and up to 1.7 MB/s out: about 220 GB inbound and 4.4 TB outbound a month. Today the blocks are nearly empty and a node moves <span id="bwday">a few megabytes</span> a day. Any plan with a 100 Mbit/s port and a few terabytes of monthly traffic — or unmetered traffic — is fine for a witness. An API node also serves users, so take a gigabit port and ten terabytes or more.</p>
-  <p>Storage grows in step: an empty block costs about 160 bytes on disk, a full one 256 KiB, so the chain adds between 1.7 GB and 2.7 TB a year depending on how much people post. Buy the disk for the year you are in; resizing a cloud volume later is a routine operation.</p>
+  <p>Blocks are at most 2 MiB — the size the witnesses currently vote, and the protocol's hard cap — and there is one every three seconds. Your node downloads each block once, from whichever peer offers it first, and forwards it to the peers that do not have it yet; hived aims for about twenty peer connections. In the theoretical worst case, with every block full, that is 700 KB/s in and up to 14 MB/s out: about 1.8 TB inbound and 36 TB outbound a month. Real blocks are a tiny fraction of that ceiling. Today the blocks are nearly empty and a node moves <span id="bwday">a few megabytes</span> a day. Any plan with a 100 Mbit/s port and a few terabytes of monthly traffic — or unmetered traffic — is fine for a witness. An API node also serves users, so take a gigabit port and ten terabytes or more.</p>
+  <p>Storage grows in step: an empty block costs about 160 bytes on disk, a full one 2 MiB, so the chain adds between 1.7 GB and 22 TB a year depending on how much people post. Buy the disk for the year you are in; resizing a cloud volume later is a routine operation.</p>
 </section>
 
 <!-- ============================================================================ -->
@@ -297,7 +297,7 @@ docker run --rm hello-world          <span class="c"># optional: proves containe
     </tbody>
   </table></div>
   <p>The signing key is a fresh pair you generate now. The image ships a wallet that does it offline — nothing is sent anywhere:</p>
-<pre><code>docker run --rm -it --entrypoint /home/hived/bin/cli_wallet pixadock/pixagram:mainnet -o
+<pre><code>docker run --rm -it --entrypoint /home/hived/bin/cli_wallet pixadock/pixagram:1.29.0 -o
 <span class="c"># at the "new >>>" prompt, type:</span>
 suggest_brain_key
 <span class="c"># {"brain_priv_key": "…", "wif_priv_key": "5K…", "pub_key": "PIX7…"}</span>
@@ -340,8 +340,8 @@ docker compose logs -f pixagram</code></pre>
     <tbody>
       <tr><td><code>url</code></td><td>A page about your witness: who you are, where the node runs, how to reach you. Required, cannot be empty. A Pixagram post works.</td></tr>
       <tr><td><code>block_signing_key</code></td><td>The <code>pub_key</code> from step 4, <code>PIX…</code></td></tr>
-      <tr><td><code>account_creation_fee</code></td><td><code>0.001 PIXA</code> — the current median. The minimum the chain accepts is 0.001.</td></tr>
-      <tr><td><code>maximum_block_size</code></td><td><code>262144</code> — the current median (256 KiB). Anything from 131072 up is valid.</td></tr>
+      <tr><td><code>account_creation_fee</code></td><td><code>20.000 PIXA</code> — the current median. The minimum the chain accepts is 0.001.</td></tr>
+      <tr><td><code>maximum_block_size</code></td><td><code>2097152</code> — the current median (2 MiB, the hard cap). Anything from 131072 up is valid.</td></tr>
       <tr><td><code>pxs_interest_rate</code></td><td><code>0</code>. Pixagram pays no interest on PXS and rejects any other value.</td></tr>
     </tbody>
   </table></div>
@@ -361,7 +361,7 @@ const client = new Client(["https://api.pixagram.com"]);
 const ops = [
   ["witness_update", {
     owner: ACCOUNT, url: URL, block_signing_key: SIGNING_PUB,
-    props: { account_creation_fee: "0.001 PIXA", maximum_block_size: 262144, pxs_interest_rate: 0 },
+    props: { account_creation_fee: "20.000 PIXA", maximum_block_size: 2097152, pxs_interest_rate: 0 },
     fee: "0.000 PIXA",
   }],
   ["account_witness_vote", { account: ACCOUNT, witness: ACCOUNT, approve: true }],   <span class="c">// vote for yourself</span>
@@ -434,7 +434,7 @@ curl -s -X POST https://api.<span class="v">example.com</span> -H 'Content-Type:
 docker compose logs -f pixagram      <span class="c"># follow hived; Ctrl+C to stop following</span>
 docker compose restart pixagram      <span class="c"># after editing config.ini</span>
 docker compose down                  <span class="c"># stop everything (the chain data stays on disk)</span>
-docker compose pull &amp;&amp; docker compose up -d   <span class="c"># update to a newly published image</span>
+git pull &amp;&amp; docker compose up -d          <span class="c"># update: the repository pins each image version</span>
 df -h / &amp;&amp; du -sh pixagram/blockchain <span class="c"># disk: the chain only grows</span></code></pre>
   <p>Every long-running container restarts on its own after a reboot (<code>restart: unless-stopped</code>), so a kernel update is a reboot and a couple of missed slots, nothing more. Two operations rebuild state rather than restart it:</p>
 <pre><code><span class="c"># Replay: rebuild the state from your own block log (after enabling a plugin, or on a corrupt state file)</span>
@@ -449,6 +449,7 @@ docker compose down
 sudo rm -rf pixagram/blockchain pixagram/p2p pixagram/logs pixagram/*.log
 docker compose up -d</code></pre>
   <p>On the API node the replay also removes the two RocksDB directories (<code>account-history-rocksdb-storage</code>, <code>comments-rocksdb-storage</code>); the repository README has the exact lines. When you update an image, read the release note: if it adds a plugin, it needs the replay, and skipping it produces a clear error rather than a broken node.</p>
+  <p>A new hived version needs one more step. hived records its build configuration in <code>shared_memory.bin</code> and refuses to open a state file written by another version, so the first start on a new image must be a forced replay: <code>HIVED_EXTRA_ARGS="--force-replay --exit-before-sync" docker compose up pixagram</code>, then <code>docker compose up -d</code> once it exits. On a young chain this takes a few minutes. An HAF node cannot replay into its populated database: wipe <code>haf_db_store</code>, <code>blockchain</code>, <code>logs</code> and <code>p2p</code> under <code>pixagram-haf/</code> and let it resync, and start Hivemind together with it.</p>
 
   <h3>Planned downtime and failover</h3>
   <p>A witness that will be offline for more than a few minutes should step aside first, so that its slots are skipped rather than missed: run the registration script with <code>SIGNING_PUB</code> set to the null key <code>PIX1111111111111111111111111111111114T1Anm</code>, do the work, then register your real key again. The chain enforces its own version of this: a witness that has not produced for 28,800 blocks — about a day — is disabled at its next miss, and must re-register to come back.</p>
@@ -510,9 +511,11 @@ crontab -e
       <tr><td><code>https://merlion.surf</code></td><td>Singapore</td></tr>
       <tr><td><code>https://blockforge.lol</code></td><td>France</td></tr>
       <tr><td><code>https://pixarex.net</code></td><td>Iowa, United States</td></tr>
+      <tr><td><code>https://boitata.quest</code></td><td>São Paulo, Brazil</td></tr>
+      <tr><td><code>https://pixa-dubai.xyz</code></td><td>Mumbai, India</td></tr>
     </tbody>
   </table></div>
-  <p>All four serve the same Hive-compatible JSON-RPC over HTTPS POST, batches included, with CORS open. There is no testnet; <code>pixagram.dev</code> is a website.</p>
+  <p>All six serve the same Hive-compatible JSON-RPC over HTTPS POST, batches included, with CORS open. There is no testnet; <code>pixagram.dev</code> is a website.</p>
 
   <h3>Chain constants that shape a witness's life</h3>
   <div class="tbl"><table class="plain">
@@ -522,11 +525,11 @@ crontab -e
       <tr><td>Votes per account</td><td>30 witnesses, weighted by the voter's VESTS</td></tr>
       <tr><td>Automatic disable</td><td>No block produced for 28,800 blocks, then one more miss</td></tr>
       <tr><td>Feed considered stale</td><td>older than 7 days</td></tr>
-      <tr><td>Max transaction / block</td><td>128 KiB / 256 KiB voted (2 MiB hard cap)</td></tr>
+      <tr><td>Max transaction / block</td><td>128 KiB / 2 MiB voted (2 MiB hard cap)</td></tr>
       <tr><td>Power-down</td><td>13 weekly instalments</td></tr>
       <tr><td>Chain ID</td><td><code>706978616772616d000000000000000000000000000000000000000000000000</code> (ASCII "pixagram", padded)</td></tr>
       <tr><td>Key prefix</td><td><code>PIX</code>; null signing key <code>PIX1111111111111111111111111111111114T1Anm</code></td></tr>
-      <tr><td>Node software</td><td>hived 1.28.7; images <code>pixadock/pixagram:mainnet</code>, <code>pixadock/pixagram-haf:mainnet</code>, <code>pixadock/hivemind:mainnet</code>, <code>pixadock/bigmac-feed:v1.0.2</code></td></tr>
+      <tr><td>Node software</td><td>hived 1.29.0, hardfork 29 active since block 402205; images <code>pixadock/pixagram:1.29.0</code>, <code>pixadock/pixagram-haf:1.29.0</code>, <code>pixadock/hivemind:mainnet</code>, <code>pixadock/bigmac-feed:v1.0.3</code></td></tr>
     </tbody>
   </table></div>
 
@@ -612,7 +615,7 @@ crontab -e
   render();
 
   /* ---------- live chain ---------- */
-  var live = { head: 25400, time: null, witness: "rex", n: 5, feed: 51, reward: 0.588, bpb: 172, ok: false };
+  var live = { head: 544672, time: null, witness: "boitata", n: 8, feed: 52, reward: 0.370, bpb: 120, ok: false };
   var lastFetch = 0;
   function ago(sec){ if (sec < 1) return "1 s"; if (sec < 90) return Math.round(sec) + " s"; if (sec < 5400) return Math.round(sec / 60) + " min"; return Math.round(sec / 3600) + " h"; }
   function paintPulse(){

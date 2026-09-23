@@ -87,8 +87,8 @@ table.idx td .sm{display:block;color:var(--g3);font-size:13.5px;font-family:var(
 </div>
 
 <div class="pulse" aria-live="polite">
-  <p class="pulse-in">Block <b id="hb">31,899</b> was signed <b id="hage">a moment</b> ago by <b id="hwit">initminer</b>. <b id="hn">6</b> witnesses are producing and the median price feed puts one PXS at <b id="hfeed">51</b> PIXA.
-  <span class="stamp" id="hstamp">Snapshot of 5 September 2026, 15:05 UTC. Live figures load from api.pixagram.com when the page can reach it.</span></p>
+  <p class="pulse-in">Block <b id="hb">544,672</b> was signed <b id="hage">a moment</b> ago by <b id="hwit">boitata</b>. <b id="hn">8</b> witnesses are producing and the median price feed puts one PXS at <b id="hfeed">51</b> PIXA.
+  <span class="stamp" id="hstamp">Snapshot of 23 September 2026, 10:44 UTC. Live figures load from api.pixagram.com when the page can reach it.</span></p>
 </div>
 
 <div class="wrap full">
@@ -142,13 +142,13 @@ table.idx td .sm{display:block;color:var(--g3);font-size:13.5px;font-family:var(
       <h3>A social network on a chain</h3>
       <p>Pixagram looks like a photo app: a feed, profiles, likes, comments, communities. Underneath, every post and every vote is a transaction on Pixa, and the images themselves are stored on chain as base64 PNG, WebP or SVG — no hashes pointing at a server that may disappear. Posting is free through recharging resource credits, and authors and curators are paid from the chain's own inflation.</p>
       <h3>A Hive fork, tuned</h3>
-      <p>Pixa tracks hived 1.28.7, the software behind Hive and, before it, Steem. Blocks close every three seconds and are signed by up to 21 elected witnesses. What changed: the tokens are PIXA (liquid), PXS (the stable unit, worth one Big Mac by convention) and VESTS (staked PIXA); keys start with <code>PIX</code>; transactions may be twice as large; and both of Hive's passive-yield levers are welded to zero, so holding earns nothing — only producing blocks, posting and curating does.</p>
+      <p>Pixa runs hived 1.29.0, built on hived 1.28.7, the software behind Hive and, before it, Steem. Blocks close every three seconds and are signed by up to 21 elected witnesses. What changed: the tokens are PIXA (liquid), PXS (the stable unit, worth one Big Mac by convention) and VESTS (staked PIXA); keys start with <code>PIX</code>; transactions may be twice as large; and both of Hive's passive-yield levers are welded to zero, so holding earns nothing — only producing blocks, posting and curating does.</p>
     </div>
     <div>
       <h3>Pictures into pixel art</h3>
       <p>The one piece that is not a blockchain is the converter: an SDXL pipeline with a depth ControlNet, a pixel-art LoRA and InstantID face preservation, running as a Hugging Face Space. It turns any photo with a face into 4K pixel art that still looks like the person. Nothing uploaded is stored.</p>
       <h3>Who runs what</h3>
-      <p>The chain is run by its witnesses, elected by stake-weighted vote; six produce today and the guide on this site explains how to become the seventh. The app is served by public API nodes in Warsaw, Singapore, France and Iowa. The code is developed under the pixagram-blockchain organisation on GitHub and published to npm under <code>@pixagram</code> and to Docker Hub under <code>pixadock</code>.</p>
+      <p>The chain is run by its witnesses, elected by stake-weighted vote; eight produce today and the guide on this site explains how to become the ninth. The app is served by public API nodes in Warsaw, Singapore, France, Iowa, São Paulo and Mumbai. The code is developed under the pixagram-blockchain organisation on GitHub and published to npm under <code>@pixagram</code> and to Docker Hub under <code>pixadock</code>.</p>
     </div>
   </div>
 </section>
@@ -165,7 +165,7 @@ table.idx td .sm{display:block;color:var(--g3);font-size:13.5px;font-family:var(
       <tr><td><a href="https://github.com/pixagram-blockchain/witness">witness</a><span class="sm">Shell, Docker Compose</span></td><td>Two-container witness stack: hived with the four plugins a producer needs, and the price feed. Joins the network at <code>api.pixagram.com:2001</code>. 2 vCPU, 4 GB, 50 GB.</td><td><a href="witness.html#s5">Guide, step 5</a></td></tr>
       <tr><td><a href="https://github.com/pixagram-blockchain/pixagram-node">pixagram-node</a><span class="sm">Shell, Docker Compose</span></td><td>Full public API node: hived, HAF (hived + PostgreSQL), Hivemind, Jussi and Caddy for TLS. Nine containers, 4 vCPU, 16 GB, 100 GB.</td><td><a href="witness.html#s8">Guide, step 8</a></td></tr>
       <tr><td><a href="https://github.com/pixagram-blockchain/bigmac-feed">bigmac-feed</a><span class="sm">Go</span></td><td>Price-feed publisher. Reads the US Big Mac price from The Economist's index, divides it by a PIXA/USD reference and broadcasts <code>feed_publish</code> through your own node every hour.</td><td><a href="https://hub.docker.com/r/pixadock/bigmac-feed">pixadock/bigmac-feed</a></td></tr>
-      <tr><td><a href="https://github.com/pixagram-blockchain/pixagram">pixagram</a><span class="sm">C++, MIT</span></td><td>The chain itself: the hived fork tracking Hive 1.28.7, with Pixa's tokens, raised limits, restricted allocation accounts and zero-yield monetary policy. Shipped as the <code>pixadock/pixagram</code> image.</td><td><a href="https://hub.docker.com/r/pixadock/pixagram">pixadock/pixagram</a></td></tr>
+      <tr><td><a href="https://github.com/pixagram-blockchain/pixagram">pixagram</a><span class="sm">C++, MIT</span></td><td>The chain itself: the hived fork built on Hive 1.28.7, now at 1.29.0 with hardfork 29, with Pixa's tokens, raised limits, restricted allocation accounts and zero-yield monetary policy. Shipped as the <code>pixadock/pixagram</code> image.</td><td><a href="https://hub.docker.com/r/pixadock/pixagram">pixadock/pixagram</a></td></tr>
       <tr><td><a href="https://github.com/pixagram-blockchain/haf">haf</a><span class="sm">C++, PL/pgSQL</span></td><td>Hive Application Framework fork: a hived whose sql_serializer plugin pushes every block into PostgreSQL, with automatic undo of forked-out blocks, so applications index a database instead of polling a node.</td><td><a href="https://hub.docker.com/r/pixadock/pixagram-haf">pixadock/pixagram-haf</a></td></tr>
       <tr><td><a href="https://github.com/pixagram-blockchain/hivemind">hivemind</a><span class="sm">Python, SQL, MIT</span></td><td>Social-layer indexer and API on top of HAF: feeds, follows, reblogs, communities, notifications and reputation, served as <code>bridge.*</code>, <code>follow_api.*</code> and <code>tags_api.*</code>.</td><td><a href="https://hub.docker.com/r/pixadock/hivemind">pixadock/hivemind</a></td></tr>
       <tr><td><a href="https://github.com/pixagram-blockchain/alphanet">alphanet</a><span class="sm">Docker Compose</span></td><td>The project's own deployment: the full stack — hived, HAF, Hivemind setup/sync/server, Jussi, TLS and the feed — in one Compose file, with the bootstrap settings that started the chain. Read it to see how the pieces are wired; to run a node, use <code>pixagram-node</code> or <code>witness</code>, which are the operator versions.</td><td><a href="witness.html">Guide</a></td></tr>
@@ -199,9 +199,11 @@ table.idx td .sm{display:block;color:var(--g3);font-size:13.5px;font-family:var(
       <tr><td><code>https://merlion.surf</code></td><td>Singapore</td></tr>
       <tr><td><code>https://blockforge.lol</code></td><td>France</td></tr>
       <tr><td><code>https://pixarex.net</code></td><td>Iowa, United States</td></tr>
+      <tr><td><code>https://boitata.quest</code></td><td>São Paulo, Brazil</td></tr>
+      <tr><td><code>https://pixa-dubai.xyz</code></td><td>Mumbai, India</td></tr>
     </tbody>
   </table></div>
-  <p>All four serve the same Hive-compatible JSON-RPC over HTTPS POST, batches included, with CORS open. There is no testnet: <code>pixagram.dev</code> is the app's canary build, and anything broadcast through it is real.</p>
+  <p>All six serve the same Hive-compatible JSON-RPC over HTTPS POST, batches included, with CORS open. There is no testnet: <code>pixagram.dev</code> is the app's canary build, and anything broadcast through it is real.</p>
 </section>
 
 </main>
@@ -274,7 +276,7 @@ table.idx td .sm{display:block;color:var(--g3);font-size:13.5px;font-family:var(
     { id:"pixaorg",r:5, x:460, w:260, label:"pixa.org", sub:"this site", kind:"Website", links:[["Activity","activity.html"],["Library","library.html"]],
       desc:"Static pages, no backend: the node guide, the library index, the interface notes and a live activity page that reads the chain and the GitHub organisation directly from your browser." },
     { id:"images", r:5, x:750, w:250, label:"Docker images", sub:"pixadock/*", kind:"Docker Hub", links:[["pixadock/pixagram","https://hub.docker.com/r/pixadock/pixagram"],["pixagram-haf","https://hub.docker.com/r/pixadock/pixagram-haf"],["hivemind","https://hub.docker.com/r/pixadock/hivemind"],["bigmac-feed","https://hub.docker.com/r/pixadock/bigmac-feed"]],
-      desc:"Prebuilt images for amd64: pixadock/pixagram:mainnet (hived and the CLI wallet), pixadock/pixagram-haf:mainnet, pixadock/hivemind:mainnet and pixadock/bigmac-feed:v1.0.2. Both Compose stacks pull from here." }
+      desc:"Prebuilt images for amd64: pixadock/pixagram:1.29.0 (hived and the CLI wallet), pixadock/pixagram-haf:1.29.0, pixadock/hivemind:mainnet and pixadock/bigmac-feed:v1.0.3. Both Compose stacks pull from here." }
   ];
   var ROWS = { 1:{y:28,h:70,name:"Use",role:"people and agents"}, 2:{y:158,h:70,name:"Build with",role:"@pixagram libraries"}, 3:{y:318,h:62,name:"Serve",role:"public API nodes"}, 4:{y:484,h:70,name:"Produce",role:"the chain"}, 5:{y:664,h:70,name:"Watch",role:"status and index"} };
   var W = 1000, H = 760, SPINE = 585;
@@ -316,7 +318,7 @@ table.idx td .sm{display:block;color:var(--g3);font-size:13.5px;font-family:var(
     for (var i = 0; i < 40; i++) svg.appendChild(el("rect", { x:176 + i*20.6, y:cy+22, width:3, height:3, "class":"tick", opacity:(i%7===3?".35":"1") }));
     svg.appendChild(el("text", { x:180, y:cy+17, "class":"chaintext b" }, "Pixa mainnet"));
     svg.appendChild(el("text", { x:292, y:cy+17, "class":"chaintext", id:"chainlive" }, "a block every 3 s, up to 21 witnesses"));
-    svg.appendChild(el("text", { x:990, y:cy+17, "class":"chainsub", "text-anchor":"end", id:"chainhead" }, "head block 31,899"));
+    svg.appendChild(el("text", { x:990, y:cy+17, "class":"chainsub", "text-anchor":"end", id:"chainhead" }, "head block 544,672"));
 
     // nodes
     NODES.forEach(function(n){
@@ -348,7 +350,7 @@ table.idx td .sm{display:block;color:var(--g3);font-size:13.5px;font-family:var(
   build();
 
   /* ---------- live figures ---------- */
-  var live = { head: 31899, time: null, witness: "initminer", n: 6, feed: 51, ok: false };
+  var live = { head: 544672, time: null, witness: "boitata", n: 8, feed: 52, ok: false };
   function paint(){
     $("hb").textContent = P.fmtInt(live.head); $("hwit").textContent = live.witness; $("hn").textContent = live.n; $("hfeed").textContent = live.feed;
     if (live.time) $("hage").textContent = P.ago((Date.now() - P.parseUtc(live.time)) / 1000);
