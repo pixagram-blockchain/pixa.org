@@ -526,7 +526,7 @@ crontab -e
       <tr><td>Votes per account</td><td>30 witnesses, weighted by the voter's VESTS</td></tr>
       <tr><td>Offline witness</td><td>Stays scheduled and keeps missing blocks; the chain never disables it on its own</td></tr>
       <tr><td>Feed considered stale</td><td>older than 7 days</td></tr>
-      <tr><td>Max transaction / block</td><td>128 KiB / 2 MiB voted (2 MiB hard cap)</td></tr>
+      <tr><td>Max transaction / block</td><td>The voted block size minus 256 bytes, about 2 MiB / 2 MiB voted (the hard cap). The public API accepts requests up to 1 MiB.</td></tr>
       <tr><td>Power-down</td><td>13 weekly instalments</td></tr>
       <tr><td>Chain ID</td><td><code>706978616772616d000000000000000000000000000000000000000000000000</code> (ASCII "pixagram", padded)</td></tr>
       <tr><td>Key prefix</td><td><code>PIX</code></td></tr>
