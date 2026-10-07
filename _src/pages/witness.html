@@ -282,7 +282,7 @@ docker run --rm hello-world          <span class="c"># optional: proves containe
     </tbody>
   </table></div>
   <p>The signing key is a fresh pair you generate now. The image ships a wallet that does it offline — nothing is sent anywhere:</p>
-<pre><code>docker run --rm -it --entrypoint /home/hived/bin/cli_wallet pixadock/pixagram:1.29.0 -o
+<pre><code>docker run --rm -it --entrypoint /home/hived/bin/cli_wallet pixadock/pixagram:1.30.0 -o
 <span class="c"># at the "new >>>" prompt, type:</span>
 suggest_brain_key
 <span class="c"># {"brain_priv_key": "…", "wif_priv_key": "5K…", "pub_key": "PIX7…"}</span>
@@ -437,7 +437,7 @@ docker compose up -d</code></pre>
   <p>A new hived version needs one more step. hived records its build configuration in <code>shared_memory.bin</code> and refuses to open a state file written by another version, so the first start on a new image must be a forced replay: <code>HIVED_EXTRA_ARGS="--force-replay --exit-before-sync" docker compose up pixagram</code>, then <code>docker compose up -d</code> once it exits. On a young chain this takes a few minutes. An HAF node cannot replay into its populated database: wipe <code>haf_db_store</code>, <code>blockchain</code>, <code>logs</code> and <code>p2p</code> under <code>pixagram-haf/</code> and let it resync, and start Hivemind together with it.</p>
 
   <h3>Planned downtime and failover</h3>
-  <p><b>Never register the null key, or any key that no running node holds.</b> Pixagram does not support disabling a witness that way, not even for maintenance. The chain does not disable an offline witness on its own either: a node that is down stays in the schedule and misses its slots, and every miss is public and permanent.</p>
+  <p><b>To take a witness offline with no standby, set its signing key to the null key</b> (<code>PIX1111111111111111111111111111111114T1Anm</code>) with <code>witness_update</code>. Since hardfork 30 the chain then drops the witness from the schedule cleanly until you register a real key again; it refuses the null key only for the last enabled witness and for a brand-new registration. Older guides warned against this because before hardfork 30 a null-key witness stopped the schedule from updating. Never register a key that no running node holds. Simply stopping the node is different: the chain never disables an offline witness on its own, so it stays scheduled and misses its slots, and every miss is public and permanent.</p>
   <p>A short interruption — a restart, a kernel update — costs a slot or two. Do it right after your witness has produced a block, and use <code>docker compose restart pixagram</code> rather than a full stop and start, so the node is back within seconds.</p>
   <p>For anything longer, run a standby: a second synced node with its <b>own</b> signing key. Move to it with <code>witness_update</code> — the registration script with <code>SIGNING_PUB</code> set to the standby's public key — do the work, then move back the same way. Two nodes signing with the same key at the same time is the one configuration that can hurt the chain rather than just you.</p>
 
@@ -515,7 +515,7 @@ crontab -e
       <tr><td>Power-down</td><td>13 weekly instalments</td></tr>
       <tr><td>Chain ID</td><td><code>706978616772616d000000000000000000000000000000000000000000000000</code> (ASCII "pixagram", padded)</td></tr>
       <tr><td>Key prefix</td><td><code>PIX</code></td></tr>
-      <tr><td>Node software</td><td>hived 1.29.0, hardfork 29 active since block 402205; images <code>pixadock/pixagram:1.29.0</code>, <code>pixadock/pixagram-haf:1.29.0</code>, <code>pixadock/hivemind:mainnet</code>, <code>pixadock/bigmac-feed:v1.0.3</code></td></tr>
+      <tr><td>Node software</td><td>hived 1.30.0, hardfork 30 active since block 949330; images <code>pixadock/pixagram:1.30.0</code>, <code>pixadock/pixagram-haf:1.30.0</code>, <code>pixadock/hivemind:mainnet</code>, <code>pixadock/bigmac-feed:v1.0.3</code></td></tr>
     </tbody>
   </table></div>
 
