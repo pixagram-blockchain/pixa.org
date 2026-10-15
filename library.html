@@ -92,7 +92,7 @@
   <h3>Node, ES modules</h3>
 <pre><code>import { Client } from "@pixagram/dpixa";
 
-const client = new Client(["https://api.pixagram.com", "https://merlion.surf", "https://blockforge.lol", "https://pixarex.net", "https://boitata.quest", "https://pixa-dubai.xyz"]);
+const client = new Client(["https://api.pixagram.com", "https://merlion.surf", "https://blockforge.lol", "https://boitata.quest", "https://pixa-dubai.xyz"]);
 
 const props = await client.database.getDynamicGlobalProperties();
 console.log(`head block ${props.head_block_number}, signed by ${props.current_witness}`);</code></pre>
@@ -258,9 +258,9 @@ client.broadcast.vote({ voter: "<span class="v">you</span>", author: "<span clas
   <div class="tbl"><table>
     <thead><tr><th>Image</th><th>Contents</th></tr></thead>
     <tbody>
-      <tr><td><a href="https://hub.docker.com/r/pixadock/pixagram"><code>pixadock/pixagram:1.30.0</code></a></td><td>hived 1.30.0 for Pixa, and <code>/home/hived/bin/cli_wallet</code> for offline key generation and signing</td></tr>
-      <tr><td><a href="https://hub.docker.com/r/pixadock/pixagram-haf"><code>pixadock/pixagram-haf:1.30.0</code></a></td><td>HAF: hived paired with PostgreSQL, recording every block for applications</td></tr>
-      <tr><td><a href="https://hub.docker.com/r/pixadock/hivemind"><code>pixadock/hivemind:mainnet</code></a></td><td>Hivemind setup, sync and the social API server</td></tr>
+      <tr><td><a href="https://hub.docker.com/r/pixadock/pixagram"><code>pixadock/pixagram:1.30.1</code></a></td><td>hived 1.30.1 for Pixa, and <code>/home/hived/bin/cli_wallet</code> for offline key generation and signing</td></tr>
+      <tr><td><a href="https://hub.docker.com/r/pixadock/pixagram-haf"><code>pixadock/pixagram-haf:1.30.1</code></a></td><td>HAF: hived paired with PostgreSQL, recording every block for applications</td></tr>
+      <tr><td><a href="https://hub.docker.com/r/pixadock/hivemind"><code>pixadock/hivemind:1.28.8</code></a></td><td>Hivemind setup, sync and the social API server</td></tr>
       <tr><td><a href="https://hub.docker.com/r/pixadock/bigmac-feed"><code>pixadock/bigmac-feed:v1.0.3</code></a></td><td>The price-feed publisher, <code>--witness</code>, <code>--rpc</code>, <code>--token-price</code>, <code>--interval</code></td></tr>
     </tbody>
   </table></div>

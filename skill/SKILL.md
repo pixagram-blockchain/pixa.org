@@ -5,7 +5,7 @@ description: Use when interacting with the Pixagram blockchain — a Hive fork. 
 
 # Pixagram
 
-A fork of [Hive](https://hive.io), tracking upstream **hived 1.28.7**; the live network runs Pixagram's own **1.30.0** (hardfork 30, active since 2026-10-07 12:00 UTC at block 949330 — see [Hardfork 30](#hardfork-30--witness-approval-floor-security-and-economic-fixes)). The standard Hive RPC surface (`condenser_api.*`, `database_api.*`, `bridge.*`, `follow_api.*`, `tags_api.*`) works — only the renames and tuning below differ.
+A fork of [Hive](https://hive.io), tracking upstream **hived 1.28.8**; the live network runs Pixagram's own **1.30.1** (see [1.30.1](#1301-bastion-anchor--upstream-1288-no-hardfork)), on hardfork 30, active since 2026-10-07 12:00 UTC at block 949330 (see [Hardfork 30](#hardfork-30--witness-approval-floor-security-and-economic-fixes)). The standard Hive RPC surface (`condenser_api.*`, `database_api.*`, `bridge.*`, `follow_api.*`, `tags_api.*`) works — only the renames and tuning below differ.
 
 ## Endpoints
 
@@ -14,7 +14,6 @@ A fork of [Hive](https://hive.io), tracking upstream **hived 1.28.7**; the live 
 | Primary | https://api.pixagram.com | Warsaw |
 | | https://merlion.surf | Singapore |
 | | https://blockforge.lol | France |
-| | https://pixarex.net | Iowa, US |
 | | https://pixa-dubai.xyz | Dubai |
 | | https://boitata.quest | São Paulo |
 
@@ -34,12 +33,12 @@ Use the published images when a local Pixagram node, HAF node, Hivemind indexer,
 
 | Image | Use |
 |---|---|
-| `pixadock/pixagram:1.30.0` | Main blockchain node (`hived`) and CLI wallet — current mainnet build |
-| `pixadock/pixagram-haf:1.30.0` | HAF node (`hived` + PostgreSQL indexer) |
-| `pixadock/hivemind:mainnet` | Hivemind setup, sync, and social API server |
+| `pixadock/pixagram:1.30.1` | Main blockchain node (`hived`) and CLI wallet — current mainnet build |
+| `pixadock/pixagram-haf:1.30.1` | HAF node (`hived` + PostgreSQL 17 indexer) |
+| `pixadock/hivemind:1.28.8` | Hivemind setup, sync, and social API server (needs HAF 1.30.1) |
 | `pixadock/bigmac-feed:v1.0.3` | Witness price feed publisher |
 
-Tag history: `:pre-mainnet` is the old alphanet build (pre-1.28.7 tree, `hived_admin` entrypoint), `:mainnet` is the 1.28.7 build the chain launched on, `:1.29.0` ran from the hardfork 29 rollout on 2026-09-16, and `:1.30.0` is what every node runs since hardfork 30. `:mainnet` was moved to 1.30.0 on 2026-10-07 after sitting on the launch build through HF29; pin the version tag anyway.
+Tag history: `:pre-mainnet` is the old alphanet build (pre-1.28.7 tree, `hived_admin` entrypoint), `:mainnet` is the 1.28.7 build the chain launched on, `:1.29.0` ran from the hardfork 29 rollout on 2026-09-16, `:1.30.0` ran from hardfork 30, and `:1.30.1` is the current release. `:mainnet` follows the current release (moved to 1.30.1 and `hivemind:1.28.8` on 2026-10-15). The Hivemind build that ran with HAF 1.30.0 is kept as `pixadock/hivemind:1.28.6`. Pin the version tag anyway.
 
 There are two ready-made deployments, and which one you want depends on whether
 you intend to produce blocks:
@@ -71,7 +70,7 @@ docker run --rm -it \
   -v "$PWD/wallet:/wallet" \
   -w /wallet \
   --entrypoint /home/hived/bin/cli_wallet \
-  pixadock/pixagram:1.30.0 \
+  pixadock/pixagram:1.30.1 \
   -o
 ```
 
@@ -88,11 +87,11 @@ docker run --rm -it \
   -e HIVED_UID=1000 \
   --ulimit nofile=1048576:1048576 \
   --entrypoint /bin/bash \
-  pixadock/pixagram:1.30.0 \
+  pixadock/pixagram:1.30.1 \
   -lc 'exec /home/hived/docker_entrypoint.sh /home/hived/bin/hived'
 ```
 
-**Entrypoint path differs by image generation.** Images built from the pre-1.28.7 tree run the build and the daemon as `hived_admin`, so the entrypoint is `/home/hived_admin/docker_entrypoint.sh`. From hived 1.28.7 onward (`:mainnet`, `:1.29.0`, `:1.30.0`) everything runs as `hived` and the entrypoint is **`/home/hived/docker_entrypoint.sh`** (as above). Check with `docker inspect --format '{{.Config.Entrypoint}}' <image>` rather than assuming.
+**Entrypoint path differs by image generation.** Images built from the pre-1.28.7 tree run the build and the daemon as `hived_admin`, so the entrypoint is `/home/hived_admin/docker_entrypoint.sh`. From hived 1.28.7 onward (`:mainnet`, `:1.29.0`, `:1.30.0`, `:1.30.1`) everything runs as `hived` and the entrypoint is **`/home/hived/docker_entrypoint.sh`** (as above). Check with `docker inspect --format '{{.Config.Entrypoint}}' <image>` rather than assuming.
 
 Without a `pixagram/config.ini` in the bind-mounted datadir, hived starts in **isolation** — no `p2p-seed-node`, no witness, no plugins beyond defaults. For a turnkey witness-only setup that joins the live network out of the box, use the [`pixagram-blockchain/witness`](https://github.com/pixagram-blockchain/witness) repo (docker-compose + minimal `config.ini` pre-wired to `api.pixagram.com:2001`).
 
@@ -153,6 +152,19 @@ only the runtime check was lowered, not the macro it echoes. Do not read that
 value as the effective quorum. The observable proof is that the median tracked
 live feeds while the chain was running on six witnesses, and reported the feed
 price rather than the seeded genesis value.
+
+### 1.30.1 "Bastion Anchor" — upstream 1.28.8, no hardfork
+
+Released **2026-10-15**. Consensus is unchanged: the chain is still on hardfork 30, and `get_hardfork_properties.current_hardfork_version` stays `1.30.0`. Nodes report `blockchain_version 1.30.1`, and 1.30.0 and 1.30.1 nodes interoperate. The release brings upstream Hive, HAF and Hivemind 1.28.8:
+
+- `account_history_rocksdb` no longer keeps every RocksDB file open. 1.30.0 leaked about 14,000 file descriptors a day.
+- p2p recovers on its own from stalled chain threads and bursts of false "invalid block" verdicts. A slightly early block is held until its slot.
+- `author_reward_operation.curators_vesting_payout` reports the curation actually paid, so a few historical values differ from 1.30.0 by one to three VESTS units.
+- `get_dynamic_global_properties` no longer returns `total_reward_fund_hive` and `total_reward_shares2`. Both have been zero since HF17.
+- Hivemind 1.28.8 needs HAF 1.30.1. It adds pending author and curation reward endpoints, computed with Pixagram's 40% curation share and `pixa.omnibus` as the treasury.
+- Upstream's own hardfork 29 is compiled in as **HF31** (`HIVE_HARDFORK_1_31_*`) and cannot activate, because mainnet counts 30 hardforks until a 1.31.0 release schedules it. It covers RC as consensus, the authority size limit in account recovery, nonexistent assets in limit orders, modifying the last recurrent transfer, and validating every proposal id on removal.
+
+Upgrading needs `--force-replay`. API nodes also wipe HAF and resync HAF and Hivemind together. PostgreSQL stays at 17.
 
 ### Hardfork 30 — witness approval floor, security and economic fixes
 

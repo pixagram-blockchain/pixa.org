@@ -297,7 +297,7 @@ docker run --rm hello-world          <span class="c"># optional: proves containe
     </tbody>
   </table></div>
   <p>The signing key is a fresh pair you generate now. The image ships a wallet that does it offline — nothing is sent anywhere:</p>
-<pre><code>docker run --rm -it --entrypoint /home/hived/bin/cli_wallet pixadock/pixagram:1.30.0 -o
+<pre><code>docker run --rm -it --entrypoint /home/hived/bin/cli_wallet pixadock/pixagram:1.30.1 -o
 <span class="c"># at the "new >>>" prompt, type:</span>
 suggest_brain_key
 <span class="c"># {"brain_priv_key": "…", "wif_priv_key": "5K…", "pub_key": "PIX7…"}</span>
@@ -511,7 +511,6 @@ crontab -e
       <tr><td><code>https://api.pixagram.com</code></td><td>Warsaw — also the P2P seed, port 2001</td></tr>
       <tr><td><code>https://merlion.surf</code></td><td>Singapore</td></tr>
       <tr><td><code>https://blockforge.lol</code></td><td>France</td></tr>
-      <tr><td><code>https://pixarex.net</code></td><td>Iowa, United States</td></tr>
       <tr><td><code>https://boitata.quest</code></td><td>São Paulo, Brazil</td></tr>
       <tr><td><code>https://pixa-dubai.xyz</code></td><td>Dubai, United Arab Emirates</td></tr>
     </tbody>
@@ -530,7 +529,7 @@ crontab -e
       <tr><td>Power-down</td><td>13 weekly instalments</td></tr>
       <tr><td>Chain ID</td><td><code>706978616772616d000000000000000000000000000000000000000000000000</code> (ASCII "pixagram", padded)</td></tr>
       <tr><td>Key prefix</td><td><code>PIX</code></td></tr>
-      <tr><td>Node software</td><td>hived 1.30.0, hardfork 30 active since block 949330; images <code>pixadock/pixagram:1.30.0</code>, <code>pixadock/pixagram-haf:1.30.0</code>, <code>pixadock/hivemind:mainnet</code>, <code>pixadock/bigmac-feed:v1.0.3</code></td></tr>
+      <tr><td>Node software</td><td>hived 1.30.1, hardfork 30 active since block 949330; images <code>pixadock/pixagram:1.30.1</code>, <code>pixadock/pixagram-haf:1.30.1</code>, <code>pixadock/hivemind:1.28.8</code>, <code>pixadock/bigmac-feed:v1.0.3</code></td></tr>
     </tbody>
   </table></div>
 
