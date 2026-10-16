@@ -14,6 +14,7 @@ A fork of [Hive](https://hive.io), tracking upstream **hived 1.28.8**; the live 
 | Primary | https://api.pixagram.com | Warsaw |
 | | https://merlion.surf | Singapore |
 | | https://blockforge.lol | France |
+| | https://pixarex.net | Iowa, US |
 | | https://pixa-dubai.xyz | Dubai |
 | | https://boitata.quest | São Paulo |
 
@@ -220,7 +221,7 @@ Community names must match **`portal-[123]\d{4,6}`** (e.g. `portal-100001`) — 
 
 | Account | Genesis allocation | Notes |
 |---|---|---|
-| `initminer` | 0 PIXA, 0 PXS, 0 VESTS at block 0 — accumulates VESTS via producer rewards | Sole witness at genesis; mainnet runs 8 witnesses |
+| `initminer` | 0 PIXA, 0 PXS, 0 VESTS at block 0 — accumulates VESTS via producer rewards | Sole witness at genesis; retired from block production on 2026-10-08. Mainnet now schedules 16 elected witnesses |
 | `pixa.rex` | **75,000,000 VESTS** | Sales / ICO pool (Pixa Operations S.A., Panama). **Not** `pixa.ico` — that name never shipped. Restricted account, see below. |
 | `pixa.team` | **25,000,000 VESTS** | Team & advisors. Restricted account, see below. |
 | `pixa.omnibus` (treasury) | **245,098.039 PXS** | DPF treasury — the PXS value of 25M PIXA at the genesis median feed (25,000,000 / 102). This is the figure at block 0; the balance grows every hour from DPF funding. Liquid PXS only, no VESTS: HF21 fires at block 1 and calls `lock_account()` on the treasury, which would strand any VESTS, and the proposal payout pipeline draws exclusively from the PXS balance. |
@@ -229,10 +230,11 @@ Community names must match **`portal-[123]\d{4,6}`** (e.g. `portal-100001`) — 
 `pixa.rex` and `pixa.team` are each guarded by a **3-of-3 multisig** on all three authorities (owner, active, posting) — three independent signers, `weight_threshold = 3`, so all three signatures are required. The memo key is a single (non-consensus) key per account. The treasury `pixa.omnibus` is deliberately **keyless**.
 
 Account creation was free at genesis (`account_creation_fee = 0`), but on the
-live chain the witness-schedule median is now **0.001 PIXA** and cannot return to
-zero: `HIVE_MIN_ACCOUNT_CREATION_FEE` is 1 (0.001 PIXA), so the moment any witness
-publishes chain properties via `witness_set_properties_operation` the median
-leaves zero for good.
+live chain the witness-schedule median is now **20.000 PIXA**, the fee the
+witnesses publish. It can never return to zero: `HIVE_MIN_ACCOUNT_CREATION_FEE`
+is 1 (0.001 PIXA), so the moment any witness published chain properties via
+`witness_set_properties_operation` the median left zero for good. Read the
+current value from `condenser_api.get_chain_properties`.
 
 That matters more than it looks, because **`initminer` holds no liquid PIXA** — its
 genesis allocation is 0 PIXA and it only ever accrues VESTS from producer rewards.

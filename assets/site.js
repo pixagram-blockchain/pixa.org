@@ -8,7 +8,8 @@
     nodes: [
       { url: "https://api.pixagram.com", where: "Warsaw", note: "also the P2P seed, port 2001" },
       { url: "https://merlion.surf", where: "Singapore", note: "" },
-      { url: "https://blockforge.lol", where: "France", note: "" }
+      { url: "https://blockforge.lol", where: "France", note: "" },
+      { url: "https://pixarex.net", where: "Iowa, United States", note: "" }
     ],
     github: "https://github.com/pixagram-blockchain",
     githubOrg: "pixagram-blockchain",
