@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sources and Credits — Pixagram wiki</title>
+<meta name="description" content="Each page cites its sources where it uses them. This page gathers them in one register: code with the commit cited and the licence its repository states, the…">
+<link rel="canonical" href="https://pixa.org/wiki/reference/sources-and-credits.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Sources and Credits — Pixagram wiki">
+<meta property="og:description" content="Each page cites its sources where it uses them. This page gathers them in one register: code with the commit cited and the licence its repository states, the…">
+<meta property="og:url" content="https://pixa.org/wiki/reference/sources-and-credits.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economic-cybernetics/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../developers/index.html">Overview</a></li>
+<li><a class="nav-i" href="../developers/chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="../developers/developer-quickstart.html">Developer Quickstart</a></li>
+<li><a class="nav-i" href="../developers/differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="../developers/sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../node-operators/index.html">Overview</a></li>
+<li><a class="nav-i" href="../node-operators/run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="../node-operators/run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="../node-operators/become-a-witness.html">Become a Witness</a></li>
+<li><a class="nav-i" href="../node-operators/cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../protocol-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
+<li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../product/index.html">Overview</a></li>
+<li><a class="nav-i" href="../product/feed-and-discovery.html">Feed and Discovery</a></li>
+<li><a class="nav-i" href="../product/search.html">Search</a></li>
+<li><a class="nav-i" href="../product/notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="../product/account-settings.html">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economics-lab/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economics-lab/reward-examples.html">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details open>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="sources-and-credits.html" aria-current="page">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Reference</a></nav><h1>Sources and Credits</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>The code, documents, data and writing these pages cite, and the work Pixa is built on. Last checked 2026-10-06.</p>
+</div></div>
+<p>Each page cites its sources where it uses them. This page gathers them in one register: code with the commit cited and the licence its repository states, then documents, data, books and articles. Live values are not repeated here; each page gives the API call that returns them and the date it was read.</p>
+<h2 id="code">Code<a class="anchor" href="#code" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>What the pages draw from it</th>
+<th>Commit cited</th>
+<th>Licence stated in the repository</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/tree/746118eb3b87dcca768b72fa262ad2aa63e1f177">pixagram-blockchain/pixagram</a></td>
+<td>The chain node, hived 1.30.0: every protocol rule and number</td>
+<td><code>48f75a2</code> (1.29.0, 2026-09-18) for rules hardfork 30 left unchanged; tag <code>v1.30.0</code>, <code>746118e</code>, 2026-10-07, for those it changed</td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/tree/ca1d15762b52ec08f33c69ca9afa34bb78c0df52">pixagram-blockchain/pixagram-ui-dev</a></td>
+<td>The app at <a href="http://pixagram.com">pixagram.com</a>: sign-up, keys, the artwork editor, the wallet, governance and communities</td>
+<td><code>ca1d157</code>, 2026-10-04</td>
+<td>GPL-3.0 (<code>LICENSE</code>); <code>package.json</code> says MIT</td>
+</tr>
+<tr>
+<td><a href="https://github.com/pixagram-blockchain/hivemind/tree/5765e2113da3c2c3da3c056d7d795c51e925711a">pixagram-blockchain/hivemind</a></td>
+<td>The social layer: feeds, communities and roles</td>
+<td><code>5765e21</code>, 2026-08-18</td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://github.com/pixagram-blockchain/dpixa/tree/fddb47d677bf6b2364c1a7bcaba704208432071c">pixagram-blockchain/dpixa</a></td>
+<td>The JavaScript library in the developer examples, a fork of dhive</td>
+<td><code>fddb47d</code>, 2026-05-01</td>
+<td>BSD-3-Clause-No-Military-License</td>
+</tr>
+<tr>
+<td><a href="https://github.com/pixagram-blockchain/pixagram-node/tree/4a271e879818b194ffbef57b8efc5744151017c4">pixagram-blockchain/pixagram-node</a></td>
+<td>Node configurations, including the API node's plugins and the gateway</td>
+<td><code>4a271e8</code>, 2026-10-07; the gateway files are unchanged since <code>7e57cca</code>, 2026-09-22</td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://github.com/pixagram-blockchain/witness/tree/e3b88414f563e02beff7587a3722d076214652c3">pixagram-blockchain/witness</a></td>
+<td>The witness setup</td>
+<td><code>e3b8841</code>, 2026-10-07</td>
+<td>No licence file</td>
+</tr>
+<tr>
+<td><a href="https://github.com/pixagram-blockchain/bigmac-feed/tree/c88c43c8b3b8e08ff472fe523b33277b9940ffb2">pixagram-blockchain/bigmac-feed</a></td>
+<td>The price feed the witnesses run</td>
+<td><code>c88c43c</code>, 2026-09-07</td>
+<td>No licence file</td>
+</tr>
+<tr>
+<td><a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/tree/96b9d4a1f1a203d1fedbf603e7769f005c77cfba">pixagram-blockchain/bigmac-feed-agnostic</a></td>
+<td>A feed witnesses may run instead: a local Big Mac price, a market price for PIXA and ECB exchange rates</td>
+<td><code>96b9d4a</code>, 2026-09-07</td>
+<td>GPL-3.0</td>
+</tr>
+<tr>
+<td><a href="https://github.com/pixagram-blockchain/witness-status/tree/a376149c1c04e97d1b2391d4394699c6dc8c202c">pixagram-blockchain/witness-status</a></td>
+<td>The witness status page</td>
+<td><code>a376149</code>, 2026-09-22</td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://github.com/pixagram-blockchain/paph-js/tree/8959a08f4ce95fbe5a0c59c6bfbc157e52094eef">pixagram-blockchain/paph-js</a></td>
+<td>PAPH, a perceptual hash for pixel art; not used by the app</td>
+<td><code>8959a08</code>, 2026-10-06</td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://github.com/openhive-network/hive/tree/1584099c3054a97f02abfb4788b23f02eea98728">openhive-network/hive</a></td>
+<td>Hive's code, for comparison</td>
+<td>Release 1.28.7, <code>1584099</code>, 2026-07-10</td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://github.com/steemit/steem/tree/b0e3644cd5cc4aae861348054df488915c2da472">steemit/steem</a></td>
+<td>Steem's code: escrow and the private-message plugin; its <a href="https://github.com/steemit/steem/issues/143">issue #143</a>, &quot;Add Escrow Operations&quot;</td>
+<td>Release 0.14.2, <code>b0e3644</code></td>
+<td>MIT</td>
+</tr>
+<tr>
+<td><a href="https://github.com/steemit/condenser">steemit/condenser</a></td>
+<td>The code of <a href="http://steemit.com">steemit.com</a></td>
+<td>Searched at snapshots from 2016-09 to 2020-03</td>
+<td>MIT (<code>package.json</code>)</td>
+</tr>
+<tr>
+<td><a href="https://sharp.pixelplumbing.com/">sharp</a></td>
+<td>The image library in an encoding example</td>
+<td>—</td>
+<td>See its site</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="documents">Documents<a class="anchor" href="#documents" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Document</th>
+<th>Edition</th>
+<th>What the pages use it for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Steem whitepaper</td>
+<td><a href="https://web.archive.org/web/20160815131730/https://steem.io/SteemWhitePaper.pdf">March 2016</a>, archived</td>
+<td>What Steem said at launch: Steem Dollars, rewards, the price feed</td>
+</tr>
+<tr>
+<td>Steem whitepaper</td>
+<td><a href="https://steem.com/steem-whitepaper.pdf">July 2025</a>, <a href="http://steem.com">steem.com</a></td>
+<td>Steem's current description, including escrow payments</td>
+</tr>
+<tr>
+<td>Steem Bluepaper</td>
+<td><a href="https://steem.com/steem-bluepaper.pdf">2017</a></td>
+<td>Proof-of-Brain and escrow</td>
+</tr>
+<tr>
+<td>Hive whitepaper</td>
+<td><a href="https://hive.io/whitepaper.pdf">2020</a></td>
+<td>Resource Credits and what Hive changed</td>
+</tr>
+<tr>
+<td>PXS design notes</td>
+<td>Pixagram, June 2026; not published</td>
+<td>The design of PXS, cited by section</td>
+</tr>
+<tr>
+<td>WebP specifications</td>
+<td><a href="https://developers.google.com/speed/webp/docs/riff_container">Container</a> and <a href="https://developers.google.com/speed/webp/docs/webp_lossless_bitstream_specification">lossless bitstream</a>, Google</td>
+<td>The artwork format</td>
+</tr>
+<tr>
+<td>Hive developer portal</td>
+<td><a href="https://developers.hive.io/">developers.hive.io</a></td>
+<td>The API that Pixa shares with Hive</td>
+</tr>
+<tr>
+<td><a href="../../index.html">pixa.org</a> node operator guide</td>
+<td><a href="../../witness.html">Run a Pixagram node</a>, version 1.0, 2026-09-05</td>
+<td>Setting up a witness and an API node</td>
+</tr>
+<tr>
+<td>Docker documentation</td>
+<td><a href="https://docs.docker.com/reference/compose-file/merge/">Merge Compose files</a></td>
+<td>Running an API node</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="data">Data<a class="anchor" href="#data" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Source</th>
+<th>What it gives</th>
+<th>Pages</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The Pixa chain, through <code>api.pixagram.com</code> and the other public nodes</td>
+<td>Every live value, named with its API call and the date it was read</td>
+<td>All</td>
+</tr>
+<tr>
+<td>Steem and Hive, through public API nodes and <a href="https://steemworld.org/block/1">SteemWorld</a></td>
+<td>Blocks, hardfork dates and operations since 2016</td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a>, <a href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a>, <a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></td>
+</tr>
+<tr>
+<td>Golos, through its <a href="https://explorer.golos.id/">explorer</a></td>
+<td>Golos's first blocks</td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></td>
+</tr>
+<tr>
+<td>The Economist, <a href="https://github.com/TheEconomist/big-mac-data">Big Mac index data</a></td>
+<td>Big Mac prices for the feed. The data are published under CC BY 4.0 and the software under MIT.</td>
+<td><a href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></td>
+</tr>
+<tr>
+<td>Frankfurter, frankfurter.dev</td>
+<td>Exchange rates: the European Central Bank's reference rates for the agnostic feed, and the app's display currencies</td>
+<td><a href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a>, <a href="../node-operators/become-a-witness.html">Become a Witness</a>, <a href="../guides/wallet-basics.html">Wallet Basics</a></td>
+</tr>
+<tr>
+<td>CoinMarketCap: <a href="https://coinmarketcap.com/currencies/steem/historical-data/">STEEM</a>, <a href="https://coinmarketcap.com/currencies/steem-dollars/historical-data/">SBD</a>, <a href="https://coinmarketcap.com/historical/20160717/">snapshot of 2016-07-17</a></td>
+<td>Steem's market prices and rankings</td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a>, <a href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></td>
+</tr>
+<tr>
+<td><a href="https://www.coingecko.com/en/coins/hive_dollar">CoinGecko, Hive Dollar</a></td>
+<td>HBD prices</td>
+<td><a href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></td>
+</tr>
+<tr>
+<td><a href="https://www.moneyhouse.ch/en/company/pixagram-ag-1298024171">Moneyhouse</a></td>
+<td>The Swiss commercial register entry of Pixagram SA</td>
+<td><a href="../start-here/who-does-what.html">Who Does What</a></td>
+</tr>
+<tr>
+<td>npm: <a href="https://www.npmjs.com/package/@pixagram/dpixa"><code>@pixagram/dpixa</code></a>, <a href="https://www.npmjs.com/package/@hiveio/dhive"><code>@hiveio/dhive</code></a></td>
+<td>Library versions</td>
+<td><a href="../developers/sdks-and-libraries.html">SDKs and Libraries</a>, <a href="../developers/developer-quickstart.html">Developer Quickstart</a></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="books-and-papers">Books and papers<a class="anchor" href="#books-and-papers" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Work</th>
+<th>Pages</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>W. Ross Ashby, <em>An Introduction to Cybernetics</em> (Chapman &amp; Hall, 1956)</td>
+<td><a href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a>, <a href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></td>
+</tr>
+<tr>
+<td>Stafford Beer, <em>Brain of the Firm</em> (Allen Lane, 1972; second edition, Wiley, 1981) and <em>The Heart of Enterprise</em> (Wiley, 1979)</td>
+<td><a href="../economic-cybernetics/viable-system-model.html">Viable System Model</a>, <a href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></td>
+</tr>
+<tr>
+<td>C. S. Holling, &quot;Resilience and Stability of Ecological Systems&quot;, <em>Annual Review of Ecology and Systematics</em> 4 (1973)</td>
+<td><a href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></td>
+</tr>
+<tr>
+<td>B. Walker, C. S. Holling, S. R. Carpenter and A. Kinzig, &quot;Resilience, Adaptability and Transformability in Social–ecological Systems&quot;, <em>Ecology and Society</em> 9(2) (2004)</td>
+<td><a href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a>, <a href="glossary.html">Glossary</a></td>
+</tr>
+<tr>
+<td>P. Bak, C. Tang and K. Wiesenfeld, &quot;Self-organized criticality: An explanation of the 1/f noise&quot;, <em>Physical Review Letters</em> 59 (1987)</td>
+<td><a href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a>, <a href="glossary.html">Glossary</a></td>
+</tr>
+<tr>
+<td>P. Bak and K. Chen, &quot;Self-Organized Criticality&quot;, <em>Scientific American</em> 264(1) (1991)</td>
+<td><a href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="articles-and-posts">Articles and posts<a class="anchor" href="#articles-and-posts" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Author or publisher</th>
+<th>Title</th>
+<th>Pages</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>—</td>
+<td>Hive</td>
+<td><a href="https://gitlab.syncad.com/hive/hive/-/releases/1.28.0">Release 1.28.0</a></td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></td>
+</tr>
+<tr>
+<td>—</td>
+<td>Blurt</td>
+<td><a href="https://gitlab.com/blurt/blurt">README</a> and <a href="https://blurtwallet.com/faq.html">FAQ</a></td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></td>
+</tr>
+<tr>
+<td>—</td>
+<td>Alan Hibbard, GoldSilver</td>
+<td><a href="https://goldsilver.com/hidden-secrets-of-value/savings-vs-investing/">Saving vs. Investing</a>, in <em>Hidden Secrets of Value</em></td>
+<td><a href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a> </td>
+</tr>
+<tr>
+<td>2013</td>
+<td>Mike Maloney</td>
+<td><em>Hidden Secrets of Money</em>, episode 1, a video series</td>
+<td><a href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a> </td>
+</tr>
+<tr>
+<td>2016-07-01</td>
+<td>Dan Larimer</td>
+<td><a href="https://steemit.com/blockchain/@dan/why-every-blockchain-needs-a-constitution">Why every Blockchain needs a Constitution</a></td>
+<td><a href="../governance/constitution.html">Constitution</a>, <a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></td>
+</tr>
+<tr>
+<td>2016-07-01</td>
+<td>Dan Larimer</td>
+<td><a href="https://steemit.com/philosophy/@dan/how-to-dodge-bullets-creating-your-own-reality">How to Dodge Bullets - Creating your own Reality</a></td>
+<td><a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></td>
+</tr>
+<tr>
+<td>2016-07-06</td>
+<td>Dan Larimer</td>
+<td><a href="https://steemit.com/steem/@dan/steemit-s-evil-plan-for-cryptocurrency-world-domination">Steemit's Evil Plan for Cryptocurrency World Domination</a></td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a>, <a href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a>, <a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></td>
+</tr>
+<tr>
+<td>2016-07-07</td>
+<td>Dan Larimer</td>
+<td><a href="https://steemit.com/sip/@dan/escrow-sip-steem-improvement-proposal">Escrow SIP - Steem Improvement Proposal</a></td>
+<td><a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></td>
+</tr>
+<tr>
+<td>2016-09-13</td>
+<td>Steemit</td>
+<td><a href="https://steemit.com/steem/@steemitblog/steem-0-14-1-released-hardfork-postponed-until-9-20-2016">Steem 0.14.1 Released - Hardfork Postponed until 9/20/2016</a></td>
+<td><a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></td>
+</tr>
+<tr>
+<td>2016-10-18</td>
+<td>ForkLog</td>
+<td><a href="https://forklog.com/sostoyalsya-zapusk-russkoyazychnoj-sotsialno-medijnoj-platformy-golos/">Состоялся запуск русскоязычной социально-медийной платформы «Голос»</a>, in Russian: the launch of Golos</td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></td>
+</tr>
+<tr>
+<td>2017-01-27</td>
+<td>@son-of-satire</td>
+<td><a href="https://steemit.com/life/@son-of-satire/how-social-media-s-predictive-algorithms-are-perpetuating-division-of-the-people">How Social Media's Predictive Algorithms Are Perpetuating Division Among The People</a></td>
+<td><a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></td>
+</tr>
+<tr>
+<td>2017-04-12</td>
+<td>Steemit</td>
+<td><a href="https://steemit.com/steemit/@steemitblog/joint-statement">Joint Statement</a></td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></td>
+</tr>
+<tr>
+<td>2017-09-28</td>
+<td>@ned</td>
+<td><a href="https://steemit.com/steem/@ned/announcing-smart-media-tokens-smts">Announcing: Smart Media Tokens (SMTs)</a></td>
+<td><a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></td>
+</tr>
+<tr>
+<td>2018-08-15</td>
+<td>Steemit</td>
+<td><a href="https://steemit.com/steem/@steemitblog/smts-release-dates">SMTs Release Dates!</a>, updated 2019-03-11</td>
+<td><a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></td>
+</tr>
+<tr>
+<td>2018-09-25</td>
+<td>Steemit</td>
+<td><a href="https://steemit.com/steem/@steemitblog/hf20-update-hardfork-successful">HF20 Update: Hardfork Complete</a></td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></td>
+</tr>
+<tr>
+<td>2019-02-07</td>
+<td>@aggroed</td>
+<td><a href="https://steemit.com/steemengine/@aggroed/introducing-steem-engine-com">Introducing Steem-Engine.com (smart contracts and token creation on Steem)</a></td>
+<td><a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></td>
+</tr>
+<tr>
+<td>2019-04-15</td>
+<td>CryptoSlate</td>
+<td><a href="https://cryptoslate.com/block-producers-change-eos-constitution-following-voting-gridlock/">Block Producers change EOS constitution following voting gridlock</a></td>
+<td><a href="../governance/constitution.html">Constitution</a></td>
+</tr>
+<tr>
+<td>2020-02-14</td>
+<td>Business Wire</td>
+<td><a href="https://www.businesswire.com/news/home/20200214005129/en/Steemit-Joining-TRON-Ecosystem">Steemit Joining TRON Ecosystem</a></td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></td>
+</tr>
+<tr>
+<td>2020-02-24</td>
+<td>CoinDesk</td>
+<td><a href="https://www.coindesk.com/tech/2020/02/24/justin-sun-bought-steemit-steem-moved-to-limit-his-power">Justin Sun Bought Steemit. Steem Moved to Limit His Power</a></td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></td>
+</tr>
+<tr>
+<td>2020-03-02</td>
+<td>CoinDesk</td>
+<td><a href="https://www.coindesk.com/tech/2020/03/02/why-crypto-should-care-about-justin-suns-steem-drama">Why Crypto Should Care About Justin Sun's Steem Drama</a></td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></td>
+</tr>
+<tr>
+<td>2020-03-02</td>
+<td>The Block</td>
+<td><a href="https://www.theblock.co/post/57508/tron-steem-takeover-crypto-exchanges-governance-reversal-soft-fork-blockchain">Tron takeover? Steem community in uproar as crypto exchanges back reversal of blockchain governance soft fork</a></td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></td>
+</tr>
+<tr>
+<td>2020-03-17</td>
+<td>Hive, <a href="https://hive.blog/@hiveio">@hiveio</a></td>
+<td><a href="https://hive.blog/communityfork/@hiveio/announcing-the-launch-of-hive-blockchain">Announcing the Launch of Hive Blockchain</a></td>
+<td><a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a>, <a href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></td>
+</tr>
+<tr>
+<td>2020-03-25</td>
+<td>@aggroed</td>
+<td><a href="https://peakd.com/hive-engine/@aggroed/hive-engine-update">Hive-Engine Update</a></td>
+<td><a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></td>
+</tr>
+<tr>
+<td>2021-02-21</td>
+<td>@smooth</td>
+<td><a href="https://hive.blog/hbd/@smooth/hbd-stabilizer-algorithm">HBD stabilizer algorithm</a></td>
+<td><a href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></td>
+</tr>
+<tr>
+<td>2025-07-31</td>
+<td>@smooth</td>
+<td><a href="https://inleo.io/@smooth/hbd-stabilizer-proposal-august-2025">HBD stabilizer proposal August 2025</a></td>
+<td><a href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></td>
+</tr>
+<tr>
+<td>2025-12-20</td>
+<td>Matias Affolter, Pixagram</td>
+<td><a href="https://www.linkedin.com/pulse/how-pixagram-completes-vision-blockchain-world-domination-8ntve/">How Pixagram Completes the Vision for Blockchain World Domination</a></td>
+<td><a href="../history-and-design/essays.html">Essays</a>, <a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a>, <a href="../governance/constitution.html">Constitution</a>, <a href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="credits">Credits<a class="anchor" href="#credits" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Pixa is built on the work of others. The credits below are as each repository's licence file, or its README where noted, states them.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Work</th>
+<th>Credited to</th>
+<th>Licence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Steem, the original code base</td>
+<td>&quot;Steemit, Inc., and contributors&quot;</td>
+<td>MIT</td>
+</tr>
+<tr>
+<td>Hive, the code Pixa's node is forked from</td>
+<td>&quot;Hive blockchain community contributors&quot;</td>
+<td>MIT</td>
+</tr>
+<tr>
+<td>Graphene, FC and Boost, which the node depends on</td>
+<td>Their own authors, &quot;under their own individual licenses&quot;</td>
+<td>Their own</td>
+</tr>
+<tr>
+<td>Hivemind, the social layer</td>
+<td>Steemit Inc.</td>
+<td>MIT</td>
+</tr>
+<tr>
+<td>dpixa's original code, from dhive</td>
+<td>Johan Nordberg</td>
+<td>BSD-3-Clause-No-Military-License</td>
+</tr>
+<tr>
+<td>The Big Mac index</td>
+<td>The Economist Newspaper</td>
+<td>Software: MIT (<code>LICENCE</code>); data: CC BY 4.0 (README)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Who wrote and changed each page is recorded in this repository's history.</p>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/21-reference/sources-and-credits.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="risks-and-open-problems.html"><span class="k">Previous</span><span class="t">Risks and Open Problems</span></a><a class="next" href="../about/index.html"><span class="k">Next</span><span class="t">About these pages</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#code">Code</a></li><li><a href="#documents">Documents</a></li><li><a href="#data">Data</a></li><li><a href="#books-and-papers">Books and papers</a></li><li><a href="#articles-and-posts">Articles and posts</a></li><li><a href="#credits">Credits</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/21-reference/sources-and-credits.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/21-reference/sources-and-credits.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

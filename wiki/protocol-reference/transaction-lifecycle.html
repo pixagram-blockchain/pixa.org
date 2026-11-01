@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transaction Lifecycle — Pixagram wiki</title>
+<meta name="description" content="A transaction is a signed list of operations. This page follows one from the program that builds it to the index that serves it back: nine stages, and at eac…">
+<link rel="canonical" href="https://pixa.org/wiki/protocol-reference/transaction-lifecycle.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Transaction Lifecycle — Pixagram wiki">
+<meta property="og:description" content="A transaction is a signed list of operations. This page follows one from the program that builds it to the index that serves it back: nine stages, and at eac…">
+<meta property="og:url" content="https://pixa.org/wiki/protocol-reference/transaction-lifecycle.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economic-cybernetics/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../developers/index.html">Overview</a></li>
+<li><a class="nav-i" href="../developers/chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="../developers/developer-quickstart.html">Developer Quickstart</a></li>
+<li><a class="nav-i" href="../developers/differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="../developers/sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../node-operators/index.html">Overview</a></li>
+<li><a class="nav-i" href="../node-operators/run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="../node-operators/run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="../node-operators/become-a-witness.html">Become a Witness</a></li>
+<li><a class="nav-i" href="../node-operators/cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details open>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="operations-reference.html">Operations Reference</a></li>
+<li><a class="nav-i" href="transaction-lifecycle.html" aria-current="page">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="data-model.html">Data Model</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../product/index.html">Overview</a></li>
+<li><a class="nav-i" href="../product/feed-and-discovery.html">Feed and Discovery</a></li>
+<li><a class="nav-i" href="../product/search.html">Search</a></li>
+<li><a class="nav-i" href="../product/notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="../product/account-settings.html">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economics-lab/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economics-lab/reward-examples.html">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../reference/chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="../reference/system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="../reference/glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="../reference/risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="../reference/sources-and-credits.html">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Protocol reference</a></nav><h1>Transaction Lifecycle</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>Describes hived 1.30.0 and the public nodes' gateway at commit <code>4a271e8</code>. Checked against <code>api.pixagram.com</code> on 2026-10-08.</p>
+</div></div>
+<p>A transaction is a signed list of operations. This page follows one from the program that builds it to the index that serves it back: nine stages, and at each one the checks the chain applies and the error a program sees when a check fails. It is written for developers who sign transactions themselves or debug a library that does; <a href="../developers/developer-quickstart.html">Developer Quickstart</a> shows the same path with a library doing the work. What each operation requires is on <a href="operations-reference.html">Operations Reference</a>; what the chain stores is on <a href="data-model.html">Data Model</a>.</p>
+<h2 id="the-nine-stages">The nine stages<a class="anchor" href="#the-nine-stages" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<figure class="diagram" style="--w:1576px"><svg aria-label="Diagram: 1 construct; 2 serialize; 3 sign; 4 broadcast; 5 node checks; 6 pending, then in a block; 7 applied; 8 irreversible; 9 indexed" focusable="false" id="dcc7265013cdb0e76" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" viewBox="0 0 1576.234375 66.5" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#dcc7265013cdb0e76{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:15px;fill:#000000;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#dcc7265013cdb0e76 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#dcc7265013cdb0e76 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#dcc7265013cdb0e76 .error-icon{fill:#ffffff;}#dcc7265013cdb0e76 .error-text{fill:#000000;stroke:#000000;}#dcc7265013cdb0e76 .edge-thickness-normal{stroke-width:1px;}#dcc7265013cdb0e76 .edge-thickness-thick{stroke-width:3.5px;}#dcc7265013cdb0e76 .edge-pattern-solid{stroke-dasharray:0;}#dcc7265013cdb0e76 .edge-thickness-invisible{stroke-width:0;fill:none;}#dcc7265013cdb0e76 .edge-pattern-dashed{stroke-dasharray:3;}#dcc7265013cdb0e76 .edge-pattern-dotted{stroke-dasharray:2;}#dcc7265013cdb0e76 .marker{fill:#474747;stroke:#474747;}#dcc7265013cdb0e76 .marker.cross{stroke:#474747;}#dcc7265013cdb0e76 svg{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:15px;}#dcc7265013cdb0e76 p{margin:0;}#dcc7265013cdb0e76 .label{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;color:#000000;}#dcc7265013cdb0e76 .cluster-label text{fill:#474747;}#dcc7265013cdb0e76 .cluster-label span{color:#474747;}#dcc7265013cdb0e76 .cluster-label span p{background-color:transparent;}#dcc7265013cdb0e76 .label text,#dcc7265013cdb0e76 span{fill:#000000;color:#000000;}#dcc7265013cdb0e76 .node rect,#dcc7265013cdb0e76 .node circle,#dcc7265013cdb0e76 .node ellipse,#dcc7265013cdb0e76 .node polygon,#dcc7265013cdb0e76 .node path{fill:#ffffff;stroke:#000000;stroke-width:1px;}#dcc7265013cdb0e76 .rough-node .label text,#dcc7265013cdb0e76 .node .label text,#dcc7265013cdb0e76 .image-shape .label,#dcc7265013cdb0e76 .icon-shape .label{text-anchor:middle;}#dcc7265013cdb0e76 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#dcc7265013cdb0e76 .rough-node .label,#dcc7265013cdb0e76 .node .label,#dcc7265013cdb0e76 .image-shape .label,#dcc7265013cdb0e76 .icon-shape .label{text-align:center;}#dcc7265013cdb0e76 .node.clickable{cursor:pointer;}#dcc7265013cdb0e76 .root .anchor path{fill:#474747!important;stroke-width:0;stroke:#474747;}#dcc7265013cdb0e76 .arrowheadPath{fill:#000000;}#dcc7265013cdb0e76 .edgePath .path{stroke:#474747;stroke-width:1px;}#dcc7265013cdb0e76 .flowchart-link{stroke:#474747;fill:none;}#dcc7265013cdb0e76 .edgeLabel{background-color:#ffffff;text-align:center;}#dcc7265013cdb0e76 .edgeLabel p{background-color:#ffffff;}#dcc7265013cdb0e76 .edgeLabel rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dcc7265013cdb0e76 .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#dcc7265013cdb0e76 .cluster rect{fill:#f4f4f4;stroke:#f4f4f4;stroke-width:1px;}#dcc7265013cdb0e76 .cluster text{fill:#474747;}#dcc7265013cdb0e76 .cluster span{color:#474747;}#dcc7265013cdb0e76 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:12px;background:#ffffff;border:1px solid hsl(0, 0%, 90%);border-radius:2px;pointer-events:none;z-index:100;}#dcc7265013cdb0e76 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#dcc7265013cdb0e76 rect.text{fill:none;stroke-width:0;}#dcc7265013cdb0e76 .icon-shape,#dcc7265013cdb0e76 .image-shape{background-color:#ffffff;text-align:center;}#dcc7265013cdb0e76 .icon-shape p,#dcc7265013cdb0e76 .image-shape p{background-color:#ffffff;padding:2px;}#dcc7265013cdb0e76 .icon-shape .label rect,#dcc7265013cdb0e76 .image-shape .label rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dcc7265013cdb0e76 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#dcc7265013cdb0e76 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#dcc7265013cdb0e76 .node .neo-node{stroke:#000000;}#dcc7265013cdb0e76 [data-look="neo"].node rect,#dcc7265013cdb0e76 [data-look="neo"].cluster rect,#dcc7265013cdb0e76 [data-look="neo"].node polygon{stroke:url(#dcc7265013cdb0e76-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dcc7265013cdb0e76 [data-look="neo"].swimlane.cluster rect{filter:none;}#dcc7265013cdb0e76 [data-look="neo"].node path{stroke:url(#dcc7265013cdb0e76-gradient);stroke-width:1px;}#dcc7265013cdb0e76 [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dcc7265013cdb0e76 [data-look="neo"].node .neo-line path{stroke:#000000;filter:none;}#dcc7265013cdb0e76 [data-look="neo"].node circle{stroke:url(#dcc7265013cdb0e76-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dcc7265013cdb0e76 [data-look="neo"].node circle .state-start{fill:#000000;}#dcc7265013cdb0e76 [data-look="neo"].icon-shape .icon{fill:url(#dcc7265013cdb0e76-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dcc7265013cdb0e76 [data-look="neo"].icon-shape .icon-neo path{stroke:url(#dcc7265013cdb0e76-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dcc7265013cdb0e76 .node rect,#dcc7265013cdb0e76 .node path{rx:10px;ry:10px;}#dcc7265013cdb0e76 .cluster rect{rx:16px;ry:16px;}#dcc7265013cdb0e76 .cluster-label .nodeLabel,#dcc7265013cdb0e76 .cluster-label span{color:rgb(71, 71, 71)!important;}#dcc7265013cdb0e76 .edgeLabel,#dcc7265013cdb0e76 .edgeLabel p{background:rgb(255, 255, 255)!important;color:rgb(71, 71, 71)!important;}#dcc7265013cdb0e76 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="dcc7265013cdb0e76_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dcc7265013cdb0e76_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dcc7265013cdb0e76_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dcc7265013cdb0e76_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dcc7265013cdb0e76_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dcc7265013cdb0e76_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dcc7265013cdb0e76_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dcc7265013cdb0e76_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dcc7265013cdb0e76_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dcc7265013cdb0e76_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dcc7265013cdb0e76_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="dcc7265013cdb0e76_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M136.797,33.25L140.464,33.25C144.13,33.25,151.464,33.25,158.13,33.25C164.797,33.25,170.797,33.25,173.797,33.25L176.797,33.25" id="dcc7265013cdb0e76-L_A_B_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A_B_0" data-points="W3sieCI6MTM2Ljc5Njg3NSwieSI6MzMuMjV9LHsieCI6MTU4Ljc5Njg3NSwieSI6MzMuMjV9LHsieCI6MTgwLjc5Njg3NSwieSI6MzMuMjV9XQ==" data-look="classic" marker-end="url(#dcc7265013cdb0e76_flowchart-v2-pointEnd)"/><path d="M300.719,33.25L304.385,33.25C308.052,33.25,315.385,33.25,322.052,33.25C328.719,33.25,334.719,33.25,337.719,33.25L340.719,33.25" id="dcc7265013cdb0e76-L_B_C_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_B_C_0" data-points="W3sieCI6MzAwLjcxODc1LCJ5IjozMy4yNX0seyJ4IjozMjIuNzE4NzUsInkiOjMzLjI1fSx7IngiOjM0NC43MTg3NSwieSI6MzMuMjV9XQ==" data-look="classic" marker-end="url(#dcc7265013cdb0e76_flowchart-v2-pointEnd)"/><path d="M438.75,33.25L442.417,33.25C446.083,33.25,453.417,33.25,460.083,33.25C466.75,33.25,472.75,33.25,475.75,33.25L478.75,33.25" id="dcc7265013cdb0e76-L_C_D_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_C_D_0" data-points="W3sieCI6NDM4Ljc1LCJ5IjozMy4yNX0seyJ4Ijo0NjAuNzUsInkiOjMzLjI1fSx7IngiOjQ4Mi43NSwieSI6MzMuMjV9XQ==" data-look="classic" marker-end="url(#dcc7265013cdb0e76_flowchart-v2-pointEnd)"/><path d="M614.875,33.25L618.542,33.25C622.208,33.25,629.542,33.25,636.208,33.25C642.875,33.25,648.875,33.25,651.875,33.25L654.875,33.25" id="dcc7265013cdb0e76-L_D_E_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_D_E_0" data-points="W3sieCI6NjE0Ljg3NSwieSI6MzMuMjV9LHsieCI6NjM2Ljg3NSwieSI6MzMuMjV9LHsieCI6NjU4Ljg3NSwieSI6MzMuMjV9XQ==" data-look="classic" marker-end="url(#dcc7265013cdb0e76_flowchart-v2-pointEnd)"/><path d="M807.063,33.25L810.729,33.25C814.396,33.25,821.729,33.25,828.396,33.25C835.063,33.25,841.063,33.25,844.063,33.25L847.063,33.25" id="dcc7265013cdb0e76-L_E_F_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_E_F_0" data-points="W3sieCI6ODA3LjA2MjUsInkiOjMzLjI1fSx7IngiOjgyOS4wNjI1LCJ5IjozMy4yNX0seyJ4Ijo4NTEuMDYyNSwieSI6MzMuMjV9XQ==" data-look="classic" marker-end="url(#dcc7265013cdb0e76_flowchart-v2-pointEnd)"/><path d="M1066.594,33.25L1070.26,33.25C1073.927,33.25,1081.26,33.25,1087.927,33.25C1094.594,33.25,1100.594,33.25,1103.594,33.25L1106.594,33.25" id="dcc7265013cdb0e76-L_F_G_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_F_G_0" data-points="W3sieCI6MTA2Ni41OTM3NSwieSI6MzMuMjV9LHsieCI6MTA4OC41OTM3NSwieSI6MzMuMjV9LHsieCI6MTExMC41OTM3NSwieSI6MzMuMjV9XQ==" data-look="classic" marker-end="url(#dcc7265013cdb0e76_flowchart-v2-pointEnd)"/><path d="M1224.203,33.25L1227.87,33.25C1231.536,33.25,1238.87,33.25,1245.536,33.25C1252.203,33.25,1258.203,33.25,1261.203,33.25L1264.203,33.25" id="dcc7265013cdb0e76-L_G_H_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_G_H_0" data-points="W3sieCI6MTIyNC4yMDMxMjUsInkiOjMzLjI1fSx7IngiOjEyNDYuMjAzMTI1LCJ5IjozMy4yNX0seyJ4IjoxMjY4LjIwMzEyNSwieSI6MzMuMjV9XQ==" data-look="classic" marker-end="url(#dcc7265013cdb0e76_flowchart-v2-pointEnd)"/><path d="M1407.359,33.25L1411.026,33.25C1414.693,33.25,1422.026,33.25,1428.693,33.25C1435.359,33.25,1441.359,33.25,1444.359,33.25L1447.359,33.25" id="dcc7265013cdb0e76-L_H_I_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_H_I_0" data-points="W3sieCI6MTQwNy4zNTkzNzUsInkiOjMzLjI1fSx7IngiOjE0MjkuMzU5Mzc1LCJ5IjozMy4yNX0seyJ4IjoxNDUxLjM1OTM3NSwieSI6MzMuMjV9XQ==" data-look="classic" marker-end="url(#dcc7265013cdb0e76_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_A_B_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_B_C_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_C_D_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_D_E_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_E_F_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_F_G_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_G_H_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_H_I_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="dcc7265013cdb0e76-flowchart-A-0" data-look="classic" transform="translate(72.3984375, 33.25)"><rect class="basic label-container" style="" x="-64.3984375" y="-25.25" width="128.796875" height="50.5"/><g class="label" style="" transform="translate(-36.3984375, -11.25)"><rect/><foreignObject width="72.796875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>1 construct</p></span></div></foreignObject></g></g><g class="node default" id="dcc7265013cdb0e76-flowchart-B-1" data-look="classic" transform="translate(240.7578125, 33.25)"><rect class="basic label-container" style="" x="-59.9609375" y="-25.25" width="119.921875" height="50.5"/><g class="label" style="" transform="translate(-31.9609375, -11.25)"><rect/><foreignObject width="63.921875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>2 serialize</p></span></div></foreignObject></g></g><g class="node default" id="dcc7265013cdb0e76-flowchart-C-2" data-look="classic" transform="translate(391.734375, 33.25)"><rect class="basic label-container" style="" x="-47.015625" y="-25.25" width="94.03125" height="50.5"/><g class="label" style="" transform="translate(-19.015625, -11.25)"><rect/><foreignObject width="38.03125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>3 sign</p></span></div></foreignObject></g></g><g class="node default" id="dcc7265013cdb0e76-flowchart-D-3" data-look="classic" transform="translate(548.8125, 33.25)"><rect class="basic label-container" style="" x="-66.0625" y="-25.25" width="132.125" height="50.5"/><g class="label" style="" transform="translate(-38.0625, -11.25)"><rect/><foreignObject width="76.125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>4 broadcast</p></span></div></foreignObject></g></g><g class="node default" id="dcc7265013cdb0e76-flowchart-E-5" data-look="classic" transform="translate(732.96875, 33.25)"><rect class="basic label-container" style="" x="-74.09375" y="-25.25" width="148.1875" height="50.5"/><g class="label" style="" transform="translate(-46.09375, -11.25)"><rect/><foreignObject width="92.1875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>5 node checks</p></span></div></foreignObject></g></g><g class="node default" id="dcc7265013cdb0e76-flowchart-F-6" data-look="classic" transform="translate(958.828125, 33.25)"><rect class="basic label-container" style="" x="-107.765625" y="-25.25" width="215.53125" height="50.5"/><g class="label" style="" transform="translate(-79.765625, -11.25)"><rect/><foreignObject width="159.53125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>6 pending, then in a block</p></span></div></foreignObject></g></g><g class="node default" id="dcc7265013cdb0e76-flowchart-G-7" data-look="classic" transform="translate(1167.3984375, 33.25)"><rect class="basic label-container" style="" x="-56.8046875" y="-25.25" width="113.609375" height="50.5"/><g class="label" style="" transform="translate(-28.8046875, -11.25)"><rect/><foreignObject width="57.609375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>7 applied</p></span></div></foreignObject></g></g><g class="node default" id="dcc7265013cdb0e76-flowchart-H-8" data-look="classic" transform="translate(1337.78125, 33.25)"><rect class="basic label-container" style="" x="-69.578125" y="-25.25" width="139.15625" height="50.5"/><g class="label" style="" transform="translate(-41.578125, -11.25)"><rect/><foreignObject width="83.15625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>8 irreversible</p></span></div></foreignObject></g></g><g class="node default" id="dcc7265013cdb0e76-flowchart-I-9" data-look="classic" transform="translate(1509.796875, 33.25)"><rect class="basic label-container" style="" x="-58.4375" y="-25.25" width="116.875" height="50.5"/><g class="label" style="" transform="translate(-30.4375, -11.25)"><rect/><foreignObject width="60.875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>9 indexed</p></span></div></foreignObject></g></g></g></g></g><defs><filter id="dcc7265013cdb0e76-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="dcc7265013cdb0e76-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><linearGradient id="dcc7265013cdb0e76-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#000000" stop-opacity="1"/><stop offset="100%" stop-color="hsl(0, 0%, 85.6862745098%)" stop-opacity="1"/></linearGradient></svg><figcaption class="diagram-foot"><span class="hint">Scroll sideways to see the whole diagram.</span><a href="../diagrams/cc7265013cdb0e76.svg">Open full size</a></figcaption></figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Who</th>
+<th>Can still fail?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1-3</td>
+<td>Your program, offline</td>
+<td>Only your own mistakes</td>
+</tr>
+<tr>
+<td>4-5</td>
+<td>The public node you send to</td>
+<td>Yes: every rule below, as an error in the JSON-RPC reply</td>
+</tr>
+<tr>
+<td>6</td>
+<td>The next witness, and every node re-applying pending transactions</td>
+<td>Yes, silently: a transaction accepted at stage 5 can still be left out</td>
+</tr>
+<tr>
+<td>7-8</td>
+<td>Every node</td>
+<td>A block can be replaced until it is irreversible</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Indexers</td>
+<td>No, but each index lags by a different amount</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="1-construction">1. Construction<a class="anchor" href="#1-construction" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>A transaction has five fields:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ref_block_num</code></td>
+<td>the low 16 bits of a recent block's number</td>
+<td>The block must be one of the last 65,536 (<a href="#tapos-and-expiration">TaPoS</a>)</td>
+</tr>
+<tr>
+<td><code>ref_block_prefix</code></td>
+<td>bytes 4 to 7 of that block's id, read as a little-endian 32-bit integer</td>
+<td>Must match the block the chain has at that number</td>
+</tr>
+<tr>
+<td><code>expiration</code></td>
+<td>a UTC time, <code>YYYY-MM-DDTHH:MM:SS</code></td>
+<td>After the head block's time; at most 24 hours ahead</td>
+</tr>
+<tr>
+<td><code>operations</code></td>
+<td>one or more operations, applied in order</td>
+<td>Every operation must pass its own <code>validate()</code> (<a href="operations-reference.html">Operations Reference</a>)</td>
+</tr>
+<tr>
+<td><code>extensions</code></td>
+<td><code>[]</code></td>
+<td>Must be empty</td>
+</tr>
+</tbody>
+</table></div>
+<p>Programs read the head block from <code>condenser_api.get_dynamic_global_properties</code> (<code>head_block_number</code>, <code>head_block_id</code>, <code>time</code>) and build the first three fields from it. dpixa sets the expiration 60 seconds after the head block's time (<a href="https://github.com/pixagram-blockchain/dpixa/blob/fddb47d677bf6b2364c1a7bcaba704208432071c/src/helpers/broadcast.ts#L317-L335"><code>broadcast.ts:317-335</code></a>). A transaction whose expiration is far ahead is still only valid for one hour from the moment the node first sees it, because the node applies an effective expiry of the earlier of the two (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L2596-L2622"><code>database.cpp:2602-2622</code></a>).</p>
+<p><strong>Size.</strong> The serialized transaction must fit in <code>maximum_block_size - 256</code> bytes: 2,096,896 bytes at the live block size of 2,097,152 (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L577-L583"><code>database.cpp:577-583</code></a>). An artwork post of several hundred kilobytes fits; the public nodes' gateway, not the chain, is what limits a single HTTP request to about 1 MiB (<a href="#4-broadcast">stage 4</a>).</p>
+<p><strong>Operations in one transaction.</strong> Operations are applied in order and the whole transaction succeeds or fails together. Since Hive's hardfork 28, which Pixa carries from block 1, one transaction may combine operations that need the posting authority with ones that need the active authority (<a href="#3-signing">stage 3</a>).</p>
+<h2 id="2-serialization">2. Serialization<a class="anchor" href="#2-serialization" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The chain signs and hashes bytes, not JSON. The bytes are the transaction's fields packed in order, little-endian, with variable-length integers for lengths and each operation preceded by its id, the index in the operation list (<a href="operations-reference.html#the-50-operations">Operations Reference</a>).</p>
+<p>There are two encodings, and a signature is valid for exactly one of them:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Encoding</th>
+<th>Assets are written as</th>
+<th>Operations in JSON look like</th>
+<th>Who uses it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Legacy</strong></td>
+<td>the symbol as text: <code>PIXA</code>, <code>PXS</code>, <code>VESTS</code></td>
+<td><code>[&quot;vote&quot;, {&quot;voter&quot;: …}]</code></td>
+<td>dpixa, the app, <code>cli_wallet</code>, most Hive libraries</td>
+</tr>
+<tr>
+<td><strong>HF26</strong></td>
+<td>the numeric asset identifier (NAI), such as <code>@@000000021</code></td>
+<td><code>{&quot;type&quot;: &quot;vote_operation&quot;, &quot;value&quot;: {&quot;voter&quot;: …}}</code></td>
+<td>Hive's newer libraries</td>
+</tr>
+</tbody>
+</table></div>
+<p>The legacy encoding is where Pixa and Hive part: a library that writes <code>HIVE</code> or <code>HBD</code> into the bytes produces a signature the Pixa chain rejects (<a href="../developers/differences-from-hive.html#identity-and-assets">Differences from Hive</a>). The HF26 encoding carries no symbol text, so a library using it needs only the chain id and the <code>PIX</code> key prefix.</p>
+<p>Two hashes come from the serialized bytes:</p>
+<ul>
+<li><strong>The transaction id</strong> is the first 20 bytes of the SHA-256 of the transaction <em>without</em> its signatures (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/transaction.cpp#L13-L64"><code>transaction.cpp:21-64</code></a>). It is what <code>get_transaction</code> and the account history key on, and it is the same for both encodings only when the two produce the same bytes, which for amounts they do not.</li>
+<li><strong>The signing digest</strong> is the SHA-256 of the chain id followed by the same bytes (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/transaction.cpp#L13-L64"><code>transaction.cpp:29-35</code></a>). The chain id, <code>706978616772616d</code> followed by 48 zeros, is in every signature, so a transaction signed for Pixa cannot be replayed on Hive or on any test chain.</li>
+</ul>
+<h2 id="3-signing">3. Signing<a class="anchor" href="#3-signing" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Each signature is a 65-byte recoverable secp256k1 signature of the signing digest, in canonical form (<a href="https://github.com/pixagram-blockchain/dpixa/blob/fddb47d677bf6b2364c1a7bcaba704208432071c/src/crypto.ts#L191-L200"><code>crypto.ts:191-200</code></a>). The node recovers the public key from the signature and checks it against the authorities the transaction's operations require.</p>
+<p><strong>Which key.</strong> Every operation names the authority level it needs: posting (votes, posts, <code>custom_json</code> with posting auths, profile metadata), active (anything that moves tokens, witness and proposal votes, key changes below owner) or owner (changing the owner key, account recovery). <a href="operations-reference.html">Operations Reference</a> lists the level for each. The rules the node applies (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/transaction_util.cpp#L60-L135"><code>transaction_util.cpp:60-135</code></a>):</p>
+<ul>
+<li><strong>Strict levels.</strong> An operation that needs the posting authority must be signed by a key <em>in</em> the posting authority. Signing a vote with the active key fails with <code>Missing Posting Authority &lt;account&gt;</code>. Before Hive's hardfork 28 a higher key stood in for a lower one; Pixa has never had that behaviour.</li>
+<li><strong>Thresholds.</strong> An authority is a weight threshold and a list of keys and accounts with weights. The signatures present must reach the threshold. Account authorities are followed at most 2 levels deep, across at most 125 accounts.</li>
+<li><strong>Extra signatures are allowed.</strong> A signature that no operation needs is ignored, not rejected.</li>
+<li><strong>At most 1,000 signatures</strong> per transaction, checked before any key is recovered, on the API path (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/plugins/chain/chain_plugin.cpp#L2095-L2102"><code>chain_plugin.cpp:2095-2102</code></a>) and on the P2P path (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/net/core_messages.cpp#L189-L195"><code>core_messages.cpp:189-195</code></a>), and again when the transaction is pushed (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L585-L595"><code>database.cpp:585-595</code></a>). The limit is enforced where the node receives a transaction, not in block validation, and it is new in 1.30.0.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Error text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wrong key, or wrong encoding so that the recovered key is not the signer's</td>
+<td><code>missing required posting authority: Missing Posting Authority &lt;account&gt;</code> (or <code>Active</code>, <code>Owner</code>)</td>
+</tr>
+<tr>
+<td>Signatures valid for neither encoding</td>
+<td><code>Transaction failed to validate using both new (hf26) and legacy serialization</code> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/plugins/chain/chain_plugin.cpp#L2092-L2124"><code>chain_plugin.cpp:2092-2124</code></a>)</td>
+</tr>
+<tr>
+<td>More than 1,000 signatures</td>
+<td><code>Too many signatures - count = &lt;n&gt;, limit 1000</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-broadcast">4. Broadcast<a class="anchor" href="#4-broadcast" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The signed transaction travels as JSON in a JSON-RPC call over HTTPS to a public node:</p>
+<pre class="hl has-copy"><span class="lang">JSON</span><code><span class="p">{</span><span class="nt">"jsonrpc"</span><span class="p">:</span><span class="s2">"2.0"</span><span class="p">,</span><span class="nt">"method"</span><span class="p">:</span><span class="s2">"condenser_api.broadcast_transaction"</span><span class="p">,</span><span class="nt">"params"</span><span class="p">:[{</span><span class="w"> </span><span class="nt">"ref_block_num"</span><span class="p">:</span><span class="w"> </span><span class="mi">2770</span><span class="p">,</span><span class="w"> </span><span class="nt">"ref_block_prefix"</span><span class="p">:</span><span class="w"> </span><span class="mi">2254617426</span><span class="p">,</span><span class="w"> </span><span class="nt">"expiration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-10-08T12:00:00"</span><span class="p">,</span><span class="w"> </span><span class="nt">"operations"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="s2">"vote"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nt">"voter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span><span class="w"> </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bob"</span><span class="p">,</span><span class="w"> </span><span class="nt">"permlink"</span><span class="p">:</span><span class="w"> </span><span class="s2">"horus-portrait-1790597187843"</span><span class="p">,</span><span class="w"> </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">}]],</span><span class="w"> </span><span class="nt">"extensions"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"> </span><span class="nt">"signatures"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"20…"</span><span class="p">]</span><span class="w"> </span><span class="p">}],</span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span></code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>condenser_api.broadcast_transaction</code></td>
+<td><code>{}</code> once the node has accepted the transaction into its pending list. It says nothing about inclusion in a block.</td>
+</tr>
+<tr>
+<td><code>condenser_api.broadcast_transaction_synchronous</code></td>
+<td>The block number and position once the transaction is in a block, or an error. The public nodes answer it, but their gateway cuts any request at 30 seconds, so a transaction that waits longer returns HTTP 504 while still being processed.</td>
+</tr>
+<tr>
+<td><code>network_broadcast_api.broadcast_transaction</code></td>
+<td>The same as the first, in the HF26 JSON form.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What the gateway does on the way in</strong> (<a href="../developers/chain-architecture.html#how-a-write-travels">Chain Architecture</a>, <a href="https://github.com/pixagram-blockchain/pixagram-node/blob/4a271e879818b194ffbef57b8efc5744151017c4/jussi/nginx.conf#L160-L200"><code>nginx.conf:160-200</code></a>):</p>
+<ul>
+<li>It rejects a request body above about 1 MiB with HTTP 413. A transaction larger than that must go to a node without the gateway, such as your own (<a href="../node-operators/run-an-api-node.html">Run an API Node</a>).</li>
+<li>For a request that fits its buffer, about 10 KiB, it renames 19 Pixa field names to Hive's inside the body, including inside signed text, which is a known defect (<a href="../developers/differences-from-hive.html#known-issue-renames-inside-text">Differences from Hive</a>). A larger request is passed through untouched.</li>
+<li>It routes by the method name. Broadcast methods go to hived.</li>
+</ul>
+<p><strong>What hived does on arrival.</strong> It parses the JSON, accepting either operation form, packs the transaction in the HF26 encoding and verifies the signatures; if that fails, it packs it in the legacy encoding and tries again (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/plugins/chain/chain_plugin.cpp#L2092-L2124"><code>chain_plugin.cpp:2092-2124</code></a>). Then it runs the checks of stage 5.</p>
+<h2 id="5-the-nodes-checks">5. The node's checks<a class="anchor" href="#5-the-nodes-checks" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The node applies the transaction to a private copy of its state, in this order. The first failure is returned as the JSON-RPC error; nothing is kept.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Check</th>
+<th>Rule</th>
+<th>Error contains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Size</td>
+<td>≤ <code>maximum_block_size - 256</code> bytes</td>
+<td><code>Transaction too large</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Signature count</td>
+<td>≤ 1,000</td>
+<td><code>Too many signatures</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Not a duplicate</td>
+<td>The id is not in a block or in the pending list</td>
+<td><code>Duplicate transaction check failed</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Custom-operation rate</td>
+<td>At most 5 <code>custom</code>, <code>custom_json</code> or <code>custom_binary</code> operations touching one account in the pending list at a time (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L602-L652"><code>database.cpp:602-652</code></a>)</td>
+<td><code>already submitted 5 custom json operation(s) this block</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Expiration</td>
+<td><code>expiration</code> after the head block's time and at most 24 hours ahead (<a href="#tapos-and-expiration">TaPoS and expiration</a>)</td>
+<td><code>transaction_expiration_exception</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>TaPoS</td>
+<td><code>ref_block_prefix</code> matches the block at <code>ref_block_num</code></td>
+<td><code>transaction_tapos_exception</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Operation validity</td>
+<td>Each operation's <code>validate()</code>: field formats, limits, symbols</td>
+<td>The operation's own message, such as <code>Title size limit exceeded.</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Authority</td>
+<td>Stage 3's rules</td>
+<td><code>Missing Posting Authority …</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>State rules</td>
+<td>Each operation's evaluator: balances, intervals, existence of accounts and posts</td>
+<td>The evaluator's message, such as <code>You may only post once every 5 minutes.</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Resource Credits</td>
+<td>The paying account holds the credits the transaction costs (<a href="../tokens-and-economy/resource-credits.html">Resource Credits</a>)</td>
+<td><code>Account: &lt;name&gt; has &lt;n&gt; RC, needs &lt;m&gt; RC. Please wait to transact or power up HIVE.</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Resource Credits are the one check that is not part of consensus. A node enforces it on transactions it receives from clients; a transaction that reaches a witness by another route and is put in a block is valid even if the payer lacked credits (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/rc/rc_utility.cpp#L539-L575"><code>rc_utility.cpp:539-575</code></a>). The error text still says <code>HIVE</code>: hived's messages are Hive's.</p>
+<h3 id="tapos-and-expiration">TaPoS and expiration<a class="anchor" href="#tapos-and-expiration" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>Transactions as proof of stake (TaPoS) ties a transaction to a block it has seen. <code>ref_block_num</code> holds the low 16 bits of that block's number and <code>ref_block_prefix</code> 4 bytes of its id, and the node looks the number up in a ring of the last 65,536 blocks, about 54 hours (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L2627-L2639"><code>database.cpp:2627-2639</code></a>). Two consequences:</p>
+<ul>
+<li>A transaction built against a block that is later replaced in a fork fails the check on the winning fork and is dropped, which is the point: it cannot be replayed on a chain the signer did not see.</li>
+<li><code>ref_block_num</code> is 16 bits, so a transaction built against a block more than 65,536 blocks old matches a different block and fails. Build against a recent block, which <code>get_dynamic_global_properties</code> gives.</li>
+</ul>
+<p>Expiration is checked as <code>now &lt; expiration</code> with the node's effective expiry: the earlier of the transaction's own expiration and one hour after the node first validated it (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L2596-L2622"><code>database.cpp:2602-2622</code></a>). A transaction may state an expiration up to 24 hours ahead, but the node drops it from its pending list after one hour at most.</p>
+<h2 id="6-pending-then-in-a-block">6. Pending, then in a block<a class="anchor" href="#6-pending-then-in-a-block" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>An accepted transaction sits in the node's pending list and is sent to its peers over P2P. The next witness to produce a block takes pending transactions in order until the block is full and produces the block, normally within 3 seconds. Between blocks, every node re-applies its pending transactions on top of each new block.</p>
+<p>Three things can happen to an accepted transaction before it reaches a block, none of which produces an error for the sender:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>What</th>
+<th>Why</th>
+<th>How you see it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>It is included</td>
+<td>The usual case</td>
+<td>It appears in a block; <code>database_api.is_known_transaction</code> returns <code>true</code> from the moment the node has it</td>
+</tr>
+<tr>
+<td>It is dropped</td>
+<td>Re-application failed because the state changed: the post was deleted, the balance was spent by another transaction, the vote became identical to an existing one</td>
+<td>It never appears; <code>is_known_transaction</code> turns <code>false</code> once it expires</td>
+</tr>
+<tr>
+<td>It waits</td>
+<td>The payer ran short of Resource Credits after acceptance: the node keeps retrying it until it expires (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/rc/rc_utility.cpp#L539-L575"><code>rc_utility.cpp:562-575</code></a>)</td>
+<td>It appears late, or not at all</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>broadcast_transaction</code> returning <code>{}</code> therefore means &quot;accepted&quot;, not &quot;done&quot;. A program that needs to know polls <code>condenser_api.get_transaction</code> with the id, or, within the gateway's 30-second limit, uses <code>broadcast_transaction_synchronous</code>.</p>
+<h2 id="7-applied-in-a-block">7. Applied in a block<a class="anchor" href="#7-applied-in-a-block" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Every node validates the block and applies its transactions in order, running the same checks as stage 5 except the Resource Credit check. The operations' effects become the node's state: the vote's rshares, the transfer's balances, the post's place in its thread and its reward figures until payout. The post's text itself is never in the state; it stays in the block log, where indexers read it (<a href="data-model.html">Data Model</a>).</p>
+<p>The chain also writes <strong>virtual operations</strong> into the block's record: the rshares a vote produced (<code>effective_comment_vote</code>), a block's producer reward (<code>producer_reward</code>), a payout's parts (<code>author_reward</code>, <code>curation_reward</code>, <code>comment_reward</code>), a conversion filled, a power-down instalment paid (<a href="operations-reference.html#virtual-operations">Operations Reference</a>). Nobody signs them; they are the chain's own account of what a rule did, and <code>account_history_api</code> returns them alongside the signed operations.</p>
+<h2 id="8-irreversible">8. Irreversible<a class="anchor" href="#8-irreversible" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>A block is <strong>reversible</strong> until enough of the scheduled witnesses have built on it, then <strong>irreversible</strong>. While reversible it can be replaced by a competing block from another witness, and a transaction in it then goes back to pending and is re-applied, or dropped if it no longer passes. <code>condenser_api.get_dynamic_global_properties</code> reports both <code>head_block_number</code> and <code>last_irreversible_block_num</code>; the difference is how many blocks are still open. A program that pays out or ships something on the strength of a transaction waits until the block that holds it is at or below <code>last_irreversible_block_num</code>.</p>
+<p>The API reflects this split:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>Sees pending</th>
+<th>Sees reversible blocks</th>
+<th>Sees irreversible blocks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>State reads: <code>get_accounts</code>, <code>get_content</code>, balances</td>
+<td>Yes, on the node that holds them</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>database_api.is_known_transaction</code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes, until the transaction's own <code>expiration</code> has passed; after that, <code>false</code> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L339-L346"><code>database.cpp:339-346</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L3228-L3236"><code>3228-3236</code></a>)</td>
+</tr>
+<tr>
+<td><code>condenser_api.get_transaction</code>, <code>account_history_api.get_account_history</code>, <code>get_ops_in_block</code></td>
+<td>No</td>
+<td>No</td>
+<td>Yes; for a transaction not yet irreversible the first returns <code>Unknown Transaction &lt;id&gt;</code> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/plugins/apis/account_history_api/account_history_api.cpp#L211"><code>account_history_api.cpp:211</code></a>)</td>
+</tr>
+<tr>
+<td><code>block_api.get_block</code></td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table></div>
+<p>A read of an account's balance can therefore show a transfer that <code>get_transaction</code> does not yet know.</p>
+<h2 id="9-indexed">9. Indexed<a class="anchor" href="#9-indexed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Index</th>
+<th>What it indexes</th>
+<th>When</th>
+<th>Served through</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Account history</strong> (<code>account_history_rocksdb</code> plugin on API nodes)</td>
+<td>Every operation and virtual operation, by account and by transaction id</td>
+<td>On irreversibility</td>
+<td><code>account_history_api</code>, <code>condenser_api.get_account_history</code>, <code>get_transaction</code>, <code>get_ops_in_block</code></td>
+</tr>
+<tr>
+<td><strong>HAF</strong> (a second hived writing into PostgreSQL)</td>
+<td>Every block, operation and account</td>
+<td>As blocks arrive; reversible blocks are kept in a separate set and promoted or discarded</td>
+<td>Not directly</td>
+</tr>
+<tr>
+<td><strong>Hivemind</strong> (reads HAF)</td>
+<td>Posts, votes, follows, reblogs, communities, notifications: the social view</td>
+<td>After HAF, as a forking application: it follows a replaced block back</td>
+<td><code>bridge.*</code>, <code>follow_api.*</code>, <code>tags_api.*</code>, 23 <code>condenser_api</code> calls</td>
+</tr>
+</tbody>
+</table></div>
+<p>Two details matter for programs. Hivemind reads <code>custom_json</code> operations it understands, such as <code>follow</code> and <code>community</code>, and ignores the rest, so a follow is a chain fact the moment it is in a block but a feed fact only once Hivemind has processed that block, usually a few seconds later. And Hivemind keeps notifications for 90 days; older interactions remain in the account history but leave <code>bridge.account_notifications</code> (<a href="../product/notifications.html">Notifications</a>).</p>
+<h2 id="reading-a-transaction-back">Reading a transaction back<a class="anchor" href="#reading-a-transaction-back" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>rpc<span class="o">()</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.pixagram.com<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">"{\"jsonrpc\":\"2.0\",\"method\":\"</span><span class="nv">$1</span><span class="s2">\",\"params\":</span><span class="nv">$2</span><span class="s2">,\"id\":1}"</span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
+
+rpc<span class="w"> </span>condenser_api.get_dynamic_global_properties<span class="w"> </span><span class="s1">'[]'</span><span class="w">            </span><span class="c1"># head and last irreversible block</span>
+rpc<span class="w"> </span>database_api.is_known_transaction<span class="w"> </span><span class="s1">'{"id":"&lt;txid&gt;"}'</span><span class="w">         </span><span class="c1"># pending or recent: true / false</span>
+rpc<span class="w"> </span>condenser_api.get_transaction<span class="w"> </span><span class="s1">'["&lt;txid&gt;"]'</span><span class="w">                  </span><span class="c1"># irreversible only; else "Unknown Transaction"</span>
+rpc<span class="w"> </span>condenser_api.get_ops_in_block<span class="w"> </span><span class="s1">'[949330, true]'</span><span class="w">             </span><span class="c1"># only_virtual=true: the chain's own operations in a block</span></code></pre>
+<h2 id="compared-with-hive">Compared with Hive<a class="anchor" href="#compared-with-hive" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><span class="sr-only">Aspect</span></th>
+<th>Hive</th>
+<th>Pixa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transaction size</td>
+<td>hived enforces <code>maximum_block_size - 256</code>; the voted block size is 64 KiB</td>
+<td>the same rule; the voted block size is 2 MiB, so about 2,096,896 bytes</td>
+</tr>
+<tr>
+<td>Signatures per transaction</td>
+<td>bounded only by the size, about 1,000</td>
+<td>1,000, checked before key recovery (1.30.0)</td>
+</tr>
+<tr>
+<td>Chain id</td>
+<td><code>beeab0de…</code></td>
+<td><code>706978616772616d…</code></td>
+</tr>
+<tr>
+<td>Encodings</td>
+<td>legacy and HF26</td>
+<td>the same, with <code>PIXA</code>, <code>PXS</code> as the legacy symbols</td>
+</tr>
+<tr>
+<td>Gateway</td>
+<td>Jussi (Python) in front of hived and Hivemind</td>
+<td>an OpenResty configuration that also renames fields; 1 MiB body limit</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>Code</strong> at tag <a href="https://github.com/pixagram-blockchain/pixagram/tree/746118eb3b87dcca768b72fa262ad2aa63e1f177"><code>v1.30.0</code></a>: <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L577-L583"><code>database.cpp:577-595</code></a> (size and signature count), <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L602-L652"><code>database.cpp:602-652</code></a> (custom-operation rate, duplicates), <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L2596-L2622"><code>database.cpp:2596-2639</code></a> (expiration, TaPoS), <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L2681-L2683"><code>database.cpp:2681-2683</code></a> (authority verification with the hardfork-28 rules), <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/transaction.cpp#L13-L64"><code>transaction.cpp:13-64</code></a> (digests and id), <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/transaction_util.cpp#L60-L135"><code>transaction_util.cpp:60-135</code></a> and <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/transaction_util.cpp#L222-L256"><code>transaction_util.cpp:222-256</code></a> (authority rules and errors), <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/plugins/chain/chain_plugin.cpp#L2092-L2124"><code>chain_plugin.cpp:2092-2124</code></a> (encoding retry), <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/rc/rc_utility.cpp#L539-L575"><code>rc_utility.cpp:539-575</code></a> (Resource Credit enforcement), <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/plugins/apis/account_history_api/account_history_api.cpp#L211"><code>account_history_api.cpp:211</code></a>. Constants: <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/include/hive/protocol/config.hpp#L235-L236"><code>config.hpp:235-236</code></a> (expiration limits), <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/include/hive/protocol/config.hpp#L282"><code>config.hpp:282</code></a> (signature limit), <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/include/hive/protocol/config.hpp#L415-L416"><code>config.hpp:415-416</code></a> (authority depth), <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/include/hive/protocol/config.hpp#L536"><code>config.hpp:536</code></a> (custom operations per block).</li>
+<li><strong>dpixa</strong> at commit <a href="https://github.com/pixagram-blockchain/dpixa/tree/fddb47d677bf6b2364c1a7bcaba704208432071c"><code>fddb47d</code></a>: <a href="https://github.com/pixagram-blockchain/dpixa/blob/fddb47d677bf6b2364c1a7bcaba704208432071c/src/helpers/broadcast.ts#L317-L335"><code>broadcast.ts:317-335</code></a> (reference block and expiration), <a href="https://github.com/pixagram-blockchain/dpixa/blob/fddb47d677bf6b2364c1a7bcaba704208432071c/src/crypto.ts#L511-L550"><code>crypto.ts:511-550</code></a> (digest and signing), <a href="https://github.com/pixagram-blockchain/dpixa/blob/fddb47d677bf6b2364c1a7bcaba704208432071c/src/crypto.ts#L191-L200"><code>crypto.ts:191-200</code></a>.</li>
+<li><strong>Gateway:</strong> <a href="https://github.com/pixagram-blockchain/pixagram-node/blob/4a271e879818b194ffbef57b8efc5744151017c4/jussi/nginx.conf#L160-L200"><code>jussi/nginx.conf:160-200</code></a> at commit <code>4a271e8</code>; the 1 MiB body limit is nginx's default, confirmed with HTTP 413 on all six public nodes on 2026-10-05.</li>
+<li><strong>Live chain</strong>, 2026-10-08: <code>maximum_block_size</code> 2,097,152 from <code>condenser_api.get_dynamic_global_properties</code>; <code>get_transaction</code> on a transaction in a reversible block returned <code>Unknown Transaction</code>.</li>
+<li><a href="https://developers.hive.io/">Hive developer portal</a>: &quot;Transaction Status&quot; and &quot;Understanding Transaction Status&quot;.</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/11-protocol-reference/transaction-lifecycle.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="operations-reference.html"><span class="k">Previous</span><span class="t">Operations Reference</span></a><a class="next" href="data-model.html"><span class="k">Next</span><span class="t">Data Model</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#the-nine-stages">The nine stages</a></li><li><a href="#1-construction">1. Construction</a></li><li><a href="#2-serialization">2. Serialization</a></li><li><a href="#3-signing">3. Signing</a></li><li><a href="#4-broadcast">4. Broadcast</a></li><li><a href="#5-the-nodes-checks">5. The node&#x27;s checks</a></li><li class="sub"><a href="#tapos-and-expiration">TaPoS and expiration</a></li><li><a href="#6-pending-then-in-a-block">6. Pending, then in a block</a></li><li><a href="#7-applied-in-a-block">7. Applied in a block</a></li><li><a href="#8-irreversible">8. Irreversible</a></li><li><a href="#9-indexed">9. Indexed</a></li><li><a href="#reading-a-transaction-back">Reading a transaction back</a></li><li><a href="#compared-with-hive">Compared with Hive</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/11-protocol-reference/transaction-lifecycle.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/11-protocol-reference/transaction-lifecycle.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

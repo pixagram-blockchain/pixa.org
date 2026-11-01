@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Model — Pixagram wiki</title>
+<meta name="description" content="The Pixa chain stores one thing: blocks. Everything else, from an account&#x27;s balance to a trending feed, is computed from them by some program, and each progr…">
+<link rel="canonical" href="https://pixa.org/wiki/protocol-reference/data-model.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Data Model — Pixagram wiki">
+<meta property="og:description" content="The Pixa chain stores one thing: blocks. Everything else, from an account&#x27;s balance to a trending feed, is computed from them by some program, and each progr…">
+<meta property="og:url" content="https://pixa.org/wiki/protocol-reference/data-model.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economic-cybernetics/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../developers/index.html">Overview</a></li>
+<li><a class="nav-i" href="../developers/chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="../developers/developer-quickstart.html">Developer Quickstart</a></li>
+<li><a class="nav-i" href="../developers/differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="../developers/sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../node-operators/index.html">Overview</a></li>
+<li><a class="nav-i" href="../node-operators/run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="../node-operators/run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="../node-operators/become-a-witness.html">Become a Witness</a></li>
+<li><a class="nav-i" href="../node-operators/cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details open>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="operations-reference.html">Operations Reference</a></li>
+<li><a class="nav-i" href="transaction-lifecycle.html">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="data-model.html" aria-current="page">Data Model</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../product/index.html">Overview</a></li>
+<li><a class="nav-i" href="../product/feed-and-discovery.html">Feed and Discovery</a></li>
+<li><a class="nav-i" href="../product/search.html">Search</a></li>
+<li><a class="nav-i" href="../product/notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="../product/account-settings.html">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economics-lab/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economics-lab/reward-examples.html">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../reference/chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="../reference/system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="../reference/glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="../reference/risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="../reference/sources-and-credits.html">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Protocol reference</a></nav><h1>Data Model</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>Describes hived 1.30.0, Hivemind at commit <code>5765e21</code> and the app's code of 2026-10-04. Field names were checked against <code>api.pixagram.com</code> on 2026-10-08.</p>
+</div></div>
+<p>The Pixa chain stores one thing: blocks. Everything else, from an account's balance to a trending feed, is computed from them by some program, and each program keeps its own tables. This page lays out the three layers: the <strong>canonical</strong> data in the blocks, the <strong>derived</strong> state that hived, HAF and Hivemind compute from it, and the <strong>application-only</strong> data that exists in the Pixagram app's conventions and in a user's browser. It names the objects and fields a developer meets and says where each one lives, so that nobody mistakes an app convention for a rule of the chain.</p>
+<h2 id="the-three-layers">The three layers<a class="anchor" href="#the-three-layers" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<figure class="diagram" style="--w:1476px"><svg aria-label="Diagram: Canonical: the block log; blocks → transactions → operations; Derived: computed from the blocks; hived state accounts, balances, votes, witnesses; HAF every block and operation in PostgreSQL; Hivemind posts, feeds, follows, communities, notifications; account history operations by account; Application-only; json_metadata conventions format, tags, nsfw, license, deleted; browser storage settings, drafts, read notifications" focusable="false" id="d70e642edc56d2c78" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" viewBox="0 0 1475.859375 478" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#d70e642edc56d2c78{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:15px;fill:#000000;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#d70e642edc56d2c78 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#d70e642edc56d2c78 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#d70e642edc56d2c78 .error-icon{fill:#ffffff;}#d70e642edc56d2c78 .error-text{fill:#000000;stroke:#000000;}#d70e642edc56d2c78 .edge-thickness-normal{stroke-width:1px;}#d70e642edc56d2c78 .edge-thickness-thick{stroke-width:3.5px;}#d70e642edc56d2c78 .edge-pattern-solid{stroke-dasharray:0;}#d70e642edc56d2c78 .edge-thickness-invisible{stroke-width:0;fill:none;}#d70e642edc56d2c78 .edge-pattern-dashed{stroke-dasharray:3;}#d70e642edc56d2c78 .edge-pattern-dotted{stroke-dasharray:2;}#d70e642edc56d2c78 .marker{fill:#474747;stroke:#474747;}#d70e642edc56d2c78 .marker.cross{stroke:#474747;}#d70e642edc56d2c78 svg{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:15px;}#d70e642edc56d2c78 p{margin:0;}#d70e642edc56d2c78 .label{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;color:#000000;}#d70e642edc56d2c78 .cluster-label text{fill:#474747;}#d70e642edc56d2c78 .cluster-label span{color:#474747;}#d70e642edc56d2c78 .cluster-label span p{background-color:transparent;}#d70e642edc56d2c78 .label text,#d70e642edc56d2c78 span{fill:#000000;color:#000000;}#d70e642edc56d2c78 .node rect,#d70e642edc56d2c78 .node circle,#d70e642edc56d2c78 .node ellipse,#d70e642edc56d2c78 .node polygon,#d70e642edc56d2c78 .node path{fill:#ffffff;stroke:#000000;stroke-width:1px;}#d70e642edc56d2c78 .rough-node .label text,#d70e642edc56d2c78 .node .label text,#d70e642edc56d2c78 .image-shape .label,#d70e642edc56d2c78 .icon-shape .label{text-anchor:middle;}#d70e642edc56d2c78 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#d70e642edc56d2c78 .rough-node .label,#d70e642edc56d2c78 .node .label,#d70e642edc56d2c78 .image-shape .label,#d70e642edc56d2c78 .icon-shape .label{text-align:center;}#d70e642edc56d2c78 .node.clickable{cursor:pointer;}#d70e642edc56d2c78 .root .anchor path{fill:#474747!important;stroke-width:0;stroke:#474747;}#d70e642edc56d2c78 .arrowheadPath{fill:#000000;}#d70e642edc56d2c78 .edgePath .path{stroke:#474747;stroke-width:1px;}#d70e642edc56d2c78 .flowchart-link{stroke:#474747;fill:none;}#d70e642edc56d2c78 .edgeLabel{background-color:#ffffff;text-align:center;}#d70e642edc56d2c78 .edgeLabel p{background-color:#ffffff;}#d70e642edc56d2c78 .edgeLabel rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#d70e642edc56d2c78 .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#d70e642edc56d2c78 .cluster rect{fill:#f4f4f4;stroke:#f4f4f4;stroke-width:1px;}#d70e642edc56d2c78 .cluster text{fill:#474747;}#d70e642edc56d2c78 .cluster span{color:#474747;}#d70e642edc56d2c78 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:12px;background:#ffffff;border:1px solid hsl(0, 0%, 90%);border-radius:2px;pointer-events:none;z-index:100;}#d70e642edc56d2c78 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#d70e642edc56d2c78 rect.text{fill:none;stroke-width:0;}#d70e642edc56d2c78 .icon-shape,#d70e642edc56d2c78 .image-shape{background-color:#ffffff;text-align:center;}#d70e642edc56d2c78 .icon-shape p,#d70e642edc56d2c78 .image-shape p{background-color:#ffffff;padding:2px;}#d70e642edc56d2c78 .icon-shape .label rect,#d70e642edc56d2c78 .image-shape .label rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#d70e642edc56d2c78 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#d70e642edc56d2c78 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#d70e642edc56d2c78 .node .neo-node{stroke:#000000;}#d70e642edc56d2c78 [data-look="neo"].node rect,#d70e642edc56d2c78 [data-look="neo"].cluster rect,#d70e642edc56d2c78 [data-look="neo"].node polygon{stroke:url(#d70e642edc56d2c78-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#d70e642edc56d2c78 [data-look="neo"].swimlane.cluster rect{filter:none;}#d70e642edc56d2c78 [data-look="neo"].node path{stroke:url(#d70e642edc56d2c78-gradient);stroke-width:1px;}#d70e642edc56d2c78 [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#d70e642edc56d2c78 [data-look="neo"].node .neo-line path{stroke:#000000;filter:none;}#d70e642edc56d2c78 [data-look="neo"].node circle{stroke:url(#d70e642edc56d2c78-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#d70e642edc56d2c78 [data-look="neo"].node circle .state-start{fill:#000000;}#d70e642edc56d2c78 [data-look="neo"].icon-shape .icon{fill:url(#d70e642edc56d2c78-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#d70e642edc56d2c78 [data-look="neo"].icon-shape .icon-neo path{stroke:url(#d70e642edc56d2c78-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#d70e642edc56d2c78 .node rect,#d70e642edc56d2c78 .node path{rx:10px;ry:10px;}#d70e642edc56d2c78 .cluster rect{rx:16px;ry:16px;}#d70e642edc56d2c78 .cluster-label .nodeLabel,#d70e642edc56d2c78 .cluster-label span{color:rgb(71, 71, 71)!important;}#d70e642edc56d2c78 .edgeLabel,#d70e642edc56d2c78 .edgeLabel p{background:rgb(255, 255, 255)!important;color:rgb(71, 71, 71)!important;}#d70e642edc56d2c78 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="d70e642edc56d2c78_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="d70e642edc56d2c78_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="d70e642edc56d2c78_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="d70e642edc56d2c78_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="d70e642edc56d2c78_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="d70e642edc56d2c78_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="d70e642edc56d2c78_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="d70e642edc56d2c78_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="d70e642edc56d2c78_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="d70e642edc56d2c78_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="d70e642edc56d2c78_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="d70e642edc56d2c78_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"><g class="cluster" id="d70e642edc56d2c78-P" data-look="classic"><rect style="" x="8" y="169" width="604" height="139.5"/><g class="cluster-label" transform="translate(259.515625, 169)"><foreignObject width="100.96875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5;"><span class="nodeLabel"><p>Application-only</p></span></div></foreignObject></g></g><g class="cluster" id="d70e642edc56d2c78-D" data-look="classic"><rect style="" x="632" y="169" width="835.859375" height="301"/><g class="cluster-label" transform="translate(939.25, 169)"><foreignObject width="221.359375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5;"><span class="nodeLabel"><p>Derived: computed from the blocks</p></span></div></foreignObject></g></g><g class="cluster" id="d70e642edc56d2c78-C" data-look="classic"><rect style="" x="118.96484375" y="8" width="1242.96484375" height="117"/><g class="cluster-label" transform="translate(666.587890625, 8)"><foreignObject width="147.71875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5;"><span class="nodeLabel"><p>Canonical: the block log</p></span></div></foreignObject></g></g></g><g class="edgePaths"><path d="M842.906,103L833.755,106.667C824.604,110.333,806.302,117.667,797.151,125C788,132.333,788,139.667,788,147C788,154.333,788,161.667,788,168.333C788,175,788,181,788,184L788,187" id="d70e642edc56d2c78-L_B_S_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_B_S_0" data-points="W3sieCI6ODQyLjkwNTk4MjkwNTk4MjksInkiOjEwM30seyJ4Ijo3ODgsInkiOjEyNX0seyJ4Ijo3ODgsInkiOjE0N30seyJ4Ijo3ODgsInkiOjE2OX0seyJ4Ijo3ODgsInkiOjE5MX1d" data-look="classic" marker-end="url(#d70e642edc56d2c78_flowchart-v2-pointEnd)"/><path d="M1025.094,103L1034.245,106.667C1043.396,110.333,1061.698,117.667,1070.849,125C1080,132.333,1080,139.667,1080,147C1080,154.333,1080,161.667,1080,168.333C1080,175,1080,181,1080,184L1080,187" id="d70e642edc56d2c78-L_B_H_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_B_H_0" data-points="W3sieCI6MTAyNS4wOTQwMTcwOTQwMTcsInkiOjEwM30seyJ4IjoxMDgwLCJ5IjoxMjV9LHsieCI6MTA4MCwieSI6MTQ3fSx7IngiOjEwODAsInkiOjE2OX0seyJ4IjoxMDgwLCJ5IjoxOTF9XQ==" data-look="classic" marker-end="url(#d70e642edc56d2c78_flowchart-v2-pointEnd)"/><path d="M1080,286.5L1080,290.167C1080,293.833,1080,301.167,1080,308.5C1080,315.833,1080,323.167,1080,329.833C1080,336.5,1080,342.5,1080,345.5L1080,348.5" id="d70e642edc56d2c78-L_H_M_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_H_M_0" data-points="W3sieCI6MTA4MCwieSI6Mjg2LjV9LHsieCI6MTA4MCwieSI6MzA4LjV9LHsieCI6MTA4MCwieSI6MzMwLjV9LHsieCI6MTA4MCwieSI6MzUyLjV9XQ==" data-look="classic" marker-end="url(#d70e642edc56d2c78_flowchart-v2-pointEnd)"/><path d="M1062,84.856L1108.655,91.547C1155.31,98.237,1248.62,111.619,1295.275,121.976C1341.93,132.333,1341.93,139.667,1341.93,147C1341.93,154.333,1341.93,161.667,1341.93,170.208C1341.93,178.75,1341.93,188.5,1341.93,193.375L1341.93,198.25" id="d70e642edc56d2c78-L_B_A_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_B_A_0" data-points="W3sieCI6MTA2MiwieSI6ODQuODU2MTA0NTY3NjUyOTh9LHsieCI6MTM0MS45Mjk2ODc1LCJ5IjoxMjV9LHsieCI6MTM0MS45Mjk2ODc1LCJ5IjoxNDd9LHsieCI6MTM0MS45Mjk2ODc1LCJ5IjoxNjl9LHsieCI6MTM0MS45Mjk2ODc1LCJ5IjoyMDIuMjV9XQ==" data-look="classic" marker-end="url(#d70e642edc56d2c78_flowchart-v2-pointEnd)"/><path d="M806,76.225L699,84.354C592,92.483,378,108.742,271,120.537C164,132.333,164,139.667,164,147C164,154.333,164,161.667,164,168.333C164,175,164,181,164,184L164,187" id="d70e642edc56d2c78-L_B_J_0" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_B_J_0" data-points="W3sieCI6ODA2LCJ5Ijo3Ni4yMjQ2NzUzMjQ2NzUzM30seyJ4IjoxNjQsInkiOjEyNX0seyJ4IjoxNjQsInkiOjE0N30seyJ4IjoxNjQsInkiOjE2OX0seyJ4IjoxNjQsInkiOjE5MX1d" data-look="classic" marker-end="url(#d70e642edc56d2c78_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_B_S_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_B_H_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_H_M_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_B_A_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_B_J_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="d70e642edc56d2c78-flowchart-B-0" data-look="classic" transform="translate(934, 66.5)"><rect class="basic label-container" style="" x="-128" y="-36.5" width="256" height="73"/><g class="label" style="" transform="translate(-100, -22.5)"><rect/><foreignObject width="200" height="45"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>blocks → transactions → operations</p></span></div></foreignObject></g></g><g class="node default" id="d70e642edc56d2c78-flowchart-S-1" data-look="classic" transform="translate(788, 238.75)"><rect class="basic label-container" style="" x="-128" y="-47.75" width="256" height="95.5"/><g class="label" style="" transform="translate(-100, -33.75)"><rect/><foreignObject width="200" height="67.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>hived state<br />accounts, balances, votes, witnesses</p></span></div></foreignObject></g></g><g class="node default" id="d70e642edc56d2c78-flowchart-H-2" data-look="classic" transform="translate(1080, 238.75)"><rect class="basic label-container" style="" x="-128" y="-47.75" width="256" height="95.5"/><g class="label" style="" transform="translate(-100, -33.75)"><rect/><foreignObject width="200" height="67.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>HAF<br />every block and operation in PostgreSQL</p></span></div></foreignObject></g></g><g class="node default" id="d70e642edc56d2c78-flowchart-M-3" data-look="classic" transform="translate(1080, 400.25)"><rect class="basic label-container" style="" x="-128" y="-47.75" width="256" height="95.5"/><g class="label" style="" transform="translate(-100, -33.75)"><rect/><foreignObject width="200" height="67.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>Hivemind<br />posts, feeds, follows, communities, notifications</p></span></div></foreignObject></g></g><g class="node default" id="d70e642edc56d2c78-flowchart-A-4" data-look="classic" transform="translate(1341.9296875, 238.75)"><rect class="basic label-container" style="" x="-97.9296875" y="-36.5" width="195.859375" height="73"/><g class="label" style="" transform="translate(-69.9296875, -22.5)"><rect/><foreignObject width="139.859375" height="45"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>account history<br />operations by account</p></span></div></foreignObject></g></g><g class="node default" id="d70e642edc56d2c78-flowchart-J-5" data-look="classic" transform="translate(164, 238.75)"><rect class="basic label-container" style="" x="-128" y="-47.75" width="256" height="95.5"/><g class="label" style="" transform="translate(-100, -33.75)"><rect/><foreignObject width="200" height="67.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>json_metadata conventions<br />format, tags, nsfw, license, deleted</p></span></div></foreignObject></g></g><g class="node default" id="d70e642edc56d2c78-flowchart-L-6" data-look="classic" transform="translate(456, 238.75)"><rect class="basic label-container" style="" x="-128" y="-47.75" width="256" height="95.5"/><g class="label" style="" transform="translate(-100, -33.75)"><rect/><foreignObject width="200" height="67.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>browser storage<br />settings, drafts, read notifications</p></span></div></foreignObject></g></g></g></g></g><defs><filter id="d70e642edc56d2c78-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="d70e642edc56d2c78-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><linearGradient id="d70e642edc56d2c78-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#000000" stop-opacity="1"/><stop offset="100%" stop-color="hsl(0, 0%, 85.6862745098%)" stop-opacity="1"/></linearGradient></svg><figcaption class="diagram-foot"><span class="hint">Scroll sideways to see the whole diagram.</span><a href="../diagrams/70e642edc56d2c78.svg">Open full size</a></figcaption></figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Who writes it</th>
+<th>If it were lost</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Canonical</strong></td>
+<td>Witnesses, one block every 3 seconds</td>
+<td>The chain would be gone. Every node keeps a copy.</td>
+<td>The <code>comment</code> operation that published an artwork</td>
+</tr>
+<tr>
+<td><strong>Derived</strong></td>
+<td>hived while applying blocks; HAF and Hivemind while reading them</td>
+<td>Rebuilt by replaying the blocks, with the same result</td>
+<td>The account's balance; the artwork's place in Trending</td>
+</tr>
+<tr>
+<td><strong>Application-only</strong></td>
+<td>The Pixagram app, following its own conventions; the user's browser</td>
+<td>Nothing on chain changes; other apps may read the data differently</td>
+<td><code>&quot;nsfw&quot;: false</code> in the artwork's metadata; the user's chosen currency</td>
+</tr>
+</tbody>
+</table></div>
+<p>The question to ask of any field: <strong>which layer defines it?</strong> A rule of the chain holds for every program. An indexer's field holds for programs that use that indexer. An app convention holds only for apps that follow it.</p>
+<h2 id="canonical-blocks-transactions-operations">Canonical: blocks, transactions, operations<a class="anchor" href="#canonical-blocks-transactions-operations" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<h3 id="a-block">A block<a class="anchor" href="#a-block" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>previous</code></td>
+<td>The id of the block before; the chain of these ids is the chain</td>
+</tr>
+<tr>
+<td><code>timestamp</code></td>
+<td>UTC, a multiple of 3 seconds from genesis, 2026-09-04 12:00:00</td>
+</tr>
+<tr>
+<td><code>witness</code></td>
+<td>The account that produced the block</td>
+</tr>
+<tr>
+<td><code>transaction_merkle_root</code></td>
+<td>A hash over the transactions, so that the header commits to them</td>
+</tr>
+<tr>
+<td><code>extensions</code></td>
+<td>Usually empty; carries a witness's <code>version</code> and <code>hardfork_version_vote</code> when they change (<a href="../governance/protocol-upgrades.html">Protocol Upgrades</a>)</td>
+</tr>
+<tr>
+<td><code>witness_signature</code></td>
+<td>The producer's signature with its block-signing key</td>
+</tr>
+<tr>
+<td><code>transactions</code></td>
+<td>The signed transactions, in order</td>
+</tr>
+<tr>
+<td><code>block_id</code></td>
+<td>The first 20 bytes of the SHA-256 of the header; its first 4 bytes are the block number</td>
+</tr>
+<tr>
+<td><code>signing_key</code>, <code>transaction_ids</code></td>
+<td>Added by the API for convenience; not in the serialized block</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>block_api.get_block</code> returns one; <code>condenser_api.get_block</code> returns the same with legacy operation formatting.</p>
+<h3 id="a-transaction">A transaction<a class="anchor" href="#a-transaction" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p><code>ref_block_num</code>, <code>ref_block_prefix</code>, <code>expiration</code>, <code>operations</code>, <code>extensions</code>, <code>signatures</code> (<a href="transaction-lifecycle.html#1-construction">Transaction Lifecycle</a>). The transaction id is the first 20 bytes of the SHA-256 of the transaction without its signatures; it is not stored in the block, every program recomputes it.</p>
+<h3 id="an-operation">An operation<a class="anchor" href="#an-operation" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>Fifty kinds, each a fixed set of fields (<a href="operations-reference.html">Operations Reference</a>). In JSON an operation has two envelopes, and every API accepts both:</p>
+<pre class="hl has-copy"><span class="lang">JSON</span><code><span class="p">[</span><span class="s2">"vote"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nt">"voter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span><span class="w"> </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bob"</span><span class="p">,</span><span class="w"> </span><span class="nt">"permlink"</span><span class="p">:</span><span class="w"> </span><span class="s2">"horus-portrait-1790597187843"</span><span class="p">,</span><span class="w"> </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">}]</span>
+<span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vote_operation"</span><span class="p">,</span><span class="w"> </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"voter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span><span class="w"> </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bob"</span><span class="p">,</span><span class="w"> </span><span class="nt">"permlink"</span><span class="p">:</span><span class="w"> </span><span class="s2">"horus-portrait-1790597187843"</span><span class="p">,</span><span class="w"> </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">}}</span></code></pre>
+<p>The first is the legacy form, which <code>condenser_api</code> returns and the app uses; the second is the HF26 form, which <code>block_api</code>, <code>database_api</code> and <code>account_history_api</code> return. Amounts differ too: <code>&quot;1.000 PIXA&quot;</code> in the legacy form, <code>{&quot;amount&quot;: &quot;1000&quot;, &quot;precision&quot;: 3, &quot;nai&quot;: &quot;@@000000021&quot;}</code> in the HF26 form (<a href="../developers/differences-from-hive.html#identity-and-assets">Differences from Hive</a>).</p>
+<p>Virtual operations (<a href="operations-reference.html#virtual-operations">Operations Reference</a>) are not in the blocks. They are hived's record of what its rules did while applying a block; the account history plugin stores them next to the block's operations, and HAF stores them in its own table, so that every indexer sees the same payout or reward without recomputing it.</p>
+<h3 id="what-a-block-does-not-contain">What a block does not contain<a class="anchor" href="#what-a-block-does-not-contain" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<ul>
+<li><strong>No balances, no state.</strong> A block says &quot;alice sent bob 5 PIXA&quot;; it does not say what either balance is. Only a program that has applied every block knows.</li>
+<li><strong>No post text outside the operation.</strong> The <code>comment</code> operation carries the title, body and <code>json_metadata</code> once. An edit is another <code>comment</code> operation with the whole new content. Nothing deletes the first version (<a href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a>).</li>
+<li><strong>No files.</strong> An artwork is in the body as a data URI (<a href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a>); an image inside a blog post is a link to a file somewhere else (<a href="../art-on-chain/pixel-art-on-chain.html#images-that-live-elsewhere">Pixel Art On Chain</a>).</li>
+<li><strong>No reputation, no follows as such.</strong> A follow is a <code>custom_json</code> operation whose meaning Hivemind assigns (<a href="../product/feed-and-discovery.html#following">Feed and Discovery</a>); reputation is a number the <code>reputation_api</code> plugin and Hivemind each compute from votes.</li>
+</ul>
+<h2 id="derived-the-hived-state">Derived: the hived state<a class="anchor" href="#derived-the-hived-state" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>hived keeps the current state in <code>shared_memory.bin</code> as indexed objects (<a href="../developers/chain-architecture.html#what-a-node-keeps-on-disk">Chain Architecture</a>). <code>database_api</code> and <code>condenser_api</code> read them. The table names the objects and the fields a developer uses; it keeps Hive's names, which hived itself uses, and notes the Pixa name where the public nodes' gateway renames a field (<a href="../developers/differences-from-hive.html#field-renames">Field renames</a>).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Object</th>
+<th>What it holds</th>
+<th>Fields to know</th>
+<th>Read with</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dynamic_global_property_object</code></td>
+<td>The chain's current totals and settings</td>
+<td><code>head_block_number</code>, <code>head_block_id</code>, <code>time</code>, <code>current_witness</code>, <code>last_irreversible_block_num</code>; <code>current_supply</code>, <code>current_hbd_supply</code> (<code>current_pxs_supply</code>), <code>total_vesting_fund_hive</code> (<code>total_vesting_fund_pixa</code>), <code>total_vesting_shares</code>, <code>pending_rewarded_vesting_shares</code>, <code>pending_rewarded_vesting_hive</code>; <code>hbd_print_rate</code> (<code>pxs_print_rate</code>), <code>hbd_interest_rate</code> (<code>pxs_interest_rate</code>), <code>hbd_start_percent</code>, <code>hbd_stop_percent</code>; <code>maximum_block_size</code>; <code>vote_power_reserve_rate</code>, <code>delegation_return_period</code>, <code>early_voting_seconds</code>, <code>mid_voting_seconds</code>, <code>downvote_pool_percent</code>, <code>available_account_subsidies</code>, <code>content_reward_percent</code>, <code>vesting_reward_percent</code>, <code>proposal_fund_percent</code>, <code>dhf_interval_ledger</code> (<code>dpf_interval_ledger</code>)</td>
+<td><code>condenser_api.get_dynamic_global_properties</code></td>
+</tr>
+<tr>
+<td><code>account_object</code></td>
+<td>One account's balances, stake, mana, counters and recovery settings</td>
+<td><code>name</code>, <code>balance</code>, <code>hbd_balance</code> (<code>pxs_balance</code>), <code>savings_balance</code>, <code>savings_hbd_balance</code>, <code>reward_hive_balance</code>, <code>reward_hbd_balance</code>, <code>reward_vesting_balance</code>, <code>reward_vesting_hive</code>; <code>vesting_shares</code>, <code>delegated_vesting_shares</code>, <code>received_vesting_shares</code>, <code>vesting_withdraw_rate</code>, <code>to_withdraw</code>, <code>withdrawn</code>, <code>next_vesting_withdrawal</code>, <code>delayed_votes</code>; <code>voting_manabar</code>, <code>downvote_manabar</code>, <code>rc_manabar</code>, <code>delegated_rc</code>, <code>received_rc</code>; <code>witnesses_voted_for</code>, <code>proxy</code>, <code>can_vote</code>, <code>governance_vote_expiration_ts</code>; <code>last_post</code>, <code>last_root_post</code>, <code>last_vote_time</code>, <code>post_count</code>; <code>pending_claimed_accounts</code>, <code>open_recurrent_transfers</code>, <code>pending_escrow_transfers</code>, <code>savings_withdraw_requests</code>; <code>recovery_account</code>, <code>last_account_recovery</code>; <code>created</code>, <code>memo_key</code></td>
+<td><code>condenser_api.get_accounts</code>, <code>database_api.find_accounts</code></td>
+</tr>
+<tr>
+<td><code>account_authority_object</code></td>
+<td>The three authorities</td>
+<td><code>owner</code>, <code>active</code>, <code>posting</code>, each <code>{weight_threshold, account_auths, key_auths}</code>; <code>last_owner_update</code>, <code>previous_owner_update</code></td>
+<td>returned inside the account</td>
+</tr>
+<tr>
+<td><code>account_metadata_object</code></td>
+<td>The two metadata strings</td>
+<td><code>json_metadata</code>, <code>posting_json_metadata</code></td>
+<td>returned inside the account; the gateway's Hivemind route serves a sanitized <code>profile</code></td>
+</tr>
+<tr>
+<td><code>comment_object</code></td>
+<td>A post's identity and place in its thread; <strong>not its text</strong></td>
+<td><code>author_and_permlink_hash</code>, <code>parent_comment</code>, <code>depth</code></td>
+<td>Not served by hived; hived 1.28 and later leave posts to Hivemind, which serves them through <code>bridge.get_post</code> and <code>condenser_api.get_content</code></td>
+</tr>
+<tr>
+<td><code>comment_cashout_object</code></td>
+<td>A post's reward state, until payout; then removed</td>
+<td><code>net_rshares</code>, <code>vote_rshares</code>, <code>total_vote_weight</code>, <code>net_votes</code>, <code>children</code>, <code>created</code>, <code>cashout_time</code>, <code>max_accepted_payout</code>, <code>percent_hbd</code> (<code>percent_pxs</code>), <code>allow_votes</code>, <code>allow_curation_rewards</code>, <code>was_voted_on</code>, <code>beneficiaries</code></td>
+<td><code>database_api.get_comment_pending_payouts</code> (the reward fields); the rest through Hivemind</td>
+</tr>
+<tr>
+<td><code>comment_vote_object</code></td>
+<td>One vote on one post, until payout</td>
+<td><code>voter</code>, <code>comment</code>, <code>weight</code>, <code>rshares</code>, <code>vote_percent</code>, <code>last_update</code></td>
+<td>hived's <code>condenser_api.get_active_votes</code> reads it, but the public gateway routes that name to Hivemind, so from the public nodes the answer is Hivemind's copy; the <code>effective_comment_vote</code> virtual operation in the account history is the chain's record</td>
+</tr>
+<tr>
+<td><code>witness_object</code></td>
+<td>A witness's registration, key, feed and votes</td>
+<td><code>owner</code>, <code>created</code>, <code>url</code>, <code>signing_key</code>, <code>props</code> (<code>account_creation_fee</code>, <code>maximum_block_size</code>, <code>hbd_interest_rate</code>, <code>account_subsidy_budget</code>, <code>account_subsidy_decay</code>), <code>hbd_exchange_rate</code> (<code>pxs_exchange_rate</code>), <code>last_hbd_exchange_update</code>, <code>votes</code>, <code>schedule</code>, <code>total_missed</code>, <code>last_confirmed_block_num</code>, <code>running_version</code>, <code>hardfork_version_vote</code>, <code>hardfork_time_vote</code>, <code>available_witness_account_subsidies</code></td>
+<td><code>condenser_api.get_witnesses_by_vote</code>, <code>get_witness_by_account</code></td>
+</tr>
+<tr>
+<td><code>witness_schedule_object</code></td>
+<td>The current round and the median parameters</td>
+<td><code>num_scheduled_witnesses</code>, <code>current_shuffled_witnesses</code>, <code>median_props</code>, <code>majority_version</code>, <code>hardfork_required_witnesses</code>, <code>account_subsidy_rd</code></td>
+<td><code>condenser_api.get_witness_schedule</code></td>
+</tr>
+<tr>
+<td><code>witness_vote_object</code></td>
+<td>One account's approval of one witness</td>
+<td><code>account</code>, <code>witness</code></td>
+<td><code>database_api.list_witness_votes</code></td>
+</tr>
+<tr>
+<td><code>reward_fund_object</code></td>
+<td>The reward pool for posts</td>
+<td><code>name</code> (<code>post</code>), <code>reward_balance</code>, <code>recent_claims</code>, <code>last_update</code>, <code>content_constant</code>, <code>percent_curation_rewards</code>, <code>author_reward_curve</code>, <code>curation_reward_curve</code></td>
+<td><code>condenser_api.get_reward_fund</code></td>
+</tr>
+<tr>
+<td><code>feed_history_object</code></td>
+<td>The price feed's medians</td>
+<td><code>current_median_history</code>, <code>market_median_history</code>, <code>current_min_history</code>, <code>current_max_history</code>, <code>price_history</code> (84 hourly entries)</td>
+<td><code>condenser_api.get_feed_history</code></td>
+</tr>
+<tr>
+<td><code>proposal_object</code>, <code>proposal_vote_object</code></td>
+<td>A DPF proposal and the approvals</td>
+<td><code>proposal_id</code>, <code>creator</code>, <code>receiver</code>, <code>start_date</code>, <code>end_date</code>, <code>daily_pay</code>, <code>subject</code>, <code>permlink</code>, <code>total_votes</code>, <code>status</code>; <code>voter</code>, <code>proposal</code></td>
+<td><code>database_api.list_proposals</code>, <code>list_proposal_votes</code></td>
+</tr>
+<tr>
+<td><code>convert_request_object</code>, <code>collateralized_convert_request_object</code></td>
+<td>Conversions waiting to settle</td>
+<td><code>owner</code>, <code>requestid</code>, <code>amount</code>, <code>conversion_date</code>; plus <code>collateral_amount</code>, <code>converted_amount</code></td>
+<td><code>database_api.find_collateralized_conversion_requests</code>, <code>condenser_api.get_conversion_requests</code></td>
+</tr>
+<tr>
+<td><code>savings_withdraw_object</code></td>
+<td>A savings withdrawal in its 3 days</td>
+<td><code>from</code>, <code>to</code>, <code>memo</code>, <code>request_id</code>, <code>amount</code>, <code>complete</code></td>
+<td><code>condenser_api.get_savings_withdraw_from</code></td>
+</tr>
+<tr>
+<td><code>vesting_delegation_object</code>, <code>vesting_delegation_expiration_object</code></td>
+<td>Stake lent, and stake on its way back</td>
+<td><code>delegator</code>, <code>delegatee</code>, <code>vesting_shares</code>, <code>min_delegation_time</code>; <code>expiration</code></td>
+<td><code>condenser_api.get_vesting_delegations</code>, <code>get_expiring_vesting_delegations</code></td>
+</tr>
+<tr>
+<td><code>withdraw_vesting_route_object</code></td>
+<td>A power-down route</td>
+<td><code>from_account</code>, <code>to_account</code>, <code>percent</code>, <code>auto_vest</code></td>
+<td><code>condenser_api.get_withdraw_routes</code></td>
+</tr>
+<tr>
+<td><code>recurrent_transfer_object</code></td>
+<td>A repeating transfer</td>
+<td><code>from</code>, <code>to</code>, <code>amount</code>, <code>memo</code>, <code>recurrence</code>, <code>trigger_date</code>, <code>remaining_executions</code>, <code>consecutive_failures</code>, <code>pair_id</code></td>
+<td><code>condenser_api.find_recurrent_transfers</code></td>
+</tr>
+<tr>
+<td><code>escrow_object</code></td>
+<td>An escrow</td>
+<td><code>from</code>, <code>to</code>, <code>agent</code>, <code>escrow_id</code>, <code>hbd_balance</code>, <code>hive_balance</code>, <code>pending_fee</code>, <code>ratification_deadline</code>, <code>escrow_expiration</code>, <code>to_approved</code>, <code>agent_approved</code>, <code>disputed</code></td>
+<td><code>condenser_api.get_escrow</code></td>
+</tr>
+<tr>
+<td><code>limit_order_object</code></td>
+<td>An open order on the internal market</td>
+<td><code>seller</code>, <code>orderid</code>, <code>for_sale</code>, <code>sell_price</code>, <code>expiration</code></td>
+<td><code>condenser_api.get_open_orders</code>, <code>market_history_api.get_order_book</code></td>
+</tr>
+<tr>
+<td><code>owner_authority_history_object</code></td>
+<td>Previous owner authorities, for recovery; recorded from hardfork 30</td>
+<td><code>account</code>, <code>previous_owner_authority</code>, <code>last_valid_time</code></td>
+<td><code>database_api.list_owner_histories</code></td>
+</tr>
+<tr>
+<td><code>account_recovery_request_object</code>, <code>change_recovery_account_request_object</code>, <code>decline_voting_rights_request_object</code></td>
+<td>Requests waiting their period</td>
+<td><code>account_to_recover</code>, <code>new_owner_authority</code>, <code>expires</code>; <code>recovery_account</code>, <code>effective_on</code>; <code>account</code>, <code>effective_date</code></td>
+<td><code>database_api.list_account_recovery_requests</code>, <code>list_change_recovery_account_requests</code>, <code>list_decline_voting_rights_requests</code></td>
+</tr>
+<tr>
+<td><code>hardfork_property_object</code></td>
+<td>Which hardfork is live and which is scheduled</td>
+<td><code>last_hardfork</code>, <code>processed_hardforks</code>, <code>next_hardfork</code>, <code>next_hardfork_time</code>, <code>current_hardfork_version</code></td>
+<td><code>database_api.get_hardfork_properties</code></td>
+</tr>
+<tr>
+<td><code>block_summary_object</code>, <code>transaction_object</code></td>
+<td>The TaPoS ring of the last 65,536 block ids; the ids of unexpired transactions</td>
+<td>internal</td>
+<td>not served</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What is in the state and what is not.</strong> The state holds what the rules need next: balances, stake, open requests, posts until they pay out, votes until the post pays out. It does not hold post text, past votes or anything historical. After a post's payout, hived moves its <code>comment_object</code> to the comment archive on disk and drops its cashout object and votes; the post is still readable from the block log, and from Hivemind.</p>
+<h2 id="derived-haf-and-hivemind">Derived: HAF and Hivemind<a class="anchor" href="#derived-haf-and-hivemind" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p><strong>HAF</strong> writes every block into PostgreSQL as it arrives: <code>hive.blocks</code>, <code>hive.transactions</code>, <code>hive.operations</code> (the operation as JSON, with its type id) and <code>hive.accounts</code>, plus a separate set for blocks still reversible. It is the source for Hivemind and would be for any other indexer. The public nodes run it but do not serve it directly (<a href="../api-reference/json-rpc.html#what-is-not-served">JSON-RPC Surface</a>).</p>
+<p><strong>Hivemind</strong> reads HAF and keeps the social model in its own tables, with these differences from the chain's data:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>What Hivemind keeps</th>
+<th>Relation to the chain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Posts (<code>hive_posts</code>, with the text in <code>hive_post_data</code>): author, permlink, title, body, <code>json_metadata</code>, category, depth, children, created and updated times, payout figures, the <code>sc_trend</code> and <code>sc_hot</code> scores, muted flags</td>
+<td>Text and metadata copied from the latest <code>comment</code> operation. Rewards copied from the payout virtual operations. The scores are Hivemind's own (<a href="../product/feed-and-discovery.html#how-hot-and-trending-are-ranked">Feed and Discovery</a>). The category is the <code>parent_permlink</code> of the first version; a community post's category is <code>portal-</code> and a number.</td>
+</tr>
+<tr>
+<td>Votes (<code>hive_votes</code>): <code>rshares</code>, <code>weight</code>, <code>vote_percent</code></td>
+<td>Copied from <code>effective_comment_vote</code>, with <code>rshares</code> a million times the chain's value for votes before block 905,693 and the chain's value after (<a href="../developers/differences-from-hive.html#hivemind">Differences from Hive</a>)</td>
+</tr>
+<tr>
+<td>Follows and mutes (<code>follows</code>, <code>muted</code>, <code>follow_muted</code>), reblogs (<code>hive_reblogs</code>), communities, roles and subscriptions (<code>hive_communities</code>, <code>hive_roles</code>, <code>hive_subscriptions</code>)</td>
+<td>The current effect of <code>custom_json</code> operations with ids <code>follow</code>, <code>reblog</code> and <code>community</code>. Hivemind interprets them; the chain does not.</td>
+</tr>
+<tr>
+<td>Notifications (<code>hive_notification_cache</code>)</td>
+<td>Computed from votes, replies, follows, reblogs, mentions and community actions; kept 90 days</td>
+</tr>
+<tr>
+<td>Accounts (<code>hive_accounts</code>): follower counts, <code>posting_json_metadata</code> reduced to a <code>profile</code>; reputation read from a separate tracker</td>
+<td>Hivemind's reputation tracker does not run on the public nodes, so every account's reputation comes back as the raw 0 from <code>condenser_api.get_account_reputations</code> and as 25, the bottom of Hivemind's display scale, from <code>bridge.get_profile</code> and in post lists; hived's <code>reputation_api</code> gives the real figure. The <code>profile</code> keeps <code>name</code> (20 characters), <code>about</code> (160), <code>location</code> (30) and <code>website</code> (dropped above 100), and keeps <code>profile_image</code> only when it is an <code>http(s)://</code> address of at most 1,024 characters, so the app's data-URI pictures come back empty from Hivemind (<a href="../product/account-settings.html#your-profile">Account Settings</a>).</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>bridge.get_post</code>, <code>bridge.get_ranked_posts</code>, <code>bridge.get_account_posts</code> and <code>bridge.get_discussion</code> return Hivemind's post shape, and so does <code>condenser_api.get_content</code>, which hived no longer serves and the gateway routes to Hivemind: every post a program reads from the public nodes is Hivemind's copy.</p>
+<h2 id="application-only-what-the-pixagram-app-defines">Application-only: what the Pixagram app defines<a class="anchor" href="#application-only-what-the-pixagram-app-defines" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>These fields exist because the app writes and reads them. The chain accepts any valid JSON in <code>json_metadata</code> and any <code>custom_json</code> payload; it checks none of this.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Where</th>
+<th>Field</th>
+<th>Written by</th>
+<th>Meaning the app gives it</th>
+<th>Who else honours it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A post's <code>json_metadata</code></td>
+<td><code>app</code></td>
+<td>every Hive-family app</td>
+<td>The writing app and version, <code>pixagram/x.y.z</code></td>
+<td>Convention across Hive apps</td>
+</tr>
+<tr>
+<td></td>
+<td><code>format</code></td>
+<td>the app</td>
+<td><code>&quot;image&quot;</code> for an artwork, <code>&quot;markdown&quot;</code> for a blog post, <code>&quot;text&quot;</code> for a reply (<a href="../developers/artwork-encoding-spec.html#json_metadata">Artwork Encoding Spec</a>)</td>
+<td>Readers of this spec</td>
+</tr>
+<tr>
+<td></td>
+<td><code>tags</code></td>
+<td>the app</td>
+<td>1 to 5 tags; the first is the category</td>
+<td>Hivemind indexes <code>tags</code> for <code>tags_api</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>image</code></td>
+<td>the app</td>
+<td>Empty for an artwork, since the body is the image</td>
+<td>Hive apps use it for previews</td>
+</tr>
+<tr>
+<td></td>
+<td><code>description</code>, <code>nsfw</code>, <code>license</code></td>
+<td>the app</td>
+<td>The author's description, the not-safe-for-work flag, the licence record</td>
+<td>Hivemind stores <code>is_nsfw</code> only for communities; the flag is the app's</td>
+</tr>
+<tr>
+<td></td>
+<td><code>deleted</code></td>
+<td>the app</td>
+<td><code>true</code> once the author deletes an artwork in the app; the app also writes the body <code>deleted</code>. <strong>The post is not removed</strong>; other apps may still show it (<a href="../social-layer/posting-and-rewards.html#editing-and-deleting">Posting and Rewards</a>)</td>
+<td>Only apps that check it</td>
+</tr>
+<tr>
+<td>An account's <code>posting_json_metadata</code></td>
+<td><code>profile</code> (<code>name</code>, <code>about</code>, <code>location</code>, <code>website</code>, <code>profile_image</code>, <code>addresses</code>, <code>links</code>, <code>contacts</code>)</td>
+<td>the app, with <code>account_update2</code></td>
+<td>The public profile; <code>profile_image</code> is a data URI of pixel art up to 48,000 bytes (<a href="../product/account-settings.html#your-profile">Account Settings</a>)</td>
+<td>Hivemind serves a cut-down copy without the data-URI picture; Hive apps read <code>name</code>, <code>about</code>, <code>location</code>, <code>website</code>, <code>profile_image</code></td>
+</tr>
+<tr>
+<td><code>custom_json</code></td>
+<td><code>follow</code>, <code>reblog</code>, <code>community</code>, <code>notify</code></td>
+<td>the app and Hive apps</td>
+<td>Follows and mutes, reblogs, community membership and moderation, read markers</td>
+<td>Hivemind, which defines them</td>
+</tr>
+<tr>
+<td><code>custom_json</code></td>
+<td><code>rc</code> (<code>delegate_rc</code>)</td>
+<td>any app</td>
+<td>Lends Resource Credits</td>
+<td>hived itself</td>
+</tr>
+<tr>
+<td>The browser (LacertaDB)</td>
+<td>settings, drafts, notification read markers, the endpoint, keys in the session</td>
+<td>the app</td>
+<td>Per device; nothing goes on chain (<a href="../product/account-settings.html#where-settings-live">Account Settings</a>)</td>
+<td>Nobody</td>
+</tr>
+</tbody>
+</table></div>
+<p>Two consequences for anyone building on the chain. First, <strong>a post is a post</strong>: the chain knows no artwork, NFT, licence or deletion; those are readings of the metadata that the Pixagram app and this documentation define, and a different app may read the same post differently (<a href="../marketplace/nfts-and-marketplace.html#what-a-post-is-and-is-not">NFTs and Marketplace</a>). Second, <strong>a field's layer tells you what you can rely on</strong>: a balance is a chain fact every node agrees on; a follower count is Hivemind's; a hidden post is hidden only in apps that honour the flag.</p>
+<h2 id="field-names-across-the-layers">Field names across the layers<a class="anchor" href="#field-names-across-the-layers" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The chain, HAF and Hivemind store Hive's names. The public nodes' gateway renames 28 names in responses and 19 in requests to Pixa's, inside bodies smaller than about 10 KiB (<a href="../developers/differences-from-hive.html#field-renames">Differences from Hive</a>). A program therefore sees <code>pxs_balance</code> from a public node, <code>hbd_balance</code> from its own node, and must write <code>hbd_balance</code> when it talks to hived directly. dpixa writes Pixa's names for five operations and so works through a public node only (<a href="../developers/sdks-and-libraries.html">SDKs and Libraries</a>).</p>
+<h2 id="compared-with-hive">Compared with Hive<a class="anchor" href="#compared-with-hive" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><span class="sr-only">Aspect</span></th>
+<th>Hive</th>
+<th>Pixa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Layers</td>
+<td>the same three: blocks, hived state and HAF/Hivemind, app conventions</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Post text in the state</td>
+<td>removed in Hive's hardfork 19 era; held by Hivemind</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Comment archive after payout</td>
+<td><code>comments-rocksdb-storage</code> since hived 1.27</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Owner authority history</td>
+<td>from Steem block 3,186,477</td>
+<td>from hardfork 30</td>
+</tr>
+<tr>
+<td>Hivemind community prefix</td>
+<td><code>hive-</code></td>
+<td><code>portal-</code></td>
+</tr>
+<tr>
+<td>Artwork and licence conventions</td>
+<td>none; apps use <code>image</code> links</td>
+<td><code>format: &quot;image&quot;</code>, the body as the image, <code>license</code>, <code>deleted</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>Code</strong> at tag <a href="https://github.com/pixagram-blockchain/pixagram/tree/746118eb3b87dcca768b72fa262ad2aa63e1f177"><code>v1.30.0</code></a>: state objects in <a href="https://github.com/pixagram-blockchain/pixagram/tree/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/include/hive/chain/detail/state"><code>detail/state/</code></a>: <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/include/hive/chain/detail/state/account_object.hpp#L27-L266"><code>account_object.hpp:27-266</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/include/hive/chain/detail/state/comment_object.hpp#L24-L60"><code>comment_object.hpp:24-60</code></a> (no text fields) and <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/include/hive/chain/detail/state/comment_object.hpp#L103-L252"><code>103-252</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/include/hive/chain/detail/state/witness_objects.hpp#L69-L208"><code>witness_objects.hpp:69-208</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/include/hive/chain/detail/state/global_property_object.hpp#L27-L169"><code>global_property_object.hpp:27-169</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/include/hive/chain/detail/state/dhf_objects.hpp#L14-L75"><code>dhf_objects.hpp:14-75</code></a>. Block and transaction types: <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/include/hive/protocol/block_header.hpp"><code>block_header.hpp</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/include/hive/protocol/transaction.hpp"><code>transaction.hpp</code></a>. Comment archive: <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/external_storage/rocksdb_comment_archive.cpp"><code>rocksdb_comment_archive.cpp</code></a>.</li>
+<li><strong>Hivemind</strong> at commit <a href="https://github.com/pixagram-blockchain/hivemind/tree/5765e2113da3c2c3da3c056d7d795c51e925711a"><code>5765e21</code></a>: tables in <a href="https://github.com/pixagram-blockchain/hivemind/tree/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/db/sql_scripts"><code>hive/db/sql_scripts/</code></a>; the rshares scaling in <a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/db/sql_scripts/massive_sync.sql"><code>hive/db/sql_scripts/massive_sync.sql</code></a>; profile sanitizing in <a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/utils/account.py"><code>hive/utils/account.py</code></a>.</li>
+<li><strong>App</strong> at commit <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/tree/ca1d15762b52ec08f33c69ca9afa34bb78c0df52"><code>ca1d157</code></a>: the metadata it writes, through <a href="../developers/artwork-encoding-spec.html#sources">Artwork Encoding Spec</a> and <a href="../product/account-settings.html#sources">Account Settings</a>.</li>
+<li><strong>Live chain</strong>, 2026-10-08: <code>condenser_api.get_accounts</code>, <code>get_dynamic_global_properties</code>, <code>get_witness_schedule</code>, <code>get_reward_fund</code>, <code>get_feed_history</code> and <code>bridge.get_post</code> on <code>api.pixagram.com</code>; <code>bridge.get_profile</code> returned <code>reputation: 25</code> and an empty <code>profile_image</code> for every account tried, <code>condenser_api.get_account_reputations</code> 0, and <code>reputation_api.get_account_reputations</code> the real figures.</li>
+<li><a href="https://developers.hive.io/">Hive developer portal</a>: &quot;Hive Data Model&quot; and the <code>database_api</code> reference.</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/11-protocol-reference/data-model.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="transaction-lifecycle.html"><span class="k">Previous</span><span class="t">Transaction Lifecycle</span></a><a class="next" href="../api-reference/index.html"><span class="k">Next</span><span class="t">API reference</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#the-three-layers">The three layers</a></li><li><a href="#canonical-blocks-transactions-operations">Canonical: blocks, transactions, operations</a></li><li class="sub"><a href="#a-block">A block</a></li><li class="sub"><a href="#a-transaction">A transaction</a></li><li class="sub"><a href="#an-operation">An operation</a></li><li class="sub"><a href="#what-a-block-does-not-contain">What a block does not contain</a></li><li><a href="#derived-the-hived-state">Derived: the hived state</a></li><li><a href="#derived-haf-and-hivemind">Derived: HAF and Hivemind</a></li><li><a href="#application-only-what-the-pixagram-app-defines">Application-only: what the Pixagram app defines</a></li><li><a href="#field-names-across-the-layers">Field names across the layers</a></li><li><a href="#compared-with-hive">Compared with Hive</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/11-protocol-reference/data-model.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/11-protocol-reference/data-model.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

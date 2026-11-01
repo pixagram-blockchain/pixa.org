@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account Settings — Pixagram wiki</title>
+<meta name="description" content="The app has two kinds of setting that look alike on screen but live in different places. Everything under Settings is kept in the browser and never leaves it…">
+<link rel="canonical" href="https://pixa.org/wiki/product/account-settings.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Account Settings — Pixagram wiki">
+<meta property="og:description" content="The app has two kinds of setting that look alike on screen but live in different places. Everything under Settings is kept in the browser and never leaves it…">
+<meta property="og:url" content="https://pixa.org/wiki/product/account-settings.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economic-cybernetics/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../developers/index.html">Overview</a></li>
+<li><a class="nav-i" href="../developers/chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="../developers/developer-quickstart.html">Developer Quickstart</a></li>
+<li><a class="nav-i" href="../developers/differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="../developers/sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../node-operators/index.html">Overview</a></li>
+<li><a class="nav-i" href="../node-operators/run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="../node-operators/run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="../node-operators/become-a-witness.html">Become a Witness</a></li>
+<li><a class="nav-i" href="../node-operators/cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../protocol-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
+<li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details open>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="feed-and-discovery.html">Feed and Discovery</a></li>
+<li><a class="nav-i" href="search.html">Search</a></li>
+<li><a class="nav-i" href="notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="account-settings.html" aria-current="page">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economics-lab/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economics-lab/reward-examples.html">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../reference/chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="../reference/system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="../reference/glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="../reference/risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="../reference/sources-and-credits.html">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Pixagram product</a></nav><h1>Account Settings</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>Described from the app's code of 2026-10-04 (commit <code>ca1d157</code>). One setting, <em>Preferred Payout</em>, is stored but has no effect yet.</p>
+</div></div>
+<p>The app has two kinds of setting that look alike on screen but live in different places. Everything under <em>Settings</em> is kept in the browser and never leaves it: language, currency, how artworks are drawn, what is filtered, which node is used. Everything under <em>Edit profile</em> is written to the chain, in the account's <code>posting_json_metadata</code>, where any program can read it. This page lists both, says where each is stored and what it does, and notes where the app's behaviour differs from what its labels suggest.</p>
+<h2 id="where-settings-live">Where settings live<a class="anchor" href="#where-settings-live" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Stored in</th>
+<th>Travels with</th>
+<th>Visible to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Settings</strong> (the gear)</td>
+<td>The browser's local database, LacertaDB, document <code>main_settings</code>, one per browser profile (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/settings.js#L292-L321"><code>settings.js:292-321</code></a>)</td>
+<td>Nothing: another browser or device starts from the defaults</td>
+<td>You</td>
+</tr>
+<tr>
+<td><strong>Profile</strong> (<em>Edit profile</em> on your page)</td>
+<td>The chain: the account's <code>posting_json_metadata</code>, written with <code>account_update2</code></td>
+<td>Every app that reads the chain</td>
+<td>Everyone</td>
+</tr>
+<tr>
+<td><strong>Keys and session</strong></td>
+<td>The browser, encrypted with your password, until you log out (<a href="../guides/keys-and-recovery.html">Keys and Recovery</a>)</td>
+<td>Nothing</td>
+<td>You</td>
+</tr>
+<tr>
+<td><strong>Notification read marks, favourites, drafts</strong></td>
+<td>The browser, LacertaDB</td>
+<td>Nothing</td>
+<td>You</td>
+</tr>
+</tbody>
+</table></div>
+<p>The chain has no concept of a setting. Hive front ends sometimes store preferences in <code>posting_json_metadata</code> too; the Pixagram app stores none there.</p>
+<h2 id="settings">Settings<a class="anchor" href="#settings" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Open them with the gear in the toolbar, or at <code>https://pixagram.com/+settings</code>. Each row is one control; the stored key and default are from the code.</p>
+<h3 id="display">Display<a class="anchor" href="#display" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Control (label)</th>
+<th>Choices</th>
+<th>Default</th>
+<th>Stored as</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Languages</strong></td>
+<td>51 locale codes, served by 27 language files; a locale without a file falls back to English</td>
+<td>The browser's language</td>
+<td><code>locales</code></td>
+<td>The app's text. Posts are not translated.</td>
+</tr>
+<tr>
+<td><strong>Currency</strong></td>
+<td>34 currencies</td>
+<td>From the locale</td>
+<td><code>currency</code></td>
+<td>The currency the wallet converts to, through Frankfurter's rates; PIXA itself has a placeholder price (<a href="../guides/wallet-basics.html#open-your-wallet">Wallet Basics</a>)</td>
+</tr>
+<tr>
+<td><strong>Rendering Engine</strong></td>
+<td>Square (<code>square</code>), Hexagon (<code>hexagon</code>), Retro (<code>crt</code>), Painting (<code>xbrz</code>), Painting (Fast) (<code>tri</code>)</td>
+<td>Painting</td>
+<td><code>renderer</code></td>
+<td>How pixel art is scaled on screen; the stored image is unchanged</td>
+</tr>
+<tr>
+<td><strong>Disable GPU Optimization</strong></td>
+<td>on, off</td>
+<td><strong>on</strong> (<code>mode: &quot;CPU&quot;</code>); off stores <code>GPU</code></td>
+<td><code>mode</code></td>
+<td>Draws with the processor instead of WebGL. The default is the processor; turning the switch off enables the GPU path.</td>
+</tr>
+<tr>
+<td><strong>Download File Format</strong></td>
+<td>PNG, WebP, JPEG</td>
+<td>WebP</td>
+<td><code>format</code></td>
+<td>The format of a downloaded artwork</td>
+</tr>
+<tr>
+<td><strong>PDF Default Page Size</strong></td>
+<td>A4, US Letter</td>
+<td><code>A4</code></td>
+<td><code>pdf_page_size</code></td>
+<td>For the wallet's PDF export and printed artworks</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="content">Content<a class="anchor" href="#content" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Default</th>
+<th>Stored as</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Don't filter NSFW content</strong></td>
+<td>off: &quot;NSFW content is hidden&quot;</td>
+<td><code>nsfw_filter</code> (true while filtering)</td>
+<td>On, artworks marked NSFW appear in feeds and profiles, blurred.</td>
+</tr>
+<tr>
+<td><strong>Don't blur NSFW content</strong></td>
+<td>off: &quot;NSFW content shows blurred&quot;</td>
+<td><code>nsfw_enabled</code></td>
+<td>On, shown NSFW artworks are not blurred. Turning it on asks you to confirm &quot;I am 18 or older&quot; (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/SettingsDialog.js#L672-L692"><code>SettingsDialog.js:282-290, 672-692</code></a>). While blurring is on, an on-device model also blurs unflagged artworks it rates likely NSFW (<a href="../social-layer/censorship-resilience-and-moderation.html#what-the-pixagram-app-and-the-indexer-do">Censorship Resilience and Moderation</a>)</td>
+</tr>
+<tr>
+<td><strong>Toxic Comment Helper</strong></td>
+<td>on: &quot;Kindly flags harsh wording while you type&quot;</td>
+<td><code>toxicity_enabled</code></td>
+<td>An on-device model underlines harsh wording in a comment before you post. It blocks nothing.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The panel says of both models: they &quot;run on tiny AI models that work fully offline … No data is ever sent to a server&quot;. The models are loaded with the app and run in the browser; the search box is the one feature that sends your text to a service (<a href="search.html">Search</a>).</p>
+<h3 id="posting-and-voting">Posting and voting<a class="anchor" href="#posting-and-voting" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Choices</th>
+<th>Default</th>
+<th>Stored as</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Preferred Payout</strong></td>
+<td>Renounced, Balanced, Sovereign</td>
+<td>Balanced (<code>share</code>)</td>
+<td><code>payout</code> (<code>decline</code>, <code>share</code>, <code>power</code>)</td>
+<td><strong>None today.</strong> The value is saved and read back by the dialog, and nothing else reads it; a post's payout options are set in the post editor's own panel (<a href="../social-layer/posting-and-rewards.html">Posting and Rewards</a>)</td>
+</tr>
+<tr>
+<td><strong>Licensing</strong></td>
+<td>Configure or reset a default licence</td>
+<td>None: &quot;new posts start from the standard Pixa NFT License terms&quot;</td>
+<td><code>default_license</code></td>
+<td>The starting terms the editor shows for a new post; the licence itself goes into the post's <code>json_metadata</code> only when you publish (<a href="../developers/artwork-encoding-spec.html#the-licence-record">Artwork Encoding Spec</a>)</td>
+</tr>
+<tr>
+<td><strong>Voting Power</strong></td>
+<td>1% to 100%</td>
+<td>100</td>
+<td><code>voting</code></td>
+<td>The weight of a vote cast by clicking the heart</td>
+</tr>
+<tr>
+<td><strong>Always ask before voting</strong></td>
+<td>on, off</td>
+<td>off</td>
+<td><code>askvote</code></td>
+<td>On, every vote opens a dialog to choose the weight first</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="endpoint">Endpoint<a class="anchor" href="#endpoint" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>The <em>Endpoint</em> section lists the six public nodes with their measured latency and lets you set a custom one (&quot;Set custom endpoint&quot;, &quot;Type a URL, then press Enter or the check to switch to it&quot;).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Behaviour</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default</td>
+<td><code>api.pixagram.com</code>. On first start, while no node has been chosen, the app times all six and keeps the fastest that answers (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/settings.js#L330-L372"><code>settings.js:330-372</code></a>).</td>
+</tr>
+<tr>
+<td>The six</td>
+<td><code>api.pixagram.com</code>, <code>pixarex.net</code>, <code>merlion.surf</code>, <code>blockforge.lol</code>, <code>boitata.quest</code>, <code>pixa-dubai.xyz</code> (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/constants.js#L94-L137"><code>constants.js:94-137</code></a>; <a href="../api-reference/json-rpc.html#endpoints">JSON-RPC Surface</a>)</td>
+</tr>
+<tr>
+<td>Custom</td>
+<td>Any HTTPS address; it must run the same gateway or the app's field names fail (<a href="../developers/differences-from-hive.html#talking-to-hived-directly">Differences from Hive</a>)</td>
+</tr>
+<tr>
+<td>Stored as</td>
+<td><code>api_node_url</code> and <code>api_node_source</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>There is no theme setting.</p>
+<h2 id="your-profile">Your profile<a class="anchor" href="#your-profile" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p><em>Edit profile</em>, on your own page, writes the <code>profile</code> object of your <code>posting_json_metadata</code> (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/EditProfileDialog.js#L583-L594"><code>EditProfileDialog.js:583-594, 960-986</code></a>; <a href="../protocol-reference/data-model.html#application-only-what-the-pixagram-app-defines">Data Model</a>):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field on screen</th>
+<th>Stored key</th>
+<th>Rule in the app</th>
+<th>What Hivemind serves of it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Display name</td>
+<td><code>profile.name</code></td>
+<td>free text</td>
+<td>The first 20 characters</td>
+</tr>
+<tr>
+<td>Biography</td>
+<td><code>profile.about</code></td>
+<td>free text</td>
+<td>160 characters</td>
+</tr>
+<tr>
+<td>Location</td>
+<td><code>profile.location</code></td>
+<td>free text</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Website</td>
+<td><code>profile.website</code></td>
+<td>a valid URL</td>
+<td>Up to 100 characters; longer, nothing</td>
+</tr>
+<tr>
+<td>Profile picture</td>
+<td><code>profile.profile_image</code></td>
+<td>A pixel-art file of at most 48,000 bytes, stored <strong>inside the metadata</strong> as a data URI, not uploaded anywhere (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/EditProfileDialog.js#L773"><code>EditProfileDialog.js:773</code></a>)</td>
+<td><strong>Nothing.</strong> Hivemind keeps a picture only when it is an <code>http(s)://</code> address of at most 1,024 characters, so <code>bridge.get_profile</code> returns an empty <code>profile_image</code> for every Pixagram account; the app reads the picture from <code>condenser_api.get_accounts</code> instead (<a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/db/sql_scripts/postgrest/utilities/extract_profile_metadata.sql#L50-L115"><code>extract_profile_metadata.sql:110-115</code></a>)</td>
+</tr>
+<tr>
+<td>Addresses, links, contacts</td>
+<td><code>profile.addresses</code>, <code>profile.links</code>, <code>profile.contacts</code></td>
+<td>lists of name and value pairs</td>
+<td>Pixagram-only keys; other apps ignore them</td>
+</tr>
+</tbody>
+</table></div>
+<p>What the operation does and costs:</p>
+<ul>
+<li><strong>One <code>account_update2</code> operation</strong>, which merges the new <code>profile</code> into the existing <code>posting_json_metadata</code> so other keys survive, and re-sends the account's <code>json_metadata</code> unchanged (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/api/pixaproxyapi.js#L5494-L5590"><code>pixaproxyapi.js:5549-5590</code></a>).</li>
+<li><strong>It asks for your active key</strong>, although the dialog first checks that your posting key is unlocked (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/EditProfileDialog.js#L925-L931"><code>EditProfileDialog.js:925-931</code></a>). The reason is the re-sent <code>json_metadata</code>: an <code>account_update2</code> that carries <code>json_metadata</code> needs the active authority, while one that carries only <code>posting_json_metadata</code> needs posting (<a href="../protocol-reference/operations-reference.html#accounts-and-keys">Operations Reference</a>). Leaving <code>json_metadata</code> out would let the profile be saved with the posting key.</li>
+<li><strong>It is public and permanent.</strong> Every version of the profile stays in the block log. Do not put a phone number or an address you would not print.</li>
+<li><strong>No cover image.</strong> The dialog has no field for one, and the app shows none.</li>
+<li><strong>Resource Credits:</strong> the operation's size, which the picture dominates: a 48,000-byte picture is about 64,000 bytes once encoded as a data URI, the largest routine operation an account sends after an artwork (<a href="../tokens-and-economy/resource-credits.html">Resource Credits</a>).</li>
+</ul>
+<p>Other apps that read Hive profiles through Hivemind (<code>name</code>, <code>about</code>, <code>location</code>, <code>website</code>, <code>profile_image</code>) will show a Pixagram profile cut to Hivemind's lengths and without its picture; an app that reads <code>posting_json_metadata</code> from hived gets everything, with a data-URI picture it may or may not render.</p>
+<h2 id="what-the-chain-the-indexer-and-the-app-each-decide">What the chain, the indexer and the app each decide<a class="anchor" href="#what-the-chain-the-indexer-and-the-app-each-decide" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Behaviour</th>
+<th>Chain</th>
+<th>Indexer</th>
+<th>App</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Profile fields' existence and content</td>
+<td>yes, as metadata</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Profile length limits, and the dropped picture</td>
+<td></td>
+<td>yes, when serving</td>
+<td></td>
+</tr>
+<tr>
+<td>Which key saves a profile</td>
+<td>yes, by what the operation carries</td>
+<td></td>
+<td>yes, by what it sends</td>
+</tr>
+<tr>
+<td>Every setting under the gear</td>
+<td></td>
+<td></td>
+<td>yes, per browser</td>
+</tr>
+<tr>
+<td>NSFW filtering and the on-device models</td>
+<td></td>
+<td></td>
+<td>yes</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="inherited--changed">Inherited → changed<a class="anchor" href="#inherited--changed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><span class="sr-only">Aspect</span></th>
+<th>Hive front ends</th>
+<th>Pixagram</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Profile storage</td>
+<td><code>posting_json_metadata.profile</code></td>
+<td>the same keys, plus <code>addresses</code>, <code>links</code>, <code>contacts</code></td>
+</tr>
+<tr>
+<td>Profile picture</td>
+<td>a URL</td>
+<td>a data URI of pixel art, at most 48,000 bytes</td>
+</tr>
+<tr>
+<td>Cover image</td>
+<td><code>profile.cover_image</code></td>
+<td>none</td>
+</tr>
+<tr>
+<td>Preferences on chain</td>
+<td>some front ends keep them in <code>posting_json_metadata</code></td>
+<td>none; all in the browser</td>
+</tr>
+<tr>
+<td>NSFW setting</td>
+<td>per user, often in the profile</td>
+<td>per browser</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>App</strong> at commit <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/tree/ca1d15762b52ec08f33c69ca9afa34bb78c0df52"><code>ca1d157</code></a>: defaults and storage, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/settings.js#L292-L321"><code>utils/settings.js:292-321</code></a>; the node race, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/settings.js#L330-L372"><code>settings.js:330-372</code></a>; the node list, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/constants.js#L94-L137"><code>constants.js:94-137</code></a>; currencies and locales, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/constants.js"><code>constants.js</code></a> and <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/tree/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/locales"><code>locales/</code></a>; the dialog, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/SettingsDialog.js"><code>SettingsDialog.js</code></a>; how the voting settings reach the API, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/pages/Index.js#L1588-L1589"><code>Index.js:1588-1589</code></a>; the profile dialog, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/EditProfileDialog.js#L583-L594"><code>EditProfileDialog.js</code></a>; the broadcast, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/api/pixaproxyapi.js#L5494-L5590"><code>pixaproxyapi.js:5494-5590</code></a>; English text, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/locales/en.js#L2622-L2669"><code>en.js:2622-2669</code></a>.</li>
+<li><strong>Hivemind</strong> at commit <a href="https://github.com/pixagram-blockchain/hivemind/tree/5765e2113da3c2c3da3c056d7d795c51e925711a"><code>5765e21</code></a>: profile field limits in <a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/utils/account.py#L80-L89"><code>hive/utils/account.py:80-89</code></a> and <a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/db/sql_scripts/postgrest/utilities/extract_profile_metadata.sql#L50-L115"><code>extract_profile_metadata.sql:50-115</code></a>; checked live with <code>bridge.get_profile</code> against <code>condenser_api.get_accounts</code> on 2026-10-08.</li>
+<li><strong>Chain:</strong> the authority <code>account_update2</code> requires, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/include/hive/protocol/hive_operations.hpp#L74-L110"><code>hive_operations.hpp:74-110</code> at <code>48f75a2</code></a>.</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/14-product/account-settings.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="notifications.html"><span class="k">Previous</span><span class="t">Notifications</span></a><a class="next" href="../search-and-indexing/index.html"><span class="k">Next</span><span class="t">Search and indexing</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#where-settings-live">Where settings live</a></li><li><a href="#settings">Settings</a></li><li class="sub"><a href="#display">Display</a></li><li class="sub"><a href="#content">Content</a></li><li class="sub"><a href="#posting-and-voting">Posting and voting</a></li><li class="sub"><a href="#endpoint">Endpoint</a></li><li><a href="#your-profile">Your profile</a></li><li><a href="#what-the-chain-the-indexer-and-the-app-each-decide">What the chain, the indexer and the app each decide</a></li><li><a href="#inherited--changed">Inherited → changed</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/14-product/account-settings.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/14-product/account-settings.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

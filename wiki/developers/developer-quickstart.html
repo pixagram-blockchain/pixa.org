@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Developer Quickstart — Pixagram wiki</title>
+<meta name="description" content="This page takes you from nothing to reading the chain, saving an artwork and signing a vote, in five steps. It assumes you know JavaScript and JSON-RPC, not …">
+<link rel="canonical" href="https://pixa.org/wiki/developers/developer-quickstart.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Developer Quickstart — Pixagram wiki">
+<meta property="og:description" content="This page takes you from nothing to reading the chain, saving an artwork and signing a vote, in five steps. It assumes you know JavaScript and JSON-RPC, not …">
+<meta property="og:url" content="https://pixa.org/wiki/developers/developer-quickstart.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economic-cybernetics/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details open>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="developer-quickstart.html" aria-current="page">Developer Quickstart</a></li>
+<li><a class="nav-i" href="differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="artwork-encoding-spec.html">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../node-operators/index.html">Overview</a></li>
+<li><a class="nav-i" href="../node-operators/run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="../node-operators/run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="../node-operators/become-a-witness.html">Become a Witness</a></li>
+<li><a class="nav-i" href="../node-operators/cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../protocol-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
+<li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../product/index.html">Overview</a></li>
+<li><a class="nav-i" href="../product/feed-and-discovery.html">Feed and Discovery</a></li>
+<li><a class="nav-i" href="../product/search.html">Search</a></li>
+<li><a class="nav-i" href="../product/notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="../product/account-settings.html">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economics-lab/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economics-lab/reward-examples.html">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../reference/chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="../reference/system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="../reference/glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="../reference/risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="../reference/sources-and-credits.html">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Developers</a></nav><h1>Developer Quickstart</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>Steps 1 to 4 were run on 2026-10-05 with Node.js 22.22 and <code>@pixagram/dpixa</code> 1.5.4 against <code>api.pixagram.com</code>. Step 5 broadcasts a real vote, so it needs your own account and key; its parts were checked separately (see <a href="#sources">Sources</a>).</p>
+</div></div>
+<p>This page takes you from nothing to reading the chain, saving an artwork and signing a vote, in five steps. It assumes you know JavaScript and JSON-RPC, not Hive. If you know Hive, read <a href="differences-from-hive.html">Differences from Hive</a> next.</p>
+<h2 id="before-you-start">Before you start<a class="anchor" href="#before-you-start" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>Endpoints.</strong> Six public API nodes serve the same chain: <code>https://api.pixagram.com</code>, <code>https://pixarex.net</code>, <code>https://merlion.surf</code>, <code>https://blockforge.lol</code>, <code>https://boitata.quest</code> and <code>https://pixa-dubai.xyz</code>. All accept browser requests from any origin.</li>
+<li><strong>There is no testnet.</strong> Every transaction you broadcast is real and stays in the chain forever (<a href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a>). Test with a small account.</li>
+<li><strong>Use the weakest key that works.</strong> The posting key votes, posts and follows; the active key moves funds; the owner key is never needed by code (<a href="../reference/glossary.html#keys">Keys</a>). Pass keys through environment variables. Never write one into a file or a repository. The examples use placeholders such as <code>5K...</code>.</li>
+<li><strong>Requests are limited to about 1 MiB</strong> by the public nodes (<a href="../reference/chain-parameters.html#transaction-and-block-size">Chain Parameters</a>).</li>
+</ul>
+<h2 id="1-one-request-with-curl">1. One request with curl<a class="anchor" href="#1-one-request-with-curl" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.pixagram.com<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"jsonrpc":"2.0","method":"condenser_api.get_dynamic_global_properties","params":[],"id":1}'</span></code></pre>
+<p>Expected output, shortened; the values change with every block:</p>
+<pre class="hl has-copy"><span class="lang">JSON</span><code><span class="p">{</span><span class="nt">"jsonrpc"</span><span class="p">:</span><span class="s2">"2.0"</span><span class="p">,</span><span class="nt">"result"</span><span class="p">:{</span><span class="nt">"head_block_number"</span><span class="p">:</span><span class="mi">901965</span><span class="p">,</span><span class="nt">"head_block_id"</span><span class="p">:</span><span class="s2">"…"</span><span class="p">,</span><span class="nt">"time"</span><span class="p">:</span><span class="s2">"2026-10-05T20:29:48"</span><span class="p">,</span><span class="nt">"current_witness"</span><span class="p">:</span><span class="s2">"matus"</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="w"> </span><span class="p">,</span><span class="nt">"current_supply"</span><span class="p">:</span><span class="s2">"100660263.344 PIXA"</span><span class="p">,</span><span class="nt">"init_pxs_supply"</span><span class="p">:</span><span class="s2">"0.000 PXS"</span><span class="p">,</span><span class="nt">"current_pxs_supply"</span><span class="p">:</span><span class="s2">"251649.961 PXS"</span><span class="p">,</span><span class="nt">"total_vesting_fund_pixa"</span><span class="p">:</span><span class="s2">"…"</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">},</span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span></code></pre>
+<p>The API is Hive's JSON-RPC. Field names that Hive spells with <code>hbd</code> or <code>hive</code> come back with <code>pxs</code> or <code>pixa</code>, because the public nodes rename them (<a href="differences-from-hive.html#field-renames">why</a>).</p>
+<h2 id="2-set-up-a-nodejs-project">2. Set up a Node.js project<a class="anchor" href="#2-set-up-a-nodejs-project" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>mkdir<span class="w"> </span>pixa-quickstart<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>pixa-quickstart
+npm<span class="w"> </span>init<span class="w"> </span>-y
+npm<span class="w"> </span>install<span class="w"> </span>@pixagram/dpixa@1.5.4</code></pre>
+<p><strong>Load the bundle, not the package name.</strong> In version 1.5.4 the package's entry point names a file that is not published. In Node, <code>require(&quot;@pixagram/dpixa&quot;)</code> and <code>import { Client } from &quot;@pixagram/dpixa&quot;</code> both fail with <code>Cannot find module …/lib/index-node</code>. Load the bundled build instead:</p>
+<pre class="hl has-copy"><span class="lang">JavaScript</span><code><span class="c1">// CommonJS</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Client</span><span class="p">,</span><span class="w"> </span><span class="nx">PrivateKey</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s2">"@pixagram/dpixa/dist/dpixa.js"</span><span class="p">);</span>
+
+<span class="c1">// ES modules</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">dpixa</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"@pixagram/dpixa/dist/dpixa.js"</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Client</span><span class="p">,</span><span class="w"> </span><span class="nx">PrivateKey</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">dpixa</span><span class="p">;</span></code></pre>
+<p>Bundlers such as webpack, and browsers loading <code>https://unpkg.com/@pixagram/dpixa@1.5.4/dist/dpixa.js</code>, use the bundle already.</p>
+<h2 id="3-read-the-chain">3. Read the chain<a class="anchor" href="#3-read-the-chain" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Save as <code>read.js</code>:</p>
+<pre class="hl has-copy"><span class="lang">JavaScript</span><code><span class="c1">// read.js: three reads through the public API</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Client</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s2">"@pixagram/dpixa/dist/dpixa.js"</span><span class="p">);</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Client</span><span class="p">([</span>
+<span class="w">  </span><span class="s2">"https://api.pixagram.com"</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">"https://pixarex.net"</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">"https://merlion.surf"</span><span class="p">,</span>
+<span class="p">]);</span>
+
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">props</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">database</span><span class="p">.</span><span class="nx">getDynamicGlobalProperties</span><span class="p">();</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"head block"</span><span class="p">,</span><span class="w"> </span><span class="nx">props</span><span class="p">.</span><span class="nx">head_block_number</span><span class="p">,</span><span class="w"> </span><span class="s2">"produced by"</span><span class="p">,</span><span class="w"> </span><span class="nx">props</span><span class="p">.</span><span class="nx">current_witness</span><span class="p">);</span>
+
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">fund</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">database</span><span class="p">.</span><span class="nx">getAccounts</span><span class="p">([</span><span class="s2">"pixa.omnibus"</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"pixa.omnibus holds"</span><span class="p">,</span><span class="w"> </span><span class="nx">fund</span><span class="p">.</span><span class="nx">balance</span><span class="p">,</span><span class="w"> </span><span class="s2">"and"</span><span class="p">,</span><span class="w"> </span><span class="nx">fund</span><span class="p">.</span><span class="nx">pxs_balance</span><span class="p">);</span>
+
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">posts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">pixamind</span><span class="p">.</span><span class="nx">getRankedPosts</span><span class="p">({</span><span class="w"> </span><span class="nx">sort</span><span class="o">:</span><span class="w"> </span><span class="s2">"created"</span><span class="p">,</span><span class="w"> </span><span class="nx">tag</span><span class="o">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nx">limit</span><span class="o">:</span><span class="w"> </span><span class="mf">5</span><span class="w"> </span><span class="p">});</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">posts</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">kind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">json_metadata</span><span class="p">.</span><span class="nx">format</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">"image"</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">"artwork"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"text post"</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`@</span><span class="si">${</span><span class="nx">p</span><span class="p">.</span><span class="nx">author</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">p</span><span class="p">.</span><span class="nx">permlink</span><span class="si">}</span><span class="sb">: </span><span class="si">${</span><span class="nx">kind</span><span class="si">}</span><span class="sb">, body </span><span class="si">${</span><span class="nx">p</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">length</span><span class="si">}</span><span class="sb"> characters`</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">main</span><span class="p">().</span><span class="k">catch</span><span class="p">((</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span><span class="w"> </span><span class="p">});</span></code></pre>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>node<span class="w"> </span>read.js</code></pre>
+<p>Expected output on 2026-10-05:</p>
+<pre class="hl has-copy"><code>head block 901862 produced by top.witness
+pixa.omnibus holds 0.000 PIXA and 249295.022 PXS
+@mathiew/not-a-bank-robber-1791222997311: artwork, body 25027 characters
+@tetiana/schwyz-1791219064927: artwork, body 32547 characters
+@retro/peach-knight-1791211388189: artwork, body 23371 characters
+@mrdragon/mr-dragon-is-here-1791210562903: artwork, body 11883 characters
+@matus/myocastor-coypus-1791149708674: artwork, body 29119 characters</code></pre>
+<ul>
+<li><code>client.database</code> calls go to hived; <code>client.pixamind</code> calls (<code>bridge.*</code>) go to Hivemind (<a href="chain-architecture.html#how-a-read-travels">Chain Architecture</a>).</li>
+<li><code>pixa.omnibus</code> is the keyless treasury of the <a href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a>.</li>
+<li>With several nodes in the list, the client moves to the next one when a node cannot be reached.</li>
+</ul>
+<h2 id="4-save-an-artwork">4. Save an artwork<a class="anchor" href="#4-save-an-artwork" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>An artwork's body is the image itself: a lossless WebP file, base64-encoded as a data URI (<a href="artwork-encoding-spec.html">Artwork Encoding Spec</a>). Save as <code>artwork.js</code>:</p>
+<pre class="hl has-copy"><span class="lang">JavaScript</span><code><span class="c1">// artwork.js: save the newest artwork as a WebP file</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s2">"fs"</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Client</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s2">"@pixagram/dpixa/dist/dpixa.js"</span><span class="p">);</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Client</span><span class="p">([</span><span class="s2">"https://api.pixagram.com"</span><span class="p">]);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">PREFIX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"data:image/webp;base64,"</span><span class="p">;</span>
+
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">posts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">pixamind</span><span class="p">.</span><span class="nx">getRankedPosts</span><span class="p">({</span><span class="w"> </span><span class="nx">sort</span><span class="o">:</span><span class="w"> </span><span class="s2">"created"</span><span class="p">,</span><span class="w"> </span><span class="nx">tag</span><span class="o">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nx">limit</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">});</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">art</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">posts</span><span class="p">.</span><span class="nx">find</span><span class="p">((</span><span class="nx">p</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">json_metadata</span><span class="p">.</span><span class="nx">format</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">"image"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="nx">PREFIX</span><span class="p">));</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">bytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Buffer</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="nx">art</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">PREFIX</span><span class="p">.</span><span class="nx">length</span><span class="p">),</span><span class="w"> </span><span class="s2">"base64"</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// A lossless WebP starts with RIFF, WEBP and VP8L, then packs width − 1 and height − 1 in 14 bits each.</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">bytes</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="s2">"ascii"</span><span class="p">,</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">4</span><span class="p">)</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="s2">"RIFF"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="s2">"ascii"</span><span class="p">,</span><span class="w"> </span><span class="mf">8</span><span class="p">,</span><span class="w"> </span><span class="mf">16</span><span class="p">)</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="s2">"WEBPVP8L"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">"not a lossless WebP"</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">readUInt32LE</span><span class="p">(</span><span class="mf">21</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">bits</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x3fff</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="nx">bits</span><span class="w"> </span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="mf">14</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x3fff</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+
+<span class="w">  </span><span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span><span class="s2">"artwork.webp"</span><span class="p">,</span><span class="w"> </span><span class="nx">bytes</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`@</span><span class="si">${</span><span class="nx">art</span><span class="p">.</span><span class="nx">author</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">art</span><span class="p">.</span><span class="nx">permlink</span><span class="si">}</span><span class="sb">: </span><span class="si">${</span><span class="nx">width</span><span class="si">}</span><span class="sb"> x </span><span class="si">${</span><span class="nx">height</span><span class="si">}</span><span class="sb"> px, </span><span class="si">${</span><span class="nx">bytes</span><span class="p">.</span><span class="nx">length</span><span class="si">}</span><span class="sb"> bytes, saved as artwork.webp`</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">main</span><span class="p">().</span><span class="k">catch</span><span class="p">((</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span><span class="w"> </span><span class="p">});</span></code></pre>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>node<span class="w"> </span>artwork.js</code></pre>
+<p>Expected output on 2026-10-05:</p>
+<pre class="hl has-copy"><code>@mathiew/not-a-bank-robber-1791222997311: 194 x 258 px, 18752 bytes, saved as artwork.webp</code></pre>
+<p>Open <code>artwork.webp</code> in any image viewer. It is the original, at its own size; the app only enlarges it on screen.</p>
+<h2 id="5-sign-and-broadcast-a-vote">5. Sign and broadcast a vote<a class="anchor" href="#5-sign-and-broadcast-a-vote" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Save as <code>vote.js</code>:</p>
+<pre class="hl has-copy"><span class="lang">JavaScript</span><code><span class="c1">// vote.js: sign a vote with your posting key, broadcast it, wait for its block</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Client</span><span class="p">,</span><span class="w"> </span><span class="nx">PrivateKey</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s2">"@pixagram/dpixa/dist/dpixa.js"</span><span class="p">);</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Client</span><span class="p">([</span><span class="s2">"https://api.pixagram.com"</span><span class="p">]);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">sleep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">ms</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setTimeout</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">ms</span><span class="p">));</span>
+
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">voter</span><span class="p">,</span><span class="w"> </span><span class="nx">author</span><span class="p">,</span><span class="w"> </span><span class="nx">permlink</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mf">2</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">PrivateKey</span><span class="p">.</span><span class="nx">fromString</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">POSTING_WIF</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">""</span><span class="p">);</span><span class="w"> </span><span class="c1">// from the environment, never from a file</span>
+
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">broadcast</span><span class="p">.</span><span class="nx">vote</span><span class="p">({</span><span class="w"> </span><span class="nx">voter</span><span class="p">,</span><span class="w"> </span><span class="nx">author</span><span class="p">,</span><span class="w"> </span><span class="nx">permlink</span><span class="p">,</span><span class="w"> </span><span class="nx">weight</span><span class="o">:</span><span class="w"> </span><span class="mf">10000</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nx">key</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"accepted, transaction"</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">attempt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">attempt</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">10</span><span class="p">;</span><span class="w"> </span><span class="nx">attempt</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">sleep</span><span class="p">(</span><span class="mf">3000</span><span class="p">);</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">tx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s2">"condenser_api"</span><span class="p">,</span><span class="w"> </span><span class="s2">"get_transaction"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="nx">id</span><span class="p">]);</span>
+<span class="w">      </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"included in block"</span><span class="p">,</span><span class="w"> </span><span class="nx">tx</span><span class="p">.</span><span class="nx">block_num</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// "Unknown Transaction" until a block holds it</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">"not in a block after 30 seconds"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">main</span><span class="p">().</span><span class="k">catch</span><span class="p">((</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span><span class="w"> </span><span class="p">});</span></code></pre>
+<p>Run it with your account and a post you want to upvote. Read the posting key from the keyboard, so it stays out of your shell history:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code><span class="nb">read</span><span class="w"> </span>-rsp<span class="w"> </span><span class="s1">'Posting key: '</span><span class="w"> </span>POSTING_WIF<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">export</span><span class="w"> </span>POSTING_WIF<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span>
+node<span class="w"> </span>vote.js<span class="w"> </span>your-account<span class="w"> </span>author<span class="w"> </span>permlink
+<span class="nb">unset</span><span class="w"> </span>POSTING_WIF</code></pre>
+<p>Expected output: two lines, the second within a few seconds.</p>
+<pre class="hl has-copy"><code>accepted, transaction &lt;40 hexadecimal characters&gt;
+included in block &lt;block number&gt;</code></pre>
+<ul>
+<li><strong>What happens.</strong> The library reads the head block, builds the transaction, signs it locally and sends it with <code>condenser_api.broadcast_transaction</code>. Your key never leaves your machine.</li>
+<li><strong>What &quot;accepted&quot; means.</strong> The broadcast call returns as soon as the node accepts the transaction, with only its <code>id</code>. It does not wait for a block, so the script asks <code>condenser_api.get_transaction</code> until a block holds it.</li>
+<li><strong>What the vote does.</strong> <code>weight</code> runs from −10000 (full downvote) to 10000 (full upvote). A full-strength vote spends 2% of your voting mana, and since hardfork 30 it moves rewards from 2.5 Pixa Power; before, it needed more than 2,500 (<a href="../social-layer/voting-and-curation.html#from-vote-to-rshares">why</a>).</li>
+</ul>
+<h2 id="6-when-a-call-fails">6. When a call fails<a class="anchor" href="#6-when-a-call-fails" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>You see</th>
+<th>Cause</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Cannot find module …/lib/index-node</code></td>
+<td>dpixa 1.5.4's package entry point</td>
+<td>Load <code>@pixagram/dpixa/dist/dpixa.js</code> (<a href="#2-set-up-a-nodejs-project">step 2</a>)</td>
+</tr>
+<tr>
+<td><code>private key network id mismatch</code></td>
+<td><code>POSTING_WIF</code> is empty, or not a private key in WIF form</td>
+<td>Export the key; a WIF starts with <code>5</code></td>
+</tr>
+<tr>
+<td><code>missing required posting authority … Missing Posting Authority your-account</code></td>
+<td>The key is not this account's posting key, or the text in your transaction contains a name the public nodes rename (<a href="differences-from-hive.html#known-issue-renames-inside-text">known issue</a>)</td>
+<td>Check the key; check the text</td>
+</tr>
+<tr>
+<td><code>Unable to acquire database lock</code></td>
+<td>The node was busy</td>
+<td>Retry the call</td>
+</tr>
+<tr>
+<td><code>Could not find API bridge</code></td>
+<td>A batch request that mixes chain calls with social calls</td>
+<td>Send <code>bridge.*</code> calls in their own requests (<a href="differences-from-hive.html#batches-ids-and-limits">batches</a>)</td>
+</tr>
+<tr>
+<td><code>id required</code></td>
+<td>A batch request whose first call is a social call</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>HTTP 413</td>
+<td>The request is larger than about 1 MiB</td>
+<td>Make the artwork smaller</td>
+</tr>
+<tr>
+<td><code>Invalid asset symbol: PXS</code></td>
+<td>A Hive library parsing a Pixa amount</td>
+<td>Use dpixa (<a href="sdks-and-libraries.html">SDKs and Libraries</a>)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="next-steps">Next steps<a class="anchor" href="#next-steps" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><a href="artwork-encoding-spec.html">Artwork Encoding Spec</a>: publish an artwork that the Pixagram app displays.</li>
+<li><a href="differences-from-hive.html">Differences from Hive</a>: everything that differs from Hive's documentation.</li>
+<li><a href="sdks-and-libraries.html">SDKs and Libraries</a>: dpixa's API, its quirks, and the other <code>@pixagram</code> packages.</li>
+<li><a href="../node-operators/run-a-node.html">Run a Node</a>: your own endpoint.</li>
+<li>The <a href="https://developers.hive.io/">Hive developer portal</a> documents every operation and API call. They apply here, with PIXA for HIVE and PXS for HBD.</li>
+</ul>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>Library:</strong> <a href="https://www.npmjs.com/package/@pixagram/dpixa"><code>@pixagram/dpixa</code> 1.5.4</a>, source at commit <a href="https://github.com/pixagram-blockchain/dpixa/tree/fddb47d677bf6b2364c1a7bcaba704208432071c"><code>fddb47d</code></a>; the broadcast call is in <a href="https://github.com/pixagram-blockchain/dpixa/blob/fddb47d677bf6b2364c1a7bcaba704208432071c/src/helpers/broadcast.ts#L312-L363"><code>src/helpers/broadcast.ts:312-363</code></a>.</li>
+<li><strong>Checks for step 5,</strong> on 2026-10-05: a vote signed by dpixa produced the same digest as the node's own serialization (<code>condenser_api.get_transaction_hex</code>); <code>condenser_api.get_transaction</code> returned the <code>block_num</code> of a known transaction; a wrongly signed vote sent to a local 1.29.0 node returned the <code>Missing Posting Authority</code> error above. No transaction was broadcast to the network.</li>
+<li><strong>Errors:</strong> observed against <code>api.pixagram.com</code> on 2026-10-05, except the last, from <code>@hiveio/dhive</code> 1.3.2.</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/09-developers/developer-quickstart.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="chain-architecture.html"><span class="k">Previous</span><span class="t">Chain Architecture</span></a><a class="next" href="differences-from-hive.html"><span class="k">Next</span><span class="t">Differences from Hive</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#before-you-start">Before you start</a></li><li><a href="#1-one-request-with-curl">1. One request with curl</a></li><li><a href="#2-set-up-a-nodejs-project">2. Set up a Node.js project</a></li><li><a href="#3-read-the-chain">3. Read the chain</a></li><li><a href="#4-save-an-artwork">4. Save an artwork</a></li><li><a href="#5-sign-and-broadcast-a-vote">5. Sign and broadcast a vote</a></li><li><a href="#6-when-a-call-fails">6. When a call fails</a></li><li><a href="#next-steps">Next steps</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/09-developers/developer-quickstart.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/09-developers/developer-quickstart.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

@@ -1,12 +1,15 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+# Build pixa.org and publish it on GitHub Pages.
+# The wiki is rebuilt from the latest documentation every time: on a push here, every six
+# hours, on demand, and when pixagram-blockchain/information sends a "docs-updated" dispatch.
+name: Deploy pixa.org
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
+  schedule:
+    - cron: "17 */6 * * *"
+  repository_dispatch:
+    types: [docs-updated]
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -22,22 +25,54 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Check out the site
         uses: actions/checkout@v4
+        with:
+          path: site
+
+      - name: Check out the documentation
+        uses: actions/checkout@v4
+        with:
+          repository: pixagram-blockchain/information
+          path: information
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the wiki's packages
+        run: pip install -r site/requirements.txt
+
+      - name: Install Mermaid and the font it measures with
+        # Only diagrams missing from _src/mermaid/cache are drawn. If this step fails, the build
+        # still runs and shows those diagrams as source.
+        continue-on-error: true
+        run: |
+          npm install -g @mermaid-js/mermaid-cli@11
+          pip install fonttools brotli
+          mkdir -p ~/.local/share/fonts
+          python3 -c "from fontTools.ttLib import TTFont; f = TTFont('site/assets/fonts/NormativePro.woff2'); f.flavor = None; f.save('$HOME/.local/share/fonts/NormativePro.otf')"
+          fc-cache -f
+
+      - name: Build
+        working-directory: site
+        run: python3 build.py --docs ../information
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          path: site
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
