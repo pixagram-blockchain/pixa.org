@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Become a Witness — Pixagram wiki</title>
+<meta name="description" content="A witness runs a node that produces blocks in turn, publishes a price feed every hour and asks stakeholders for their votes. What witnesses decide, how they …">
+<link rel="canonical" href="https://pixa.org/wiki/node-operators/become-a-witness.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Become a Witness — Pixagram wiki">
+<meta property="og:description" content="A witness runs a node that produces blocks in turn, publishes a price feed every hour and asks stakeholders for their votes. What witnesses decide, how they …">
+<meta property="og:url" content="https://pixa.org/wiki/node-operators/become-a-witness.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economic-cybernetics/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../developers/index.html">Overview</a></li>
+<li><a class="nav-i" href="../developers/chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="../developers/developer-quickstart.html">Developer Quickstart</a></li>
+<li><a class="nav-i" href="../developers/differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="../developers/sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details open>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="become-a-witness.html" aria-current="page">Become a Witness</a></li>
+<li><a class="nav-i" href="cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../protocol-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
+<li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../product/index.html">Overview</a></li>
+<li><a class="nav-i" href="../product/feed-and-discovery.html">Feed and Discovery</a></li>
+<li><a class="nav-i" href="../product/search.html">Search</a></li>
+<li><a class="nav-i" href="../product/notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="../product/account-settings.html">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economics-lab/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economics-lab/reward-examples.html">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../reference/chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="../reference/system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="../reference/glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="../reference/risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="../reference/sources-and-credits.html">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Node operators</a></nav><h1>Become a Witness</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>8 witnesses on 2026-10-08; up to 21 elected, 1 required. For the <code>witness</code> repository at commit <code>e3b8841</code>, <code>pixadock/pixagram:1.30.0</code>, <code>pixadock/bigmac-feed:v1.0.3</code> and the agnostic feed at commit <code>96b9d4a</code>. Commands were run on 2026-10-05, except those that need a registered witness.</p>
+</div></div>
+<p>A witness runs a node that produces blocks in turn, publishes a price feed every hour and asks stakeholders for their votes. What witnesses decide, how they are elected and how they are paid is on <a href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a>. This page is the procedure: keys, node, registration, price feed and upkeep. <a href="../../index.html">pixa.org</a>'s <a href="../../witness.html">node operator guide</a> walks through the same setup, together with an API node, from renting the server onward; this page pins the versions and gives the expected output of each step.</p>
+<h2 id="what-you-commit-to">What you commit to<a class="anchor" href="#what-you-commit-to" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>A node that never sleeps.</strong> Every block you miss is public and permanent in your <code>total_missed</code> count, and missed blocks are not paid.</li>
+<li><strong>An exact clock.</strong> A slow clock costs the <em>next</em> witness its block (<a href="#check-the-clock-to-the-millisecond">below</a>).</li>
+<li><strong>A price feed every hour.</strong> Feeds older than 7 days stop counting.</li>
+<li><strong>Upgrades before hardforks.</strong> After activation, a witness on an older version can no longer produce valid blocks (<a href="../governance/protocol-upgrades.html">Protocol Upgrades</a>).</li>
+<li><strong>A public page.</strong> Stakeholders vote for people they can identify: say who runs the node, where, and how to reach you.</li>
+</ul>
+<h2 id="before-you-start">Before you start<a class="anchor" href="#before-you-start" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>A server</strong> as in <a href="run-a-node.html#what-you-need">Run a Node</a>: 2 vCPU, 4 GB, 50 GB SSD, x86-64. Prefer a provider and a region the other witnesses do not use: a chain is only as resilient as its least diverse failure.</li>
+<li><strong>An account</strong> with its <strong>active key</strong> at hand. Create it in the app if you have none (<a href="../guides/create-an-account.html">Create an Account</a>).</li>
+<li><strong>A page</strong> to register as your witness URL, for example a post on Pixagram.</li>
+</ul>
+<h2 id="the-two-keys">The two keys<a class="anchor" href="#the-two-keys" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Signs</th>
+<th>Lives in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Block-signing key</strong>, new, made in step 1</td>
+<td>Blocks, and <code>witness_set_properties</code> updates to your witness's own settings (URL, price feed, parameter votes). It cannot move funds.</td>
+<td><code>pixagram/config.ini</code> on the witness server</td>
+</tr>
+<tr>
+<td><strong>Active key</strong> of your account</td>
+<td>The registration (<code>witness_update</code>), the price feed (<code>feed_publish</code>) and every transfer</td>
+<td>Your password manager, and the feed's <code>.env</code> file</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>Do not mix them up.</strong> The active key in <code>config.ini</code> produces no blocks; the signing key in <code>.env</code> publishes no feed.</li>
+<li><strong>Guard both.</strong> Whoever holds the signing key can produce blocks and change your witness's settings in your name. Whoever holds the active key can move your funds. Both files get <code>chmod 600</code>, and neither is ever committed or pasted into a chat.</li>
+<li><strong>The owner key never goes on a server.</strong></li>
+</ul>
+<h2 id="1-create-a-signing-key">1. Create a signing key<a class="anchor" href="#1-create-a-signing-key" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Generate it offline, with the wallet inside the node image. Nothing is sent anywhere.</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>--entrypoint<span class="w"> </span>/home/hived/bin/cli_wallet<span class="w"> </span>pixadock/pixagram:1.30.0<span class="w"> </span>-o</code></pre>
+<p>At the <code>new &gt;&gt;&gt;</code> prompt, type:</p>
+<pre class="hl has-copy"><code>suggest_brain_key</code></pre>
+<p>Expected output (your values differ):</p>
+<pre class="hl has-copy"><span class="lang">JSON</span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"brain_priv_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;16 words&gt;"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"wif_priv_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5…"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"pub_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PIX…"</span>
+<span class="p">}</span></code></pre>
+<p>Type <code>exit</code> to leave the wallet. Store all three values with your other keys: <code>wif_priv_key</code> goes into <code>config.ini</code> in step 2, <code>pub_key</code> goes on chain in step 4, and the 16 words recreate both. More on the wallet: <a href="cli-wallet.html">CLI Wallet</a>.</p>
+<h2 id="2-set-up-the-node">2. Set up the node<a class="anchor" href="#2-set-up-the-node" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/pixagram-blockchain/witness.git
+<span class="nb">cd</span><span class="w"> </span>witness
+grep<span class="w"> </span><span class="s1">'image: pixadock/pixagram'</span><span class="w"> </span>docker-compose.yml</code></pre>
+<p>Expected output: the line <code>image: pixadock/pixagram:1.30.0</code>, indented. The repository pins every image version; this page describes its commit <code>e3b8841</code>.</p>
+<p><strong>Fill in <code>pixagram/config.ini</code>.</strong> Near the end, two lines ship commented out, because hived stops with <code>unable to parse private key</code> when <code>private-key =</code> is present but empty. Open the file with <code>nano pixagram/config.ini</code>, remove the <code>#</code> from both lines and fill them in:</p>
+<pre class="hl has-copy"><span class="lang">INI</span><code><span class="na">witness</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"your-account"</span>
+<span class="na">private-key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">5…the wif_priv_key from step 1</span></code></pre>
+<p><strong>Protect the file.</strong> It now holds the signing key, and git tracks it as a template. Mark it so that git leaves your copy alone:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>pixagram/config.ini
+git<span class="w"> </span>update-index<span class="w"> </span>--skip-worktree<span class="w"> </span>pixagram/config.ini
+git<span class="w"> </span>ls-files<span class="w"> </span>-v<span class="w"> </span>pixagram/config.ini
+grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">'^(witness|private-key)[[:space:]]*='</span><span class="w"> </span>pixagram/config.ini</code></pre>
+<p>Expected output: <code>S pixagram/config.ini</code>, then your two lines.</p>
+<ul>
+<li>
+<p><strong>With the mark,</strong> <code>git status</code> no longer lists the file, <code>git add</code> refuses it, and <code>git reset --hard</code> keeps your copy.</p>
+</li>
+<li>
+<p><strong>Without it,</strong> <code>git reset --hard</code> replaces your copy with the template. hived reads the file only when it starts, so the node keeps producing until its next restart, perhaps days later, and then stops.</p>
+</li>
+<li>
+<p><strong>When the template changes upstream,</strong> <code>git pull</code> stops with <code>Aborting</code> and updates nothing, image versions included. Take the change this way, which keeps your key out of git:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>cp<span class="w"> </span>pixagram/config.ini<span class="w"> </span>~/config.ini.mine<span class="w">            </span><span class="c1"># your copy, outside the repository</span>
+git<span class="w"> </span>update-index<span class="w"> </span>--no-skip-worktree<span class="w"> </span>pixagram/config.ini
+git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span>pixagram/config.ini<span class="w">                 </span><span class="c1"># back to the template</span>
+git<span class="w"> </span>pull
+nano<span class="w"> </span>pixagram/config.ini<span class="w">                            </span><span class="c1"># fill in the two lines again, from ~/config.ini.mine</span>
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>pixagram/config.ini
+git<span class="w"> </span>update-index<span class="w"> </span>--skip-worktree<span class="w"> </span>pixagram/config.ini
+rm<span class="w"> </span>~/config.ini.mine<span class="w">                                </span><span class="c1"># once the node runs on the new file</span></code></pre>
+</li>
+</ul>
+<p><strong>Create <code>.env</code> for the price feed,</strong> with your account's <strong>active</strong> key. Use an editor rather than a command line, so the key does not land in your shell history: run <code>nano .env</code>, enter these two lines, save, then <code>chmod 600 .env</code>.</p>
+<pre class="hl has-copy"><span class="lang">INI</span><code><span class="na">WITNESS_ACCOUNT</span><span class="o">=</span><span class="s">your-account</span>
+<span class="na">WITNESS_WIF</span><span class="o">=</span><span class="s">5…your active key</span></code></pre>
+<p><strong>Leave two settings out.</strong> The node that started the chain needed <code>enable-stale-production = true</code> and <code>required-participation = 0</code> to produce alone. On a node joining a live network, they remove the checks that stop it from building on a stale chain or producing during a network split. The shipped <code>config.ini</code> contains neither; keep it that way.</p>
+<h3 id="check-the-clock-to-the-millisecond">Check the clock to the millisecond<a class="anchor" href="#check-the-clock-to-the-millisecond" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>hived decides when to produce from the system clock, and each slot lasts 3 seconds. If your clock runs a second or two slow, your block reaches your peers during the next witness's slot. That witness has not seen it, produces a competing block at the same height, loses the fork, and the miss is recorded against <strong>it</strong>, not you. Your own count stays clean while you cost the network blocks. On this network, one witness running 2.672 seconds slow caused 121 of 123 same-height collisions.</p>
+<p>Install a time daemon as in <a href="run-a-node.html#prepare-the-server">Run a Node</a>, then measure the real offset from the server itself. Comparing <code>date</code> over SSH measures your connection, not the clock.</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>python3<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'PY'</span>
+<span class="s">import socket, struct, time, statistics</span>
+<span class="s">def probe(host):</span>
+<span class="s">    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM); s.settimeout(4)</span>
+<span class="s">    try:</span>
+<span class="s">        t1 = time.time(); s.sendto(b'\x1b' + 47 * b'\0', (host, 123))</span>
+<span class="s">        d, _ = s.recvfrom(1024); t4 = time.time()</span>
+<span class="s">    finally:</span>
+<span class="s">        s.close()</span>
+<span class="s">    u = struct.unpack('!12I', d[:48])</span>
+<span class="s">    t2 = u[8] + u[9] / 2**32 - 2208988800</span>
+<span class="s">    t3 = u[10] + u[11] / 2**32 - 2208988800</span>
+<span class="s">    return ((t2 - t1) + (t3 - t4)) / 2</span>
+<span class="s">offsets = []</span>
+<span class="s">for host in ('pool.ntp.org', 'time.google.com', 'time.cloudflare.com'):</span>
+<span class="s">    for _ in range(3):</span>
+<span class="s">        try: offsets.append(probe(host))</span>
+<span class="s">        except Exception: pass</span>
+<span class="s">print(f'clock offset: {statistics.median(offsets):+.4f}s  ({len(offsets)} samples)'</span>
+<span class="s">      if offsets else 'could not reach any NTP server')</span>
+<span class="s">PY</span></code></pre>
+<p>Expected output: a line such as <code>clock offset: +0.0031s  (9 samples)</code>. Under about 50 ms is fine. Past about half a second, you cost your neighbours in the schedule their blocks.</p>
+<h2 id="3-start-the-node-and-let-it-sync">3. Start the node and let it sync<a class="anchor" href="#3-start-the-node-and-let-it-sync" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Start the node alone; the feed comes in step 5.</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>pixagram
+docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>pixagram</code></pre>
+<p>Wait for <code>entering live mode</code>, followed by one <code>Got … transactions on block …</code> line every 3 seconds (<a href="run-a-node.html#start-a-node-that-follows-the-chain">what the log shows</a>). Register only once the node is in live mode.</p>
+<h2 id="4-register-on-chain">4. Register on chain<a class="anchor" href="#4-register-on-chain" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Registration is one <code>witness_update</code> operation, signed with your active key. This script sends it with dpixa through <code>api.pixagram.com</code>. Run it on any machine with Node.js 18 or newer:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>mkdir<span class="w"> </span>witness-tools<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>witness-tools
+npm<span class="w"> </span>init<span class="w"> </span>-y
+npm<span class="w"> </span>install<span class="w"> </span>@pixagram/dpixa@1.5.4</code></pre>
+<p>Save as <code>register-witness.js</code>, with your values in the first three constants:</p>
+<pre class="hl has-copy"><span class="lang">JavaScript</span><code><span class="c1">// register-witness.js: run once, and again whenever the URL, key or properties change</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Client</span><span class="p">,</span><span class="w"> </span><span class="nx">PrivateKey</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s2">"@pixagram/dpixa/dist/dpixa.js"</span><span class="p">);</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">ACCOUNT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"your-account"</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">SIGNING_PUB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PIX…"</span><span class="p">;</span><span class="w">                          </span><span class="c1">// pub_key from step 1</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"https://pixagram.com/…"</span><span class="p">;</span><span class="w">                </span><span class="c1">// your witness page</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Client</span><span class="p">([</span><span class="s2">"https://api.pixagram.com"</span><span class="p">]);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">sleep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">ms</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setTimeout</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span><span class="w"> </span><span class="nx">ms</span><span class="p">));</span>
+
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">PrivateKey</span><span class="p">.</span><span class="nx">fromString</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">ACTIVE_WIF</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">""</span><span class="p">);</span><span class="w"> </span><span class="c1">// from the environment, never from a file</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">broadcast</span><span class="p">.</span><span class="nx">sendOperations</span><span class="p">([</span>
+<span class="w">    </span><span class="p">[</span><span class="s2">"witness_update"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">owner</span><span class="o">:</span><span class="w"> </span><span class="nx">ACCOUNT</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="nx">URL</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">block_signing_key</span><span class="o">:</span><span class="w"> </span><span class="nx">SIGNING_PUB</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">props</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">account_creation_fee</span><span class="o">:</span><span class="w"> </span><span class="s2">"20.000 PIXA"</span><span class="p">,</span><span class="w"> </span><span class="nx">maximum_block_size</span><span class="o">:</span><span class="w"> </span><span class="mf">2097152</span><span class="p">,</span><span class="w"> </span><span class="nx">pxs_interest_rate</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="p">},</span>
+<span class="w">      </span><span class="nx">fee</span><span class="o">:</span><span class="w"> </span><span class="s2">"0.000 PIXA"</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}],</span>
+<span class="w">  </span><span class="p">],</span><span class="w"> </span><span class="nx">key</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"accepted, transaction"</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="p">);</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">sleep</span><span class="p">(</span><span class="mf">9000</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s2">"condenser_api"</span><span class="p">,</span><span class="w"> </span><span class="s2">"get_witness_by_account"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="nx">ACCOUNT</span><span class="p">]);</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"on chain:"</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="p">.</span><span class="nx">owner</span><span class="p">,</span><span class="w"> </span><span class="s2">"signs with"</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="p">.</span><span class="nx">signing_key</span><span class="p">,</span><span class="w"> </span><span class="s2">"url"</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">main</span><span class="p">().</span><span class="k">catch</span><span class="p">((</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span><span class="w"> </span><span class="p">});</span></code></pre>
+<p>Run it with the active key read from the keyboard, so the key stays out of your shell history:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code><span class="nb">read</span><span class="w"> </span>-rsp<span class="w"> </span><span class="s1">'Active key: '</span><span class="w"> </span>ACTIVE_WIF<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">export</span><span class="w"> </span>ACTIVE_WIF<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span>
+node<span class="w"> </span>register-witness.js
+<span class="nb">unset</span><span class="w"> </span>ACTIVE_WIF</code></pre>
+<p>Expected output:</p>
+<pre class="hl has-copy"><code>accepted, transaction &lt;40 hexadecimal characters&gt;
+on chain: your-account signs with PIX… url https://pixagram.com/…</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>What to put</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>url</code></td>
+<td>Your witness page. It cannot be empty.</td>
+</tr>
+<tr>
+<td><code>block_signing_key</code></td>
+<td>The <code>pub_key</code> from step 1</td>
+</tr>
+<tr>
+<td><code>account_creation_fee</code></td>
+<td>Your vote for the fee to open an account. The median was 20.000 PIXA on 2026-10-05; the floor is 0.001 PIXA.</td>
+</tr>
+<tr>
+<td><code>maximum_block_size</code></td>
+<td>Your vote for the block size, from 131072 to 2097152 bytes. Every witness voted 2097152 on 2026-10-05.</td>
+</tr>
+<tr>
+<td><code>pxs_interest_rate</code></td>
+<td>0. The chain rejects any other value.</td>
+</tr>
+<tr>
+<td><code>fee</code></td>
+<td><code>0.000 PIXA</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Your votes for the fee and the block size count through the median of the scheduled witnesses (<a href="../reference/chain-parameters.html#accounts-and-keys">account fee</a>, <a href="../reference/chain-parameters.html#transaction-and-block-size">block size</a>).</p>
+<h2 id="5-publish-the-price-feed">5. Publish the price feed<a class="anchor" href="#5-publish-the-price-feed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p><strong>PXS promises no price.</strong> Its feed is each witness's statement of how many PIXA one Big Mac costs. The chain takes the median of the witnesses' feeds once an hour, conversions use the median of the last 84 samples, and a feed older than 7 days stops counting (<a href="../reference/chain-parameters.html#pixa-supra-pxs-and-the-price-feed">the rules</a>). Until PIXA trades on a market, every feed uses the agreed placeholder price of 0.12 USD for PIXA.</p>
+<h3 id="today-bigmac-feed-v103">Today: <code>bigmac-feed</code> v1.0.3<a class="anchor" href="#today-bigmac-feed-v103" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>The <code>bigmac-feed</code> service in the repository reads the US price of a Big Mac from The Economist's index and divides it by <code>--token-price</code>, the placeholder. It broadcasts through your own node over Docker's internal network, which is why <code>config.ini</code> loads <code>database_api</code>, <code>condenser_api</code> and <code>network_broadcast_api</code>.</p>
+<p><strong>Check the version first.</strong> On 2026-10-05 the repository pins v1.0.2, which reads the January 2026 edition of the index and publishes 51.000 PIXA per PXS. Every live witness publishes 51.833, the value v1.0.3 computes from the July 2026 edition. On the witness server, in the <code>witness</code> directory:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>grep<span class="w"> </span><span class="s1">'bigmac-feed:'</span><span class="w"> </span>docker-compose.yml</code></pre>
+<p>If it prints <code>v1.0.2</code>, pin v1.0.3 in <code>docker-compose.override.yml</code>, which <code>git pull</code> leaves alone:</p>
+<pre class="hl has-copy"><span class="lang">YAML</span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">bigmac-feed</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pixadock/bigmac-feed:v1.0.3</span></code></pre>
+<p>Then start the feed:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>bigmac-feed
+docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>bigmac-feed</code></pre>
+<p>Expected output, once an hour:</p>
+<pre class="hl has-copy"><code>Big Mac = $6.22 (as of 2026-07-01) → 1 PXS = 51.833 PIXA
+Feed published by your-account: 1.000 PXS = 51.833 PIXA</code></pre>
+<h3 id="next-the-agnostic-feed">Next: the agnostic feed<a class="anchor" href="#next-the-agnostic-feed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>The <a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic">agnostic feed</a> succeeds <code>bigmac-feed</code>. It keeps the same feed orientation and signing, and changes where the inputs come from:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><span class="sr-only">Aspect</span></th>
+<th><code>bigmac-feed</code> v1.0.3</th>
+<th>Agnostic feed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Big Mac price</td>
+<td>The US price, from a pinned edition of the index</td>
+<td>The price you observe, in your currency (<code>bigmac.json</code>); or any country's, from the latest edition of the index</td>
+</tr>
+<tr>
+<td>PIXA price</td>
+<td>Always <code>--token-price</code></td>
+<td>Market pairings (default <code>coinstore:PXAUSDT</code>), the median if several; <code>--token-price</code> only as a declared placeholder</td>
+</tr>
+<tr>
+<td>Different currencies</td>
+<td>—</td>
+<td>Converted with the ECB reference rate, through Frankfurter</td>
+</tr>
+<tr>
+<td>Protection</td>
+<td>—</td>
+<td>Moves at most ±50% per publish towards the target (<code>--max-change</code>); publishes nothing if any input is missing or absurd</td>
+</tr>
+<tr>
+<td>Trial run</td>
+<td>—</td>
+<td><code>--dry-run</code> computes everything and broadcasts nothing</td>
+</tr>
+</tbody>
+</table></div>
+<p>No published image exists on 2026-10-05. Build it next to the <code>witness</code> directory, then return to it:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code><span class="nb">cd</span><span class="w"> </span>..
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/pixagram-blockchain/bigmac-feed-agnostic.git
+git<span class="w"> </span>-C<span class="w"> </span>bigmac-feed-agnostic<span class="w"> </span>checkout<span class="w"> </span>-q<span class="w"> </span>96b9d4a<span class="w">      </span><span class="c1"># the version this page describes</span>
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>bigmac-feed-agnostic:local<span class="w"> </span>bigmac-feed-agnostic
+<span class="nb">cd</span><span class="w"> </span>witness</code></pre>
+<p><strong>Try it without a key.</strong> With no <code>bigmac.json</code>, it uses the US price from the index:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>bigmac-feed-agnostic:local<span class="w"> </span>--dry-run<span class="w"> </span>--once<span class="w"> </span>--witness<span class="w"> </span>your-account<span class="w"> </span>--token-price<span class="w"> </span><span class="m">0</span>.12</code></pre>
+<p>Expected output, after a warning that a placeholder is configured:</p>
+<pre class="hl has-copy"><code>Big Mac = 6.22 USD [The Economist index, United States, edition 2026-07-01] | PXA = 0.12 USD [fixed placeholder] → 1 PXS = 51.833 PIXA
+DRY RUN — your-account would publish: 1.000 PXS = 51.833 PIXA</code></pre>
+<p>The dry run reads your current feed from the chain to apply the ±50% limit. For an account that is not yet a witness, the second line reads <code>ERROR: your-account: read current feed: witness &quot;your-account&quot; not found on chain</code> instead; add <code>--max-change 0</code> to try it before registering.</p>
+<p><strong>Declare the Big Mac you observe.</strong> Create <code>bigmac.json</code> in the <code>witness</code> directory; the feed reads it again before every publish, so later edits need no restart.</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>bigmac.json<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">{ "currency": "CHF", "price": "7.30 CHF" }</span>
+<span class="s">EOF</span>
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">/bigmac.json:/data/bigmac.json:ro"</span><span class="w"> </span>bigmac-feed-agnostic:local<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--dry-run<span class="w"> </span>--once<span class="w"> </span>--witness<span class="w"> </span>your-account<span class="w"> </span>--token-price<span class="w"> </span><span class="m">0</span>.12</code></pre>
+<p>Expected output on 2026-10-05; the exchange rate changes daily:</p>
+<pre class="hl has-copy"><code>Big Mac = 7.3 CHF [bigmac.json] | PXA = 0.12 USD [fixed placeholder] = 0.0997248 CHF | FX USD→CHF 0.83104 (ECB 2026-10-05) → 1 PXS = 73.201 PIXA
+DRY RUN — your-account would publish: 1.000 PXS = 73.201 PIXA</code></pre>
+<p>Each witness's feed then reflects its own Big Mac, and the chain's median combines them. Create <code>bigmac.json</code> before you mount it: if the file is missing, Docker creates a directory in its place and the feed publishes nothing.</p>
+<p><strong>Switch the stack to it.</strong> Replace <code>docker-compose.override.yml</code> with:</p>
+<pre class="hl has-copy"><span class="lang">YAML</span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">bigmac-feed</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bigmac-feed-agnostic:local</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--witness=${WITNESS_ACCOUNT}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--rpc=http://pixagram:7777</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--token-price=0.12</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--interval=1h</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./bigmac.json:/data/bigmac.json:ro</span></code></pre>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>bigmac-feed
+docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>bigmac-feed</code></pre>
+<p><strong>When PIXA trades,</strong> remove the <code>--token-price=0.12</code> line and run <code>docker compose up -d bigmac-feed</code>; <code>docker compose restart</code> would keep the old command. The feed then reads the default pairing. While the pairing is not listed, it logs <code>coinstore PXAUSDT: symbol not listed</code> and publishes nothing; the chain keeps your previous feed.</p>
+<h2 id="keep-it-healthy">Keep it healthy<a class="anchor" href="#keep-it-healthy" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li>
+<p><strong>When your witness is scheduled,</strong> which needs votes from 1% of all Pixa Power (<a href="#before-you-announce">below</a>), <code>condenser_api.get_witness_schedule</code> lists it in <code>current_shuffled_witnesses</code>, and the node logs <code>Generated block #&lt;n&gt; with timestamp &lt;time&gt; at time &lt;time&gt;</code> at each of its turns. If it logs <code>Won't produce block because I don't have the private key for PIX…</code> instead, the key in <code>config.ini</code> does not match the one you registered: fix one of them and run <code>docker compose restart pixagram</code>.</p>
+</li>
+<li>
+<p><strong>Look daily</strong> at the <a href="https://pixagram.com/witness-status/">witness status page</a>: your missed blocks, your feed's age, your version against the majority.</p>
+</li>
+<li>
+<p><strong>Let a machine watch.</strong> The status project's check exits 0 when everything is healthy, 1 on a warning, 2 on a critical finding and 3 if it cannot fetch. It judges the whole network, so a warning may concern another witness. Run it on a machine that holds no keys, pinned to a version you have read, with Node.js 20 or newer. A cron line can alert you:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>*/10<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>npx<span class="w"> </span>github:pixagram-blockchain/witness-status#a376149<span class="w"> </span>--check<span class="w"> </span>&gt;/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>&lt;your<span class="w"> </span>alert<span class="w"> </span>command&gt;</code></pre>
+</li>
+<li>
+<p><strong>Your own numbers,</strong> from any machine:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.pixagram.com<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"jsonrpc":"2.0","method":"condenser_api.get_witness_by_account","params":["your-account"],"id":1}'</span></code></pre>
+<p><code>total_missed</code> should stay flat; <code>running_version</code> should match the other witnesses.</p>
+</li>
+<li>
+<p><strong>Short maintenance.</strong> Restart right after your node has produced a block, with <code>docker compose restart pixagram</code>, so it is back within seconds.</p>
+</li>
+<li>
+<p><strong>Longer maintenance: a standby node.</strong> Run a second synced node with its <strong>own</strong> signing key. Move to it by running <code>register-witness.js</code> with the standby's public key, do the work, and move back the same way. Never let two nodes sign with the same key at the same time: that can harm the chain, not just you.</p>
+</li>
+<li>
+<p><strong>Upgrades</strong> follow <a href="run-a-node.html#upgrade-to-a-new-hived-version">Run a Node</a>. Running the new version is how your node signals support for its hardfork.</p>
+</li>
+<li>
+<p><strong>Back up keys, not the chain.</strong> <code>config.ini</code>, <code>.env</code> and your key store cannot be downloaded again; the chain can.</p>
+</li>
+</ul>
+<h2 id="before-you-announce">Before you announce<a class="anchor" href="#before-you-announce" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul class="contains-task-list">
+<li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; <code>get_witness_by_account</code> shows your signing key and URL, and once you are scheduled, your missed count stays flat.</li>
+<li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; Your feed is published, less than an hour old, and matches the other witnesses' reference.</li>
+<li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; <code>config.ini</code> and <code>.env</code> are <code>chmod 600</code>, backed up, and in no git commit.</li>
+<li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; <code>timedatectl</code> reports a synchronized clock, and the offset is under 50 ms.</li>
+<li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; Your witness URL says who runs the node, where, and how to reach you.</li>
+<li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; Something other than you checks the node every ten minutes.</li>
+</ul>
+<p>Then ask for votes: tell stakeholders why you run a witness and what you run besides it. They vote as shown in <a href="../governance/witnesses-and-dpos.html#how-to-vote">Witnesses and DPoS</a>. Since hardfork 30 your witness is scheduled only once accounts holding at least 1% of all Pixa Power have voted for it, so registering alone produces no blocks (<a href="../governance/witnesses-and-dpos.html#how-witnesses-are-elected">Witnesses and DPoS</a>).</p>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>Repository</strong> <a href="https://github.com/pixagram-blockchain/witness/tree/e3b88414f563e02beff7587a3722d076214652c3"><code>pixagram-blockchain/witness</code></a> at commit <code>e3b8841</code>: <a href="https://github.com/pixagram-blockchain/witness/blob/e3b88414f563e02beff7587a3722d076214652c3/README.md"><code>README.md</code></a> (keys, clock incident, verification), <a href="https://github.com/pixagram-blockchain/witness/blob/e3b88414f563e02beff7587a3722d076214652c3/docker-compose.yml"><code>docker-compose.yml</code></a>, <a href="https://github.com/pixagram-blockchain/witness/blob/e3b88414f563e02beff7587a3722d076214652c3/pixagram/config.ini"><code>pixagram/config.ini</code></a>.</li>
+<li><strong>Feeds:</strong> <a href="https://github.com/pixagram-blockchain/bigmac-feed/tree/c88c43c8b3b8e08ff472fe523b33277b9940ffb2"><code>bigmac-feed</code></a> v1.0.3 at commit <code>c88c43c</code> (<a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/c88c43c8b3b8e08ff472fe523b33277b9940ffb2/main.go"><code>main.go</code></a>); <a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/tree/96b9d4a1f1a203d1fedbf603e7769f005c77cfba"><code>bigmac-feed-agnostic</code></a> at commit <code>96b9d4a</code> (<a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/blob/96b9d4a1f1a203d1fedbf603e7769f005c77cfba/README.md">README</a>). Both feed images' log lines were captured on 2026-10-05 without a node; the agnostic feed's dry runs reached <code>api.pixagram.com</code> read-only.</li>
+<li><strong>Registration:</strong> the <code>witness_update</code> above, signed by dpixa, matched the public node's serialization (<code>condenser_api.get_transaction_hex</code>) on 2026-10-05. Validation of the properties: <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L312-L336"><code>hive_operations.cpp:312-336</code></a> at commit <code>48f75a2</code>.</li>
+<li><strong>Log lines:</strong> <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/plugins/witness/witness_plugin.cpp#L342"><code>witness_plugin.cpp:342</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/plugins/witness/witness_plugin.cpp#L427">427</a> and <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/plugins/witness/witness_plugin.cpp#L625">625</a>.</li>
+<li><strong>Live values,</strong> 2026-10-05: <code>condenser_api.get_witnesses_by_vote</code> and <code>condenser_api.get_chain_properties</code>.</li>
+<li><strong>Monitoring:</strong> <a href="https://github.com/pixagram-blockchain/witness-status/tree/a376149c1c04e97d1b2391d4394699c6dc8c202c"><code>witness-status</code></a> at commit <code>a376149</code>.</li>
+<li><strong>The same procedure on the developer site:</strong> <a href="../../index.html">pixa.org</a>, <a href="../../witness.html">Run a Pixagram node</a>, node operator guide version 1.0, 2026-09-05.</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/10-node-operators/become-a-witness.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="run-an-api-node.html"><span class="k">Previous</span><span class="t">Run an API Node</span></a><a class="next" href="cli-wallet.html"><span class="k">Next</span><span class="t">CLI Wallet</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#what-you-commit-to">What you commit to</a></li><li><a href="#before-you-start">Before you start</a></li><li><a href="#the-two-keys">The two keys</a></li><li><a href="#1-create-a-signing-key">1. Create a signing key</a></li><li><a href="#2-set-up-the-node">2. Set up the node</a></li><li class="sub"><a href="#check-the-clock-to-the-millisecond">Check the clock to the millisecond</a></li><li><a href="#3-start-the-node-and-let-it-sync">3. Start the node and let it sync</a></li><li><a href="#4-register-on-chain">4. Register on chain</a></li><li><a href="#5-publish-the-price-feed">5. Publish the price feed</a></li><li class="sub"><a href="#today-bigmac-feed-v103">Today: bigmac-feed v1.0.3</a></li><li class="sub"><a href="#next-the-agnostic-feed">Next: the agnostic feed</a></li><li><a href="#keep-it-healthy">Keep it healthy</a></li><li><a href="#before-you-announce">Before you announce</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/10-node-operators/become-a-witness.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/10-node-operators/become-a-witness.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

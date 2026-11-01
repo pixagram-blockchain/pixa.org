@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reward Examples — Pixagram wiki</title>
+<meta name="description" content="This page does the arithmetic the chain does when a vote lands and when a post pays out, with every intermediate figure, so that a reader can check a payout …">
+<link rel="canonical" href="https://pixa.org/wiki/economics-lab/reward-examples.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Reward Examples — Pixagram wiki">
+<meta property="og:description" content="This page does the arithmetic the chain does when a vote lands and when a post pays out, with every intermediate figure, so that a reader can check a payout …">
+<meta property="og:url" content="https://pixa.org/wiki/economics-lab/reward-examples.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economic-cybernetics/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../developers/index.html">Overview</a></li>
+<li><a class="nav-i" href="../developers/chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="../developers/developer-quickstart.html">Developer Quickstart</a></li>
+<li><a class="nav-i" href="../developers/differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="../developers/sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../node-operators/index.html">Overview</a></li>
+<li><a class="nav-i" href="../node-operators/run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="../node-operators/run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="../node-operators/become-a-witness.html">Become a Witness</a></li>
+<li><a class="nav-i" href="../node-operators/cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../protocol-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
+<li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../product/index.html">Overview</a></li>
+<li><a class="nav-i" href="../product/feed-and-discovery.html">Feed and Discovery</a></li>
+<li><a class="nav-i" href="../product/search.html">Search</a></li>
+<li><a class="nav-i" href="../product/notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="../product/account-settings.html">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details open>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="reward-examples.html" aria-current="page">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../reference/chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="../reference/system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="../reference/glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="../reference/risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="../reference/sources-and-credits.html">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Economics lab</a></nav><h1>Reward Examples</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>Computed with the rules of hived 1.30.0 (hardfork 30, since block 949,330) and the reward fund as read on 2026-10-08 at block 977,074. Example 2 reproduces a real payout from before hardfork 30 to the unit.</p>
+</div></div>
+<p>This page does the arithmetic the chain does when a vote lands and when a post pays out, with every intermediate figure, so that a reader can check a payout in their own history or predict one. The rules are explained on <a href="../social-layer/proof-of-brain.html">Proof-of-Brain</a>, <a href="../social-layer/voting-and-curation.html">Voting and Curation</a> and <a href="../social-layer/posting-and-rewards.html">Posting and Rewards</a>; the constants are on <a href="../reference/chain-parameters.html">Chain Parameters</a>. Here there are only numbers, integer arithmetic throughout, as in the code. Amounts are in base units where it matters: 1 PIXA = 1,000 units, 1 VESTS = 1,000,000 units.</p>
+<h2 id="the-formulas">The formulas<a class="anchor" href="#the-formulas" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<pre class="hl has-copy"><span class="lang">Python</span><code><span class="c1"># (a) a vote -&gt; rshares                          hive_evaluator_social.cpp:660-718 (v1.30.0)</span>
+<span class="n">used_mana</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span> <span class="n">E</span> <span class="o">*</span> <span class="o">|</span><span class="n">weight</span><span class="o">|</span> <span class="o">*</span> <span class="mi">86_400</span> <span class="o">/</span> <span class="mi">10_000</span> <span class="o">/</span> <span class="mi">4_320_000</span> <span class="p">)</span>   <span class="c1"># E: effective Pixa Power in VESTS units</span>
+<span class="n">rshares</span>   <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">used_mana</span> <span class="o">-</span> <span class="mi">50_000</span><span class="p">)</span>                           <span class="c1"># 50,000 since HF30; 50,000,000 before</span>
+<span class="k">if</span> <span class="n">seconds_to_payout</span> <span class="o">&lt;</span> <span class="mi">43_200</span><span class="p">:</span> <span class="n">rshares</span> <span class="o">=</span> <span class="n">rshares</span> <span class="o">*</span> <span class="n">seconds_to_payout</span> <span class="o">//</span> <span class="mi">43_200</span>
+
+<span class="c1"># (b) a post's claim on the fund                 util/reward.cpp:7-32, s = 2,500 (content constant)</span>
+<span class="n">claim</span> <span class="o">=</span> <span class="p">((</span><span class="n">r</span> <span class="o">+</span> <span class="n">s</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>        <span class="c1"># r: the post's net rshares; about r - 5,000 for large r</span>
+
+<span class="c1"># (c) the fund's denominator, every block        database_comment.cpp:409</span>
+<span class="n">recent_claims</span> <span class="o">-=</span> <span class="n">recent_claims</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">//</span> <span class="mi">1_296_000</span>   <span class="c1"># decays by e^(-t / 15 days); every paying post adds its claim</span>
+
+<span class="c1"># (d) the payout                                 util/reward.cpp:17-29</span>
+<span class="n">payout</span> <span class="o">=</span> <span class="n">reward_balance</span> <span class="o">*</span> <span class="n">claim</span> <span class="o">//</span> <span class="p">(</span><span class="n">recent_claims</span> <span class="o">+</span> <span class="n">claims</span> <span class="n">paying</span> <span class="n">out</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">block</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">payout</span> <span class="ow">in</span> <span class="n">PXS</span> <span class="n">at</span> <span class="n">the</span> <span class="n">median</span> <span class="n">feed</span> <span class="o">&lt;</span> <span class="mf">0.020</span> <span class="n">PXS</span><span class="p">:</span> <span class="n">payout</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># (e) the split                                  database_comment.cpp:227-228, 281-301; database.cpp:979-1035 (v1.30.0)</span>
+<span class="n">curation</span> <span class="o">=</span> <span class="n">payout</span> <span class="o">*</span> <span class="mi">40</span> <span class="o">//</span> <span class="mi">100</span><span class="p">;</span>  <span class="n">author</span> <span class="o">=</span> <span class="n">payout</span> <span class="o">-</span> <span class="n">curation</span>
+<span class="n">liquid_half</span>  <span class="o">=</span> <span class="n">author</span> <span class="o">//</span> <span class="mi">2</span><span class="p">;</span>  <span class="n">vested_half</span> <span class="o">=</span> <span class="n">author</span> <span class="o">-</span> <span class="n">liquid_half</span>
+<span class="n">author_pxs</span>   <span class="o">=</span> <span class="n">liquid_half</span> <span class="o">*</span> <span class="n">print_rate</span> <span class="o">//</span> <span class="mi">10_000</span><span class="p">,</span> <span class="n">converted</span> <span class="n">to</span> <span class="n">PXS</span> <span class="n">at</span> <span class="n">the</span> <span class="n">median</span> <span class="n">feed</span><span class="p">,</span> <span class="n">rounded</span> <span class="n">down</span> <span class="n">to</span> <span class="mf">0.001</span> <span class="n">PXS</span>
+<span class="n">author_pixa</span>  <span class="o">=</span> <span class="n">liquid_half</span> <span class="o">-</span> <span class="n">ceil</span><span class="p">(</span><span class="n">author_pxs</span> <span class="ow">in</span> <span class="n">PIXA</span><span class="p">)</span>   <span class="c1"># since HF30: the PIXA that did not fit a whole 0.001 PXS is paid, not burned</span>
+<span class="n">author_vests</span> <span class="o">=</span> <span class="n">vested_half</span><span class="p">,</span> <span class="n">converted</span> <span class="n">at</span> <span class="n">the</span> <span class="n">VESTS</span> <span class="n">price</span>
+
+<span class="c1"># (f) a vote's curation weight                   hive_evaluator_social.cpp:784-831</span>
+<span class="n">W</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">//</span> <span class="n">approx_sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>                <span class="c1"># approx_sqrt: the chain's integer approximation</span>
+<span class="n">weight</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">rshares</span> <span class="n">before</span> <span class="o">+</span> <span class="n">this</span> <span class="n">vote</span><span class="p">)</span> <span class="o">-</span> <span class="n">W</span><span class="p">(</span><span class="n">rshares</span> <span class="n">before</span><span class="p">)</span>
+<span class="n">weight</span> <span class="o">//=</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">first</span> <span class="mi">24</span> <span class="n">h</span><span class="p">,</span> <span class="mi">2</span> <span class="n">until</span> <span class="mi">72</span> <span class="n">h</span><span class="p">,</span> <span class="mi">8</span> <span class="n">after</span>
+<span class="n">curator</span><span class="s1">'s share = curation * weight // sum of weights</span></code></pre>
+<p>The late-vote factor in (a), the age factors in (f) and the dust test in (d) are the three places where timing changes an amount. Everything else is proportion.</p>
+<h2 id="example-1-one-full-vote-from-10000-pixa-power">Example 1: one full vote from 10,000 Pixa Power<a class="anchor" href="#example-1-one-full-vote-from-10000-pixa-power" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>An account with E = 10,000 Pixa Power (10,000,000,000 VESTS units), full mana, votes 100% on a fresh post with no other votes.</p>
+<p><strong>(a) Mana and rshares.</strong> <code>used_mana = ceil(10,000,000,000 × 10,000 × 86,400 / 10,000 / 4,320,000) = 200,000,000</code>, exactly 2% of the bar. <code>rshares = 200,000,000 − 50,000 = 199,950,000</code>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Weight</th>
+<th>Mana spent</th>
+<th>rshares (HF30)</th>
+<th>rshares before HF30</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100%</td>
+<td>200,000,000 (2% of the bar)</td>
+<td>199,950,000</td>
+<td>150,000,000</td>
+</tr>
+<tr>
+<td>30%</td>
+<td>60,000,000</td>
+<td>59,950,000</td>
+<td>10,000,000</td>
+</tr>
+<tr>
+<td>0.25%</td>
+<td>500,000</td>
+<td>450,000</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0.01%</td>
+<td>20,000</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>The threshold.</strong> A vote produces rshares when its mana exceeds 50,000, which for a full vote means more than 2.5 Pixa Power: E = 2.500000 VESTS gives 0, E = 2.500001 VESTS gives 1. Before hardfork 30 the deduction was 50,000,000 and the line was 2,500 Pixa Power: a 100-Pixa-Power account's full vote spent 2,000,000 mana and produced nothing; today it produces 1,950,000 rshares (<a href="../social-layer/voting-and-curation.html#from-vote-to-rshares">Voting and Curation</a>).</p>
+<p><strong>(b) to (d) Payout</strong>, with the fund as read on 2026-10-08: <code>reward_balance</code> 517,193.258 PIXA, <code>recent_claims</code> 9,930,574,867,540, median feed 1.000 PXS = 51.833 PIXA (a placeholder; PXS promises no price).</p>
+<pre class="hl has-copy"><code>claim  = ((199,950,000 + 2,500)² − 2,500²) / (199,950,000 + 10,000) = 199,945,000
+payout = floor(517,193,258 × 199,945,000 / (9,930,574,867,540 + 199,945,000)) = 10,413 units = 10.413 PIXA = 0.200 PXS   (≥ 0.020 PXS: paid)</code></pre>
+<p><strong>(e) The split.</strong> Curation 40%: 4.165 PIXA, to the only curator as 4.164999 VESTS. Author 60%: 6.248 PIXA; the liquid half, 3.124 PIXA, becomes 0.060 PXS (<code>floor(3,124 × 1,000 / 51,833)</code>), and since hardfork 30 the 0.014 PIXA that did not fit into a whole 0.001 PXS is paid as PIXA instead of being burned (<code>3,124 − ceil(60 × 51,833 / 1,000) = 14</code> units); the vested half, 3.124 PIXA, becomes 3.123999 VESTS.</p>
+<p>The same vote at 30% gives 59,950,000 rshares and 3.121 PIXA (0.060 PXS). Before hardfork 30 it gave 10,000,000 rshares and 0.520 PIXA, below the minimum, so nothing.</p>
+<p><strong>What a lone full vote is worth today</strong>, with the same fund, for other stakes:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Voter's Pixa Power</th>
+<th>rshares</th>
+<th>Payout</th>
+<th>Author</th>
+<th>Curator</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>50</td>
+<td>950,000</td>
+<td>0: 0.049 PIXA is under 0.020 PXS</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>100</td>
+<td>1,950,000</td>
+<td>0: 0.101 PIXA is under 0.020 PXS</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>1,000</td>
+<td>19,950,000</td>
+<td>1.038 PIXA (0.020 PXS)</td>
+<td>0.006 PXS + 0.312 Pixa Power</td>
+<td>0.415 Pixa Power</td>
+</tr>
+<tr>
+<td>2,500</td>
+<td>49,950,000</td>
+<td>2.601 PIXA (0.050 PXS)</td>
+<td>0.015 PXS + 0.781 Pixa Power</td>
+<td>1.040 Pixa Power</td>
+</tr>
+<tr>
+<td>10,000</td>
+<td>199,950,000</td>
+<td>10.413 PIXA (0.200 PXS)</td>
+<td>0.060 PXS + 3.124 Pixa Power</td>
+<td>4.165 Pixa Power</td>
+</tr>
+<tr>
+<td>100,000</td>
+<td>1,999,950,000</td>
+<td>104.137 PIXA (2.009 PXS)</td>
+<td>0.602 PXS + 31.242 Pixa Power</td>
+<td>41.654 Pixa Power</td>
+</tr>
+<tr>
+<td>1,000,000</td>
+<td>19,999,950,000</td>
+<td>1,039.521 PIXA (20.055 PXS)</td>
+<td>6.016 PXS + 311.857 Pixa Power</td>
+<td>415.808 Pixa Power</td>
+</tr>
+</tbody>
+</table></div>
+<p>In each row the author also receives the few thousandths of a PIXA that did not fit into a whole 0.001 PXS. The smallest lone full vote that clears the 0.020 PXS minimum today comes from about 998.3 Pixa Power (19,916,369 rshares, 1.037 PIXA). A smaller vote is not wasted: its rshares add to the post's total. Eleven full votes from 100-Pixa-Power accounts make 21,450,000 rshares and pay 1.116 PIXA (0.021 PXS), and the eleven share the curation; ten make 19,500,000 and fall just under the line, because each vote loses its own 50,000. Before hardfork 30 any number of such votes produced nothing.</p>
+<p><strong>Live checks.</strong> The account <code>wang</code>, with 50 VESTS of received delegation, voted 100% after hardfork 30; the chain's <code>effective_comment_vote</code> recorded 950,000 rshares, as the table says. And the first payouts after hardfork 30 show the conversion remainder: <code>@saitam/far-away-staying-awake-1790785626144</code>, paid in block 954,672, received 16.814 PXS, 0.033 PIXA and 871.553993 VESTS. The liquid half was 871,554 units: <code>floor(871,554 × 1,000 / 51,833) = 16,814</code> PXS units, <code>871,554 − ceil(16,814 × 51,833 / 1,000) = 33</code> units of PIXA. Before hardfork 30 those 33 units were burned and <code>hive_payout</code> was always 0 while the print rate was 100%.</p>
+<h2 id="example-2-a-real-payout-reproduced-to-the-unit">Example 2: a real payout, reproduced to the unit<a class="anchor" href="#example-2-a-real-payout-reproduced-to-the-unit" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The post <code>@bryan/horus-portrait-1790597187843</code>, published in block 690,312 with the creation time 2026-09-28 12:06:27 (the time of the block before it, which is what the chain records), paid out 7 days later in block 891,898, 2026-10-05 12:06:27. This was <strong>before hardfork 30</strong>, so the deduction is 50,000,000. Three votes, read from the <code>effective_comment_vote</code> operations (<code>account_history_api.enum_virtual_ops</code>):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Voter</th>
+<th>Time</th>
+<th>Age of post</th>
+<th>E (VESTS)</th>
+<th>Weight</th>
+<th>Mana spent</th>
+<th>rshares</th>
+<th>Chain's rshares</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bryan</code></td>
+<td>12:10:33</td>
+<td>4 min</td>
+<td>100.000000</td>
+<td>100%</td>
+<td>2,000,000</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>mathiew</code></td>
+<td>18:38:42</td>
+<td>6.5 h</td>
+<td>3,396,923.076920</td>
+<td>25%</td>
+<td>16,984,615,385</td>
+<td>16,934,615,385</td>
+<td>16,934,615,385</td>
+</tr>
+<tr>
+<td><code>matias</code></td>
+<td>19:06:42</td>
+<td>7.0 h</td>
+<td>733,062.272804</td>
+<td>75%</td>
+<td>10,995,934,093</td>
+<td>10,945,934,093</td>
+<td>10,945,934,093</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Curation weights (f).</strong> All three votes fell in the first 24 hours, so no age factor. <code>mathiew</code>: W(16,934,615,385) − W(0) = 130,130. <code>matias</code>: W(27,880,549,478) − W(16,934,615,385) = 32,069. <code>bryan</code>: 0 rshares, weight 0. The chain recorded 130,130, 32,069 and a total of 162,199.</p>
+<p><strong>Claim (b).</strong> net rshares 27,880,549,478; claim = 27,880,544,478 (5,000 less).</p>
+<p><strong>The fund at the payout block.</strong> The fund is read every block, so it was reconstructed from a snapshot 1,493 blocks later (block 893,391: 481,746.405 PIXA and 11,598,498,893,914) by undoing the decay and the issuance between them, 653 units a block in that window: <code>reward_balance</code> 481,925.934 PIXA, <code>recent_claims</code> 11,610,772,368,671 before this post's claim, 11,638,652,913,149 with it; it was the only post paying out in that block.</p>
+<p><strong>Payout (d).</strong> <code>floor(481,925,934 × 27,880,544,478 / 11,638,652,913,149) = 1,154,459 units = 1,154.459 PIXA</code>, which is 22.272 PXS at the feed.</p>
+<p><strong>Split (e).</strong> Curation <code>floor(0.40 × 1,154,459) = 461,783</code>; author 692,676.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Who</th>
+<th>Formula</th>
+<th>Units</th>
+<th>Paid as</th>
+<th>Chain's record</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mathiew</code></td>
+<td>461,783 × 130,130 / 162,199</td>
+<td>370,482</td>
+<td>370.481997 VESTS</td>
+<td>370.481997 VESTS</td>
+</tr>
+<tr>
+<td><code>matias</code></td>
+<td>461,783 × 32,069 / 162,199</td>
+<td>91,300</td>
+<td>91.299999 VESTS</td>
+<td>91.299999 VESTS</td>
+</tr>
+<tr>
+<td>fund keeps</td>
+<td>the rounding</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bryan</code>, liquid half</td>
+<td>692,676 / 2 = 346,338 at 51.833</td>
+<td></td>
+<td>6.681 PXS</td>
+<td>6.681 PXS</td>
+</tr>
+<tr>
+<td><code>bryan</code>, vested half</td>
+<td>346,338</td>
+<td></td>
+<td>346.337997 VESTS</td>
+<td>346.337997 VESTS</td>
+</tr>
+</tbody>
+</table></div>
+<p>The <code>comment_reward</code> operation recorded <code>payout</code> 22.272 PXS, <code>total_payout_value</code> 13.362 PXS (the author's part in PXS) and <code>curator_payout_value</code> 8.909 PXS, all matching. The VESTS figures use the reward VESTS price <code>(total_vesting_shares + pending rewarded shares) / (fund + pending rewarded PIXA)</code>, about 0.9999999928 VESTS per PIXA at the time.</p>
+<p><strong>Pending payout check.</strong> The app's &quot;pending payout&quot; figure follows the same arithmetic with the fund of the moment. For <code>@retro/peach-knight-1791211388189</code> at block 895,530: net rshares 24,319,843,531, claim 24,319,838,531, fund 483,143.172 PIXA = 9,321.150 PXS, <code>recent_claims</code> 11,541,212,091,810: <code>floor(claim × 9,321,150 / recent_claims) = 19.641 PXS</code>, which is what the <code>effective_comment_vote</code> operation carried as <code>pending_payout</code> (the account-history plugin computes it with the fund of the moment).</p>
+<h2 id="example-3-when-the-vote-lands">Example 3: when the vote lands<a class="anchor" href="#example-3-when-the-vote-lands" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Voter A has 100,000 Pixa Power and votes 100% one hour after publication; voter B has 50,000 Pixa Power and votes 100% at different ages. Hardfork 30 rules; the fund of 2026-10-08.</p>
+<p>A: 1,999,950,000 rshares, curation weight W(1,999,950,000) − W(0) = 42,642. (The chain's <code>approx_sqrt(1,999,955,000)</code> is 46,900 where the true root is 44,720; the approximation is part of the rule.)</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>B votes at</th>
+<th>B's rshares</th>
+<th>B's raw weight</th>
+<th>Age factor</th>
+<th>B's weight</th>
+<th>Post payout</th>
+<th>Curation pot</th>
+<th>A gets</th>
+<th>B gets</th>
+<th>B's share</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 h</td>
+<td>999,950,000</td>
+<td>11,259</td>
+<td>×1</td>
+<td>11,259</td>
+<td>156.190 PIXA</td>
+<td>62.476 PIXA</td>
+<td>49.425 PIXA</td>
+<td>13.050 PIXA</td>
+<td>20.9%</td>
+</tr>
+<tr>
+<td>30 h</td>
+<td>999,950,000</td>
+<td>11,259</td>
+<td>÷2</td>
+<td>5,629</td>
+<td>156.190 PIXA</td>
+<td>62.476 PIXA</td>
+<td>55.190 PIXA</td>
+<td>7.285 PIXA</td>
+<td>11.7%</td>
+</tr>
+<tr>
+<td>80 h</td>
+<td>999,950,000</td>
+<td>11,259</td>
+<td>÷8</td>
+<td>1,407</td>
+<td>156.190 PIXA</td>
+<td>62.476 PIXA</td>
+<td>60.480 PIXA</td>
+<td>1.995 PIXA</td>
+<td>3.2%</td>
+</tr>
+<tr>
+<td>162 h, 6 h before payout</td>
+<td>499,975,000 (× 21,600 / 43,200)</td>
+<td>5,581</td>
+<td>÷8</td>
+<td>697</td>
+<td>130.165 PIXA</td>
+<td>52.066 PIXA</td>
+<td>51.228 PIXA</td>
+<td>0.837 PIXA</td>
+<td>1.6%</td>
+</tr>
+</tbody>
+</table></div>
+<p>Three things to read off the table. B's vote is half the size of A's but, cast second, its raw weight is about a quarter of A's: the square-root curve rewards being first. The age factors then divide it by 2 or 8. And a vote in the last 12 hours loses rshares too, so it raises the post's payout less: 130.165 instead of 156.190 PIXA.</p>
+<p><strong>Live check of the age factors.</strong> On <code>@karo/diving-in-clear-waters-1790621283370</code> (created 2026-09-28 18:48:03), six votes at ages 0.3 h, 40 h, 45 h, 56 h, 94 h and 124 h have raw weights 102,020, 60,041, 88,338, 93,234, 45 and 42; the chain recorded 102,020, 30,020, 44,169, 46,617, 5 and 5: ×1, ÷2, ÷2, ÷2, ÷8, ÷8.</p>
+<h2 id="the-constants-used">The constants used<a class="anchor" href="#the-constants-used" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Where it is defined</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vote mana regeneration</td>
+<td>5 days (432,000 s)</td>
+<td><a href="../reference/chain-parameters.html#voting-and-curation">Voting and curation</a></td>
+</tr>
+<tr>
+<td>Vote denominator</td>
+<td>10 × 432,000 = 4,320,000</td>
+<td><a href="../reference/chain-parameters.html#voting-and-curation">Voting and curation</a></td>
+</tr>
+<tr>
+<td>Dust deduction</td>
+<td>50,000 rshares since HF30; 50,000,000 before</td>
+<td><a href="../reference/chain-parameters.html#voting-and-curation">Voting and curation</a></td>
+</tr>
+<tr>
+<td>Late-vote window</td>
+<td>12 hours</td>
+<td><a href="../reference/chain-parameters.html#voting-and-curation">Voting and curation</a></td>
+</tr>
+<tr>
+<td>Payout window</td>
+<td>7 days</td>
+<td><a href="../reference/chain-parameters.html#posts-and-comments">Posts and comments</a></td>
+</tr>
+<tr>
+<td>Content constant s</td>
+<td>2,500</td>
+<td><a href="../reference/chain-parameters.html#voting-and-curation">Voting and curation</a></td>
+</tr>
+<tr>
+<td>Recent-claims decay</td>
+<td>15 days</td>
+<td><a href="../reference/chain-parameters.html#voting-and-curation">Voting and curation</a></td>
+</tr>
+<tr>
+<td>Curation share</td>
+<td>40%</td>
+<td><a href="../reference/chain-parameters.html#voting-and-curation">Voting and curation</a></td>
+</tr>
+<tr>
+<td>Age factors</td>
+<td>×1 to 24 h, ÷2 to 72 h, ÷8 after</td>
+<td><a href="../reference/chain-parameters.html#voting-and-curation">Voting and curation</a></td>
+</tr>
+<tr>
+<td>Minimum payout</td>
+<td>0.020 PXS</td>
+<td><a href="../reference/chain-parameters.html#posts-and-comments">Posts and comments</a></td>
+</tr>
+<tr>
+<td>Author's liquid half</td>
+<td>paid as PXS while the print rate is 100%; the rounding remainder paid as PIXA since HF30</td>
+<td><a href="../reference/chain-parameters.html#pixa-supra-pxs-and-the-price-feed">Pixa Supra (PXS) and the price feed</a></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>Code</strong>, at tag <a href="https://github.com/pixagram-blockchain/pixagram/tree/746118eb3b87dcca768b72fa262ad2aa63e1f177"><code>v1.30.0</code></a> for the vote evaluator and at commit <a href="https://github.com/pixagram-blockchain/pixagram/tree/48f75a28840c24e5a5b42ccb4f94dc8668ecb443"><code>48f75a2</code></a> for the unchanged rest: <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/hive_evaluator_social.cpp#L660-L718"><code>hive_evaluator_social.cpp:660-718</code></a> (mana, dust, late damping) and <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_social.cpp#L784-L831"><code>784-831</code></a> (curation weight); <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/util/reward.cpp#L7-L71"><code>util/reward.cpp:7-71</code></a> (claim, payout, curves, <code>approx_sqrt</code>); <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database_comment.cpp#L129-L325"><code>database_comment.cpp:129-325, 395-444</code></a> (the split and the fund); <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L979-L1035"><code>database.cpp:979-1035</code> at v1.30.0</a> (the author's PXS and the remainder); <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/include/hive/chain/util/supplement_operations.hpp#L25-L73"><code>supplement_operations.hpp:25-73</code></a> (pending payout); <code>approx_sqrt</code> test vector in <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/tests/unit/tests/basic_tests.cpp#L594-L597"><code>basic_tests.cpp:594-597</code></a>.</li>
+<li><strong>Live chain</strong>: <code>condenser_api.get_reward_fund [&quot;post&quot;]</code> and <code>get_dynamic_global_properties</code> at block 977,074 (2026-10-08 11:07 UTC) and at blocks 893,391, 895,071, 895,416 (2026-10-05); <code>account_history_api.enum_virtual_ops</code> for blocks 690,312 to 891,898 (the votes and the payout of Example 2) and for <code>@karo/diving-in-clear-waters-1790621283370</code>; the <code>effective_comment_vote</code> operation with its <code>pending_payout</code> at block 895,530; the <code>effective_comment_vote</code> of <code>wang</code> after block 949,330; <code>account_history_api.enum_virtual_ops</code> for the <code>author_reward</code> operations in blocks 950,000 to 979,000.</li>
+<li>The arithmetic was run in a script with integer operations only; every chain figure quoted matches its output to the unit.</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/19-economics-lab/reward-examples.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">Economics lab</span></a><a class="next" href="../history-and-design/index.html"><span class="k">Next</span><span class="t">History and design</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#the-formulas">The formulas</a></li><li><a href="#example-1-one-full-vote-from-10000-pixa-power">Example 1: one full vote from 10,000 Pixa Power</a></li><li><a href="#example-2-a-real-payout-reproduced-to-the-unit">Example 2: a real payout, reproduced to the unit</a></li><li><a href="#example-3-when-the-vote-lands">Example 3: when the vote lands</a></li><li><a href="#the-constants-used">The constants used</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/19-economics-lab/reward-examples.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/19-economics-lab/reward-examples.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

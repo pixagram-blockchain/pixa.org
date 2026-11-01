@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artwork Encoding Spec — Pixagram wiki</title>
+<meta name="description" content="This page specifies how an artwork is stored on the Pixa chain, so that other programs can publish artworks the Pixagram app displays and read the ones it pu…">
+<link rel="canonical" href="https://pixa.org/wiki/developers/artwork-encoding-spec.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Artwork Encoding Spec — Pixagram wiki">
+<meta property="og:description" content="This page specifies how an artwork is stored on the Pixa chain, so that other programs can publish artworks the Pixagram app displays and read the ones it pu…">
+<meta property="og:url" content="https://pixa.org/wiki/developers/artwork-encoding-spec.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economic-cybernetics/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details open>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="developer-quickstart.html">Developer Quickstart</a></li>
+<li><a class="nav-i" href="differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="artwork-encoding-spec.html" aria-current="page">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../node-operators/index.html">Overview</a></li>
+<li><a class="nav-i" href="../node-operators/run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="../node-operators/run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="../node-operators/become-a-witness.html">Become a Witness</a></li>
+<li><a class="nav-i" href="../node-operators/cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../protocol-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
+<li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../product/index.html">Overview</a></li>
+<li><a class="nav-i" href="../product/feed-and-discovery.html">Feed and Discovery</a></li>
+<li><a class="nav-i" href="../product/search.html">Search</a></li>
+<li><a class="nav-i" href="../product/notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="../product/account-settings.html">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economics-lab/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economics-lab/reward-examples.html">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../reference/chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="../reference/system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="../reference/glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="../reference/risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="../reference/sources-and-credits.html">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Developers</a></nav><h1>Artwork Encoding Spec</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>Describes the format the Pixagram app writes as <code>pixagram/3.0.2</code> (app commit <code>ca1d157</code>) and the checks it applies when it displays an artwork. Checked against the 159 most recent posts on 2026-10-05: all 136 artworks among them that still held their image follow it.</p>
+</div></div>
+<p>This page specifies how an artwork is stored on the Pixa chain, so that other programs can publish artworks the Pixagram app displays and read the ones it publishes. It covers the operation, the image in the body, the metadata, editing and deleting, and how to read an artwork safely. Why the format is what it is, and what it costs, is on <a href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a>.</p>
+<p>In this spec, <strong>must</strong> marks what the app relies on to display a post as an artwork, and <strong>should</strong> marks what the app itself writes.</p>
+<h2 id="the-operation">The operation<a class="anchor" href="#the-operation" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>An artwork is a top-level post: one <code>comment</code> operation, signed with the author's posting key, with no other operation needed.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+<th>Chain rule</th>
+<th>App rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>parent_author</code></td>
+<td><code>&quot;&quot;</code></td>
+<td>empty for a top-level post</td>
+<td></td>
+</tr>
+<tr>
+<td><code>parent_permlink</code></td>
+<td>The category: the first tag</td>
+<td>under 256 bytes, UTF-8</td>
+<td>equals <code>tags[0]</code>; <strong>must not</strong> be a community name (<code>portal-…</code>), because the app shows every post in a community as a blog post</td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td>The publishing account</td>
+<td>an existing account, 3–16 characters</td>
+<td></td>
+</tr>
+<tr>
+<td><code>permlink</code></td>
+<td>Unique per author</td>
+<td>under 256 bytes, UTF-8</td>
+<td><em>should</em> be the title's slug and a millisecond timestamp, such as <code>peach-knight-1791211388189</code></td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>The artwork's name</td>
+<td>under 256 bytes, UTF-8</td>
+<td>1 to 24 characters</td>
+</tr>
+<tr>
+<td><code>body</code></td>
+<td>The image, as one data URI (<a href="#the-body">below</a>)</td>
+<td>non-empty UTF-8; the whole transaction under about 2 MiB</td>
+<td><strong>must</strong> be a valid image data URI; the app recognises an artwork by its body</td>
+</tr>
+<tr>
+<td><code>json_metadata</code></td>
+<td>A JSON object as a string (<a href="#json_metadata">below</a>)</td>
+<td>valid JSON</td>
+<td><em>should</em> contain <code>&quot;format&quot;: &quot;image&quot;</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Slug rule.</strong> The app lowercases the title, replaces every run of characters other than <code>a–z</code> and <code>0–9</code> with a hyphen, trims hyphens from both ends, keeps the first 24 characters and appends <code>-</code> and <code>Date.now()</code>. Readers must not rely on this form; any permlink of lowercase letters, digits and hyphens is valid.</p>
+<p><strong>Payout options.</strong> The app sends no <code>comment_options</code>, so every artwork has the chain's defaults: rewards allowed, curation allowed, <code>percent_pxs</code> 10000 (Hive's <code>percent_hbd</code>), maximum payout 1,000,000.000 PXS and no beneficiaries (<a href="../social-layer/posting-and-rewards.html#options-the-chain-offers">Posting and Rewards</a>).</p>
+<p><strong>Timing.</strong> An account can publish one top-level post every 5 minutes (<a href="../reference/chain-parameters.html#posts-and-comments">Chain Parameters</a>).</p>
+<h2 id="the-body">The body<a class="anchor" href="#the-body" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<pre class="hl has-copy"><code>body       = &quot;data:image/webp;base64,&quot; payload
+payload    = standard base64 of one WebP file, padded with &quot;=&quot;, with no spaces or line breaks
+WebP file  = &quot;RIFF&quot; size &quot;WEBP&quot; &quot;VP8L&quot; …   (the lossless format)</code></pre>
+<ul>
+<li><strong>One image, nothing else.</strong> The body <em>must</em> be the data URI alone: no text before or after it, no <code>&lt;</code>, no line break.</li>
+<li><strong>Lossless WebP.</strong> The app <em>should</em> write lossless WebP (the <code>VP8L</code> chunk), and every artwork in the survey is one. It encodes with libwebp's <code>lossless</code> and <code>exact</code> options, so every pixel, including fully transparent ones, keeps its exact colour.</li>
+<li><strong>Size.</strong> The image is stored at its own size; there is no scaling factor in the format. Artworks on chain on 2026-10-05 measured from 91 to 2,160 pixels wide and 91 to 1,184 high. The body must fit in the transaction: about 2 MiB on chain, and about 1 MiB through the public API (<a href="../reference/chain-parameters.html#transaction-and-block-size">limits</a>).</li>
+<li><strong>Cost.</strong> Every byte costs the author <a href="../tokens-and-economy/resource-credits.html">Resource Credits</a>; a smaller file is cheaper.</li>
+</ul>
+<p>The start of a real artwork's body, which decodes to <code>RIFF</code>, the file size, <code>WEBP</code> and <code>VP8L</code>:</p>
+<pre class="hl has-copy"><code>data:image/webp;base64,UklGRjhJAABXRUJQVlA4TCxJAAAvwUBAAL/BJ…</code></pre>
+<h2 id="json_metadata"><code>json_metadata</code><a class="anchor" href="#json_metadata" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The app writes these keys, in this order:</p>
+<pre class="hl has-copy"><span class="lang">JSON</span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"app"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pixagram/3.0.2"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"format"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"nature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"travel"</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"image"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"nsfw"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"license"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PIXA_LICENSE"</span><span class="p">,</span><span class="w"> </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0"</span><span class="p">,</span><span class="w"> </span><span class="nt">"…"</span><span class="p">:</span><span class="w"> </span><span class="s2">"…"</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span></code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Meaning</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app</code></td>
+<td>string</td>
+<td>The writing app and its version</td>
+<td><em>should</em> name your app, such as <code>&quot;my-app/1.0&quot;</code></td>
+</tr>
+<tr>
+<td><code>format</code></td>
+<td>string</td>
+<td><code>&quot;image&quot;</code> marks an artwork. Blog posts use <code>&quot;markdown&quot;</code> and replies <code>&quot;text&quot;</code>.</td>
+<td><em>should</em> be <code>&quot;image&quot;</code>; the app itself goes by the body, other readers by this key</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>array of strings</td>
+<td>1 to 5 tags; the first is the category</td>
+<td>each 3 or more characters, matching <code>^[a-z][a-z0-9-]*$</code></td>
+</tr>
+<tr>
+<td><code>image</code></td>
+<td>array</td>
+<td>Empty. Hive apps list image addresses here; the artwork is the body itself.</td>
+<td><em>should</em> be <code>[]</code></td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>The author's description</td>
+<td>up to 1,024 characters; may be empty</td>
+</tr>
+<tr>
+<td><code>nsfw</code></td>
+<td>boolean</td>
+<td>The author marks the artwork as not safe for work. The app hides such artworks by default (<a href="../social-layer/censorship-resilience-and-moderation.html#what-the-pixagram-app-and-the-indexer-do">Moderation</a>).</td>
+<td><em>should</em> be present</td>
+</tr>
+<tr>
+<td><code>license</code></td>
+<td>object</td>
+<td>The author's licence terms (<a href="#the-licence-record">below</a>)</td>
+<td>optional</td>
+</tr>
+<tr>
+<td><code>deleted</code></td>
+<td>boolean</td>
+<td>Written by every edit in the app: <code>false</code>, or <code>true</code> once the author deletes the artwork (<a href="#editing-hiding-and-deleting">below</a>). The app also reads <code>&quot;true&quot;</code>, <code>1</code> and a <code>deleted</code> tag as deleted.</td>
+<td>absent on new posts</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="the-licence-record">The licence record<a class="anchor" href="#the-licence-record" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>The app writes the licence the author has set as default in Settings, or the one chosen for this artwork. What each right means is in <a href="../art-on-chain/permanence-and-provenance.html#licence">Permanence and Provenance</a>; the chain does not enforce any of it.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td><code>&quot;PIXA_LICENSE&quot;</code></td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>string</td>
+<td><code>&quot;1.0&quot;</code></td>
+</tr>
+<tr>
+<td><code>isCustomized</code></td>
+<td>boolean</td>
+<td><code>true</code> if the author changed the defaults</td>
+</tr>
+<tr>
+<td><code>royaltyPercentage</code></td>
+<td>number</td>
+<td>0 to 100. Nothing collects it today.</td>
+</tr>
+<tr>
+<td><code>governingLaw</code></td>
+<td>object</td>
+<td><code>jurisdiction</code>, <code>court</code>, <code>arbitrationRules</code>, <code>arbitrationLocation</code>: strings, often empty</td>
+</tr>
+<tr>
+<td><code>rightsConfiguration.holderRights</code></td>
+<td>object of booleans</td>
+<td><code>personal-display</code>, <code>commercial-use</code>, <code>social-media</code>, <code>physical-goods</code>, <code>third-party-licensing</code>, <code>modify</code>, <code>derivatives</code>, <code>mint-new-nfts</code>, <code>metaverse</code>, <code>games-apps</code>, <code>music-video-film</code>, <code>exhibitions</code>, <code>educational</code></td>
+</tr>
+<tr>
+<td><code>rightsConfiguration.visitorRights</code></td>
+<td>object of booleans</td>
+<td><code>share-with-attribution</code>, <code>share-without-attribution</code>, <code>modify-and-share</code>, <code>ai-training</code></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>Writers</strong> should include <code>license</code> only with terms the author has chosen. A licence record states the author's terms in public, permanently.</li>
+<li><strong>Readers</strong> should treat a post without <code>license</code> as carrying no licence record, and should not show terms for it.</li>
+</ul>
+<h2 id="editing-hiding-and-deleting">Editing, hiding and deleting<a class="anchor" href="#editing-hiding-and-deleting" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Action</th>
+<th>What the app broadcasts</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Edit the title, tags, description, NSFW flag or licence</td>
+<td>A new <code>comment</code> with the same <code>author</code>, <code>permlink</code>, <code>parent_author</code> and <code>parent_permlink</code>; <code>json_metadata</code> is the stored object with the changed keys replaced; the body is the full image again</td>
+<td>The edit replaces what readers see. The first version stays in its block.</td>
+</tr>
+<tr>
+<td>Mark as deleted (the <em>Deleted</em> switch when editing)</td>
+<td>The same, with <code>&quot;deleted&quot;: true</code> added to <code>json_metadata</code></td>
+<td>The app hides the post everywhere. Reversible.</td>
+</tr>
+<tr>
+<td>Delete (the card menu), or erase the image (when editing)</td>
+<td>The same, with the body <code>deleted</code>; the card menu also adds <code>&quot;deleted&quot;: true</code></td>
+<td>The image is gone from the current version. The first version stays in its block.</td>
+</tr>
+<tr>
+<td>Remove from the chain's state</td>
+<td><code>delete_comment</code></td>
+<td>Only while the post has no replies and no net positive votes, and before payout. The app offers it for replies, not for artworks.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The category (<code>parent_permlink</code>) cannot change in an edit. Edits of other kinds of post can carry a diff patch instead of a full body; the app never sends one for an artwork.</p>
+<h2 id="reading-an-artwork">Reading an artwork<a class="anchor" href="#reading-an-artwork" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ol>
+<li>
+<p><strong>Fetch the post:</strong> <code>bridge.get_post</code> with <code>{&quot;author&quot;: …, &quot;permlink&quot;: …}</code> returns <code>json_metadata</code> already parsed. <code>condenser_api.get_content</code> returns it as a string.</p>
+</li>
+<li>
+<p><strong>Skip what is not an artwork.</strong> The app's test: the body, trimmed, starts with <code>data:image/</code>, contains no <code>&lt;</code> and no line break, and passes the checks in step 4. Posts the app writes also carry <code>&quot;format&quot;: &quot;image&quot;</code>.</p>
+</li>
+<li>
+<p><strong>Skip deleted artworks:</strong> <code>json_metadata.deleted</code> is <code>true</code>, <code>&quot;true&quot;</code> or <code>1</code>, or <code>tags</code> contains <code>deleted</code>, or the body is <code>deleted</code>.</p>
+</li>
+<li>
+<p><strong>Validate before decoding.</strong> The app accepts a data URI only if all of these hold, and so should any reader that shows images to people. A body that fails them is not shown as an image.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Check</th>
+<th>App limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Form</td>
+<td><code>data:image/&lt;type&gt;;base64,&lt;payload&gt;</code>, nothing else</td>
+</tr>
+<tr>
+<td>Base64</td>
+<td>length a multiple of 4, padding only at the end</td>
+</tr>
+<tr>
+<td>Declared type</td>
+<td>must match the file's first bytes; a WebP must start with <code>RIFF</code> … <code>WEBP</code></td>
+</tr>
+<tr>
+<td>Length</td>
+<td>at most 7,000,000 characters</td>
+</tr>
+<tr>
+<td>Dimensions</td>
+<td>not zero; at most 40,000,000 pixels</td>
+</tr>
+</tbody>
+</table></div>
+</li>
+<li>
+<p><strong>Decode</strong> the base64 payload to bytes. The result is a complete <code>.webp</code> file.</p>
+</li>
+</ol>
+<p>A complete reader in Python, using only the standard library. Save it as <code>get_artwork.py</code>:</p>
+<pre class="hl has-copy"><span class="lang">Python</span><code><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">"""Save one Pixagram artwork as a WebP file. Python 3.8+, standard library only."""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">struct</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+
+<span class="n">API</span> <span class="o">=</span> <span class="s2">"https://api.pixagram.com"</span>
+<span class="n">PREFIX</span> <span class="o">=</span> <span class="s2">"data:image/webp;base64,"</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rpc</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span>
+        <span class="n">API</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">"jsonrpc"</span><span class="p">:</span> <span class="s2">"2.0"</span><span class="p">,</span> <span class="s2">"method"</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">:</span> <span class="n">params</span><span class="p">,</span> <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span><span class="o">.</span><span class="n">encode</span><span class="p">(),</span>
+        <span class="p">{</span><span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">},</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+        <span class="n">reply</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"error"</span> <span class="ow">in</span> <span class="n">reply</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">reply</span><span class="p">[</span><span class="s2">"error"</span><span class="p">][</span><span class="s2">"message"</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">reply</span><span class="p">[</span><span class="s2">"result"</span><span class="p">]</span>
+
+
+<span class="n">author</span><span class="p">,</span> <span class="n">permlink</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">post</span> <span class="o">=</span> <span class="n">rpc</span><span class="p">(</span><span class="s2">"bridge.get_post"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"author"</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span> <span class="s2">"permlink"</span><span class="p">:</span> <span class="n">permlink</span><span class="p">})</span>
+<span class="n">meta</span><span class="p">,</span> <span class="n">body</span> <span class="o">=</span> <span class="n">post</span><span class="p">[</span><span class="s2">"json_metadata"</span><span class="p">],</span> <span class="n">post</span><span class="p">[</span><span class="s2">"body"</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="n">deleted</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"deleted"</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">"deleted"</span> <span class="ow">in</span> <span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"tags"</span><span class="p">,</span> <span class="p">[])</span>
+<span class="k">if</span> <span class="n">deleted</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">body</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PREFIX</span><span class="p">):</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">"not an artwork, or marked deleted"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">body</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">PREFIX</span><span class="p">):],</span> <span class="n">validate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">data</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">!=</span> <span class="sa">b</span><span class="s2">"RIFF"</span> <span class="ow">or</span> <span class="n">data</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">16</span><span class="p">]</span> <span class="o">!=</span> <span class="sa">b</span><span class="s2">"WEBPVP8L"</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">"not a lossless WebP"</span><span class="p">)</span>
+
+<span class="n">bits</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">"&lt;I"</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">21</span><span class="p">:</span><span class="mi">25</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="n">bits</span> <span class="o">&amp;</span> <span class="mh">0x3FFF</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">((</span><span class="n">bits</span> <span class="o">&gt;&gt;</span> <span class="mi">14</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x3FFF</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">permlink</span><span class="si">}</span><span class="s2">.webp"</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">out</span><span class="p">:</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">licence</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"license"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">,</span> <span class="s2">"none"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"@</span><span class="si">{</span><span class="n">author</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">permlink</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s2"> px, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes, licence </span><span class="si">{</span><span class="n">licence</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></code></pre>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>python3<span class="w"> </span>get_artwork.py<span class="w"> </span>tetiana<span class="w"> </span>schwyz-1791219064927</code></pre>
+<p>Expected output on 2026-10-05:</p>
+<pre class="hl has-copy"><code>@tetiana/schwyz-1791219064927: 295 x 222 px, 24392 bytes, licence PIXA_LICENSE</code></pre>
+<p>The app shows a post at <code>https://pixagram.com/&lt;category&gt;/@&lt;author&gt;/&lt;permlink&gt;</code>.</p>
+<h2 id="writing-an-artwork">Writing an artwork<a class="anchor" href="#writing-an-artwork" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>This Node.js script encodes an image as lossless WebP with <a href="https://sharp.pixelplumbing.com/">sharp</a> and publishes it with dpixa (<a href="developer-quickstart.html#2-set-up-a-nodejs-project">Developer Quickstart</a>). With <code>DRY_RUN=1</code> it prints the operation instead of broadcasting it.</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>npm<span class="w"> </span>install<span class="w"> </span>@pixagram/dpixa@1.5.4<span class="w"> </span>sharp@0.34.5</code></pre>
+<pre class="hl has-copy"><span class="lang">JavaScript</span><code><span class="c1">// publish-artwork.js: publish a pixel-art image as a Pixagram artwork</span>
+<span class="c1">// usage: node publish-artwork.js &lt;author&gt; &lt;image.png&gt; "&lt;title&gt;" &lt;tag&gt; [more tags]</span>
+<span class="c1">//        with POSTING_WIF in the environment; DRY_RUN=1 prints the operation instead of broadcasting</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">sharp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s2">"sharp"</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Client</span><span class="p">,</span><span class="w"> </span><span class="nx">PrivateKey</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s2">"@pixagram/dpixa/dist/dpixa.js"</span><span class="p">);</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Client</span><span class="p">([</span><span class="s2">"https://api.pixagram.com"</span><span class="p">]);</span>
+
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">author</span><span class="p">,</span><span class="w"> </span><span class="nx">file</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="nx">tags</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mf">2</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 1. The body: one lossless WebP, as a base64 data URI</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">webp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">sharp</span><span class="p">(</span><span class="nx">file</span><span class="p">).</span><span class="nx">webp</span><span class="p">({</span><span class="w"> </span><span class="nx">lossless</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nx">exact</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nx">effort</span><span class="o">:</span><span class="w"> </span><span class="mf">6</span><span class="w"> </span><span class="p">}).</span><span class="nx">toBuffer</span><span class="p">();</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"data:image/webp;base64,"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">webp</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="s2">"base64"</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// 2. The permlink: the app's form, a slug of the title and a millisecond timestamp</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">slug</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">title</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/[^a-z0-9]+/g</span><span class="p">,</span><span class="w"> </span><span class="s2">"-"</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^-+|-+$/g</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">).</span><span class="nx">slice</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">24</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">permlink</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">slug</span><span class="si">}</span><span class="sb">-</span><span class="si">${</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// 3. The metadata: format "image" marks an artwork</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">json_metadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">app</span><span class="o">:</span><span class="w"> </span><span class="s2">"my-app/1.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">format</span><span class="o">:</span><span class="w"> </span><span class="s2">"image"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">tags</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">image</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">nsfw</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="p">});</span>
+
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">op</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">parent_author</span><span class="o">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nx">parent_permlink</span><span class="o">:</span><span class="w"> </span><span class="nx">tags</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span><span class="w"> </span><span class="nx">author</span><span class="p">,</span><span class="w"> </span><span class="nx">permlink</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="p">,</span><span class="w"> </span><span class="nx">body</span><span class="p">,</span><span class="w"> </span><span class="nx">json_metadata</span><span class="w"> </span><span class="p">};</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">DRY_RUN</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">({</span><span class="w"> </span><span class="p">...</span><span class="nx">op</span><span class="p">,</span><span class="w"> </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">body</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">40</span><span class="p">)</span><span class="si">}</span><span class="sb">… (</span><span class="si">${</span><span class="nx">body</span><span class="p">.</span><span class="nx">length</span><span class="si">}</span><span class="sb"> characters)`</span><span class="w"> </span><span class="p">});</span>
+<span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">PrivateKey</span><span class="p">.</span><span class="nx">fromString</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">POSTING_WIF</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">""</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">broadcast</span><span class="p">.</span><span class="nx">comment</span><span class="p">(</span><span class="nx">op</span><span class="p">,</span><span class="w"> </span><span class="nx">key</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`accepted, transaction </span><span class="si">${</span><span class="nx">id</span><span class="si">}</span><span class="sb">: https://pixagram.com/</span><span class="si">${</span><span class="nx">tags</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="si">}</span><span class="sb">/@</span><span class="si">${</span><span class="nx">author</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">permlink</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">main</span><span class="p">().</span><span class="k">catch</span><span class="p">((</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span><span class="w"> </span><span class="p">});</span></code></pre>
+<pre class="hl has-copy"><span class="lang">Shell</span><code><span class="nv">DRY_RUN</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>node<span class="w"> </span>publish-artwork.js<span class="w"> </span>your-account<span class="w"> </span>checker.png<span class="w"> </span><span class="s2">"Checkerboard"</span><span class="w"> </span>pixelart<span class="w"> </span>retro</code></pre>
+<p>Expected output, for a 16 × 16 two-colour checkerboard (the permlink's timestamp changes):</p>
+<pre class="hl has-copy"><code>{
+  parent_author: &#x27;&#x27;,
+  parent_permlink: &#x27;pixelart&#x27;,
+  author: &#x27;your-account&#x27;,
+  permlink: &#x27;checkerboard-1791231967754&#x27;,
+  title: &#x27;Checkerboard&#x27;,
+  body: &#x27;data:image/webp;base64,UklGRioAAABXRUJQV… (91 characters)&#x27;,
+  json_metadata: &#x27;{&quot;app&quot;:&quot;my-app/1.0&quot;,&quot;format&quot;:&quot;image&quot;,&quot;tags&quot;:[&quot;pixelart&quot;,&quot;retro&quot;],&quot;image&quot;:[],&quot;description&quot;:&quot;&quot;,&quot;nsfw&quot;:false}&#x27;
+}</code></pre>
+<p>To publish for real, read the posting key from the keyboard, so it stays out of your shell history, and run without <code>DRY_RUN</code>:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code><span class="nb">read</span><span class="w"> </span>-rsp<span class="w"> </span><span class="s1">'Posting key: '</span><span class="w"> </span>POSTING_WIF<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">export</span><span class="w"> </span>POSTING_WIF<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span>
+node<span class="w"> </span>publish-artwork.js<span class="w"> </span>your-account<span class="w"> </span>checker.png<span class="w"> </span><span class="s2">"Checkerboard"</span><span class="w"> </span>pixelart<span class="w"> </span>retro
+<span class="nb">unset</span><span class="w"> </span>POSTING_WIF</code></pre>
+<p>Expected output: <code>accepted, transaction &lt;40 hexadecimal characters&gt;: https://pixagram.com/pixelart/@your-account/checkerboard-&lt;timestamp&gt;</code>.</p>
+<ul>
+<li><strong>Feed it pixel art.</strong> The script stores the image at its own size. Reduce photos and large images first; the app's converter is described in <a href="../art-on-chain/pixel-art-on-chain.html#from-picture-to-artwork">Pixel Art On Chain</a>.</li>
+<li><strong>No licence by default.</strong> Add a <code>license</code> object only with terms the author chose.</li>
+<li><strong>Avoid renamed words in text.</strong> Until the gateway is fixed, a title or description containing <code>pxs_balance</code> or another name it renames fails to broadcast (<a href="differences-from-hive.html#known-issue-renames-inside-text">known issue</a>).</li>
+</ul>
+<h2 id="other-images-on-chain">Other images on chain<a class="anchor" href="#other-images-on-chain" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Image</th>
+<th>Where</th>
+<th>Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Profile picture</td>
+<td><code>posting_json_metadata.profile.profile_image</code> of the account, written with <code>account_update2</code></td>
+<td>A data URI of the uploaded file, at most 48,000 bytes, which must be pixel art</td>
+</tr>
+<tr>
+<td>Community avatar</td>
+<td>The community account's profile data</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Images in blog posts</td>
+<td>Links in a <code>format: &quot;markdown&quot;</code> post</td>
+<td>Not on chain (<a href="../art-on-chain/pixel-art-on-chain.html#images-that-live-elsewhere">Pixel Art On Chain</a>)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>App,</strong> commit <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/tree/ca1d15762b52ec08f33c69ca9afa34bb78c0df52"><code>ca1d157</code></a>, under <code>src/js/</code>:
+<ul>
+<li>publishing: <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/NewPost.js#L3363-L3430"><code>components/NewPost.js:3363-3430</code></a>; field limits at <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/NewPost.js#L132-L142">132-142</a>; permlink at <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/NewPost.js#L244-L253">244-253</a></li>
+<li>encoding: <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/encodeImage.js#L5-L49"><code>utils/encodeImage.js:5-49</code></a></li>
+<li>recognising an artwork: <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/api/pixaproxyapi.js#L824-L832"><code>utils/api/pixaproxyapi.js:824-832</code></a> and <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/api/pixaproxyapi.js#L9797-L9808">9797-9808</a>; posts in communities: <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/pages/Profile.js#L468-L476"><code>pages/Profile.js:468-476</code></a>; validating it: <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/api/sanitizer.js#L461-L555"><code>utils/api/sanitizer.js:461-555</code></a></li>
+<li>editing and deleting: <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/EditPostDialog.js#L423-L500"><code>components/EditPostDialog.js:423-500</code></a> and <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/EditPostDialog.js#L860-L900">860-900</a>; the edit helper: <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/api/pixaproxyapi.js#L6319-L6440"><code>utils/api/pixaproxyapi.js:6319-6440</code></a>; deleted posts: <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/constants.js#L683-L700"><code>utils/constants.js:683-700</code></a>; post addresses: <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/constants.js#L655-L662">655-662</a></li>
+<li>profile pictures: <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/EditProfileDialog.js#L773"><code>components/EditProfileDialog.js:773</code></a> and <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/EditProfileDialog.js#L959-L986">959-986</a></li>
+</ul>
+</li>
+<li><strong>Chain,</strong> commit <a href="https://github.com/pixagram-blockchain/pixagram/tree/48f75a28840c24e5a5b42ccb4f94dc8668ecb443"><code>48f75a2</code></a>: <code>comment</code> validation in <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L123-L138"><code>hive_operations.cpp:123-138</code></a> and JSON validation at <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L22-L33">22-33</a>; <code>delete_comment</code> in <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_social.cpp#L56-L75"><code>hive_evaluator_social.cpp:56-75</code></a>.</li>
+<li><strong>Survey,</strong> 2026-10-05: the 159 most recent posts from <code>bridge.get_ranked_posts</code> (sort <code>created</code>): 144 with <code>format: &quot;image&quot;</code>, 136 still holding an image, every one a <code>VP8L</code> WebP; 8 erased.</li>
+<li><strong>Tests,</strong> 2026-10-05: the reader and the dry run above; a full artwork <code>comment</code> signed by dpixa matched the node's serialization (<code>condenser_api.get_transaction_hex</code>).</li>
+<li><strong>WebP format:</strong> <a href="https://developers.google.com/speed/webp/docs/riff_container">WebP Container Specification</a> and <a href="https://developers.google.com/speed/webp/docs/webp_lossless_bitstream_specification">Lossless Bitstream Specification</a>.</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/09-developers/artwork-encoding-spec.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="differences-from-hive.html"><span class="k">Previous</span><span class="t">Differences from Hive</span></a><a class="next" href="sdks-and-libraries.html"><span class="k">Next</span><span class="t">SDKs and Libraries</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#the-operation">The operation</a></li><li><a href="#the-body">The body</a></li><li><a href="#json_metadata">json_metadata</a></li><li class="sub"><a href="#the-licence-record">The licence record</a></li><li><a href="#editing-hiding-and-deleting">Editing, hiding and deleting</a></li><li><a href="#reading-an-artwork">Reading an artwork</a></li><li><a href="#writing-an-artwork">Writing an artwork</a></li><li><a href="#other-images-on-chain">Other images on chain</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/09-developers/artwork-encoding-spec.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/09-developers/artwork-encoding-spec.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

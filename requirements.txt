@@ -1,0 +1,5 @@
+# The wiki build (python3 build.py). The pages alone (--pages) need nothing.
+markdown-it-py>=3.0
+mdit-py-plugins>=0.4
+linkify-it-py>=2.0
+pygments>=2.17

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feed and Discovery — Pixagram wiki</title>
+<meta name="description" content="The home page of pixagram.com is a wall of artworks in one of four orders, with a personal feed for people who follow others and a page for each community. T…">
+<link rel="canonical" href="https://pixa.org/wiki/product/feed-and-discovery.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Feed and Discovery — Pixagram wiki">
+<meta property="og:description" content="The home page of pixagram.com is a wall of artworks in one of four orders, with a personal feed for people who follow others and a page for each community. T…">
+<meta property="og:url" content="https://pixa.org/wiki/product/feed-and-discovery.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economic-cybernetics/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../developers/index.html">Overview</a></li>
+<li><a class="nav-i" href="../developers/chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="../developers/developer-quickstart.html">Developer Quickstart</a></li>
+<li><a class="nav-i" href="../developers/differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="../developers/sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../node-operators/index.html">Overview</a></li>
+<li><a class="nav-i" href="../node-operators/run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="../node-operators/run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="../node-operators/become-a-witness.html">Become a Witness</a></li>
+<li><a class="nav-i" href="../node-operators/cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../protocol-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
+<li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details open>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="feed-and-discovery.html" aria-current="page">Feed and Discovery</a></li>
+<li><a class="nav-i" href="search.html">Search</a></li>
+<li><a class="nav-i" href="notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="account-settings.html">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economics-lab/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economics-lab/reward-examples.html">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../reference/chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="../reference/system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="../reference/glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="../reference/risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="../reference/sources-and-credits.html">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Pixagram product</a></nav><h1>Feed and Discovery</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>Described from the app's code of 2026-10-04 (commit <code>ca1d157</code>), Hivemind at commit <code>5765e21</code> and the public nodes on 2026-10-08. One tab, <em>Promoted</em>, is always empty today.</p>
+</div></div>
+<p>The home page of <a href="http://pixagram.com">pixagram.com</a> is a wall of artworks in one of four orders, with a personal feed for people who follow others and a page for each community. This page says where each list comes from, how it is ranked, how far back it goes, and what never appears in it. For each behaviour it says whether the rule is the chain's, the indexer's or the app's, because the answer decides who can change it.</p>
+<h2 id="where-the-lists-come-from">Where the lists come from<a class="anchor" href="#where-the-lists-come-from" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<figure class="diagram" style="--w:1134px"><svg aria-label="Diagram: app: Feed, FeedPersonal, Community pages; Hivemind; HAF; blocks: comment, vote, custom_json; hived" focusable="false" id="dec3b7dfce326aab1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" viewBox="0 0 1134.4375 164.25" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#dec3b7dfce326aab1{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:15px;fill:#000000;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#dec3b7dfce326aab1 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#dec3b7dfce326aab1 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#dec3b7dfce326aab1 .error-icon{fill:#ffffff;}#dec3b7dfce326aab1 .error-text{fill:#000000;stroke:#000000;}#dec3b7dfce326aab1 .edge-thickness-normal{stroke-width:1px;}#dec3b7dfce326aab1 .edge-thickness-thick{stroke-width:3.5px;}#dec3b7dfce326aab1 .edge-pattern-solid{stroke-dasharray:0;}#dec3b7dfce326aab1 .edge-thickness-invisible{stroke-width:0;fill:none;}#dec3b7dfce326aab1 .edge-pattern-dashed{stroke-dasharray:3;}#dec3b7dfce326aab1 .edge-pattern-dotted{stroke-dasharray:2;}#dec3b7dfce326aab1 .marker{fill:#474747;stroke:#474747;}#dec3b7dfce326aab1 .marker.cross{stroke:#474747;}#dec3b7dfce326aab1 svg{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:15px;}#dec3b7dfce326aab1 p{margin:0;}#dec3b7dfce326aab1 .label{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;color:#000000;}#dec3b7dfce326aab1 .cluster-label text{fill:#474747;}#dec3b7dfce326aab1 .cluster-label span{color:#474747;}#dec3b7dfce326aab1 .cluster-label span p{background-color:transparent;}#dec3b7dfce326aab1 .label text,#dec3b7dfce326aab1 span{fill:#000000;color:#000000;}#dec3b7dfce326aab1 .node rect,#dec3b7dfce326aab1 .node circle,#dec3b7dfce326aab1 .node ellipse,#dec3b7dfce326aab1 .node polygon,#dec3b7dfce326aab1 .node path{fill:#ffffff;stroke:#000000;stroke-width:1px;}#dec3b7dfce326aab1 .rough-node .label text,#dec3b7dfce326aab1 .node .label text,#dec3b7dfce326aab1 .image-shape .label,#dec3b7dfce326aab1 .icon-shape .label{text-anchor:middle;}#dec3b7dfce326aab1 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#dec3b7dfce326aab1 .rough-node .label,#dec3b7dfce326aab1 .node .label,#dec3b7dfce326aab1 .image-shape .label,#dec3b7dfce326aab1 .icon-shape .label{text-align:center;}#dec3b7dfce326aab1 .node.clickable{cursor:pointer;}#dec3b7dfce326aab1 .root .anchor path{fill:#474747!important;stroke-width:0;stroke:#474747;}#dec3b7dfce326aab1 .arrowheadPath{fill:#000000;}#dec3b7dfce326aab1 .edgePath .path{stroke:#474747;stroke-width:1px;}#dec3b7dfce326aab1 .flowchart-link{stroke:#474747;fill:none;}#dec3b7dfce326aab1 .edgeLabel{background-color:#ffffff;text-align:center;}#dec3b7dfce326aab1 .edgeLabel p{background-color:#ffffff;}#dec3b7dfce326aab1 .edgeLabel rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dec3b7dfce326aab1 .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#dec3b7dfce326aab1 .cluster rect{fill:#f4f4f4;stroke:#f4f4f4;stroke-width:1px;}#dec3b7dfce326aab1 .cluster text{fill:#474747;}#dec3b7dfce326aab1 .cluster span{color:#474747;}#dec3b7dfce326aab1 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:12px;background:#ffffff;border:1px solid hsl(0, 0%, 90%);border-radius:2px;pointer-events:none;z-index:100;}#dec3b7dfce326aab1 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#dec3b7dfce326aab1 rect.text{fill:none;stroke-width:0;}#dec3b7dfce326aab1 .icon-shape,#dec3b7dfce326aab1 .image-shape{background-color:#ffffff;text-align:center;}#dec3b7dfce326aab1 .icon-shape p,#dec3b7dfce326aab1 .image-shape p{background-color:#ffffff;padding:2px;}#dec3b7dfce326aab1 .icon-shape .label rect,#dec3b7dfce326aab1 .image-shape .label rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dec3b7dfce326aab1 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#dec3b7dfce326aab1 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#dec3b7dfce326aab1 .node .neo-node{stroke:#000000;}#dec3b7dfce326aab1 [data-look="neo"].node rect,#dec3b7dfce326aab1 [data-look="neo"].cluster rect,#dec3b7dfce326aab1 [data-look="neo"].node polygon{stroke:url(#dec3b7dfce326aab1-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dec3b7dfce326aab1 [data-look="neo"].swimlane.cluster rect{filter:none;}#dec3b7dfce326aab1 [data-look="neo"].node path{stroke:url(#dec3b7dfce326aab1-gradient);stroke-width:1px;}#dec3b7dfce326aab1 [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dec3b7dfce326aab1 [data-look="neo"].node .neo-line path{stroke:#000000;filter:none;}#dec3b7dfce326aab1 [data-look="neo"].node circle{stroke:url(#dec3b7dfce326aab1-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dec3b7dfce326aab1 [data-look="neo"].node circle .state-start{fill:#000000;}#dec3b7dfce326aab1 [data-look="neo"].icon-shape .icon{fill:url(#dec3b7dfce326aab1-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dec3b7dfce326aab1 [data-look="neo"].icon-shape .icon-neo path{stroke:url(#dec3b7dfce326aab1-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dec3b7dfce326aab1 .node rect,#dec3b7dfce326aab1 .node path{rx:10px;ry:10px;}#dec3b7dfce326aab1 .cluster rect{rx:16px;ry:16px;}#dec3b7dfce326aab1 .cluster-label .nodeLabel,#dec3b7dfce326aab1 .cluster-label span{color:rgb(71, 71, 71)!important;}#dec3b7dfce326aab1 .edgeLabel,#dec3b7dfce326aab1 .edgeLabel p{background:rgb(255, 255, 255)!important;color:rgb(71, 71, 71)!important;}#dec3b7dfce326aab1 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="dec3b7dfce326aab1_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dec3b7dfce326aab1_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dec3b7dfce326aab1_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dec3b7dfce326aab1_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dec3b7dfce326aab1_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dec3b7dfce326aab1_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dec3b7dfce326aab1_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dec3b7dfce326aab1_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dec3b7dfce326aab1_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dec3b7dfce326aab1_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dec3b7dfce326aab1_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="dec3b7dfce326aab1_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M264,68.538L290.691,64.531C317.383,60.525,370.766,52.513,423.482,48.506C476.198,44.5,528.247,44.5,554.272,44.5L580.297,44.5" id="dec3b7dfce326aab1-L_APP_HM_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_APP_HM_0" data-points="W3sieCI6MjY0LCJ5Ijo2OC41Mzc2Nzk5NjA5NTc2Mn0seyJ4Ijo0MjQuMTQ4NDM3NSwieSI6NDQuNX0seyJ4Ijo1ODQuMjk2ODc1LCJ5Ijo0NC41fV0=" data-look="classic" marker-end="url(#dec3b7dfce326aab1_flowchart-v2-pointEnd)"/><path d="M699.5,44.5L703.167,44.5C706.833,44.5,714.167,44.5,720.833,44.5C727.5,44.5,733.5,44.5,736.5,44.5L739.5,44.5" id="dec3b7dfce326aab1-L_HM_HAF_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_HM_HAF_0" data-points="W3sieCI6Njk5LjUsInkiOjQ0LjV9LHsieCI6NzIxLjUsInkiOjQ0LjV9LHsieCI6NzQzLjUsInkiOjQ0LjV9XQ==" data-look="classic" marker-end="url(#dec3b7dfce326aab1_flowchart-v2-pointEnd)"/><path d="M826.438,44.5L830.104,44.5C833.771,44.5,841.104,44.5,847.771,44.5C854.438,44.5,860.438,44.5,863.438,44.5L866.438,44.5" id="dec3b7dfce326aab1-L_HAF_CHAIN_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_HAF_CHAIN_0" data-points="W3sieCI6ODI2LjQzNzUsInkiOjQ0LjV9LHsieCI6ODQ4LjQzNzUsInkiOjQ0LjV9LHsieCI6ODcwLjQzNzUsInkiOjQ0LjV9XQ==" data-look="classic" marker-end="url(#dec3b7dfce326aab1_flowchart-v2-pointEnd)"/><path d="M264,106.962L290.691,110.969C317.383,114.975,370.766,122.987,425.635,126.994C480.505,131,536.862,131,565.04,131L593.219,131" id="dec3b7dfce326aab1-L_APP_HIVED_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_APP_HIVED_0" data-points="W3sieCI6MjY0LCJ5IjoxMDYuOTYyMzIwMDM5MDQyMzh9LHsieCI6NDI0LjE0ODQzNzUsInkiOjEzMX0seyJ4Ijo1OTcuMjE4NzUsInkiOjEzMX1d" data-look="classic" marker-end="url(#dec3b7dfce326aab1_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(424.1484375, 44.5)"><g class="label" data-id="L_APP_HM_0" transform="translate(-138.1484375, -33.75)"><foreignObject width="276.296875" height="67.5"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="edgeLabel"><p>bridge.get_ranked_posts<br />condenser_api.get_discussions_by_created<br />get_discussions_by_feed</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_HM_HAF_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_HAF_CHAIN_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(424.1484375, 131)"><g class="label" data-id="L_APP_HIVED_0" transform="translate(-91, -11.25)"><foreignObject width="182" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>condenser_api.get_accounts</p></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="dec3b7dfce326aab1-flowchart-APP-0" data-look="classic" transform="translate(136, 87.75)"><rect class="basic label-container" style="" x="-128" y="-36.5" width="256" height="73"/><g class="label" style="" transform="translate(-100, -22.5)"><rect/><foreignObject width="200" height="45"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>app: Feed, FeedPersonal, Community pages</p></span></div></foreignObject></g></g><g class="node default" id="dec3b7dfce326aab1-flowchart-HM-1" data-look="classic" transform="translate(641.8984375, 44.5)"><rect class="basic label-container" style="" x="-57.6015625" y="-25.25" width="115.203125" height="50.5"/><g class="label" style="" transform="translate(-29.6015625, -11.25)"><rect/><foreignObject width="59.203125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Hivemind</p></span></div></foreignObject></g></g><g class="node default" id="dec3b7dfce326aab1-flowchart-HAF-3" data-look="classic" transform="translate(784.96875, 44.5)"><rect class="basic label-container" style="" x="-41.46875" y="-25.25" width="82.9375" height="50.5"/><g class="label" style="" transform="translate(-13.46875, -11.25)"><rect/><foreignObject width="26.9375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>HAF</p></span></div></foreignObject></g></g><g class="node default" id="dec3b7dfce326aab1-flowchart-CHAIN-4" data-look="classic" transform="translate(998.4375, 44.5)"><rect class="basic label-container" style="" x="-128" y="-36.5" width="256" height="73"/><g class="label" style="" transform="translate(-100, -22.5)"><rect/><foreignObject width="200" height="45"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>blocks: comment, vote, custom_json</p></span></div></foreignObject></g></g><g class="node default" id="dec3b7dfce326aab1-flowchart-HIVED-6" data-look="classic" transform="translate(641.8984375, 131)"><rect class="basic label-container" style="" x="-44.6796875" y="-25.25" width="89.359375" height="50.5"/><g class="label" style="" transform="translate(-16.6796875, -11.25)"><rect/><foreignObject width="33.359375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>hived</p></span></div></foreignObject></g></g></g></g></g><defs><filter id="dec3b7dfce326aab1-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="dec3b7dfce326aab1-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><linearGradient id="dec3b7dfce326aab1-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#000000" stop-opacity="1"/><stop offset="100%" stop-color="hsl(0, 0%, 85.6862745098%)" stop-opacity="1"/></linearGradient></svg><figcaption class="diagram-foot"><span class="hint">Scroll sideways to see the whole diagram.</span><a href="../diagrams/ec3b7dfce326aab1.svg">Open full size</a></figcaption></figure>
+<p>No list is a chain fact. The chain holds posts, votes and <code>custom_json</code> operations; Hivemind reads them and keeps scores, follow tables and community membership; the app asks Hivemind for 20 posts at a time and filters them again on the device (<a href="../protocol-reference/data-model.html#derived-haf-and-hivemind">Data Model</a>).</p>
+<h2 id="the-four-sorts">The four sorts<a class="anchor" href="#the-four-sorts" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The home page has four tabs. On a phone they are icons; on a computer each has its label.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tab (English)</th>
+<th>Address</th>
+<th>Hivemind sort</th>
+<th>What it orders by</th>
+<th>Layer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Newer</strong></td>
+<td><code>/created</code>, the default</td>
+<td><code>created</code> via <code>condenser_api.get_discussions_by_created</code>, falling back to <code>bridge.get_ranked_posts</code></td>
+<td>Creation time, newest first</td>
+<td>Indexer</td>
+</tr>
+<tr>
+<td><strong>Hottest</strong></td>
+<td><code>/hot</code></td>
+<td><code>hot</code></td>
+<td>Hivemind's hot score (<a href="#how-hot-and-trending-are-ranked">below</a>)</td>
+<td>Indexer</td>
+</tr>
+<tr>
+<td><strong>Trending</strong></td>
+<td><code>/trending</code></td>
+<td><code>trending</code></td>
+<td>Hivemind's trending score</td>
+<td>Indexer</td>
+</tr>
+<tr>
+<td><strong>Promoted</strong></td>
+<td><code>/promoted</code></td>
+<td><code>promoted</code></td>
+<td><strong>Nothing.</strong> This Hivemind has no <code>promoted</code> sort; the call fails and the app shows an empty wall. The first-visit tour still says the tab shows &quot;boosted posts&quot;.</td>
+<td>App defect</td>
+</tr>
+</tbody>
+</table></div>
+<p>A tag narrows any sort: <code>/trending/pixelart</code> asks for <code>tag: &quot;pixelart&quot;</code>. Hivemind matches the post's tags from <code>json_metadata</code> and its category (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/pages/Feed.js#L469-L528"><code>Feed.js:167-168, 469-528</code></a>).</p>
+<p>The app does not expose Hivemind's other sorts, <code>payout</code>, <code>payout_comments</code> and <code>muted</code>, and nothing on Pixa pays to promote a post: Steem's promotion by burning SBD was dropped by Hive before Pixa forked it (<a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a>).</p>
+<h2 id="how-hot-and-trending-are-ranked">How hot and trending are ranked<a class="anchor" href="#how-hot-and-trending-are-ranked" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Hivemind gives every root post two scores when it is created or voted on, and the Hottest and Trending tabs sort by them (<a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/db/sql_scripts/hot_and_trends.sql#L44-L126"><code>hot_and_trends.sql:44-126</code></a>):</p>
+<pre class="hl has-copy"><code>rshares part = sign(r) × log10( max( |r| / 10,000,000, 1 ) )      r = the post&#x27;s net rshares
+hot      = rshares part + seconds since 1970 of the post&#x27;s creation / 10,000
+trending = rshares part + seconds since 1970 of the post&#x27;s creation / 240,000</code></pre>
+<p>What follows from the formula:</p>
+<ul>
+<li><strong>Votes count logarithmically, time linearly.</strong> Ten times the rshares add 1 to the score; in <em>hot</em>, 10,000 seconds of age (2.8 hours) also add 1, so a post two days newer outranks one with 100 times its votes. In <em>trending</em>, 1 point is 240,000 seconds (2.8 days), so votes matter more and a post stays near the top for about a week.</li>
+<li><strong>A post leaves both lists when it pays out</strong>, 7 days after publication: Hivemind sets its scores to zero then. Comments never have a score.</li>
+<li><strong>A vote is worth its rshares, so the chain's rules decide the input</strong>: stake, voting mana, and since hardfork 30 the 50,000-rshares dust threshold (<a href="../social-layer/voting-and-curation.html">Voting and Curation</a>). Hivemind only orders.</li>
+<li><strong>Hivemind scales old votes.</strong> For votes in blocks before 905,693 it multiplies the chain's rshares by one million, an inherited rule from Steem's early chain; for later votes it keeps the chain's value (<a href="../developers/differences-from-hive.html#hivemind">Differences from Hive</a>). The chain crossed that block on 2026-10-05, so until the posts voted before then pay out, around 2026-10-12, Trending is dominated by them: a vote before the boundary counts a million times a vote after it. This is an indexer artefact, not a rule, and it ends by itself.</li>
+</ul>
+<p>The scores are not shown to users and no API returns them directly; <code>bridge.get_ranked_posts</code> returns the posts in score order.</p>
+<h2 id="the-personal-feed">The personal feed<a class="anchor" href="#the-personal-feed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The <em>Feed</em> page (<code>/feed</code>) is for a logged-in account. It asks Hivemind for <code>condenser_api.get_discussions_by_feed</code> with the account's name, falling back to <code>bridge.get_account_posts</code> with <code>sort: &quot;feed&quot;</code>; a visitor who is not logged in sees Trending instead (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/pages/FeedPersonal.js#L396-L432"><code>FeedPersonal.js:396-432</code></a>).</p>
+<p>Hivemind builds a feed from its <code>hive_feed_cache</code>: the root posts of every account the reader follows, and the posts those accounts reblogged, from the last month, newest first (<a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/db/sql_scripts/postgrest/utilities/get_account_posts.sql#L211"><code>get_account_posts.sql:211</code></a>). Comments are not in it, and nothing is ranked; a follow is the only input.</p>
+<h3 id="following">Following<a class="anchor" href="#following" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>A follow is a <code>custom_json</code> operation with id <code>follow</code>, signed with the posting key, whose payload names the follower, the followed account and a <code>what</code> list (<a href="../protocol-reference/operations-reference.html#custom-data">Operations Reference</a>):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><code>what</code></th>
+<th>Hivemind's meaning</th>
+<th>In the app</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[&quot;blog&quot;]</code></td>
+<td>Follow</td>
+<td>The follow button on a profile</td>
+</tr>
+<tr>
+<td><code>[]</code></td>
+<td>Unfollow, or unmute</td>
+<td>The same button, pressed again</td>
+</tr>
+<tr>
+<td><code>[&quot;ignore&quot;]</code></td>
+<td>Mute: the account's posts leave your feed and are hidden in lists for you</td>
+<td>Not offered; the app writes only <code>blog</code> and <code>[]</code></td>
+</tr>
+<tr>
+<td><code>[&quot;blacklist&quot;]</code>, <code>[&quot;follow_blacklist&quot;]</code>, <code>[&quot;follow_muted&quot;]</code>, <code>[&quot;reset_…&quot;]</code></td>
+<td>Hive's blacklist and list-following features</td>
+<td>Not offered</td>
+</tr>
+</tbody>
+</table></div>
+<p>The chain stores the operation and nothing else: no follower count, no feed. Hivemind keeps <code>hive_follows</code> and the counts that <code>bridge.get_profile</code> and <code>condenser_api.get_follow_count</code> return. A follow appears in the feed once Hivemind has processed the block, a few seconds after it is included.</p>
+<h2 id="communities">Communities<a class="anchor" href="#communities" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>A community is a Hivemind construct (<a href="../social-layer/communities.html">Communities</a>): an account named <code>portal-</code> followed by five to seven digits, whose first digit is 1, 2 or 3 for the three community types, created by <code>custom_json</code> with id <code>community</code> (<a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/indexer/community.py#L127"><code>community.py:127, 176</code></a>). A post belongs to it when its <code>parent_permlink</code>, the category, is the community's name.</p>
+<p>The community page (<code>/&lt;portal-name&gt;</code>) has four tabs: <code>created</code>, <code>hot</code>, <code>trending</code> and <code>votes</code>. The first three are Hivemind's sorts for that community; the fourth asks <code>bridge.get_ranked_posts</code> for a <code>votes</code> sort that Hivemind does not have, so <strong>the fourth tab is always empty</strong> (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/pages/Community.js#L428"><code>Community.js:428</code></a>). The page also loads one page of 20 posts and has no way to load more.</p>
+<p>Moderation shows in the lists through Hivemind's <code>stats</code> on each post:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>What a moderator did</th>
+<th>Hivemind</th>
+<th>What the app shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Muted a post (<code>mutePost</code>)</td>
+<td><code>stats.gray: true</code>; the post is still returned</td>
+<td>The card dimmed and in grey, until pointed at. The confirmation dialog says the post will be hidden; it is dimmed, not hidden (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/PaperCardBlog.js#L70"><code>PaperCardBlog.js:70</code></a>).</td>
+</tr>
+<tr>
+<td>A member without the role posted in a Journal or Council community</td>
+<td>the post is muted by type</td>
+<td>The same</td>
+</tr>
+<tr>
+<td>Hive's <code>stats.hide</code></td>
+<td>Never set by this Hivemind</td>
+<td>Would dim the card as well</td>
+</tr>
+</tbody>
+</table></div>
+<p>Muting does not touch the chain or the author's profile; the post stays readable everywhere else.</p>
+<h2 id="paging">Paging<a class="anchor" href="#paging" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Every list is fetched 20 posts at a time, Hivemind's maximum for a <code>bridge</code> call (<a href="../api-reference/json-rpc.html#limits">JSON-RPC Surface</a>). The home and personal feeds load the next 20 as you scroll, passing the last post as <code>start_author</code> and <code>start_permlink</code>; the community page does not. The app keeps the last list for each tab and tag in memory, so switching back is instant and refreshes behind the scenes.</p>
+<h2 id="what-never-appears">What never appears<a class="anchor" href="#what-never-appears" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The lists leave posts out at three levels. Only the first is the chain's.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Left out</th>
+<th>Decided by</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A post deleted with <code>delete_comment</code></td>
+<td>Chain and indexer</td>
+<td>The post is gone from the state; Hivemind marks it deleted. Possible only with no replies and no positive votes (<a href="../protocol-reference/operations-reference.html#content-and-voting">Operations Reference</a>).</td>
+</tr>
+<tr>
+<td>A post the author deleted in the app</td>
+<td>App</td>
+<td>The latest edit carries <code>&quot;deleted&quot;: true</code> in <code>json_metadata</code> or the body <code>deleted</code>; the app filters it from every list. Hivemind still returns it (<a href="../social-layer/posting-and-rewards.html#editing-and-deleting">Posting and Rewards</a>).</td>
+</tr>
+<tr>
+<td>An artwork marked NSFW, by the <code>nsfw</code> flag or the <code>nsfw</code> tag</td>
+<td>App, per device</td>
+<td>Hidden while the <em>Don't filter NSFW content</em> setting is off, which is the default; shown blurred until <em>Don't blur NSFW content</em> is also on (<a href="account-settings.html#content">Account Settings</a>). Hivemind stores the flag only for communities (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/pages/Feed.js#L296-L304"><code>Feed.js:296-304</code></a>).</td>
+</tr>
+<tr>
+<td>A post whose image the device cannot decode</td>
+<td>App</td>
+<td>The masonry measures each image before placing it; a failed decode drops the card (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/ImageMeasurer.js#L44"><code>ImageMeasurer.js:44, 110</code></a>).</td>
+</tr>
+<tr>
+<td>Comments</td>
+<td>Indexer and app</td>
+<td>The ranked sorts and the feed return root posts only.</td>
+</tr>
+<tr>
+<td>Posts by accounts you muted</td>
+<td>Indexer</td>
+<td>Hivemind applies the reader's <code>ignore</code> list when the app sends an <code>observer</code>; <strong>the app never sends one</strong>, so this filter is off on <a href="http://pixagram.com">pixagram.com</a>.</td>
+</tr>
+<tr>
+<td>Posts that declined payout</td>
+<td>Nobody</td>
+<td>They rank like any other post.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Nothing hides a post from someone who reads the chain directly (<a href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a>).</p>
+<h2 id="what-the-chain-the-indexer-and-the-app-each-decide">What the chain, the indexer and the app each decide<a class="anchor" href="#what-the-chain-the-indexer-and-the-app-each-decide" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Behaviour</th>
+<th>Chain</th>
+<th>Indexer</th>
+<th>App</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Which posts and votes exist, and their rshares</td>
+<td>yes</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Order of the Newer, Hottest and Trending lists</td>
+<td></td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>Follows, feeds, communities, muting</td>
+<td></td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>Twenty posts per page</td>
+<td></td>
+<td>yes, the limit</td>
+<td>yes, the page size</td>
+</tr>
+<tr>
+<td>Four tabs, two of them empty</td>
+<td></td>
+<td></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>NSFW and deleted filtering</td>
+<td></td>
+<td></td>
+<td>yes</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="inherited--changed">Inherited → changed<a class="anchor" href="#inherited--changed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><span class="sr-only">Aspect</span></th>
+<th>Hive front ends</th>
+<th>Pixagram</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sorts offered</td>
+<td>trending, hot, created, payout, promoted, muted</td>
+<td>created, hot, trending; promoted and the community <code>votes</code> tab are empty</td>
+</tr>
+<tr>
+<td>Promotion</td>
+<td>a burn of HBD once bought a place in <em>promoted</em>; removed</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Results per page</td>
+<td>up to 100</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Mute lists</td>
+<td>followed through <code>observer</code></td>
+<td>not sent</td>
+</tr>
+<tr>
+<td>Community names</td>
+<td><code>hive-</code> and digits</td>
+<td><code>portal-</code> and digits</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>App</strong> at commit <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/tree/ca1d15762b52ec08f33c69ca9afa34bb78c0df52"><code>ca1d157</code></a>: <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/pages/Feed.js#L469-L528"><code>Feed.js:167-168, 469-528</code></a> (sorts, sources, page size), <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/pages/Feed.js#L296-L304"><code>Feed.js:296-304</code></a> (NSFW), <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/pages/FeedPersonal.js#L396-L432"><code>FeedPersonal.js:396-432</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/pages/Community.js#L428"><code>Community.js:428</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/PaperCardBlog.js#L70"><code>PaperCardBlog.js:70</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/ImageMeasurer.js#L44"><code>ImageMeasurer.js</code></a>; tab labels and the tour text, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/locales/en.js#L2961"><code>en.js:87, 142-144, 2961</code></a>.</li>
+<li><strong>Hivemind</strong> at commit <a href="https://github.com/pixagram-blockchain/hivemind/tree/5765e2113da3c2c3da3c056d7d795c51e925711a"><code>5765e21</code></a>: <a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/db/sql_scripts/hot_and_trends.sql#L44-L126"><code>hot_and_trends.sql:44-126</code></a>; the rshares scaling, <a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/db/sql_scripts/massive_sync.sql#L373-L377"><code>massive_sync.sql:373-377</code></a>; the feed window, <a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/db/sql_scripts/postgrest/utilities/get_account_posts.sql#L211"><code>get_account_posts.sql:211</code></a>; the result limit, <a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/db/sql_scripts/postgrest/utilities/api_limits.sql#L6"><code>api_limits.sql:6</code></a>; community names, <a href="https://github.com/pixagram-blockchain/hivemind/blob/5765e2113da3c2c3da3c056d7d795c51e925711a/hive/indexer/community.py#L127"><code>community.py:127</code></a>.</li>
+<li><strong>Live checks</strong>, 2026-10-08: <code>bridge.get_ranked_posts</code> with <code>sort: &quot;promoted&quot;</code> and <code>sort: &quot;votes&quot;</code> returned errors on <code>api.pixagram.com</code>; <code>limit: 21</code> was rejected; the block-905,693 boundary was crossed at 2026-10-05 23:36 UTC (<code>block_api.get_block_header</code>).</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/14-product/feed-and-discovery.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">Pixagram product</span></a><a class="next" href="search.html"><span class="k">Next</span><span class="t">Search</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#where-the-lists-come-from">Where the lists come from</a></li><li><a href="#the-four-sorts">The four sorts</a></li><li><a href="#how-hot-and-trending-are-ranked">How hot and trending are ranked</a></li><li><a href="#the-personal-feed">The personal feed</a></li><li class="sub"><a href="#following">Following</a></li><li><a href="#communities">Communities</a></li><li><a href="#paging">Paging</a></li><li><a href="#what-never-appears">What never appears</a></li><li><a href="#what-the-chain-the-indexer-and-the-app-each-decide">What the chain, the indexer and the app each decide</a></li><li><a href="#inherited--changed">Inherited → changed</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/14-product/feed-and-discovery.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/14-product/feed-and-discovery.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

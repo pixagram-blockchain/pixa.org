@@ -5,92 +5,72 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Run a Pixagram node — witness and API operator guide</title>
 <meta name="description" content="From an empty server to a Pixagram witness and a public API endpoint: sizing, hardening, Docker, keys, registration, price feed, operation and troubleshooting.">
+<link rel="canonical" href="https://pixa.org/witness.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Run a Pixagram node — witness and API operator guide">
+<meta property="og:description" content="From an empty server to a Pixagram witness and a public API endpoint, one command at a time.">
+<meta property="og:url" content="https://pixa.org/witness.html">
+<meta name="twitter:card" content="summary">
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/site.css">
-<style>
-/* ---- node guide: calculator ---- */
-.calc{border:2px solid var(--ink);padding:24px 24px 20px;margin:24px 0}
-.calc-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px}
-.calc .lbl{font-family:var(--display);font-size:16px;color:var(--g4)}
-.calc .big{font-family:var(--display);font-size:clamp(40px,6vw,64px);font-weight:700;line-height:1;letter-spacing:-.01em}
-.calc .sub{font-size:14px;color:var(--g4);margin-top:6px}
-.range{position:relative;margin:26px 0 0}
-input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:34px;background:transparent;margin:0;display:block;cursor:pointer}
-input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--ink)}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;background:var(--ink);border:3px solid var(--paper);box-shadow:0 0 0 2px var(--ink);margin-top:-9px;border-radius:0}
-input[type=range]::-moz-range-track{height:4px;background:var(--ink)}
-input[type=range]::-moz-range-thumb{width:16px;height:16px;background:var(--ink);border:3px solid var(--paper);box-shadow:0 0 0 2px var(--ink);border-radius:0}
-input[type=range]:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
-.mrow{position:relative;height:30px}
-.marker{position:absolute;top:0;transform:translateX(-50%);font-family:var(--display);font-size:13px;color:var(--ink);text-align:center;white-space:nowrap;pointer-events:none}
-.marker::before{content:"";display:block;width:8px;height:8px;background:var(--ink);margin:0 auto 2px}
-.marker.hide{display:none}
-.ticks{position:relative;height:18px;font-family:var(--display);font-size:13px;color:var(--g3)}
-.ticks span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
-.ticks span:first-child{transform:none}
-.ticks span:last-child{transform:translateX(-100%)}
-.specs{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:26px}
-.spec{border-top:2px solid var(--ink);padding-top:10px}
-.spec h3{margin:0 0 6px;font-size:21px}
-.spec table{font-size:15px}
-.spec td{padding:7px 0;border-bottom:1px solid var(--g2)}
-.spec td:first-child{color:var(--g4);width:42%}
-.spec td:last-child{font-weight:700}
-.spec .foot{font-size:13.5px;color:var(--g4);margin:8px 0 0}
-@media (max-width:640px){.specs{grid-template-columns:1fr}}
-
-/* ---- node guide: checklist ---- */
-ul.check{list-style:none;padding:0}
-ul.check li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;margin:8px 0}
-ul.check input{appearance:none;-webkit-appearance:none;width:16px;height:16px;border:2px solid var(--ink);margin:4px 0 0;background:var(--paper);cursor:pointer;flex:none}
-ul.check input:checked{background:var(--ink);box-shadow:inset 0 0 0 3px var(--paper)}
-ul.check input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-ul.check label{cursor:pointer}
-ul.check input:checked + label{color:var(--g3);text-decoration:line-through}
-</style>
 </head>
-<body>
+<body data-root="">
 
-<header class="top">
-  <div class="top-in">
-    <a class="brand" href="index.html" aria-label="Pixa home">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    
+    <a class="brand" href="index.html" aria-label="Pixa developer resources, home">
       <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
-      <div class="word">Pixa<small>pixa.org — developer resources</small></div>
+      <span class="brand-word">Pixa</span>
     </a>
-    <nav aria-label="Site">
+    <nav class="tabs" aria-label="Site">
       <a href="index.html">Home</a>
+      <a href="wiki/index.html">Wiki</a>
       <a href="witness.html" aria-current="page">Witness setup</a>
-      <a href="library.html">Library</a>
-      <a href="interface.html">Interface</a>
-      <a href="activity.html">Activity</a>
     </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
   </div>
 </header>
 
 
-<div class="hero">
-  <div>
-    <h1>Run a<br>Pixagram node</h1>
-    <p class="lead">Witnesses sign the blocks. API nodes answer the app. This guide takes an empty rented server to either or both, one command at a time, and assumes you have never done this before.</p>
+<main class="page" id="content">
+
+<section class="hero">
+  <h1 class="display-l">Run a Pixagram node</h1>
+  <p class="lead">Witnesses sign the blocks. API nodes answer the app. This guide takes an empty rented server to either or both, one command at a time, and assumes you have never done this before.</p>
+  <div class="btnrow">
+    <a class="btn" href="#s1"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#terminal"/></svg>Start at step 1</a>
+    <a class="btn outlined" href="#size">Size the server</a>
+    <a class="btn text" href="wiki/node-operators/become-a-witness.html"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#menu_book"/></svg>Become a Witness, in the wiki</a>
   </div>
-  <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
-</div>
+</section>
 
-<div class="pulse" aria-live="polite">
-  <p class="pulse-in">Block <b id="hb">544,672</b> was signed <b id="hage">a moment</b> ago by <b id="hwit">boitata</b>. <b id="hn">8</b> witnesses are producing, the chain weighs about <b id="hsize">65 MB</b>, and the median price feed puts one PXS at <b id="hfeed">51</b> PIXA.
-  <span class="stamp" id="hstamp">Snapshot of 23 September 2026, 10:44 UTC. Live figures load from api.pixagram.com when the page can reach it.</span></p>
-</div>
+<section class="chain" data-chain aria-labelledby="chain-h">
+  <h2 class="sr-only" id="chain-h">The chain right now</h2>
+  <div class="ribbon-wrap"><div class="ribbon" data-rows="3" role="img" aria-label="Recent blocks, one square per block"></div><div class="ribbon-tip" aria-hidden="true"></div></div>
+  <p class="chain-line">Block <b data-k="head">1,664,902</b> was signed <b data-k="age">a moment</b> ago by <b data-k="witness">katka7</b>. <b data-k="n">21</b> witnesses are producing, the chain weighs about <b id="hsize">—</b>, and the median price feed reads <b data-k="feed">51</b> PIXA per PXS.</p>
+  <div class="chain-foot">
+    <p class="chain-note">Each square is a block, coloured by its place in the witness schedule: one spectrum is one round, in which every witness signs once. A hollow square is a slot nobody filled: a missed block, counted against its witness.</p>
+    <p class="chain-stamp" data-k="stamp">Snapshot of 1 November 2026, 08:32 UTC. Live figures load from api.pixagram.com when the page can reach it.</p>
+  </div>
+  <script type="application/json">{"head":1664902,"time":"2026-11-01T08:32:24","witness":"katka7","n":21,"shuffle":1664922,"feed":"51","blocks":[1664743,"2026-11-01T08:24:27",["katka7","aliento","anti","nodeprime","juraj04","rex","merlion","stormwind","lukas123654","blockforge","waynebockts","whale","matus","cleesan","majso","arm.witness","chainguard","elmerlin","top.witness","uykodusan","boitata","larry"],[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,2,6,8,15,0,3,1,5,16,10,17,18,9,19,4,11,7,20,4,5,8,20,15,17,12,21,18,0,3,10,7,16,9,1,13,19,11,6,2,1,15,5,17,16,3,10,0,2,11,18,6,9,7,4,13,14,20,8,12,19,12,8,13,15,0,11,10,7,1,9,2,21,19,16,4,6,20,18,17,5,3,14,8,13,11,2,19,20,0,10,16,17,18,3,6,5,4,15,7,12,9,1,8,7,11,10,6,3,2,16,15,13,18,17,12,0,20,4,5,9,21,1,19,11,0,6,13,19,2,16,8,4,17,15,5,9,18,20,7,1,10,3,14,12,0]]}</script>
+</section>
 
-<div class="wrap">
+<div class="guide">
 
-<aside class="toc" aria-label="Contents">
+<nav class="rail toc" aria-label="Contents">
   <ol>
-    <li class="grp">Understand</li>
+    <li class="grp" aria-hidden="true">Understand</li>
     <li><a href="#what">What you are about to run</a></li>
     <li><a href="#where">Where to put it</a></li>
     <li><a href="#size">How big a server</a></li>
     <li><a href="#words">Words you will meet</a></li>
-    <li class="grp">Build</li>
+    <li class="grp" aria-hidden="true">Build</li>
     <li><a href="#s1">1. Rent the server</a></li>
     <li><a href="#s2">2. Log in and harden</a></li>
     <li><a href="#s3">3. Install Docker</a></li>
@@ -99,25 +79,26 @@ ul.check input:checked + label{color:var(--g3);text-decoration:line-through}
     <li><a href="#s6">6. Register on chain</a></li>
     <li><a href="#s7">7. Price feed</a></li>
     <li><a href="#s8">8. API node</a></li>
-    <li class="grp">Keep it running</li>
+    <li class="grp" aria-hidden="true">Keep it running</li>
     <li><a href="#ops">Day to day</a></li>
     <li><a href="#fix">When something is wrong</a></li>
     <li><a href="#list">Before you announce</a></li>
     <li><a href="#ref">Reference</a></li>
   </ol>
-</aside>
+</nav>
 
-<main>
+<article>
 
-<details class="toc-m"><summary>Contents</summary><div class="toc" id="tocm"></div></details>
+
+<details class="toc-m"><summary>Contents <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#keyboard_arrow_down"/></svg></summary><div class="toc" id="tocm"></div></details>
 
 <!-- ============================================================================ -->
 <section id="what">
   <h2>What you are about to run</h2>
   <p>Pixagram is a fork of Hive. The chain closes a block every three seconds, and each block is signed by one of up to 21 servers called witnesses, in a shuffled order. Twenty of those seats go to the witnesses with the most stake-weighted votes; the twenty-first rotates among everyone else. While fewer than 21 witnesses exist — eight at the time of writing — every registered witness with a valid signing key is scheduled, votes or not.</p>
   <p>There are two kinds of node, and they are very different in size.</p>
-  <div class="tbl"><table>
-    <thead><tr><th></th><th>Witness node</th><th>API node</th></tr></thead>
+  <div class="table-wrap"><table>
+    <thead><tr><th><span class="sr-only">Aspect</span></th><th>Witness node</th><th>API node</th></tr></thead>
     <tbody>
       <tr><td>Job</td><td>Validates every block and signs one when its turn comes. Publishes a price feed.</td><td>Keeps the full history in a database and answers the app: feeds, profiles, balances, posts.</td></tr>
       <tr><td>Runs</td><td>2 containers: <code>hived</code> and the price feed</td><td>9 containers: <code>hived</code>, HAF (hived + PostgreSQL), Hivemind, Jussi, Caddy</td></tr>
@@ -132,10 +113,10 @@ ul.check input:checked + label{color:var(--g3);text-decoration:line-through}
   <h3>Why run both</h3>
   <p>A witness alone is legitimate: the network accepts it, schedules it and pays it. But the app only works through API nodes, and today most of that load sits on a handful of them. A public API node costs about as much as a mid-range VPS, and the witness pay covers it many times over. If you can run one server, run a witness. If you can run two, make the second an API node and put its address on your witness page.</p>
 
-  <div class="note">
+  <aside class="note"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#info"/></svg><div>
     <strong class="h">What a witness earns</strong>
     <p>Every block a witness signs pays it VESTS — PIXA staked in the account — straight away. At the time of writing one block pays <b id="rwd">0.370</b> VESTS. <span id="rwdn">8</span> witnesses share 28,800 blocks a day, so each signs about <b id="rwdb">3,600</b> and receives about <b id="rwdd">1,332</b> VESTS a day. The price feed values PIXA at a reference of 0.12 USD, so you can do the conversion yourself. Pay per block falls as more witnesses join (with the full 21, a top-20 seat comes to roughly 160 VESTS a day) and inflation narrows every 250,000 blocks, so treat these as today's figures, not a promise. VESTS become liquid PIXA through a power-down paid in 13 weekly instalments.</p>
-  </div>
+  </div></aside>
 </section>
 
 <!-- ============================================================================ -->
@@ -160,14 +141,14 @@ ul.check input:checked + label{color:var(--g3);text-decoration:line-through}
       </div>
     </div>
     <div class="range" id="rangewrap">
-      <input type="range" id="slider" min="0" max="1000" value="0" step="1" aria-label="Chain size to plan for, logarithmic scale from 1 megabyte to 2 terabytes">
+      <input class="slider" type="range" id="slider" min="0" max="1000" value="0" step="1" aria-label="Chain size to plan for, logarithmic scale from 1 megabyte to 2 terabytes">
       <div class="mrow"><div class="marker hide" id="cmarker">today</div></div>
       <div class="ticks" id="ticks"></div>
     </div>
     <div class="specs">
       <div class="spec">
         <h3>Witness node</h3>
-        <table class="plain"><tbody>
+        <table><tbody>
           <tr><td>Processor</td><td id="w-cpu">2 vCPU</td></tr>
           <tr><td>Memory</td><td id="w-ram">4 GB</td></tr>
           <tr><td>Disk</td><td id="w-disk">50 GB SSD</td></tr>
@@ -178,7 +159,7 @@ ul.check input:checked + label{color:var(--g3);text-decoration:line-through}
       </div>
       <div class="spec">
         <h3>API node</h3>
-        <table class="plain"><tbody>
+        <table><tbody>
           <tr><td>Processor</td><td id="a-cpu">4 vCPU</td></tr>
           <tr><td>Memory</td><td id="a-ram">16 GB</td></tr>
           <tr><td>Disk</td><td id="a-disk">100 GB NVMe</td></tr>
@@ -206,8 +187,8 @@ ul.check input:checked + label{color:var(--g3);text-decoration:line-through}
     <dt>Peer, seed</dt><dd>Nodes exchange blocks over port 2001 (P2P). A seed is a well-known node you connect to first: <code>api.pixagram.com:2001</code>.</dd>
     <dt>Witness</dt><dd>An account that has registered a block-signing key and a URL on chain, and the node that signs for it. <b>Missed block</b>: your slot passed without your block; the count is public and permanent.</dd>
     <dt>Keys</dt><dd>Every account has an <b>owner</b> key (recovery, keep offline), an <b>active</b> key (money and witness operations), a <b>posting</b> key (social actions) and a <b>memo</b> key. A witness adds a separate <b>signing key</b> that lives on the server and signs only blocks. Private keys are written in WIF form and start with <code>5</code>; public keys start with <code>PIX</code>.</dd>
-    <dt>Price feed</dt><dd>A price each witness publishes, saying how many PIXA one PXS is worth. The chain uses the median of all feeds. Pixagram's convention: one PXS is worth one Big Mac.</dd>
-    <dt>PIXA, PXS, VESTS</dt><dd>PIXA is the liquid coin, PXS the stable unit, VESTS the staked form of PIXA — what witness pay arrives in.</dd>
+    <dt>Price feed</dt><dd>A price each witness publishes, saying how many PIXA the chain should count for one PXS. The chain uses the median of all feeds. The feed refers to the price of one Big Mac; PXS itself promises no price.</dd>
+    <dt>PIXA, PXS, VESTS</dt><dd>PIXA is the liquid coin; PXS, Pixa Supra, promises no price and is a Big Mac referenced supracoin; VESTS count the staked form of PIXA, Pixa Power — what witness pay arrives in.</dd>
     <dt>Block log</dt><dd>The file that is the chain: every block since genesis. Never delete it on a node you intend to keep.</dd>
     <dt>Shared memory</dt><dd><code>shared_memory.bin</code>, hived's working state, derived from the block log. Delete it and a <b>replay</b> rebuilds it by re-reading the block log — slow but safe.</dd>
     <dt>HAF, Hivemind</dt><dd>HAF is a hived paired with PostgreSQL that records every block in a database. Hivemind reads that database and serves the social API — feeds, follows, communities.</dd>
@@ -231,11 +212,11 @@ ul.check input:checked + label{color:var(--g3);text-decoration:line-through}
     <li>A <b>public IPv4 address</b>. Some providers charge a little extra or default to IPv6 only; peers need IPv4.</li>
     <li><b>Your SSH public key</b> instead of a root password. Generate one on your computer first if you have none:</li>
   </ul>
-<pre><code><span class="c"># on your own computer (macOS, Linux, or Windows PowerShell)</span>
+<pre class="has-copy"><code><span class="c"># on your own computer (macOS, Linux, or Windows PowerShell)</span>
 ssh-keygen -t ed25519
 cat ~/.ssh/id_ed25519.pub          <span class="c"># paste this line into the provider's "SSH key" box</span></code></pre>
   <p>Most providers also offer a firewall or "security group" in their control panel, sometimes as checkboxes named <i>allow SSH</i>, <i>allow HTTP</i>, <i>allow HTTPS</i>. Turn it on and allow only what the node needs. It filters traffic before it reaches your machine, which matters later: Docker publishes ports past the server's own firewall.</p>
-  <div class="tbl"><table>
+  <div class="table-wrap"><table>
     <thead><tr><th>Port</th><th>Witness node</th><th>API node</th><th>Purpose</th></tr></thead>
     <tbody>
       <tr><td><code>22/tcp</code></td><td>yes, your IP only if possible</td><td>same</td><td>SSH</td></tr>
@@ -251,20 +232,22 @@ cat ~/.ssh/id_ed25519.pub          <span class="c"># paste this line into the pr
 <section id="s2" class="step">
   <h2><span class="n">2</span><span>Log in and harden</span></h2>
   <p>The provider shows you the server's IP address. From your computer — the white boxes in every command are the values you replace with your own:</p>
-<pre><code>ssh root@<span class="v">SERVER_IP</span>            <span class="c"># some providers use ubuntu@ or debian@ instead of root@</span>
+<pre class="has-copy"><code>ssh root@<span class="v">SERVER_IP</span>            <span class="c"># some providers use ubuntu@ or debian@ instead of root@</span>
 apt update &amp;&amp; apt -y upgrade &amp;&amp; apt -y install git curl nano ufw
 adduser pixa &amp;&amp; usermod -aG sudo pixa
 rsync --archive --chown=pixa:pixa ~/.ssh /home/pixa   <span class="c"># your key now works for user pixa too</span></code></pre>
   <p>Now close the doors you do not need. Passwords off, root login off, then the firewall — port 2001 is what the chain uses to reach you.</p>
-<pre><code>sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/; s/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+<pre class="has-copy"><code>sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/; s/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
 systemctl restart ssh
 ufw allow OpenSSH
 ufw allow 2001/tcp
 ufw allow 80/tcp &amp;&amp; ufw allow 443/tcp &amp;&amp; ufw allow 2002/tcp   <span class="c"># API node only — skip these three on a witness</span>
 ufw --force enable</code></pre>
-  <div class="note"><p>Open a <b>second</b> terminal and check that <code>ssh pixa@SERVER_IP</code> works before you close the first one. If it does not, you still have a session to fix it from.</p></div>
+  <aside class="note"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#info"/></svg><div>
+    <p>Open a <b>second</b> terminal and check that <code>ssh pixa@SERVER_IP</code> works before you close the first one. If it does not, you still have a session to fix it from.</p>
+  </div></aside>
   <p>The clock is not optional. Blocks carry timestamps and your slot is a three-second window; a clock off by a few seconds means missed blocks with no other symptom. Check it, and install a time daemon if it is not synchronised:</p>
-<pre><code>timedatectl                          <span class="c"># look for "System clock synchronized: yes"</span>
+<pre class="has-copy"><code>timedatectl                          <span class="c"># look for "System clock synchronized: yes"</span>
 apt -y install chrony                <span class="c"># only if it said no</span>
 apt -y install unattended-upgrades   <span class="c"># security patches on their own; kernel updates still need a reboot you schedule</span></code></pre>
   <p>From here on, work as <code>pixa</code> (<code>ssh pixa@SERVER_IP</code>) and put <code>sudo</code> in front of the commands that need root.</p>
@@ -274,10 +257,10 @@ apt -y install unattended-upgrades   <span class="c"># security patches on their
 <section id="s3" class="step">
   <h2><span class="n">3</span><span>Install Docker</span></h2>
   <p>Docker's own installer sets up the engine and the Compose plugin from its official repository:</p>
-<pre><code>curl -fsSL https://get.docker.com | sudo sh
+<pre class="has-copy"><code>curl -fsSL https://get.docker.com | sudo sh
 sudo usermod -aG docker pixa
 exit                                  <span class="c"># log out and back in so the group applies</span></code></pre>
-<pre><code>docker compose version               <span class="c"># prints a version: you are ready</span>
+<pre class="has-copy"><code>docker compose version               <span class="c"># prints a version: you are ready</span>
 docker run --rm hello-world          <span class="c"># optional: proves containers start</span></code></pre>
   <p>Two commands do almost everything from now on: <code>docker compose up -d</code> starts (or restarts changed) containers in the background, and <code>docker compose logs -f NAME</code> follows what one of them prints. Press <kbd>Ctrl</kbd>+<kbd>C</kbd> to stop following; the container keeps running.</p>
 </section>
@@ -286,7 +269,7 @@ docker run --rm hello-world          <span class="c"># optional: proves containe
 <section id="s4" class="step">
   <h2><span class="n">4</span><span>Account and keys</span></h2>
   <p>A witness is an ordinary Pixagram account with two extra things registered on chain: a URL and a block-signing key. Create the account in the Pixagram app if you have none, and save its keys somewhere that survives a lost laptop — a password manager, and a copy on paper.</p>
-  <div class="tbl"><table>
+  <div class="table-wrap"><table>
     <thead><tr><th>Key</th><th>Used for</th><th>Where it lives</th></tr></thead>
     <tbody>
       <tr><td>Owner</td><td>Changing the other keys, account recovery</td><td>Offline. Never on a server.</td></tr>
@@ -297,30 +280,30 @@ docker run --rm hello-world          <span class="c"># optional: proves containe
     </tbody>
   </table></div>
   <p>The signing key is a fresh pair you generate now. The image ships a wallet that does it offline — nothing is sent anywhere:</p>
-<pre><code>docker run --rm -it --entrypoint /home/hived/bin/cli_wallet pixadock/pixagram:1.30.1 -o
+<pre class="has-copy"><code>docker run --rm -it --entrypoint /home/hived/bin/cli_wallet pixadock/pixagram:1.30.1 -o
 <span class="c"># at the "new >>>" prompt, type:</span>
 suggest_brain_key
 <span class="c"># {"brain_priv_key": "…", "wif_priv_key": "5K…", "pub_key": "PIX7…"}</span>
 quit</code></pre>
   <p><code>wif_priv_key</code> goes into <code>config.ini</code> in the next step; <code>pub_key</code> goes on chain in step 6. Keep both, and the brain key, with your other keys.</p>
-  <div class="note key">
+  <aside class="note dark"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#key"/></svg><div>
     <strong class="h">The two keys people mix up</strong>
     <p>The <b>signing key</b> signs blocks and lives in <code>pixagram/config.ini</code>. The <b>active key</b> signs the price feed and lives in <code>.env</code>. They are different keys; putting the active key in <code>config.ini</code> produces no blocks, and putting the signing key in <code>.env</code> produces no feed. Whoever holds the signing key can produce blocks as you — or fail to, until your witness is disabled. Whoever holds the active key can move your funds. Both files get <code>chmod 600</code>, neither is ever committed to git or pasted into a chat.</p>
-  </div>
+  </div></aside>
 </section>
 
 <!-- ============================================================================ -->
 <section id="s5" class="step">
   <h2><span class="n">5</span><span>Start the witness</span></h2>
   <p>The witness repository is a ready-made Compose stack: hived with the four plugins a producer needs, and the price feed. Clone it, then fill in two files.</p>
-<pre><code>git clone https://github.com/pixagram-blockchain/witness.git
+<pre class="has-copy"><code>git clone https://github.com/pixagram-blockchain/witness.git
 cd witness
 nano pixagram/config.ini</code></pre>
   <p>Near the end of <code>config.ini</code> two lines are commented out on purpose. Remove the <code>#</code> and fill them in — they ship disabled because hived crashes on an empty <code>private-key</code> rather than starting without one:</p>
-<pre><code>witness     = "<span class="v">your-account</span>"
+<pre class="has-copy"><code>witness     = "<span class="v">your-account</span>"
 private-key = <span class="v">5K…the wif_priv_key from step 4</span></code></pre>
   <p>Save with <kbd>Ctrl</kbd>+<kbd>O</kbd>, <kbd>Enter</kbd>, leave with <kbd>Ctrl</kbd>+<kbd>X</kbd>. Then the feed's file, and the permissions:</p>
-<pre><code>cat &gt; .env &lt;&lt;'EOF'
+<pre class="has-copy"><code>cat &gt; .env &lt;&lt;'EOF'
 WITNESS_ACCOUNT=<span class="v">your-account</span>
 WITNESS_WIF=<span class="v">5J…your ACTIVE key</span>
 EOF
@@ -335,7 +318,7 @@ docker compose logs -f pixagram</code></pre>
 <section id="s6" class="step">
   <h2><span class="n">6</span><span>Register on chain</span></h2>
   <p>Registration is one operation, <code>witness_update</code>, signed with your active key. It tells the chain your URL, your signing public key and three properties you vote on. Do it <b>after</b> step 5 shows <code>entering live mode</code>: from the moment you register you are scheduled, and a node that is still syncing misses its slots.</p>
-  <div class="tbl"><table>
+  <div class="table-wrap"><table>
     <thead><tr><th>Field</th><th>What to put</th></tr></thead>
     <tbody>
       <tr><td><code>url</code></td><td>A page about your witness: who you are, where the node runs, how to reach you. Required, cannot be empty. A Pixagram post works.</td></tr>
@@ -346,10 +329,10 @@ docker compose logs -f pixagram</code></pre>
     </tbody>
   </table></div>
   <p>The easiest signer is a ten-line Node.js script using Pixagram's client library. Node 20 or newer is fine, on the server or on your computer.</p>
-<pre><code>mkdir ~/witness-tools &amp;&amp; cd ~/witness-tools
+<pre class="has-copy"><code>mkdir ~/witness-tools &amp;&amp; cd ~/witness-tools
 npm init -y &gt;/dev/null &amp;&amp; npm install @pixagram/dpixa@1.5.4
 nano register-witness.js</code></pre>
-<pre><code><span class="c">// register-witness.js — run once, and again whenever the URL, key or properties change</span>
+<pre class="has-copy"><code><span class="c">// register-witness.js — run once, and again whenever the URL, key or properties change</span>
 const { Client, PrivateKey } = require("@pixagram/dpixa/dist/dpixa.js");
 
 const ACCOUNT     = "<span class="v">your-account</span>";
@@ -372,12 +355,12 @@ client.broadcast.sendOperations(ops, PrivateKey.fromString(ACTIVE_WIF))
   .then(()  =&gt; client.database.call("get_witness_by_account", [ACCOUNT]))
   .then(w  =&gt; console.log("on chain:", w.owner, "signs with", w.signing_key, "url", w.url))
   .catch(e =&gt; { console.error(e.message); process.exit(1); });</code></pre>
-<pre><code>ACTIVE_WIF=<span class="v">5J…</span> node register-witness.js
+<pre class="has-copy"><code>ACTIVE_WIF=<span class="v">5J…</span> node register-witness.js
 <span class="c"># broadcast, transaction 3f9c…
 # on chain: your-account signs with PIX7… url https://…</span></code></pre>
   <p>Within a minute the schedule reshuffles and your node's log shows <code>Generated block #… with timestamp …</code>. If it shows <code>Won't produce block because I don't have the private key for PIX…</code> instead, the key in <code>config.ini</code> does not match the one you registered: fix one of them and restart with <code>docker compose restart pixagram</code>.</p>
   <p>Check yourself from outside as well, on <a href="https://pixagram.com/witness-status/">the witness status page</a> or with one request. The number that matters is <code>total_missed</code>:</p>
-<pre><code>curl -s -X POST https://api.pixagram.com -H 'Content-Type: application/json' \
+<pre class="has-copy"><code>curl -s -X POST https://api.pixagram.com -H 'Content-Type: application/json' \
   -d '{"jsonrpc":"2.0","method":"condenser_api.get_witness_by_account","params":["<span class="v">your-account</span>"],"id":1}'</code></pre>
   <p>Then ask for votes. Each account can vote for thirty witnesses; votes weigh by the voter's VESTS. Your URL page is where you make the case: location, hardware, whether you run an API node, how to reach you.</p>
 </section>
@@ -385,12 +368,12 @@ client.broadcast.sendOperations(ops, PrivateKey.fromString(ACTIVE_WIF))
 <!-- ============================================================================ -->
 <section id="s7" class="step">
   <h2><span class="n">7</span><span>Price feed</span></h2>
-  <p>PXS is Pixagram's stable unit. Whenever the chain converts between PXS and PIXA — treasury payouts, the printed value of rewards — it uses the median of the prices all witnesses publish. A witness that publishes none, or one older than seven days, is flagged on the status page.</p>
-  <p>Pixagram's convention is that one PXS is worth one Big Mac. The feed container in your stack fetches the US Big Mac price from The Economist's index, divides it by a PIXA/USD reference price, and publishes the result through your own node every hour. The reference is the <code>--token-price</code> argument in <code>docker-compose.yml</code>, currently <code>0.12</code>; at a Big Mac of 6.12 USD that gives the 51 PIXA per PXS the chain shows today.</p>
-<pre><code>docker compose logs -f bigmac-feed
+  <p>PXS, Pixa Supra, promises no price: it is a Big Mac referenced supracoin. Whenever the chain converts between PXS and PIXA — treasury payouts, the printed value of rewards — it uses the median of the prices all witnesses publish. A witness that publishes none, or one older than seven days, is flagged on the status page.</p>
+  <p>The feed refers to the price of one Big Mac. The feed container in your stack fetches the US Big Mac price from The Economist's index, divides it by a PIXA/USD reference price, and publishes the result through your own node every hour. The reference is the <code>--token-price</code> argument in <code>docker-compose.yml</code>, currently <code>0.12</code>; at a Big Mac of 6.12 USD that gives the 51 PIXA per PXS the chain shows today.</p>
+<pre class="has-copy"><code>docker compose logs -f bigmac-feed
 <span class="c"># Big Mac = $6.12 (as of 2026-01-…) → 1 PXS = 51.000 PIXA</span></code></pre>
   <p>Keep <code>--token-price</code> in line with the reference the other witnesses use — the status page shows each feed's deviation from the median, and a large one is visible to every voter. When the reference changes, edit the value and reload only that container:</p>
-<pre><code>nano docker-compose.yml             <span class="c"># change --token-price=0.12</span>
+<pre class="has-copy"><code>nano docker-compose.yml             <span class="c"># change --token-price=0.12</span>
 docker compose up -d bigmac-feed</code></pre>
   <p>Nothing here leaves the machine except the signed transaction: the feed talks to hived over the internal Compose network, which is why the witness config loads <code>database_api</code>, <code>condenser_api</code> and <code>network_broadcast_api</code> alongside the <code>witness</code> plugin. If you publish your feed by other means, remove the service.</p>
 </section>
@@ -399,12 +382,12 @@ docker compose up -d bigmac-feed</code></pre>
 <section id="s8" class="step">
   <h2><span class="n">8</span><span>API node</span></h2>
   <p>On the second server, repeat steps 1 to 3 with the API firewall rules, then give it a name. At your domain registrar, create an <b>A record</b> — for example host <code>api</code>, value your server's IPv4 — and wait until it resolves before you go on. Caddy asks Let's Encrypt for a certificate the moment it starts, and a name that does not yet point at the server produces failed attempts that count against that domain's rate limit.</p>
-<pre><code>dig +short api.<span class="v">example.com</span>          <span class="c"># must print your server's IP; nslookup works too</span></code></pre>
-<pre><code>git clone https://github.com/pixagram-blockchain/pixagram-node.git
+<pre class="has-copy"><code>dig +short api.<span class="v">example.com</span>          <span class="c"># must print your server's IP; nslookup works too</span></code></pre>
+<pre class="has-copy"><code>git clone https://github.com/pixagram-blockchain/pixagram-node.git
 cd pixagram-node
 echo 'SITE_ADDRESS=api.<span class="v">example.com</span>' &gt; .env &amp;&amp; chmod 600 .env</code></pre>
   <p>HAF ships PostgreSQL tuned for Hive at full scale, with 16 GiB of shared buffers; Postgres refuses to start if it cannot reserve them. On anything under about 24 GB of RAM, override it in the bind-mounted directory before the first start (raise the numbers in proportion on a bigger machine):</p>
-<pre><code>mkdir -p pixagram-haf/haf_postgresql_conf.d
+<pre class="has-copy"><code>mkdir -p pixagram-haf/haf_postgresql_conf.d
 cat &gt; pixagram-haf/haf_postgresql_conf.d/local.conf &lt;&lt;'EOF'
 shared_buffers = 2GB
 effective_cache_size = 4GB
@@ -414,15 +397,15 @@ docker compose up -d
 docker compose logs -f pixagram_haf</code></pre>
   <p>The first start pulls about 750 MB of images, then syncs the chain twice — hived and the HAF hived — and indexes it into PostgreSQL and Hivemind. The one-shot <code>hivemind_setup</code> container must finish (exit code 0) before <code>hivemind_sync</code> and <code>hivemind</code> start; give it a few minutes and do not restart the stack while it runs. Jussi may flap for up to a minute after any cold start because it resolves Hivemind's address when it loads — that is normal.</p>
   <p>Verify the chain layer and the social layer, then compare <code>head_block_number</code> with <code>api.pixagram.com</code>:</p>
-<pre><code>curl -s -X POST https://api.<span class="v">example.com</span> -H 'Content-Type: application/json' \
+<pre class="has-copy"><code>curl -s -X POST https://api.<span class="v">example.com</span> -H 'Content-Type: application/json' \
   -d '{"jsonrpc":"2.0","method":"condenser_api.get_dynamic_global_properties","params":[],"id":1}'
 
 curl -s -X POST https://api.<span class="v">example.com</span> -H 'Content-Type: application/json' \
   -d '{"jsonrpc":"2.0","method":"bridge.get_ranked_posts","params":{"sort":"created","tag":"","limit":1},"id":1}'</code></pre>
-  <div class="note">
+  <aside class="note"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#warning"/></svg><div>
     <strong class="h">Docker publishes ports past ufw</strong>
     <p>The stack publishes hived's direct HTTP port (7777), Hivemind (7778), the HAF node (7779) and a websocket (8092) on the host so you can query them locally. Docker writes its own firewall rules, so <code>ufw</code> alone does not close them. Either keep the provider's firewall in front (step 1) or, in <code>docker-compose.yml</code>, prefix those four mappings with <code>127.0.0.1:</code> — for example <code>"127.0.0.1:7777:7777"</code> — so they only listen on the machine itself. Ports 80, 443, 2001 and 2002 stay public.</p>
-  </div>
+  </div></aside>
   <p>Once it serves, put the address on your witness page and tell the Pixagram team so it can be listed for the app. If your provider or a CDN offers a filtering proxy for HTTPS, you can put the API behind it; the peer ports stay on the server's own address.</p>
 </section>
 
@@ -430,14 +413,14 @@ curl -s -X POST https://api.<span class="v">example.com</span> -H 'Content-Type:
 <section id="ops">
   <h2>Day to day</h2>
   <p>A healthy node needs almost nothing from you. The habit that matters is looking at the status page once a day — your missed count, your feed age, your version against the majority.</p>
-<pre><code>docker compose ps                    <span class="c"># what is running</span>
+<pre class="has-copy"><code>docker compose ps                    <span class="c"># what is running</span>
 docker compose logs -f pixagram      <span class="c"># follow hived; Ctrl+C to stop following</span>
 docker compose restart pixagram      <span class="c"># after editing config.ini</span>
 docker compose down                  <span class="c"># stop everything (the chain data stays on disk)</span>
 git pull &amp;&amp; docker compose up -d          <span class="c"># update: the repository pins each image version</span>
 df -h / &amp;&amp; du -sh pixagram/blockchain <span class="c"># disk: the chain only grows</span></code></pre>
   <p>Every long-running container restarts on its own after a reboot (<code>restart: unless-stopped</code>), so a kernel update is a reboot and a couple of missed slots, nothing more. Two operations rebuild state rather than restart it:</p>
-<pre><code><span class="c"># Replay: rebuild the state from your own block log (after enabling a plugin, or on a corrupt state file)</span>
+<pre class="has-copy"><code><span class="c"># Replay: rebuild the state from your own block log (after enabling a plugin, or on a corrupt state file)</span>
 docker compose down
 rm -f pixagram/blockchain/shared_memory.bin
 HIVED_EXTRA_ARGS=--replay-blockchain docker compose up -d pixagram
@@ -458,7 +441,7 @@ docker compose up -d</code></pre>
 
   <h3>Let a machine watch</h3>
   <p>The status project ships a command-line check with meaningful exit codes. A cron line that pings a phone when it is not zero is fifteen minutes well spent — <a href="https://ntfy.sh">ntfy.sh</a> is a free push service that needs no account:</p>
-<pre><code>sudo apt -y install nodejs npm       <span class="c"># if the server has no Node yet</span>
+<pre class="has-copy"><code>sudo apt -y install nodejs npm       <span class="c"># if the server has no Node yet</span>
 crontab -e
 <span class="c"># every 10 minutes: exit 0 ok, 1 warning, 2 critical, 3 could not fetch</span>
 */10 * * * * npx github:pixagram-blockchain/witness-status --check &gt;/dev/null 2&gt;&amp;1 || curl -s -d "Pixagram witness check failed" ntfy.sh/<span class="v">your-secret-topic</span></code></pre>
@@ -468,7 +451,7 @@ crontab -e
 <!-- ============================================================================ -->
 <section id="fix">
   <h2>When something is wrong</h2>
-  <div class="tbl"><table>
+  <div class="table-wrap"><table>
     <thead><tr><th>You see</th><th>It means</th><th>Do</th></tr></thead>
     <tbody>
       <tr><td><code>unable to parse private key</code>, container restarts in a loop</td><td><code>private-key =</code> is present but empty or malformed</td><td>Fill it in or comment the line out; restart</td></tr>
@@ -490,14 +473,14 @@ crontab -e
 <section id="list">
   <h2>Before you announce</h2>
   <ul class="check">
-    <li><input type="checkbox" id="c1"><label for="c1">The node logs <code>Generated block</code> and the status page shows you producing with a flat missed count.</label></li>
-    <li><input type="checkbox" id="c2"><label for="c2">Your price feed is published, at the median, less than an hour old.</label></li>
-    <li><input type="checkbox" id="c3"><label for="c3"><code>config.ini</code> and <code>.env</code> are <code>chmod 600</code>, backed up in a password manager, and not in any git commit.</label></li>
-    <li><input type="checkbox" id="c4"><label for="c4">Password login and root login over SSH are off; the provider firewall allows only the ports in step 1.</label></li>
-    <li><input type="checkbox" id="c5"><label for="c5"><code>timedatectl</code> says the clock is synchronised.</label></li>
-    <li><input type="checkbox" id="c6"><label for="c6">Your witness URL is a real page that says where the node runs and how to reach you.</label></li>
-    <li><input type="checkbox" id="c7"><label for="c7">Something other than you checks the node every ten minutes.</label></li>
-    <li><input type="checkbox" id="c8"><label for="c8">If you run an API node: <code>https://api.your-domain</code> answers both test requests and its head block matches api.pixagram.com.</label></li>
+    <li><input class="cb" type="checkbox" id="c1"><label for="c1">The node logs <code>Generated block</code> and the status page shows you producing with a flat missed count.</label></li>
+    <li><input class="cb" type="checkbox" id="c2"><label for="c2">Your price feed is published, at the median, less than an hour old.</label></li>
+    <li><input class="cb" type="checkbox" id="c3"><label for="c3"><code>config.ini</code> and <code>.env</code> are <code>chmod 600</code>, backed up in a password manager, and not in any git commit.</label></li>
+    <li><input class="cb" type="checkbox" id="c4"><label for="c4">Password login and root login over SSH are off; the provider firewall allows only the ports in step 1.</label></li>
+    <li><input class="cb" type="checkbox" id="c5"><label for="c5"><code>timedatectl</code> says the clock is synchronised.</label></li>
+    <li><input class="cb" type="checkbox" id="c6"><label for="c6">Your witness URL is a real page that says where the node runs and how to reach you.</label></li>
+    <li><input class="cb" type="checkbox" id="c7"><label for="c7">Something other than you checks the node every ten minutes.</label></li>
+    <li><input class="cb" type="checkbox" id="c8"><label for="c8">If you run an API node: <code>https://api.your-domain</code> answers both test requests and its head block matches api.pixagram.com.</label></li>
   </ul>
 </section>
 
@@ -505,7 +488,7 @@ crontab -e
 <section id="ref">
   <h2>Reference</h2>
   <h3>Public endpoints</h3>
-  <div class="tbl"><table>
+  <div class="table-wrap"><table>
     <thead><tr><th>Node</th><th>Location</th></tr></thead>
     <tbody>
       <tr><td><code>https://api.pixagram.com</code></td><td>Warsaw — also the P2P seed, port 2001</td></tr>
@@ -519,7 +502,7 @@ crontab -e
   <p>All six serve the same Hive-compatible JSON-RPC over HTTPS POST, batches included, with CORS open. There is no testnet; <code>pixagram.dev</code> is a website.</p>
 
   <h3>Chain constants that shape a witness's life</h3>
-  <div class="tbl"><table class="plain">
+  <div class="table-wrap"><table class="kv">
     <tbody>
       <tr><td>Block interval</td><td>3 seconds, 28,800 blocks a day</td></tr>
       <tr><td>Witness seats</td><td>21: 20 elected by votes, 1 rotating backup</td></tr>
@@ -546,16 +529,50 @@ crontab -e
   <p><small>Node operator guide, version 1.0, 5 September 2026. Measurements from the repositories' production nodes and from the live chain; the page refreshes the live figures itself.</small></p>
 </section>
 
-</main>
-</div>
 
-<footer>
-  <div class="foot-in">
-    <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
-    <span>pixa.org — developer resources for the Pixa blockchain.</span>
-    <span><a href="https://github.com/pixagram-blockchain">GitHub</a>, <a class="linkedin" href="https://www.linkedin.com/company/pixagram">LinkedIn</a>, <a href="https://pixagram.com">pixagram.com</a></span>
-    <span>© 2026 Pixagram</span>
-    <span class="live" id="footlive">Connecting to api.pixagram.com</span>
+</article>
+</div>
+</main>
+
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="wiki/index.html">Wiki</a></li>
+          <li><a href="witness.html">Witness setup</a></li>
+          <li><a href="skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
   </div>
 </footer>
 
@@ -564,22 +581,7 @@ crontab -e
 <script>
 (function(){
   "use strict";
-  var NODE = "https://api.pixagram.com";
-  var $ = function(id){ return document.getElementById(id); };
-
-  /* ---------- helpers ---------- */
-  function rpc(method, params){
-    return fetch(NODE, { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ jsonrpc: "2.0", method: method, params: params, id: 1 }) })
-      .then(function(r){ return r.json(); })
-      .then(function(j){ if (j.error) throw new Error(j.error.message); return j.result; });
-  }
-  function fmtInt(n){ return Math.round(n).toLocaleString("en-US"); }
-  function fmtBytes(b){
-    if (b < 1e9){ var mb = b / 1e6; return (mb < 10 ? mb.toFixed(1).replace(/\.0$/, "") : Math.round(mb)) + " MB"; }
-    if (b < 1e12){ var g = b / 1e9; return (g < 10 ? g.toFixed(1) : Math.round(g)) + " GB"; }
-    return (b / 1e12).toFixed(1) + " TB";
-  }
+  var P = window.PIXA, $ = P.$, fmtInt = P.fmtInt, fmtBytes = P.fmtBytes, rpc = P.rpc;
   function fmtGB(gb){ return fmtBytes(gb * 1e9); }
   function roundUp(v, steps){ for (var i = 0; i < steps.length; i++) if (steps[i] >= v) return steps[i]; return steps[steps.length - 1]; }
 
@@ -599,11 +601,12 @@ crontab -e
   var slider = $("slider"), LOGMIN = Math.log10(0.001), LOGMAX = Math.log10(2048);
   function posToGB(p){ return Math.pow(10, LOGMIN + (p / 1000) * (LOGMAX - LOGMIN)); }
   function gbToPos(gb){ return Math.max(0, Math.min(1000, 1000 * (Math.log10(Math.max(gb, 0.001)) - LOGMIN) / (LOGMAX - LOGMIN))); }
-  function posToPx(pos){ var w = slider.offsetWidth || 600, half = 11; return half + (pos / 1000) * (w - 2 * half); }
+  function posToPx(pos){ var w = slider.offsetWidth || 600, half = 3; return half + (pos / 1000) * (w - 2 * half); }
   (function(){ var t = $("ticks"); [[0.001,"1 MB"],[0.1,"100 MB"],[10,"10 GB"],[2048,"2 TB"]].forEach(function(x){
     var s = document.createElement("span"); s.textContent = x[1]; s.style.left = (gbToPos(x[0]) / 10) + "%"; t.appendChild(s); }); })();
   function render(){
     var S = posToGB(+slider.value), s = specs(S);
+    slider.style.setProperty("--p", (slider.value / 10) + "%");
     $("cval").textContent = fmtGB(S);
     $("w-cpu").textContent = s.w.cpu + " vCPU"; $("w-ram").textContent = s.w.ram + " GB"; $("w-disk").textContent = diskLabel(s.w.disk, false);
     $("w-net").textContent = S < 200 ? "100 Mbit/s, 5 TB/month or unmetered" : "1 Gbit/s, 5 TB/month or unmetered";
@@ -612,27 +615,12 @@ crontab -e
     $("a-net").textContent = S < 200 ? "1 Gbit/s, 10 TB/month or unmetered" : "1–10 Gbit/s, unmetered, filtering in front";
     $("a-price").textContent = PRICE[s.a.ram] + " a month" + (s.a.ram >= 128 ? ", dedicated" : "");
   }
-  slider.addEventListener("input", render);
+  slider.addEventListener("input", function(){ slider.dataset.touched = "1"; render(); });
   render();
 
-  /* ---------- live chain ---------- */
-  var live = { head: 544672, time: null, witness: "boitata", n: 8, feed: 52, reward: 0.370, bpb: 120, ok: false };
-  var lastFetch = 0;
-  function ago(sec){ if (sec < 1) return "1 s"; if (sec < 90) return Math.round(sec) + " s"; if (sec < 5400) return Math.round(sec / 60) + " min"; return Math.round(sec / 3600) + " h"; }
-  function paintPulse(){
-    $("hb").textContent = fmtInt(live.head);
-    $("hwit").textContent = live.witness;
-    $("hn").textContent = live.n;
-    $("hfeed").textContent = live.feed;
-    $("hsize").textContent = fmtBytes(live.head * live.bpb);
-    if (live.time){
-      var sec = (Date.now() - (Date.parse(live.time + "Z") || Date.now())) / 1000;
-      $("hage").textContent = ago(sec);
-    }
-    if (live.ok){
-      $("hstamp").textContent = "Live from api.pixagram.com, refreshed every six seconds. Chain size is an estimate from the average block on disk.";
-    }
-  }
+  /* ---------- live chain: size, pay ---------- */
+  var live = { head: 1664902, n: 21, reward: 0.119, bpb: 222.1 };
+  function paintSize(){ $("hsize").textContent = fmtBytes(live.head * live.bpb); }
   function paintReward(){
     var blocksPerDay = 28800 / Math.max(1, live.n);
     $("rwd").textContent = live.reward.toFixed(3); $("rwdn").textContent = live.n;
@@ -646,45 +634,28 @@ crontab -e
     m.style.left = posToPx(pos) + "px"; m.textContent = "today, " + fmtBytes(today); m.classList.remove("hide");
     if (!slider.dataset.touched){ slider.value = Math.round(pos); render(); }
   }
-  slider.addEventListener("input", function(){ slider.dataset.touched = "1"; });
   window.addEventListener("resize", function(){ if (!$("cmarker").classList.contains("hide")) paintSizing(); });
-  paintPulse(); paintReward(); paintSizing();
+  paintSize(); paintReward(); paintSizing();
 
-  function tick(){
-    rpc("condenser_api.get_dynamic_global_properties", []).then(function(d){
-      live.head = d.head_block_number; live.time = d.time; live.witness = d.current_witness; live.ok = true; lastFetch = Date.now();
-      paintPulse();
-    }).catch(function(){ /* keep the snapshot */ });
-  }
-  function slow(){
-    rpc("condenser_api.get_witness_schedule", []).then(function(s){ live.n = s.num_scheduled_witnesses || live.n; paintPulse(); paintReward(); }).catch(function(){});
-    rpc("condenser_api.get_current_median_history_price", []).then(function(p){
-      var q = parseFloat(p.quote), b = parseFloat(p.base); if (q && b){ live.feed = Math.round(q / b); paintPulse(); }
-    }).catch(function(){});
-  }
-  function once(){
-    // average block on disk: ~160 B for an empty block plus about 60 % of the JSON size of its transactions
-    rpc("condenser_api.get_dynamic_global_properties", []).then(function(d){
-      var head = d.head_block_number, n = Math.min(1000, head);
-      return rpc("block_api.get_block_range", { starting_block_num: head - n + 1, count: n }).then(function(r){
-        var tx = 0, blocks = r.blocks || [];
-        blocks.forEach(function(b){ tx += JSON.stringify(b.transactions || []).length; });
-        if (blocks.length) live.bpb = 160 + 0.6 * tx / blocks.length;
-        live.head = head; paintSizing(); paintPulse();
-        return d.current_witness;
-      });
-    }).then(function(w){
-      return rpc("condenser_api.get_account_history", [w, -1, 30]).then(function(h){
-        for (var i = h.length - 1; i >= 0; i--){
-          var op = h[i][1].op; if (op[0] === "producer_reward"){ var v = parseFloat(op[1].vesting_shares); if (v){ live.reward = v; paintReward(); } break; }
-        }
-      });
-    }).catch(function(){});
-  }
-  tick(); slow(); once();
-  setInterval(tick, 6000); setInterval(slow, 60000);
-  setInterval(function(){ if (live.ok) paintPulse(); }, 1000);
-  document.addEventListener("visibilitychange", function(){ if (!document.hidden) tick(); });
+  P.on("dgp", function(d){ live.head = d.head_block_number; paintSize(); });
+  P.on("schedule", function(s){ live.n = s.num_scheduled_witnesses || live.n; paintReward(); });
+  // average block on disk: ~160 B for an empty block plus about 60 % of the JSON size of its transactions
+  rpc("condenser_api.get_dynamic_global_properties", []).then(function(d){
+    var head = d.head_block_number, n = Math.min(1000, head);
+    return rpc("block_api.get_block_range", { starting_block_num: head - n + 1, count: n }).then(function(r){
+      var tx = 0, blocks = r.blocks || [];
+      blocks.forEach(function(b){ tx += JSON.stringify(b.transactions || []).length; });
+      if (blocks.length) live.bpb = 160 + 0.6 * tx / blocks.length;
+      live.head = head; paintSizing(); paintSize();
+      return d.current_witness;
+    });
+  }).then(function(w){
+    return rpc("condenser_api.get_account_history", [w, -1, 30]).then(function(h){
+      for (var i = h.length - 1; i >= 0; i--){
+        var op = h[i][1].op; if (op[0] === "producer_reward"){ var v = parseFloat(op[1].vesting_shares); if (v){ live.reward = v; paintReward(); } break; }
+      }
+    });
+  }).catch(function(){});
 })();
 </script>
 </body>

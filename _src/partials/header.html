@@ -1,11 +1,17 @@
-<header class="top">
-  <div class="top-in">
-    <a class="brand" href="index.html" aria-label="Pixa home">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    {{DRAWER_BTN}}
+    <a class="brand" href="{{ROOT}}index.html" aria-label="Pixa developer resources, home">
       {{MARK}}
-      <div class="word">Pixa<small>pixa.org — developer resources</small></div>
+      <span class="brand-word">Pixa</span>
     </a>
-    <nav aria-label="Site">
-{{NAV}}
+    <nav class="tabs" aria-label="Site">
+{{TABS}}
     </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="{{ROOT}}assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
   </div>
 </header>

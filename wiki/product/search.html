@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search — Pixagram wiki</title>
+<meta name="description" content="The search box at the top of pixagram.com finds users, tags, communities, artworks and posts. The first three come from the chain&#x27;s own API; the last two com…">
+<link rel="canonical" href="https://pixa.org/wiki/product/search.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Search — Pixagram wiki">
+<meta property="og:description" content="The search box at the top of pixagram.com finds users, tags, communities, artworks and posts. The first three come from the chain&#x27;s own API; the last two com…">
+<meta property="og:url" content="https://pixa.org/wiki/product/search.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economic-cybernetics/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../developers/index.html">Overview</a></li>
+<li><a class="nav-i" href="../developers/chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="../developers/developer-quickstart.html">Developer Quickstart</a></li>
+<li><a class="nav-i" href="../developers/differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="../developers/sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../node-operators/index.html">Overview</a></li>
+<li><a class="nav-i" href="../node-operators/run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="../node-operators/run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="../node-operators/become-a-witness.html">Become a Witness</a></li>
+<li><a class="nav-i" href="../node-operators/cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../protocol-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
+<li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details open>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="feed-and-discovery.html">Feed and Discovery</a></li>
+<li><a class="nav-i" href="search.html" aria-current="page">Search</a></li>
+<li><a class="nav-i" href="notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="account-settings.html">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economics-lab/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economics-lab/reward-examples.html">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../reference/chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="../reference/system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="../reference/glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="../reference/risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="../reference/sources-and-credits.html">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Pixagram product</a></nav><h1>Search</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>Described from the app's code of 2026-10-04 (commit <code>ca1d157</code>) and the public nodes on 2026-10-08. The artwork and post index is a service run for the app; its code is not published.</p>
+</div></div>
+<p>The search box at the top of <a href="http://pixagram.com">pixagram.com</a> finds users, tags, communities, artworks and posts. The first three come from the chain's own API; the last two come from a separate index the app's operator runs. This page says what each part can find, where the match is made, which filters exist, and what cannot be found yet, so that nobody expects the search to be a view of the whole chain. It is not one.</p>
+<h2 id="two-searches-in-one-box">Two searches in one box<a class="anchor" href="#two-searches-in-one-box" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<figure class="diagram" style="--w:754px"><svg aria-label="Diagram: search box 250 ms after the last keystroke; public node (hived, Hivemind); search service run by the operator; Users; Tags; Communities; Artworks; Posts" focusable="false" id="dda313274d056336d" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" viewBox="0 0 753.890625 412.5" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#dda313274d056336d{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:15px;fill:#000000;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#dda313274d056336d .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#dda313274d056336d .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#dda313274d056336d .error-icon{fill:#ffffff;}#dda313274d056336d .error-text{fill:#000000;stroke:#000000;}#dda313274d056336d .edge-thickness-normal{stroke-width:1px;}#dda313274d056336d .edge-thickness-thick{stroke-width:3.5px;}#dda313274d056336d .edge-pattern-solid{stroke-dasharray:0;}#dda313274d056336d .edge-thickness-invisible{stroke-width:0;fill:none;}#dda313274d056336d .edge-pattern-dashed{stroke-dasharray:3;}#dda313274d056336d .edge-pattern-dotted{stroke-dasharray:2;}#dda313274d056336d .marker{fill:#474747;stroke:#474747;}#dda313274d056336d .marker.cross{stroke:#474747;}#dda313274d056336d svg{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:15px;}#dda313274d056336d p{margin:0;}#dda313274d056336d .label{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;color:#000000;}#dda313274d056336d .cluster-label text{fill:#474747;}#dda313274d056336d .cluster-label span{color:#474747;}#dda313274d056336d .cluster-label span p{background-color:transparent;}#dda313274d056336d .label text,#dda313274d056336d span{fill:#000000;color:#000000;}#dda313274d056336d .node rect,#dda313274d056336d .node circle,#dda313274d056336d .node ellipse,#dda313274d056336d .node polygon,#dda313274d056336d .node path{fill:#ffffff;stroke:#000000;stroke-width:1px;}#dda313274d056336d .rough-node .label text,#dda313274d056336d .node .label text,#dda313274d056336d .image-shape .label,#dda313274d056336d .icon-shape .label{text-anchor:middle;}#dda313274d056336d .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#dda313274d056336d .rough-node .label,#dda313274d056336d .node .label,#dda313274d056336d .image-shape .label,#dda313274d056336d .icon-shape .label{text-align:center;}#dda313274d056336d .node.clickable{cursor:pointer;}#dda313274d056336d .root .anchor path{fill:#474747!important;stroke-width:0;stroke:#474747;}#dda313274d056336d .arrowheadPath{fill:#000000;}#dda313274d056336d .edgePath .path{stroke:#474747;stroke-width:1px;}#dda313274d056336d .flowchart-link{stroke:#474747;fill:none;}#dda313274d056336d .edgeLabel{background-color:#ffffff;text-align:center;}#dda313274d056336d .edgeLabel p{background-color:#ffffff;}#dda313274d056336d .edgeLabel rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dda313274d056336d .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#dda313274d056336d .cluster rect{fill:#f4f4f4;stroke:#f4f4f4;stroke-width:1px;}#dda313274d056336d .cluster text{fill:#474747;}#dda313274d056336d .cluster span{color:#474747;}#dda313274d056336d div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:12px;background:#ffffff;border:1px solid hsl(0, 0%, 90%);border-radius:2px;pointer-events:none;z-index:100;}#dda313274d056336d .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#dda313274d056336d rect.text{fill:none;stroke-width:0;}#dda313274d056336d .icon-shape,#dda313274d056336d .image-shape{background-color:#ffffff;text-align:center;}#dda313274d056336d .icon-shape p,#dda313274d056336d .image-shape p{background-color:#ffffff;padding:2px;}#dda313274d056336d .icon-shape .label rect,#dda313274d056336d .image-shape .label rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dda313274d056336d .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#dda313274d056336d .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#dda313274d056336d .node .neo-node{stroke:#000000;}#dda313274d056336d [data-look="neo"].node rect,#dda313274d056336d [data-look="neo"].cluster rect,#dda313274d056336d [data-look="neo"].node polygon{stroke:url(#dda313274d056336d-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dda313274d056336d [data-look="neo"].swimlane.cluster rect{filter:none;}#dda313274d056336d [data-look="neo"].node path{stroke:url(#dda313274d056336d-gradient);stroke-width:1px;}#dda313274d056336d [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dda313274d056336d [data-look="neo"].node .neo-line path{stroke:#000000;filter:none;}#dda313274d056336d [data-look="neo"].node circle{stroke:url(#dda313274d056336d-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dda313274d056336d [data-look="neo"].node circle .state-start{fill:#000000;}#dda313274d056336d [data-look="neo"].icon-shape .icon{fill:url(#dda313274d056336d-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dda313274d056336d [data-look="neo"].icon-shape .icon-neo path{stroke:url(#dda313274d056336d-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dda313274d056336d .node rect,#dda313274d056336d .node path{rx:10px;ry:10px;}#dda313274d056336d .cluster rect{rx:16px;ry:16px;}#dda313274d056336d .cluster-label .nodeLabel,#dda313274d056336d .cluster-label span{color:rgb(71, 71, 71)!important;}#dda313274d056336d .edgeLabel,#dda313274d056336d .edgeLabel p{background:rgb(255, 255, 255)!important;color:rgb(71, 71, 71)!important;}#dda313274d056336d :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="dda313274d056336d_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dda313274d056336d_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dda313274d056336d_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dda313274d056336d_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dda313274d056336d_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dda313274d056336d_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dda313274d056336d_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dda313274d056336d_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dda313274d056336d_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dda313274d056336d_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dda313274d056336d_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="dda313274d056336d_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M176.555,213L194.369,197.458C212.182,181.917,247.81,150.833,270.008,135.292C292.206,119.75,300.974,119.75,305.358,119.75L309.742,119.75" id="dda313274d056336d-L_BOX_CHAIN_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_BOX_CHAIN_0" data-points="W3sieCI6MTc2LjU1NDg1MzA4Mjg1MTY1LCJ5IjoyMTN9LHsieCI6MjgzLjQzNzUsInkiOjExOS43NX0seyJ4IjozMTMuNzQyMTg3NSwieSI6MTE5Ljc1fV0=" data-look="classic" marker-end="url(#dda313274d056336d_flowchart-v2-pointEnd)"/><path d="M197.473,286L211.8,294.333C226.128,302.667,254.783,319.333,272.11,327.667C289.438,336,295.438,336,298.438,336L301.438,336" id="dda313274d056336d-L_BOX_IDX_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_BOX_IDX_0" data-points="W3sieCI6MTk3LjQ3MjkwNDYyNDI3NzQ1LCJ5IjoyODZ9LHsieCI6MjgzLjQzNzUsInkiOjMzNn0seyJ4IjozMDUuNDM3NSwieSI6MzM2fV0=" data-look="classic" marker-end="url(#dda313274d056336d_flowchart-v2-pointEnd)"/><path d="M477.224,94.5L494.926,84.292C512.628,74.083,548.033,53.667,572.645,43.458C597.258,33.25,611.078,33.25,617.988,33.25L624.898,33.25" id="dda313274d056336d-L_CHAIN_U_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_CHAIN_U_0" data-points="W3sieCI6NDc3LjIyMzYyNzE2NzYzMDA3LCJ5Ijo5NC41fSx7IngiOjU4My40Mzc1LCJ5IjozMy4yNX0seyJ4Ijo2MjguODk4NDM3NSwieSI6MzMuMjV9XQ==" data-look="classic" marker-end="url(#dda313274d056336d_flowchart-v2-pointEnd)"/><path d="M553.133,119.75L558.184,119.75C563.234,119.75,573.336,119.75,585.956,119.75C598.576,119.75,613.714,119.75,621.283,119.75L628.852,119.75" id="dda313274d056336d-L_CHAIN_T_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_CHAIN_T_0" data-points="W3sieCI6NTUzLjEzMjgxMjUsInkiOjExOS43NX0seyJ4Ijo1ODMuNDM3NSwieSI6MTE5Ljc1fSx7IngiOjYzMi44NTE1NjI1LCJ5IjoxMTkuNzV9XQ==" data-look="classic" marker-end="url(#dda313274d056336d_flowchart-v2-pointEnd)"/><path d="M477.224,145L494.926,155.208C512.628,165.417,548.033,185.833,568.735,196.042C589.438,206.25,595.438,206.25,598.438,206.25L601.438,206.25" id="dda313274d056336d-L_CHAIN_C_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_CHAIN_C_0" data-points="W3sieCI6NDc3LjIyMzYyNzE2NzYzMDA3LCJ5IjoxNDV9LHsieCI6NTgzLjQzNzUsInkiOjIwNi4yNX0seyJ4Ijo2MDUuNDM3NSwieSI6MjA2LjI1fV0=" data-look="classic" marker-end="url(#dda313274d056336d_flowchart-v2-pointEnd)"/><path d="M560.027,299.5L563.929,298.375C567.831,297.25,575.634,295,584.708,293.875C593.781,292.75,604.125,292.75,609.297,292.75L614.469,292.75" id="dda313274d056336d-L_IDX_A_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_IDX_A_0" data-points="W3sieCI6NTYwLjAyNzA5NTM3NTcyMjUsInkiOjI5OS41fSx7IngiOjU4My40Mzc1LCJ5IjoyOTIuNzV9LHsieCI6NjE4LjQ2ODc1LCJ5IjoyOTIuNzV9XQ==" data-look="classic" marker-end="url(#dda313274d056336d_flowchart-v2-pointEnd)"/><path d="M560.027,372.5L563.929,373.625C567.831,374.75,575.634,377,586.614,378.125C597.594,379.25,611.75,379.25,618.828,379.25L625.906,379.25" id="dda313274d056336d-L_IDX_P_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_IDX_P_0" data-points="W3sieCI6NTYwLjAyNzA5NTM3NTcyMjUsInkiOjM3Mi41fSx7IngiOjU4My40Mzc1LCJ5IjozNzkuMjV9LHsieCI6NjI5LjkwNjI1LCJ5IjozNzkuMjV9XQ==" data-look="classic" marker-end="url(#dda313274d056336d_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_BOX_CHAIN_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_BOX_IDX_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_CHAIN_U_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_CHAIN_T_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_CHAIN_C_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_IDX_A_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_IDX_P_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="dda313274d056336d-flowchart-BOX-0" data-look="classic" transform="translate(134.71875, 249.5)"><rect class="basic label-container" style="" x="-126.71875" y="-36.5" width="253.4375" height="73"/><g class="label" style="" transform="translate(-98.71875, -22.5)"><rect/><foreignObject width="197.4375" height="45"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>search box<br />250 ms after the last keystroke</p></span></div></foreignObject></g></g><g class="node default" id="dda313274d056336d-flowchart-CHAIN-1" data-look="classic" transform="translate(433.4375, 119.75)"><rect class="basic label-container" style="" x="-119.6953125" y="-25.25" width="239.390625" height="50.5"/><g class="label" style="" transform="translate(-91.6953125, -11.25)"><rect/><foreignObject width="183.390625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>public node (hived, Hivemind)</p></span></div></foreignObject></g></g><g class="node default" id="dda313274d056336d-flowchart-IDX-3" data-look="classic" transform="translate(433.4375, 336)"><rect class="basic label-container" style="" x="-128" y="-36.5" width="256" height="73"/><g class="label" style="" transform="translate(-100, -22.5)"><rect/><foreignObject width="200" height="45"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>search service run by the operator</p></span></div></foreignObject></g></g><g class="node default" id="dda313274d056336d-flowchart-U-5" data-look="classic" transform="translate(675.6640625, 33.25)"><rect class="basic label-container" style="" x="-46.765625" y="-25.25" width="93.53125" height="50.5"/><g class="label" style="" transform="translate(-18.765625, -11.25)"><rect/><foreignObject width="37.53125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Users</p></span></div></foreignObject></g></g><g class="node default" id="dda313274d056336d-flowchart-T-6" data-look="classic" transform="translate(675.6640625, 119.75)"><rect class="basic label-container" style="" x="-42.8125" y="-25.25" width="85.625" height="50.5"/><g class="label" style="" transform="translate(-14.8125, -11.25)"><rect/><foreignObject width="29.625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Tags</p></span></div></foreignObject></g></g><g class="node default" id="dda313274d056336d-flowchart-C-7" data-look="classic" transform="translate(675.6640625, 206.25)"><rect class="basic label-container" style="" x="-70.2265625" y="-25.25" width="140.453125" height="50.5"/><g class="label" style="" transform="translate(-42.2265625, -11.25)"><rect/><foreignObject width="84.453125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Communities</p></span></div></foreignObject></g></g><g class="node default" id="dda313274d056336d-flowchart-A-9" data-look="classic" transform="translate(675.6640625, 292.75)"><rect class="basic label-container" style="" x="-57.1953125" y="-25.25" width="114.390625" height="50.5"/><g class="label" style="" transform="translate(-29.1953125, -11.25)"><rect/><foreignObject width="58.390625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Artworks</p></span></div></foreignObject></g></g><g class="node default" id="dda313274d056336d-flowchart-P-10" data-look="classic" transform="translate(675.6640625, 379.25)"><rect class="basic label-container" style="" x="-45.7578125" y="-25.25" width="91.515625" height="50.5"/><g class="label" style="" transform="translate(-17.7578125, -11.25)"><rect/><foreignObject width="35.515625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Posts</p></span></div></foreignObject></g></g></g></g></g><defs><filter id="dda313274d056336d-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="dda313274d056336d-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><linearGradient id="dda313274d056336d-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#000000" stop-opacity="1"/><stop offset="100%" stop-color="hsl(0, 0%, 85.6862745098%)" stop-opacity="1"/></linearGradient></svg><figcaption class="diagram-foot"><span class="hint">Scroll sideways to see the whole diagram.</span><a href="../diagrams/da313274d056336d.svg">Open full size</a></figcaption></figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Section (English label)</th>
+<th>Source</th>
+<th>Call</th>
+<th>How the match is made</th>
+<th>Results</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Users</strong></td>
+<td>hived</td>
+<td><code>condenser_api.lookup_accounts</code></td>
+<td>Account names that <strong>start with</strong> the text; an account found this way whose name is <code>portal-</code> and digits is moved to Communities</td>
+<td>up to 16</td>
+</tr>
+<tr>
+<td><strong>Tags</strong></td>
+<td>Hivemind</td>
+<td><code>condenser_api.get_trending_tags</code>, 100 tags</td>
+<td>The text is matched <strong>inside the names of the 100 trending tags</strong>, in the browser; the typed text itself is always offered as a tag, so <code>#anything</code> can be opened</td>
+<td>up to 32</td>
+</tr>
+<tr>
+<td><strong>Communities</strong></td>
+<td>Hivemind</td>
+<td><code>bridge.list_communities</code> with the text as <code>query</code>, plus a client-side match on the 100 top-ranked communities</td>
+<td>Hivemind's match on title and about, then the browser's</td>
+<td>up to 16</td>
+</tr>
+<tr>
+<td><strong>Artworks</strong></td>
+<td>the search service</td>
+<td><code>GET /search</code> with the text</td>
+<td>The service's index of each artwork's title, tags, description and a caption it generates; the ranking is the service's</td>
+<td>up to 32</td>
+</tr>
+<tr>
+<td><strong>Posts</strong></td>
+<td>the search service</td>
+<td>the same request</td>
+<td>Full text of blog posts</td>
+<td>up to 16</td>
+</tr>
+<tr>
+<td><strong>History</strong></td>
+<td>the browser</td>
+<td>—</td>
+<td>The tags and users you opened in this session, newest first</td>
+<td>20 kept, 7 shown</td>
+</tr>
+</tbody>
+</table></div>
+<p>The box waits 250 ms after the last keystroke, then runs the chain calls and the index call together (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/search/useSearch.js#L176-L201"><code>useSearch.js:176-201, 352</code></a>; limits in <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/search/config.js#L13-L27"><code>config.js:13-27</code></a>). Answers are cached in memory for 10 minutes, 50 terms at most. If the service does not answer, the Artworks and Posts sections are empty and the rest still works (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/search/searchApi.js#L124-L140"><code>searchApi.js:124-140</code></a>).</p>
+<p>The search service is a web service the app calls over HTTPS at an address compiled into the app, which this documentation does not publish. According to the comments in the app's code it keeps a full-text index and an image-embedding index of artworks and posts; its code is not published, so this page describes only what the app sends and receives.</p>
+<h2 id="filters">Filters<a class="anchor" href="#filters" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The <em>Filters</em> panel applies to the Artworks and Posts sections only; the chain-side sections ignore it (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/search/SearchFilters.js#L215-L300"><code>SearchFilters.js</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/search/filters.js#L29-L60"><code>filters.js:29-60, 150-156</code></a>).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Filter (label)</th>
+<th>Choices</th>
+<th>What the service receives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Show</strong></td>
+<td>All, Artworks, Posts</td>
+<td><code>type</code></td>
+</tr>
+<tr>
+<td><strong>Time</strong></td>
+<td>Any, 24h, Week, Month, Year, Custom (two dates)</td>
+<td><code>from</code> and <code>to</code> as dates</td>
+</tr>
+<tr>
+<td><strong>Color</strong></td>
+<td>20 swatches, the service's colour buckets, loaded from its <code>/vocab</code>; up to 10; mode <em>Dominant</em> or <em>Anywhere</em></td>
+<td><code>color</code> or <code>has_color</code>; artworks only</td>
+</tr>
+<tr>
+<td><strong>Authors</strong></td>
+<td>up to 10 account names, with suggestions from <code>lookup_accounts</code></td>
+<td><code>author</code></td>
+</tr>
+<tr>
+<td><strong>Communities</strong></td>
+<td>up to 10 communities, with suggestions from <code>list_communities</code></td>
+<td><code>community</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>With a search text, results come in the service's relevance order; with filters and no text, newest first. NSFW artworks are always excluded: the app sends <code>nsfw=exclude</code> on every request and offers no way to change it (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/search/searchApi.js#L208-L211"><code>searchApi.js:208-211</code></a>). An empty result shows &quot;Nothing matches these filters yet.&quot; with filters, or &quot;No result found for …&quot; without.</p>
+<h2 id="the-address-of-a-search">The address of a search<a class="anchor" href="#the-address-of-a-search" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>An open search is part of the page address, so it can be shared and comes back with the browser's back button: <code>+search-</code> followed by a base64url-encoded JSON object with the text (<code>q</code>), the filters (<code>f</code>) and whether the panel is open (<code>p</code>). The text is cut at 256 characters and the whole object at 2,000 (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/constants.js#L883-L884"><code>constants.js:883-884, 1019</code></a>).</p>
+<h2 id="what-cannot-be-found">What cannot be found<a class="anchor" href="#what-cannot-be-found" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Not searchable today</th>
+<th>Why</th>
+<th>Where it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Comments</td>
+<td>Neither the chain's API nor the service indexes comment text</td>
+<td>Under the post, through <code>bridge.get_discussion</code></td>
+</tr>
+<tr>
+<td>Transactions, blocks, operations</td>
+<td>Not a search target; the chain's API looks them up by id</td>
+<td><code>condenser_api.get_transaction</code>, <code>block_api.get_block</code> (<a href="../api-reference/json-rpc.html">JSON-RPC Surface</a>)</td>
+</tr>
+<tr>
+<td>Account profiles: <code>about</code>, <code>location</code>, <code>website</code></td>
+<td><code>lookup_accounts</code> matches names only</td>
+<td><code>bridge.get_profile</code> for one account</td>
+</tr>
+<tr>
+<td>Tags outside the 100 trending ones</td>
+<td>The app matches only that list; any tag can still be opened by typing it</td>
+<td><code>/trending/&lt;tag&gt;</code></td>
+</tr>
+<tr>
+<td>Artworks marked NSFW</td>
+<td>Excluded by the app on every request</td>
+<td>Feeds, with the NSFW setting on (<a href="account-settings.html#content">Account Settings</a>)</td>
+</tr>
+<tr>
+<td>Posts and artworks the service has not indexed yet</td>
+<td>The service indexes on its own schedule; the app does not know how far behind it is</td>
+<td>Feeds</td>
+</tr>
+<tr>
+<td>Anything by visual similarity</td>
+<td>The published perceptual hash, PAPH, is not used by the app or the service (<a href="../search-and-indexing/paph.html">PAPH</a>)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>A search API for other programs</td>
+<td>The service has no published interface or terms; it may change without notice</td>
+<td>The chain's own calls above</td>
+</tr>
+</tbody>
+</table></div>
+<p>The app bundles <code>@pixagram/pixahash</code>, but for a different purpose: hashing an artwork's content when it is stored on the device (<a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/png-db.js#L1"><code>png-db.js:1</code></a>). No perceptual or similarity search runs anywhere in the app.</p>
+<h2 id="what-the-chain-the-indexer-the-service-and-the-app-each-decide">What the chain, the indexer, the service and the app each decide<a class="anchor" href="#what-the-chain-the-indexer-the-service-and-the-app-each-decide" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Behaviour</th>
+<th>Chain</th>
+<th>Hivemind</th>
+<th>Search service</th>
+<th>App</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Account names</td>
+<td>yes</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Trending tags, community list and match</td>
+<td></td>
+<td>yes</td>
+<td></td>
+<td>the match inside the 100 tags</td>
+</tr>
+<tr>
+<td>Artwork and post results, ranking, colours, captions</td>
+<td></td>
+<td></td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>NSFW exclusion</td>
+<td></td>
+<td></td>
+<td>honours the parameter</td>
+<td>sends it, always</td>
+</tr>
+<tr>
+<td>Limits, debounce, cache, history</td>
+<td></td>
+<td></td>
+<td></td>
+<td>yes</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="inherited--changed">Inherited → changed<a class="anchor" href="#inherited--changed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><span class="sr-only">Aspect</span></th>
+<th>Hive front ends</th>
+<th>Pixagram</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Search backend</td>
+<td>varies by front end; some have none</td>
+<td>the operator's service for artworks and posts, the node for the rest</td>
+</tr>
+<tr>
+<td>Account search</td>
+<td><code>lookup_accounts</code>, prefix match</td>
+<td>the same</td>
+</tr>
+<tr>
+<td>Image search</td>
+<td>none</td>
+<td>by title, tags, description and generated caption; colour filters</td>
+</tr>
+<tr>
+<td>NSFW in search</td>
+<td>per user setting</td>
+<td>always excluded</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>App</strong> at commit <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/tree/ca1d15762b52ec08f33c69ca9afa34bb78c0df52"><code>ca1d157</code></a>: <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/search/config.js#L13-L27"><code>components/search/config.js</code></a> (limits, debounce, cache, colour buckets), <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/search/useSearch.js#L176-L201"><code>useSearch.js</code></a> (the chain calls), <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/search/searchApi.js#L124-L140"><code>searchApi.js</code></a> (the service calls, <code>nsfw=exclude</code>, <code>/vocab</code>), <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/search/filters.js#L29-L60"><code>filters.js</code></a> and <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/components/search/SearchFilters.js#L215-L300"><code>SearchFilters.js</code></a> (filters and labels), <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/constants.js#L883-L884"><code>constants.js:883-1020</code></a> (the <code>+search-</code> address), <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/pages/Index.js#L902-L933"><code>Index.js:902-933, 3444</code></a> (history), <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/utils/png-db.js#L1"><code>png-db.js:1</code></a>; English labels in <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev/blob/ca1d15762b52ec08f33c69ca9afa34bb78c0df52/src/js/locales/en.js#L2613-L2616"><code>en.js:83-92, 219-222, 1274-1276, 2570-2616</code></a>.</li>
+<li><strong>Live checks</strong>, 2026-10-08: <code>condenser_api.lookup_accounts</code>, <code>get_trending_tags</code> and <code>bridge.list_communities</code> on <code>api.pixagram.com</code>. The search service was not called; its behaviour is described from the requests the app builds.</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/14-product/search.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="feed-and-discovery.html"><span class="k">Previous</span><span class="t">Feed and Discovery</span></a><a class="next" href="notifications.html"><span class="k">Next</span><span class="t">Notifications</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#two-searches-in-one-box">Two searches in one box</a></li><li><a href="#filters">Filters</a></li><li><a href="#the-address-of-a-search">The address of a search</a></li><li><a href="#what-cannot-be-found">What cannot be found</a></li><li><a href="#what-the-chain-the-indexer-the-service-and-the-app-each-decide">What the chain, the indexer, the service and the app each decide</a></li><li><a href="#inherited--changed">Inherited → changed</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/14-product/search.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/14-product/search.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operations Reference — Pixagram wiki</title>
+<meta name="description" content="Every change to the Pixa chain is one of 50 operations, signed by an account and carried in a transaction (Transaction Lifecycle). Where PXS appears below, P…">
+<link rel="canonical" href="https://pixa.org/wiki/protocol-reference/operations-reference.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Operations Reference — Pixagram wiki">
+<meta property="og:description" content="Every change to the Pixa chain is one of 50 operations, signed by an account and carried in a transaction (Transaction Lifecycle). Where PXS appears below, P…">
+<meta property="og:url" content="https://pixa.org/wiki/protocol-reference/operations-reference.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economic-cybernetics/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../developers/index.html">Overview</a></li>
+<li><a class="nav-i" href="../developers/chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="../developers/developer-quickstart.html">Developer Quickstart</a></li>
+<li><a class="nav-i" href="../developers/differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="../developers/sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../node-operators/index.html">Overview</a></li>
+<li><a class="nav-i" href="../node-operators/run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="../node-operators/run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="../node-operators/become-a-witness.html">Become a Witness</a></li>
+<li><a class="nav-i" href="../node-operators/cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details open>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="operations-reference.html" aria-current="page">Operations Reference</a></li>
+<li><a class="nav-i" href="transaction-lifecycle.html">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="data-model.html">Data Model</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../product/index.html">Overview</a></li>
+<li><a class="nav-i" href="../product/feed-and-discovery.html">Feed and Discovery</a></li>
+<li><a class="nav-i" href="../product/search.html">Search</a></li>
+<li><a class="nav-i" href="../product/notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="../product/account-settings.html">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economics-lab/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economics-lab/reward-examples.html">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../reference/chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="../reference/system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="../reference/glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="../reference/risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="../reference/sources-and-credits.html">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Protocol reference</a></nav><h1>Operations Reference</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>hived 1.30.0: 50 operations (ids 0 to 49) and 43 virtual operations (50 to 92), the same list as Hive's. Rules unchanged since 1.29.0 cite commit <code>48f75a2</code>; rules hardfork 30 changed cite tag <code>v1.30.0</code>. Live values were read on 2026-10-08.</p>
+</div></div>
+<p>Every change to the Pixa chain is one of 50 operations, signed by an account and carried in a transaction (<a href="transaction-lifecycle.html">Transaction Lifecycle</a>). Where PXS appears below, PXS promises no price: it is a unit the chain converts to PIXA at the witnesses' median feed, and nothing defends its value. This page lists them all: what each does, which key signs it, its fields and limits, what it changes, what it costs in Resource Credits, and where Pixa differs from Hive. It ends with the 43 virtual operations the chain writes itself. Constants are quoted from <a href="../reference/chain-parameters.html">Chain Parameters</a>, which wins if they disagree.</p>
+<h2 id="how-to-read-this-page">How to read this page<a class="anchor" href="#how-to-read-this-page" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>Signs with</strong> is the authority an operation needs: <strong>posting</strong> (content and social actions), <strong>active</strong> (anything that moves tokens, votes in governance or changes keys below owner) or <strong>owner</strong> (the owner key itself and recovery). Since Hive's hardfork 28, which Pixa carries from block 1, the level is strict: an active key does not stand in for a posting key (<a href="transaction-lifecycle.html#3-signing">Transaction Lifecycle</a>).</li>
+<li><strong>Resources</strong> are the Resource Credit meters an operation runs (<a href="../tokens-and-economy/resource-credits.html">Resource Credits</a>): every transaction pays <strong>H</strong> (history: its size in bytes) and <strong>E</strong> (execution time, including signature checks); some operations add <strong>S</strong> (state the node must keep), <strong>M</strong> (market: the size counted a second time) or <strong>N</strong> (a new account). Costs in credits move every block; the Resource Credits page gives measured figures.</li>
+<li><strong>Pixa change</strong> says <em>same as Hive</em> where only the token names differ. Three Pixa rules apply across operations and are not repeated in every row:
+<ul>
+<li><code>pixa.rex</code> and <code>pixa.team</code> are restricted to transferring VESTS and updating their own keys and metadata; every other operation they sign fails with <code>This account is restricted to VESTS transfers only.</code> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database.cpp#L2762-L2792"><code>database.cpp:2762-2792</code></a>, <a href="../reference/system-accounts.html#restricted-accounts-pixarex-and-pixateam">System Accounts</a>).</li>
+<li>Interest on PXS is 0 and cannot be set otherwise (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/include/hive/protocol/hive_operations.hpp#L432"><code>hive_operations.hpp:432</code></a>).</li>
+<li><code>custom</code>, <code>custom_json</code> and <code>custom_binary</code> payloads may be 65,536 bytes, eight times Hive's 8,192 (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/include/hive/protocol/config.hpp#L484"><code>config.hpp:484</code></a>).</li>
+</ul>
+</li>
+<li>Hive's names are kept everywhere: in operation and field names (<code>hbd_amount</code> for a PXS amount, <code>reward_hive</code> for PIXA), in error texts and in <code>get_config</code>. The public nodes' gateway renames some fields on the way in and out (<a href="../developers/differences-from-hive.html#field-renames">Differences from Hive</a>).</li>
+</ul>
+<h2 id="the-50-operations">The 50 operations<a class="anchor" href="#the-50-operations" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Operation</th>
+<th>Signs with</th>
+<th>Does</th>
+<th>Pixa change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><code>vote</code></td>
+<td>posting</td>
+<td>Votes on a post or comment with a weight from -100% to 100%</td>
+<td>Dust threshold 50,000 rshares since HF30</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>comment</code></td>
+<td>posting</td>
+<td>Publishes or edits a post, an artwork or a comment</td>
+<td>Payload size: see <a href="transaction-lifecycle.html#1-construction">Transaction Lifecycle</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>transfer</code></td>
+<td>active</td>
+<td>Sends PIXA or PXS with an optional memo</td>
+<td>May carry VESTS from <code>pixa.rex</code> and <code>pixa.team</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>transfer_to_vesting</code></td>
+<td>active</td>
+<td>Powers up PIXA into Pixa Power, for oneself or another account</td>
+<td>same as Hive</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>withdraw_vesting</code></td>
+<td>active</td>
+<td>Starts, changes or cancels a power-down</td>
+<td>same</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>limit_order_create</code></td>
+<td>active</td>
+<td>Places an order on the internal PIXA/PXS market</td>
+<td>same; unused by the app</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>limit_order_cancel</code></td>
+<td>active</td>
+<td>Cancels an order</td>
+<td>same</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>feed_publish</code></td>
+<td>active</td>
+<td>A witness publishes its PIXA price of one PXS</td>
+<td>The feed states a Big Mac, not a dollar</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>convert</code></td>
+<td>active</td>
+<td>Converts PXS into PIXA after 3.5 days</td>
+<td>same</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>account_create</code></td>
+<td>active</td>
+<td>Opens an account for a fee</td>
+<td>same</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>account_update</code></td>
+<td>owner or active</td>
+<td>Changes keys, the memo key or <code>json_metadata</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>witness_update</code></td>
+<td>active</td>
+<td>Registers or updates a witness</td>
+<td>same</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>account_witness_vote</code></td>
+<td>active</td>
+<td>Approves or withdraws approval of a witness</td>
+<td>same</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>account_witness_proxy</code></td>
+<td>active</td>
+<td>Names an account to vote in one's place</td>
+<td>same</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>pow</code></td>
+<td>—</td>
+<td>Mining; disabled since Steem's hardfork 13</td>
+<td>same</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>custom</code></td>
+<td>active</td>
+<td>Carries binary data for applications</td>
+<td>64 KiB; priced by size since HF30</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>witness_block_approve</code></td>
+<td>witness</td>
+<td>Never valid in a block</td>
+<td>same</td>
+</tr>
+<tr>
+<td>17</td>
+<td><code>delete_comment</code></td>
+<td>posting</td>
+<td>Removes a post or comment that has no replies and no positive votes</td>
+<td>same</td>
+</tr>
+<tr>
+<td>18</td>
+<td><code>custom_json</code></td>
+<td>active or posting</td>
+<td>Carries JSON for applications: follows, reblogs, communities, credit delegation</td>
+<td>64 KiB; priced by size since HF30</td>
+</tr>
+<tr>
+<td>19</td>
+<td><code>comment_options</code></td>
+<td>posting</td>
+<td>Sets a post's payout options and beneficiaries</td>
+<td>same</td>
+</tr>
+<tr>
+<td>20</td>
+<td><code>set_withdraw_vesting_route</code></td>
+<td>active</td>
+<td>Routes part of a power-down to another account</td>
+<td>same</td>
+</tr>
+<tr>
+<td>21</td>
+<td><code>limit_order_create2</code></td>
+<td>active</td>
+<td>Places an order with an exchange rate</td>
+<td>same; unused by the app</td>
+</tr>
+<tr>
+<td>22</td>
+<td><code>claim_account</code></td>
+<td>active</td>
+<td>Buys an account ticket with the fee or with credits</td>
+<td>same</td>
+</tr>
+<tr>
+<td>23</td>
+<td><code>create_claimed_account</code></td>
+<td>active</td>
+<td>Opens an account with a ticket</td>
+<td>same</td>
+</tr>
+<tr>
+<td>24</td>
+<td><code>request_account_recovery</code></td>
+<td>active, of the recovery partner</td>
+<td>Starts a recovery</td>
+<td>Owner history recorded from HF30</td>
+</tr>
+<tr>
+<td>25</td>
+<td><code>recover_account</code></td>
+<td>the new and a recent owner authority</td>
+<td>Completes a recovery</td>
+<td>Owner history recorded from HF30</td>
+</tr>
+<tr>
+<td>26</td>
+<td><code>change_recovery_account</code></td>
+<td>owner</td>
+<td>Names a new recovery partner, effective after 30 days</td>
+<td>same</td>
+</tr>
+<tr>
+<td>27</td>
+<td><code>escrow_transfer</code></td>
+<td>active</td>
+<td>Puts PIXA or PXS in escrow with an agent</td>
+<td>same</td>
+</tr>
+<tr>
+<td>28</td>
+<td><code>escrow_dispute</code></td>
+<td>active</td>
+<td>Raises a dispute</td>
+<td>same</td>
+</tr>
+<tr>
+<td>29</td>
+<td><code>escrow_release</code></td>
+<td>active</td>
+<td>Releases escrowed funds</td>
+<td>same</td>
+</tr>
+<tr>
+<td>30</td>
+<td><code>pow2</code></td>
+<td>—</td>
+<td>Mining; disabled since Steem's hardfork 17</td>
+<td>same</td>
+</tr>
+<tr>
+<td>31</td>
+<td><code>escrow_approve</code></td>
+<td>active</td>
+<td>Approves or rejects an escrow</td>
+<td>same</td>
+</tr>
+<tr>
+<td>32</td>
+<td><code>transfer_to_savings</code></td>
+<td>active</td>
+<td>Moves PIXA or PXS into savings</td>
+<td>same</td>
+</tr>
+<tr>
+<td>33</td>
+<td><code>transfer_from_savings</code></td>
+<td>active</td>
+<td>Withdraws from savings after 3 days</td>
+<td>same</td>
+</tr>
+<tr>
+<td>34</td>
+<td><code>cancel_transfer_from_savings</code></td>
+<td>active</td>
+<td>Cancels a pending withdrawal</td>
+<td>same</td>
+</tr>
+<tr>
+<td>35</td>
+<td><code>custom_binary</code></td>
+<td>—</td>
+<td>Disabled</td>
+<td>same</td>
+</tr>
+<tr>
+<td>36</td>
+<td><code>decline_voting_rights</code></td>
+<td>owner</td>
+<td>Gives up voting for ever, after 30 days</td>
+<td>same</td>
+</tr>
+<tr>
+<td>37</td>
+<td><code>reset_account</code></td>
+<td>—</td>
+<td>Placeholder; always invalid</td>
+<td>same</td>
+</tr>
+<tr>
+<td>38</td>
+<td><code>set_reset_account</code></td>
+<td>—</td>
+<td>Placeholder; always invalid</td>
+<td>same</td>
+</tr>
+<tr>
+<td>39</td>
+<td><code>claim_reward_balance</code></td>
+<td>posting</td>
+<td>Moves pending rewards into the balances</td>
+<td>same</td>
+</tr>
+<tr>
+<td>40</td>
+<td><code>delegate_vesting_shares</code></td>
+<td>active</td>
+<td>Lends Pixa Power to another account</td>
+<td>same</td>
+</tr>
+<tr>
+<td>41</td>
+<td><code>account_create_with_delegation</code></td>
+<td>active</td>
+<td>Disabled since Steem's hardfork 20</td>
+<td>same</td>
+</tr>
+<tr>
+<td>42</td>
+<td><code>witness_set_properties</code></td>
+<td>the witness signing key</td>
+<td>Updates a witness's properties one at a time</td>
+<td>Interest must stay 0</td>
+</tr>
+<tr>
+<td>43</td>
+<td><code>account_update2</code></td>
+<td>owner, active or posting</td>
+<td>Changes keys or metadata; the posting level can change <code>posting_json_metadata</code> alone</td>
+<td>same</td>
+</tr>
+<tr>
+<td>44</td>
+<td><code>create_proposal</code></td>
+<td>active</td>
+<td>Proposes a daily payment from the DPF</td>
+<td>Paid to the treasury <code>pixa.omnibus</code> in PXS</td>
+</tr>
+<tr>
+<td>45</td>
+<td><code>update_proposal_votes</code></td>
+<td>active</td>
+<td>Approves or withdraws approval of proposals</td>
+<td>same</td>
+</tr>
+<tr>
+<td>46</td>
+<td><code>remove_proposal</code></td>
+<td>active</td>
+<td>Removes one's own proposals</td>
+<td>same</td>
+</tr>
+<tr>
+<td>47</td>
+<td><code>update_proposal</code></td>
+<td>active</td>
+<td>Lowers a proposal's pay or shortens it</td>
+<td>same</td>
+</tr>
+<tr>
+<td>48</td>
+<td><code>collateralized_convert</code></td>
+<td>active</td>
+<td>Converts PIXA into PXS at once, against collateral</td>
+<td>same</td>
+</tr>
+<tr>
+<td>49</td>
+<td><code>recurrent_transfer</code></td>
+<td>active</td>
+<td>Sets up, changes or cancels a repeating transfer</td>
+<td>same</td>
+</tr>
+</tbody>
+</table></div>
+<p>Operation ids are the position in this list; the binary serialization writes the id before each operation (<a href="transaction-lifecycle.html#2-serialization">Transaction Lifecycle</a>).</p>
+<h2 id="content-and-voting">Content and voting<a class="anchor" href="#content-and-voting" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Fields</th>
+<th>Rules and limits</th>
+<th>Effects</th>
+<th>Resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vote</code> (0)</td>
+<td><code>voter</code>, <code>author</code>, <code>permlink</code>, <code>weight</code> (-10000 to 10000, in hundredths of a percent)</td>
+<td>The voter has not declined voting rights. The post is not paid out; a vote on a paid-out post is accepted and does nothing (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_social.cpp#L624-L627"><code>ev_soc:624-627</code></a>). A new vote cannot have weight 0, and a changed vote must differ from the current one (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_social.cpp#L642-L647"><code>ev_soc:642-647</code></a>). The vote spends voting mana: `ceil(E ×</td>
+<td>weight</td>
+<td>× 86,400 / 10,000 / 4,320,000)<code>, where E is the voter's effective Pixa Power in VESTS; a full vote spends 2% of the bar ([</code>ev_soc:660-706<code>][vote-mana]). **Since HF30** the rshares are the mana spent less 50,000; before, less 50,000,000, which silenced every account below 2,500 Pixa Power ([</code>ev_soc:710<code>][vote-dust]). In the last 12 hours before payout the rshares shrink in proportion to the time left ([</code>ev_soc:713-718`]<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/hive_evaluator_social.cpp#L708-L718">vote-dust</a>).</td>
+</tr>
+<tr>
+<td><code>comment</code> (1)</td>
+<td><code>parent_author</code> (empty for a post), <code>parent_permlink</code> (the category for a post; the parent's permlink for a comment), <code>author</code>, <code>permlink</code>, <code>title</code>, <code>body</code>, <code>json_metadata</code></td>
+<td>Title under 256 bytes; body not empty; both UTF-8 (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L123-L138"><code>ops.cpp:123-138</code></a>). Permlink up to 256 characters from <code>a-z</code>, <code>0-9</code> and <code>-</code> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_social.cpp#L36-L48"><code>ev_soc:36-48</code></a>). <code>json_metadata</code> empty or valid JSON. One post every 5 minutes, one comment every 3 seconds, one edit per author per block (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_social.cpp#L214-L216"><code>ev_soc:214-216, 284</code></a>). Comments at most 255 deep (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_social.cpp#L189-L193"><code>ev_soc:189-193</code></a>). An edit may change everything except the parent, and is allowed after payout (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_social.cpp#L296-L306"><code>ev_soc:296-306</code></a>). The whole operation must fit the transaction size, about 2 MiB.</td>
+<td>Creates the post in the state with a payout 7 days ahead, or edits it. After payout the text moves to the comment archive (<a href="data-model.html#derived-the-hived-state">Data Model</a>).</td>
+<td>H, E, S (the post object and its permlink, until payout)</td>
+</tr>
+<tr>
+<td><code>delete_comment</code> (17)</td>
+<td><code>author</code>, <code>permlink</code></td>
+<td>No replies; not paid out; <code>net_rshares</code> not positive (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_social.cpp#L56-L70"><code>ev_soc:56-70</code></a>).</td>
+<td>Removes the post and its votes from the state; a delete on a post with positive rshares is rejected (<code>Cannot delete a comment with net positive votes.</code>). The block log keeps every version of every post regardless (<a href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a>).</td>
+<td>H, E</td>
+</tr>
+<tr>
+<td><code>comment_options</code> (19)</td>
+<td><code>author</code>, <code>permlink</code>, <code>max_accepted_payout</code> (PXS; default 1,000,000.000), <code>percent_hbd</code> (default 10000), <code>allow_votes</code>, <code>allow_curation_rewards</code>, <code>extensions</code> (beneficiaries)</td>
+<td>Not after payout. <code>max_accepted_payout</code> and <code>percent_hbd</code> can only go down, and votes and curation rewards cannot be re-enabled (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_social.cpp#L150-L162"><code>ev_soc:150-162</code></a>). Beneficiaries: 1 to 8 accounts in ascending order, weights summing to at most 100%, only before any vote and only once (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L150-L175"><code>ops.cpp:150-175</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_social.cpp#L118-L131"><code>ev_soc:118-131</code></a>).</td>
+<td>Fixes how the payout is split (<a href="../social-layer/posting-and-rewards.html">Posting and Rewards</a>).</td>
+<td>H, E, S (beneficiaries)</td>
+</tr>
+<tr>
+<td><code>claim_reward_balance</code> (39)</td>
+<td><code>account</code>, <code>reward_hive</code>, <code>reward_hbd</code>, <code>reward_vests</code></td>
+<td>At least one amount positive; none above the pending balance (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L691-L712"><code>ev_tr:691-712</code></a>). The gateway accepts <code>reward_pixa</code> and <code>reward_pxs</code>.</td>
+<td>Moves the amounts from the reward balances to the account's balances.</td>
+<td>H, E</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Why posts are not operations of their own.</strong> Hive has no <code>post</code> operation: a post is a <code>comment</code> with an empty <code>parent_author</code>. An artwork is a post whose body holds the image (<a href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a>).</p>
+<h2 id="custom-data">Custom data<a class="anchor" href="#custom-data" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Fields</th>
+<th>Rules and limits</th>
+<th>Effects</th>
+<th>Resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>custom</code> (15)</td>
+<td><code>required_auths</code>, <code>id</code> (16-bit), <code>data</code> (bytes)</td>
+<td>1 to 40 accounts, each signing with the active key; <code>data</code> up to 65,536 bytes (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L407-L414"><code>ops.cpp:407-414</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator.cpp#L350-L358"><code>ev:350-358</code></a>).</td>
+<td>None on the chain's state. Indexers may read it.</td>
+<td>H, E (<strong>since HF30</strong>, grows with the payload: the base cost times <code>1 + bytes / 8,192</code> <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/rc/resource_count.cpp#L434-L449"><code>resource_count.cpp:434-441</code></a>)</td>
+</tr>
+<tr>
+<td><code>custom_json</code> (18)</td>
+<td><code>required_auths</code>, <code>required_posting_auths</code>, <code>id</code> (up to 32 characters), <code>json</code></td>
+<td>1 to 40 accounts in all; accounts in <code>required_auths</code> sign with the active key, those in <code>required_posting_auths</code> with the posting key (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L416-L429"><code>ops.cpp:416-429</code></a>). <code>json</code> valid JSON, up to 65,536 bytes; from 1.30.0 the length is checked before the JSON is parsed (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/hive_operations.cpp#L425-L434"><code>ops.cpp:425-430</code> at v1.30.0</a>). At most 5 custom operations per account in a node's pending list at a time (<a href="transaction-lifecycle.html#5-the-nodes-checks">Transaction Lifecycle</a>).</td>
+<td>None on the chain's state, with one exception the chain reads itself: <code>id</code> <code>rc</code> with <code>delegate_rc</code> lends Resource Credits (<a href="../tokens-and-economy/resource-credits.html#how-credits-are-counted">Resource Credits</a>). Hivemind reads <code>follow</code>, <code>reblog</code>, <code>community</code> and <code>notify</code> (<a href="../product/feed-and-discovery.html#following">Feed and Discovery</a>).</td>
+<td>H, E (<strong>since HF30</strong> grows with the payload, as for <code>custom</code>)</td>
+</tr>
+<tr>
+<td><code>custom_binary</code> (35)</td>
+<td><code>required_owner_auths</code>, <code>required_active_auths</code>, <code>required_posting_auths</code>, <code>required_auths</code>, <code>id</code>, <code>data</code></td>
+<td>Always rejected: <code>Operation disallowed.</code> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator.cpp#L403-L412"><code>ev:403-412</code></a>).</td>
+<td>None.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="transfers-savings-and-escrow">Transfers, savings and escrow<a class="anchor" href="#transfers-savings-and-escrow" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Fields</th>
+<th>Rules and limits</th>
+<th>Effects</th>
+<th>Resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>transfer</code> (2)</td>
+<td><code>from</code>, <code>to</code>, <code>amount</code>, <code>memo</code></td>
+<td>Amount positive, in PIXA or PXS; memo up to 2,047 bytes of UTF-8, and public (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L241-L249"><code>ops.cpp:241-249</code></a>). To the treasury <code>pixa.omnibus</code> only PXS or PIXA, and PIXA sent there is converted to PXS at the median at once (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L261-L350"><code>ev_tr:261-290, 345</code></a>). <strong>Pixa:</strong> <code>pixa.rex</code> and <code>pixa.team</code> may transfer VESTS, which Hive forbids; the stake must not be delegated, powering down or still maturing (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L291-L343"><code>ev_tr:291-343</code></a>).</td>
+<td>Moves the balance. A VESTS transfer moves stake directly, with no power-down. PIXA into the treasury emits <code>dhf_conversion</code>.</td>
+<td>H, E, M</td>
+</tr>
+<tr>
+<td><code>transfer_to_savings</code> (32)</td>
+<td><code>from</code>, <code>to</code>, <code>amount</code>, <code>memo</code></td>
+<td>PIXA or PXS; not to the treasury (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L644-L689"><code>ev_tr:644-655</code></a>).</td>
+<td>Moves the amount into <code>to</code>'s savings.</td>
+<td>H, E</td>
+</tr>
+<tr>
+<td><code>transfer_from_savings</code> (33)</td>
+<td><code>from</code>, <code>request_id</code>, <code>to</code>, <code>amount</code>, <code>memo</code></td>
+<td>At most 100 pending withdrawals per account; the balance must cover it (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L644-L689"><code>ev_tr:657-676</code></a>).</td>
+<td>Schedules the payment for 3 days later; <code>fill_transfer_from_savings</code> when it is paid.</td>
+<td>H, E, S (the request)</td>
+</tr>
+<tr>
+<td><code>cancel_transfer_from_savings</code> (34)</td>
+<td><code>from</code>, <code>request_id</code></td>
+<td>The request exists.</td>
+<td>Returns the amount to savings.</td>
+<td>H, E</td>
+</tr>
+<tr>
+<td><code>recurrent_transfer</code> (49)</td>
+<td><code>from</code>, <code>to</code>, <code>amount</code>, <code>memo</code>, <code>recurrence</code> (hours), <code>executions</code>, <code>extensions</code> (optional <code>pair_id</code>)</td>
+<td>Every 24 hours or more; at least 2 executions; the whole schedule within 730 days; at most 255 open per sender; the first payment needs the balance now (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L802-L820"><code>ops.cpp:802-820</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L982-L1035"><code>ev_tr:982-1035</code></a>). Amount 0 cancels an existing one.</td>
+<td>Pays at once, then on schedule: <code>fill_recurrent_transfer</code> for each payment, <code>failed_recurrent_transfer</code> when the balance is short; after 10 consecutive failures the transfer is removed (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/include/hive/protocol/config.hpp#L245"><code>config.hpp:245</code></a>).</td>
+<td>H, E, M, S (for the schedule's lifetime)</td>
+</tr>
+<tr>
+<td><code>escrow_transfer</code> (27)</td>
+<td><code>from</code>, <code>to</code>, <code>agent</code>, <code>escrow_id</code>, <code>hbd_amount</code>, <code>hive_amount</code>, <code>fee</code>, <code>ratification_deadline</code>, <code>escrow_expiration</code>, <code>json_meta</code></td>
+<td>A positive amount; the agent is neither party; the deadline before the expiration and both in the future; at most 255 open escrows per sender (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L659-L713"><code>ops.cpp:659-679</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L76-L259"><code>ev_tr:76-107</code></a>).</td>
+<td>Locks the funds and the fee.</td>
+<td>H, E, S</td>
+</tr>
+<tr>
+<td><code>escrow_approve</code> (31)</td>
+<td><code>from</code>, <code>to</code>, <code>agent</code>, <code>who</code>, <code>escrow_id</code>, <code>approve</code></td>
+<td><code>who</code> is <code>to</code> or the agent, before the deadline. A rejection, or a missed deadline, returns everything (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L76-L259"><code>ev_tr:109-176</code></a>).</td>
+<td>When both have approved, the agent receives the fee: <code>escrow_approved</code>. Otherwise <code>escrow_rejected</code>.</td>
+<td>H, E</td>
+</tr>
+<tr>
+<td><code>escrow_dispute</code> (28)</td>
+<td><code>from</code>, <code>to</code>, <code>agent</code>, <code>who</code>, <code>escrow_id</code></td>
+<td>By <code>from</code> or <code>to</code>, after approval, before expiration (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L76-L259"><code>ev_tr:178-197</code></a>).</td>
+<td>Only the agent may release from then on.</td>
+<td>H, E</td>
+</tr>
+<tr>
+<td><code>escrow_release</code> (29)</td>
+<td><code>from</code>, <code>to</code>, <code>agent</code>, <code>who</code>, <code>receiver</code>, <code>escrow_id</code>, <code>hbd_amount</code>, <code>hive_amount</code></td>
+<td>Before a dispute: <code>from</code> may release to <code>to</code>, <code>to</code> may release to <code>from</code>; after expiration, either may release to either; under dispute, only the agent (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L76-L259"><code>ev_tr:199-259</code></a>).</td>
+<td>Pays the receiver.</td>
+<td>H, E</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="staking">Staking<a class="anchor" href="#staking" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Fields</th>
+<th>Rules and limits</th>
+<th>Effects</th>
+<th>Resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>transfer_to_vesting</code> (3)</td>
+<td><code>from</code>, <code>to</code> (empty means <code>from</code>), <code>amount</code> in PIXA</td>
+<td>Positive; not to the treasury (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L352-L388"><code>ev_tr:352-388</code></a>).</td>
+<td>Converts at the current VESTS price, about 1 to 1 on Pixa (<a href="../tokens-and-economy/pixa-power.html">Pixa Power</a>). Emits <code>transfer_to_vesting_completed</code>; the stake votes in governance after 30 days (<code>delayed_voting</code>).</td>
+<td>H, E, M, S</td>
+</tr>
+<tr>
+<td><code>withdraw_vesting</code> (4)</td>
+<td><code>account</code>, <code>vesting_shares</code></td>
+<td>At most the account's own stake not delegated; 0 cancels; a new amount must change the rate (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L390-L455"><code>ev_tr:390-455</code></a>).</td>
+<td>Pays the amount back as PIXA in 13 weekly instalments, each <code>fill_vesting_withdraw</code>.</td>
+<td>H, E</td>
+</tr>
+<tr>
+<td><code>set_withdraw_vesting_route</code> (20)</td>
+<td><code>from_account</code>, <code>to_account</code>, <code>percent</code>, <code>auto_vest</code></td>
+<td>Up to 10 routes, summing to at most 100%; not to the treasury (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L457-L521"><code>ev_tr:457-521</code></a>).</td>
+<td>Sends that share of each instalment to <code>to_account</code>, as PIXA or, with <code>auto_vest</code>, as Pixa Power.</td>
+<td>H, E, S</td>
+</tr>
+<tr>
+<td><code>delegate_vesting_shares</code> (40)</td>
+<td><code>delegator</code>, <code>delegatee</code>, <code>vesting_shares</code></td>
+<td>Not to oneself. At least the account creation fee ÷ 3 in VESTS, about 6.67 Pixa Power at the live fee; a change of at least the fee ÷ 30; only stake not already delegated, not powering down and covered by the delegator's current voting and downvoting mana (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L750-L930"><code>ev_tr:750-930</code></a>). 0 removes the delegation.</td>
+<td>The delegatee's effective stake rises at once; removed or reduced stake returns to the delegator after 5 days with <code>return_vesting_delegation</code> (<a href="../tokens-and-economy/pixa-power.html#delegation">Delegation</a>).</td>
+<td>H, E, S</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="pxs-and-the-internal-market">PXS and the internal market<a class="anchor" href="#pxs-and-the-internal-market" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>PXS promises no price. These operations move between PIXA and PXS at the witnesses' median feed, reduced by the haircut when collateral is thin (<a href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a>).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Fields</th>
+<th>Rules and limits</th>
+<th>Effects</th>
+<th>Resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>convert</code> (8)</td>
+<td><code>owner</code>, <code>requestid</code>, <code>amount</code> in PXS</td>
+<td>A positive PXS amount; the id unused by this account (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L523-L537"><code>ev_tr:523-537</code></a>). Cannot be cancelled.</td>
+<td>PXS leaves the balance at once; 3.5 days later <code>fill_convert_request</code> pays PIXA at the median of that moment.</td>
+<td>H, E, S</td>
+</tr>
+<tr>
+<td><code>collateralized_convert</code> (48)</td>
+<td><code>owner</code>, <code>requestid</code>, <code>amount</code> in PIXA</td>
+<td>PXS printing must be on (<code>pxs_print_rate</code> above 0) and the new PXS within the stop limit (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L539-L586"><code>ev_tr:539-586</code></a>). Cannot be cancelled.</td>
+<td>Locks the PIXA as collateral and issues PXS at once: <code>collateralized_convert_immediate_conversion</code>. 3.5 days later <code>fill_collateralized_convert_request</code> settles at the market median plus the 5% fee and returns the rest of the collateral; a shortfall is logged as <code>system_warning</code> and the collateral is kept.</td>
+<td>H, E, S</td>
+</tr>
+<tr>
+<td><code>limit_order_create</code> (5)</td>
+<td><code>owner</code>, <code>orderid</code>, <code>amount_to_sell</code>, <code>min_to_receive</code>, <code>fill_or_kill</code>, <code>expiration</code></td>
+<td>One side PIXA and the other PXS; expiration within 28 days; <code>fill_or_kill</code> fails if not filled at once (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L596-L640"><code>ops.cpp:596-614</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L588-L642"><code>ev_tr:588-613</code></a>).</td>
+<td>Trades against the book: <code>fill_order</code> for each match; the rest stays until filled, cancelled or expired (<code>limit_order_cancelled</code>).</td>
+<td>H, E, M, S</td>
+</tr>
+<tr>
+<td><code>limit_order_create2</code> (21)</td>
+<td><code>owner</code>, <code>orderid</code>, <code>amount_to_sell</code>, <code>exchange_rate</code>, <code>fill_or_kill</code>, <code>expiration</code></td>
+<td>The same, with a price instead of a minimum.</td>
+<td>The same.</td>
+<td>H, E, M, S</td>
+</tr>
+<tr>
+<td><code>limit_order_cancel</code> (6)</td>
+<td><code>owner</code>, <code>orderid</code></td>
+<td>The order exists.</td>
+<td>Returns the unsold amount; <code>limit_order_cancelled</code>.</td>
+<td>H, E</td>
+</tr>
+</tbody>
+</table></div>
+<p>The internal market exists because Hive's does. The app does not use it, and <code>market_history_api</code> showed no trades on 2026-10-08.</p>
+<h2 id="accounts-and-keys">Accounts and keys<a class="anchor" href="#accounts-and-keys" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Fields</th>
+<th>Rules and limits</th>
+<th>Effects</th>
+<th>Resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>account_create</code> (9)</td>
+<td><code>fee</code>, <code>creator</code>, <code>new_account_name</code>, <code>owner</code>, <code>active</code>, <code>posting</code>, <code>memo_key</code>, <code>json_metadata</code></td>
+<td>Name 3 to 16 characters in Hive's format. Each authority up to 40 keys and accounts (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L45-L66"><code>ops.cpp:45-66</code></a>). The fee must equal the median account creation fee exactly, 20.000 PIXA on 2026-10-08 (<code>condenser_api.get_chain_properties</code>), and the creator pays it (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_account.cpp#L156-L208"><code>ev_acc:156-208</code></a>).</td>
+<td>Creates the account with no stake; the fee is sent to <code>null</code> and burned. Emits <code>account_created</code>.</td>
+<td>H, E, S (the account and its keys)</td>
+</tr>
+<tr>
+<td><code>claim_account</code> (22)</td>
+<td><code>creator</code>, <code>fee</code>, <code>extensions</code> (empty)</td>
+<td>Either the exact median fee, burned, or a fee of 0, which takes a ticket from the subsidy pool and is charged in credits; a ticket can be claimed only in a block whose producer has subsidy left (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_account.cpp#L402-L462"><code>ev_acc:402-462</code></a>).</td>
+<td>Adds one to the creator's <code>pending_claimed_accounts</code>.</td>
+<td>H, E, N (with fee 0)</td>
+</tr>
+<tr>
+<td><code>create_claimed_account</code> (23)</td>
+<td><code>creator</code>, <code>new_account_name</code>, <code>owner</code>, <code>active</code>, <code>posting</code>, <code>memo_key</code>, <code>json_metadata</code>, <code>extensions</code> (empty)</td>
+<td>The creator holds a ticket (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_account.cpp#L464-L497"><code>ev_acc:464-497</code></a>).</td>
+<td>Creates the account and spends the ticket. Emits <code>account_created</code>.</td>
+<td>H, E, S</td>
+</tr>
+<tr>
+<td><code>account_update</code> (10)</td>
+<td><code>account</code>, <code>owner</code>, <code>active</code>, <code>posting</code>, <code>memo_key</code>, <code>json_metadata</code></td>
+<td>Owner changes need the owner key and are allowed twice an hour (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_account.cpp#L286-L358"><code>ev_acc:286-358</code></a>). A new authority may not reference an account that does not exist.</td>
+<td>Replaces the authorities given; records the previous owner authority in the owner history (see recovery).</td>
+<td>H, E, S (new authorities)</td>
+</tr>
+<tr>
+<td><code>account_update2</code> (43)</td>
+<td>as above, plus <code>posting_json_metadata</code></td>
+<td>The level depends on what changes: owner for <code>owner</code>; active for <code>active</code>, <code>posting</code>, <code>memo_key</code> or <code>json_metadata</code>; posting when only <code>posting_json_metadata</code> changes (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/include/hive/protocol/hive_operations.hpp#L74-L110"><code>hive_operations.hpp:74-110</code></a>). The app writes profiles this way (<a href="../product/account-settings.html#your-profile">Account Settings</a>).</td>
+<td>As <code>account_update</code>; <code>posting_json_metadata</code> is stored separately.</td>
+<td>H, E, S</td>
+</tr>
+<tr>
+<td><code>change_recovery_account</code> (26)</td>
+<td><code>account_to_recover</code>, <code>new_recovery_account</code>, <code>extensions</code></td>
+<td>The new partner must exist.</td>
+<td>Takes effect 30 days later: <code>changed_recovery_account</code> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_account.cpp#L589-L615"><code>ev_acc:589-615</code></a>).</td>
+<td>H, E, S</td>
+</tr>
+<tr>
+<td><code>request_account_recovery</code> (24)</td>
+<td><code>recovery_account</code>, <code>account_to_recover</code>, <code>new_owner_authority</code>, <code>extensions</code></td>
+<td>Signed by the account's recovery partner; the new authority must be usable and not open (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_account.cpp#L499-L552"><code>ev_acc:499-552</code></a>).</td>
+<td>Opens a request that expires after 1 day.</td>
+<td>H, E, S</td>
+</tr>
+<tr>
+<td><code>recover_account</code> (25)</td>
+<td><code>account_to_recover</code>, <code>new_owner_authority</code>, <code>recent_owner_authority</code>, <code>extensions</code></td>
+<td>Signed by both authorities; the new one matches the request; the recent one appears in the account's owner history (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_account.cpp#L554-L587"><code>ev_acc:554-587</code></a>). <strong>Pixa:</strong> the chain records owner history from hardfork 30, 2026-10-07 12:00 UTC; an owner change made before then cannot serve as the recent authority (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/database.cpp#L1733"><code>database.cpp:1733</code></a>; <a href="../guides/keys-and-recovery.html">Keys and Recovery</a>). Once an hour per account.</td>
+<td>Sets the new owner authority.</td>
+<td>H, E, S</td>
+</tr>
+<tr>
+<td><code>decline_voting_rights</code> (36)</td>
+<td><code>account</code>, <code>decline</code></td>
+<td>One request at a time; <code>decline: false</code> cancels it before it takes effect (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_account.cpp#L617-L643"><code>ev_acc:617-643</code></a>).</td>
+<td>After 30 days the account can never vote again: <code>declined_voting_rights</code>, and <code>proxy_cleared</code> if it had a proxy.</td>
+<td>H, E, S</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="witnesses-and-feeds">Witnesses and feeds<a class="anchor" href="#witnesses-and-feeds" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Fields</th>
+<th>Rules and limits</th>
+<th>Effects</th>
+<th>Resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>witness_update</code> (11)</td>
+<td><code>owner</code>, <code>url</code>, <code>block_signing_key</code>, <code>props</code> (<code>account_creation_fee</code>, <code>maximum_block_size</code>, <code>hbd_interest_rate</code>), <code>fee</code></td>
+<td>URL 1 to 2,048 bytes; block size between 128 KiB and 2 MiB; interest 0 (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L276-L285"><code>ops.cpp:276-285</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator.cpp#L71-L120"><code>ev:71-120</code></a>). The fee field is ignored.</td>
+<td>Registers the account as a witness, or updates its key, URL and the parameters it votes for (<a href="../node-operators/become-a-witness.html">Become a Witness</a>).</td>
+<td>H, E, S</td>
+</tr>
+<tr>
+<td><code>witness_set_properties</code> (42)</td>
+<td><code>owner</code>, <code>props</code> (a map; <code>key</code> required), <code>extensions</code></td>
+<td><code>key</code> must be the witness's current signing key, and the transaction is signed with it. Properties: <code>account_creation_fee</code>, <code>maximum_block_size</code>, <code>hbd_interest_rate</code> (must be 0), <code>account_subsidy_budget</code>, <code>account_subsidy_decay</code>, <code>new_signing_key</code>, <code>hbd_exchange_rate</code>, <code>url</code> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L287-L391"><code>ops.cpp:287-391</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator.cpp#L122-L226"><code>ev:122-226</code></a>).</td>
+<td>Updates the properties given, including the price feed. Values are serialized, so libraries must encode them (<a href="../developers/sdks-and-libraries.html">SDKs and Libraries</a>).</td>
+<td>H, E</td>
+</tr>
+<tr>
+<td><code>feed_publish</code> (7)</td>
+<td><code>publisher</code>, <code>exchange_rate</code> (<code>base</code> in PXS, <code>quote</code> in PIXA)</td>
+<td>The publisher is a witness; the price has PXS as base and PIXA as quote, for example <code>{&quot;base&quot;:&quot;1.000 PXS&quot;,&quot;quote&quot;:&quot;51.833 PIXA&quot;}</code> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator.cpp#L638-L653"><code>ev:638-653</code></a>).</td>
+<td>Sets the witness's feed and its time; the chain takes the median of the scheduled witnesses' feeds every hour (<a href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a>).</td>
+<td>H, E</td>
+</tr>
+<tr>
+<td><code>account_witness_vote</code> (12)</td>
+<td><code>account</code>, <code>witness</code>, <code>approve</code></td>
+<td>At most 30 witnesses; not while a proxy is set; the account can vote (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator.cpp#L284-L348"><code>ev:284-348</code></a>).</td>
+<td>Adds or removes the account's full governance weight for that witness (<a href="../governance/witnesses-and-dpos.html#how-witnesses-are-elected">Witnesses and DPoS</a>).</td>
+<td>H, E, S</td>
+</tr>
+<tr>
+<td><code>account_witness_proxy</code> (13)</td>
+<td><code>account</code>, <code>proxy</code> (empty removes it)</td>
+<td>Not oneself; no loops; at most 4 levels; must change (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator.cpp#L228-L282"><code>ev:228-282</code></a>).</td>
+<td>The proxy votes with the account's weight for witnesses and proposals; the account's own witness votes are cleared.</td>
+<td>H, E</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="the-decentralized-pixa-fund">The Decentralized Pixa Fund<a class="anchor" href="#the-decentralized-pixa-fund" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Fields</th>
+<th>Rules and limits</th>
+<th>Effects</th>
+<th>Resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>create_proposal</code> (44)</td>
+<td><code>creator</code>, <code>receiver</code>, <code>start_date</code>, <code>end_date</code>, <code>daily_pay</code> in PXS, <code>subject</code>, <code>permlink</code>, <code>extensions</code></td>
+<td>Subject up to 80 bytes; the permlink names a post by the creator or the receiver; the end date in the future. Fee 10.000 PXS, plus 1.000 PXS for each day beyond 60, paid to the treasury (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/dhf_evaluator.cpp#L32-L100"><code>dhf:32-100</code></a>).</td>
+<td>Creates the proposal; <code>proposal_fee</code>. Approved proposals are paid hourly while the fund lasts (<a href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a>).</td>
+<td>H, E, S (for the proposal's lifetime)</td>
+</tr>
+<tr>
+<td><code>update_proposal</code> (47)</td>
+<td><code>proposal_id</code>, <code>creator</code>, <code>daily_pay</code>, <code>subject</code>, <code>permlink</code>, <code>extensions</code> (optional new <code>end_date</code>)</td>
+<td>Only the creator; pay can only go down and the end date only earlier (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/dhf_evaluator.cpp#L103-L153"><code>dhf:103-153</code></a>).</td>
+<td>Changes the proposal.</td>
+<td>H, E</td>
+</tr>
+<tr>
+<td><code>update_proposal_votes</code> (45)</td>
+<td><code>voter</code>, <code>proposal_ids</code> (up to 5), <code>approve</code>, <code>extensions</code></td>
+<td>The voter can vote; the proposals exist and have not ended (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/dhf_evaluator.cpp#L155-L211"><code>dhf:155-211</code></a>).</td>
+<td>Adds or removes the voter's full weight on each proposal.</td>
+<td>H, E, S</td>
+</tr>
+<tr>
+<td><code>remove_proposal</code> (46)</td>
+<td><code>proposal_owner</code>, <code>proposal_ids</code> (up to 5), <code>extensions</code></td>
+<td>Only one's own proposals.</td>
+<td>Removes them and their votes.</td>
+<td>H, E</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="disabled-or-unusable">Disabled or unusable<a class="anchor" href="#disabled-or-unusable" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>State</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pow</code> (14), <code>pow2</code> (30)</td>
+<td>Mining ended with Steem's hardforks 13 and 17, both applied at Pixa's block 1</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator.cpp#L535-L545"><code>ev:535-545</code></a></td>
+</tr>
+<tr>
+<td><code>witness_block_approve</code> (16)</td>
+<td>Rejected from blocks: <code>Operation excluded from blocks.</code></td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator.cpp#L656-L661"><code>ev:656-661</code></a></td>
+</tr>
+<tr>
+<td><code>custom_binary</code> (35)</td>
+<td>Rejected: <code>Operation disallowed.</code></td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator.cpp#L403-L412"><code>ev:403-412</code></a></td>
+</tr>
+<tr>
+<td><code>reset_account</code> (37), <code>set_reset_account</code> (38)</td>
+<td>Placeholders whose <code>validate()</code> always fails</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L769-L777"><code>ops.cpp:769-777</code></a></td>
+</tr>
+<tr>
+<td><code>account_create_with_delegation</code> (41)</td>
+<td>Rejected since Steem's hardfork 20</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_account.cpp#L210-L213"><code>ev_acc:210-213</code></a></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="virtual-operations">Virtual operations<a class="anchor" href="#virtual-operations" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The chain writes these itself when a rule applies. They have no signature and carry no authority; <code>account_history_api</code> and <code>condenser_api.get_ops_in_block</code> with <code>only_virtual</code> return them (<a href="transaction-lifecycle.html#7-applied-in-a-block">Transaction Lifecycle</a>).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Virtual operation</th>
+<th>Written when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>50</td>
+<td><code>fill_convert_request</code></td>
+<td>A <code>convert</code> settles, 3.5 days after it was sent</td>
+</tr>
+<tr>
+<td>51</td>
+<td><code>author_reward</code></td>
+<td>A post pays out: the author's PXS, PIXA and Pixa Power</td>
+</tr>
+<tr>
+<td>52</td>
+<td><code>curation_reward</code></td>
+<td>A post pays out: one per curator, in Pixa Power</td>
+</tr>
+<tr>
+<td>53</td>
+<td><code>comment_reward</code></td>
+<td>A post pays out: the totals</td>
+</tr>
+<tr>
+<td>54</td>
+<td><code>liquidity_reward</code></td>
+<td>Never since Steem's hardfork 12</td>
+</tr>
+<tr>
+<td>55</td>
+<td><code>interest</code></td>
+<td>Hive pays interest on HBD held in savings; Pixa never does, its rate being fixed at 0</td>
+</tr>
+<tr>
+<td>56</td>
+<td><code>fill_vesting_withdraw</code></td>
+<td>A weekly power-down instalment is paid</td>
+</tr>
+<tr>
+<td>57</td>
+<td><code>fill_order</code></td>
+<td>Two orders match on the internal market</td>
+</tr>
+<tr>
+<td>58</td>
+<td><code>shutdown_witness</code></td>
+<td>An event in witness scheduling, not described here</td>
+</tr>
+<tr>
+<td>59</td>
+<td><code>fill_transfer_from_savings</code></td>
+<td>A savings withdrawal completes</td>
+</tr>
+<tr>
+<td>60</td>
+<td><code>hardfork</code></td>
+<td>A hardfork applies: block 402,205 for HF29, block 949,330 for HF30</td>
+</tr>
+<tr>
+<td>61</td>
+<td><code>comment_payout_update</code></td>
+<td>A post's payout state changes</td>
+</tr>
+<tr>
+<td>62</td>
+<td><code>return_vesting_delegation</code></td>
+<td>Removed delegated stake returns to the delegator after 5 days</td>
+</tr>
+<tr>
+<td>63</td>
+<td><code>comment_benefactor_reward</code></td>
+<td>A post pays out: one per beneficiary</td>
+</tr>
+<tr>
+<td>64</td>
+<td><code>producer_reward</code></td>
+<td>Every block, to its producer</td>
+</tr>
+<tr>
+<td>65</td>
+<td><code>clear_null_account_balance</code></td>
+<td>Balances sent to <code>null</code> are burned</td>
+</tr>
+<tr>
+<td>66</td>
+<td><code>proposal_pay</code></td>
+<td>A proposal receives its hourly payment</td>
+</tr>
+<tr>
+<td>67</td>
+<td><code>dhf_funding</code></td>
+<td>Every hour, at maintenance: the treasury's share of issuance accumulated since the last one, in PXS; the per-block share is exact since HF30 (<a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/include/hive/chain/util/dhf_funding.hpp"><code>dhf_funding.hpp</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/util/dhf_processor.cpp#L326-L338"><code>dhf_processor.cpp:326-338</code></a>)</td>
+</tr>
+<tr>
+<td>68</td>
+<td><code>hardfork_hive</code></td>
+<td>Hive's 2020 split; never on Pixa</td>
+</tr>
+<tr>
+<td>69</td>
+<td><code>hardfork_hive_restore</code></td>
+<td>Hive's 2020 split; never on Pixa</td>
+</tr>
+<tr>
+<td>70</td>
+<td><code>delayed_voting</code></td>
+<td>Powered-up stake matures and gains governance weight, 30 days after the power-up</td>
+</tr>
+<tr>
+<td>71</td>
+<td><code>consolidate_treasury_balance</code></td>
+<td>The treasury's balances are consolidated at maintenance</td>
+</tr>
+<tr>
+<td>72</td>
+<td><code>effective_comment_vote</code></td>
+<td>Every vote: its rshares, weight and the post's totals</td>
+</tr>
+<tr>
+<td>73</td>
+<td><code>ineffective_delete_comment</code></td>
+<td>Never on Pixa: it recorded a delete that could not take effect before Steem's hardfork 19, and since then such a delete is rejected instead (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_social.cpp#L69-L76"><code>ev_soc:69-76</code></a>)</td>
+</tr>
+<tr>
+<td>74</td>
+<td><code>dhf_conversion</code></td>
+<td>PIXA the treasury holds or receives is converted to PXS</td>
+</tr>
+<tr>
+<td>75</td>
+<td><code>expired_account_notification</code></td>
+<td>An account's governance votes expire after 365 days without a governance action</td>
+</tr>
+<tr>
+<td>76</td>
+<td><code>changed_recovery_account</code></td>
+<td>A recovery partner change takes effect, 30 days after the request</td>
+</tr>
+<tr>
+<td>77</td>
+<td><code>transfer_to_vesting_completed</code></td>
+<td>A power-up completes, with the VESTS received</td>
+</tr>
+<tr>
+<td>78</td>
+<td><code>pow_reward</code></td>
+<td>Mining; never on Pixa</td>
+</tr>
+<tr>
+<td>79</td>
+<td><code>vesting_shares_split</code></td>
+<td>Steem's 2016 split; never on Pixa</td>
+</tr>
+<tr>
+<td>80</td>
+<td><code>account_created</code></td>
+<td>An account is created</td>
+</tr>
+<tr>
+<td>81</td>
+<td><code>fill_collateralized_convert_request</code></td>
+<td>A <code>collateralized_convert</code> settles and returns the excess collateral</td>
+</tr>
+<tr>
+<td>82</td>
+<td><code>system_warning</code></td>
+<td>The chain corrects something and says so: a conversion short of collateral, a median price corrected by the hard limit, and conditions in witness scheduling</td>
+</tr>
+<tr>
+<td>83</td>
+<td><code>fill_recurrent_transfer</code></td>
+<td>A recurring payment is made</td>
+</tr>
+<tr>
+<td>84</td>
+<td><code>failed_recurrent_transfer</code></td>
+<td>A recurring payment fails for lack of funds</td>
+</tr>
+<tr>
+<td>85</td>
+<td><code>limit_order_cancelled</code></td>
+<td>An order is cancelled or expires</td>
+</tr>
+<tr>
+<td>86</td>
+<td><code>producer_missed</code></td>
+<td>A scheduled witness did not produce its block</td>
+</tr>
+<tr>
+<td>87</td>
+<td><code>proposal_fee</code></td>
+<td>A proposal is created</td>
+</tr>
+<tr>
+<td>88</td>
+<td><code>collateralized_convert_immediate_conversion</code></td>
+<td>A <code>collateralized_convert</code> issues PXS at once</td>
+</tr>
+<tr>
+<td>89</td>
+<td><code>escrow_approved</code></td>
+<td>Both parties approved an escrow; the agent is paid</td>
+</tr>
+<tr>
+<td>90</td>
+<td><code>escrow_rejected</code></td>
+<td>An escrow was rejected or its deadline passed</td>
+</tr>
+<tr>
+<td>91</td>
+<td><code>proxy_cleared</code></td>
+<td>A proxy is removed by the chain, at vote expiry or when voting rights are declined</td>
+</tr>
+<tr>
+<td>92</td>
+<td><code>declined_voting_rights</code></td>
+<td>A decline takes effect</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="compared-with-hive">Compared with Hive<a class="anchor" href="#compared-with-hive" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><span class="sr-only">Aspect</span></th>
+<th>Hive</th>
+<th>Pixa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operation list</td>
+<td>50 operations, 43 virtual</td>
+<td>identical</td>
+</tr>
+<tr>
+<td>Custom payloads</td>
+<td>8,192 bytes, flat cost</td>
+<td>65,536 bytes; cost grows with size since HF30</td>
+</tr>
+<tr>
+<td>Vote dust threshold</td>
+<td>50,000,000 rshares, about 1.6 Hive Power</td>
+<td>50,000 rshares since HF30, 2.5 Pixa Power; before HF30 the same 50,000,000, 2,500 Pixa Power</td>
+</tr>
+<tr>
+<td>VESTS in <code>transfer</code></td>
+<td>never</td>
+<td>from <code>pixa.rex</code> and <code>pixa.team</code> only</td>
+</tr>
+<tr>
+<td>Interest on HBD / PXS</td>
+<td>witnesses vote the rate</td>
+<td>fixed at 0</td>
+</tr>
+<tr>
+<td>Treasury</td>
+<td><code>hive.fund</code>, paid in HBD</td>
+<td><code>pixa.omnibus</code>, paid in PXS</td>
+</tr>
+<tr>
+<td>Owner authority history</td>
+<td>since block 3,186,477 of the Steem chain (2016)</td>
+<td>from hardfork 30, block 949,330</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>Code</strong>, at commit <a href="https://github.com/pixagram-blockchain/pixagram/tree/48f75a28840c24e5a5b42ccb4f94dc8668ecb443"><code>48f75a2</code></a> unless marked v1.30.0. Abbreviations: <code>ops.cpp</code> = <code>libraries/protocol/hive_operations.cpp</code>; <code>ev</code> = <code>libraries/chain/hive_evaluator.cpp</code>; <code>ev_acc</code>, <code>ev_soc</code>, <code>ev_tr</code> = <code>hive_evaluator_account.cpp</code>, <code>hive_evaluator_social.cpp</code>, <code>hive_evaluator_transfer.cpp</code>; <code>dhf</code> = <code>dhf_evaluator.cpp</code>. The operation list: <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/include/hive/protocol/operations.hpp#L21-L129"><code>operations.hpp:21-129</code></a>. Resource counting: <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/chain/rc/resource_count.cpp#L198-L560"><code>resource_count.cpp:198-560</code> at v1.30.0</a>.</li>
+<li><strong>Hardfork 30:</strong> <a href="../governance/protocol-upgrades.html#hardfork-30">Protocol Upgrades</a> and <a href="https://github.com/pixagram-blockchain/pixagram/blob/746118eb3b87dcca768b72fa262ad2aa63e1f177/libraries/protocol/hardfork.d/1_30.hf"><code>1_30.hf</code></a>.</li>
+<li><strong>Live chain</strong>, 2026-10-08: <code>condenser_api.get_chain_properties</code> (fee 20.000 PIXA), <code>condenser_api.get_dynamic_global_properties</code>, <code>market_history_api.get_recent_trades</code>, and the <code>effective_comment_vote</code> of a 50-VESTS account's vote after HF30 (950,000 rshares).</li>
+<li><a href="https://developers.hive.io/">Hive developer portal</a>: &quot;Broadcast Ops&quot; and &quot;Virtual Ops&quot;.</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/11-protocol-reference/operations-reference.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">Protocol reference</span></a><a class="next" href="transaction-lifecycle.html"><span class="k">Next</span><span class="t">Transaction Lifecycle</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#how-to-read-this-page">How to read this page</a></li><li><a href="#the-50-operations">The 50 operations</a></li><li><a href="#content-and-voting">Content and voting</a></li><li><a href="#custom-data">Custom data</a></li><li><a href="#transfers-savings-and-escrow">Transfers, savings and escrow</a></li><li><a href="#staking">Staking</a></li><li><a href="#pxs-and-the-internal-market">PXS and the internal market</a></li><li><a href="#accounts-and-keys">Accounts and keys</a></li><li><a href="#witnesses-and-feeds">Witnesses and feeds</a></li><li><a href="#the-decentralized-pixa-fund">The Decentralized Pixa Fund</a></li><li><a href="#disabled-or-unusable">Disabled or unusable</a></li><li><a href="#virtual-operations">Virtual operations</a></li><li><a href="#compared-with-hive">Compared with Hive</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/11-protocol-reference/operations-reference.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/11-protocol-reference/operations-reference.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

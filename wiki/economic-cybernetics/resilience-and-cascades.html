@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resilience and Cascades — Pixagram wiki</title>
+<meta name="description" content="PXS promises no price. The design notes argue that it fails gently rather than suddenly: it has no cliff to fall from and no tightly coupled web to carry a c…">
+<link rel="canonical" href="https://pixa.org/wiki/economic-cybernetics/resilience-and-cascades.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Resilience and Cascades — Pixagram wiki">
+<meta property="og:description" content="PXS promises no price. The design notes argue that it fails gently rather than suddenly: it has no cliff to fall from and no tightly coupled web to carry a c…">
+<meta property="og:url" content="https://pixa.org/wiki/economic-cybernetics/resilience-and-cascades.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details open>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="resilience-and-cascades.html" aria-current="page">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../developers/index.html">Overview</a></li>
+<li><a class="nav-i" href="../developers/chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="../developers/developer-quickstart.html">Developer Quickstart</a></li>
+<li><a class="nav-i" href="../developers/differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="../developers/sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../node-operators/index.html">Overview</a></li>
+<li><a class="nav-i" href="../node-operators/run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="../node-operators/run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="../node-operators/become-a-witness.html">Become a Witness</a></li>
+<li><a class="nav-i" href="../node-operators/cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../protocol-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
+<li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../product/index.html">Overview</a></li>
+<li><a class="nav-i" href="../product/feed-and-discovery.html">Feed and Discovery</a></li>
+<li><a class="nav-i" href="../product/search.html">Search</a></li>
+<li><a class="nav-i" href="../product/notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="../product/account-settings.html">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economics-lab/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economics-lab/reward-examples.html">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../reference/chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="../reference/system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="../reference/glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="../reference/risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="../reference/sources-and-credits.html">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Economic cybernetics</a></nav><h1>Resilience and Cascades</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>The measures on this page come from the running chain, read at block 917,250 on 2026-10-06. The vocabulary comes from ecology and physics, as the PXS design notes use it.</p>
+</div></div>
+<p>PXS promises no price. The design notes argue that it fails gently rather than suddenly: it has no cliff to fall from and no tightly coupled web to carry a collapse. This page tests that argument with two ideas, resilience and self-organised criticality, and with the chain's own numbers.</p>
+<h2 id="resilience">Resilience<a class="anchor" href="#resilience" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>C. S. Holling (1973) separated two properties that are easy to confuse. <em>Stability</em> is a system's tendency to return to an equilibrium after a disturbance. <em>Resilience</em> is its ability to absorb disturbances and still keep the same relationships between its parts. A useful picture is a ball in a landscape of valleys. Each valley is a <em>basin of attraction</em>; the ridges between valleys are <em>thresholds</em>; a push that carries the ball over a ridge leaves it in a different regime.</p>
+<p>Walker, Holling, Carpenter and Kinzig (2004) gave resilience four aspects. Applied to PXS on 2026-10-06:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Meaning</th>
+<th>PXS on chain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Latitude</strong></td>
+<td>How far the system can be pushed before it crosses a threshold</td>
+<td>The collateral ratio can fall from about 804 to 4 before printing stops, and to 7/3 before the haircut starts</td>
+</tr>
+<tr>
+<td><strong>Resistance</strong></td>
+<td>How hard it is to push</td>
+<td>The 84-hour median and the 3.5-day delay slow every push. The 5% fee and the print stop limit how fast holders and rewards can add PXS.</td>
+</tr>
+<tr>
+<td><strong>Precariousness</strong></td>
+<td>How close it already is to a threshold</td>
+<td>Far on paper, but the distance is measured at a placeholder price, and 99.04% of all PXS sits in the treasury, outside the measure</td>
+</tr>
+<tr>
+<td><strong>Panarchy</strong></td>
+<td>How the systems above and below shape it</td>
+<td>Above: the markets PIXA may trade on, The Economist's index, exchange rates, regulators. Below: the witnesses' operators, the app, the Hive codebase.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The thresholds are on <a href="../reference/chain-parameters.html#pixa-supra-pxs-and-the-price-feed">Chain Parameters</a>; the numbers behind the first three rows are on <a href="../pixa-supra/haircut-corridor-and-settlement.html#where-the-network-stands">Haircut, Corridor and Settlement</a>.</p>
+<h2 id="one-regime-or-two">One regime or two<a class="anchor" href="#one-regime-or-two" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p><strong>A defended peg has two basins.</strong> In one, the peg holds. In the other, it has broken, and returning from there is costly when it is possible at all.</p>
+<p><strong>PXS's conversion value has one.</strong> Above a collateral ratio of 7/3, the haircut factor is 1. Below it, the factor falls in a straight line, and when the ratio recovers, it rises back along the same line. There is no separate state to fall into. The print stop is a step, not a slope, but it too reverses as soon as the debt ratio falls below 20%, because the chain recomputes the print rate in every block.</p>
+<p><strong>A market price is another matter.</strong> What the protocol defines is the conversion value. A market can still leave it far behind: SBD closed at 13.76 US dollars on 2017-12-19 and at 0.52 on 2019-11-13, while its conversion delivered about a dollar and about 70 cents (<a href="../pixa-supra/from-sbd-to-pxs.html#sbd-in-practice">From SBD to PXS</a>). A market can also lose its buyers. PXS has no market yet, so none of this has been observed for it.</p>
+<h2 id="how-much-dilution-the-haircut-allows">How much dilution the haircut allows<a class="anchor" href="#how-much-dilution-the-haircut-allows" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Conversions out of PXS create PIXA. Without a limit, converting every PXS after a collapse in PIXA's value would create PIXA in proportion to the collapse. The haircut limits each hour's price: at the corrected price, all PXS outside the treasury is worth exactly 3/7 of all PIXA (<a href="../pixa-supra/haircut-corridor-and-settlement.html#the-haircut">the haircut</a>).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Case</th>
+<th>PIXA created if every PXS outside the treasury converted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Today: 2,414.312 PXS outside the treasury, at today's median</td>
+<td>about 125,100 PIXA, 0.12% of all PIXA</td>
+</tr>
+<tr>
+<td>If all 251,680.531 PXS were outside the treasury, at today's median</td>
+<td>about 13.0 million PIXA, 13% of all PIXA</td>
+</tr>
+<tr>
+<td>At the haircut's limit, at any time</td>
+<td>3/7 of all PIXA</td>
+</tr>
+</tbody>
+</table></div>
+<p>The limit applies to each hourly price. As conversions burn PXS and add PIXA, the next hour's limit relaxes. The haircut slows dilution and reduces its total; it does not end it.</p>
+<h2 id="self-organised-criticality">Self-organised criticality<a class="anchor" href="#self-organised-criticality" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Per Bak, Chao Tang and Kurt Wiesenfeld (1987) described systems that drive themselves to a critical state. Their example is a sandpile built one grain at a time. The pile steepens until it reaches a critical slope; from then on, a single grain can set off an avalanche of any size, and avalanche sizes follow a power law, with no typical size. Large events need no large cause. Bak and Kan Chen, whom the design notes cite, described the idea for a general audience in 1991.</p>
+<p>The design draws a lesson from it: in a critical system you cannot prevent avalanches by hunting for triggers, because the triggers are ordinary grains. You manage the slope and the connectivity, which decide how far a disturbance travels before it dies out.</p>
+<h2 id="the-couplings">The couplings<a class="anchor" href="#the-couplings" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Coupling</th>
+<th>What it carries</th>
+<th>On 2026-10-06</th>
+<th>What limits it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PXS to PIXA</td>
+<td>Everything: PXS settles only in PIXA</td>
+<td>total, by design</td>
+<td>the haircut, for PIXA holders; nothing, for PXS holders</td>
+</tr>
+<tr>
+<td>The feed to outside sources</td>
+<td>The Economist's index; for the agnostic feed, ECB rates and exchange tickers</td>
+<td>all nine feeds use the same index and placeholder</td>
+<td>the medians; the agnostic feed publishes nothing when a source fails</td>
+</tr>
+<tr>
+<td>The feeds to one another</td>
+<td>Shared software and shared operators</td>
+<td>one program; each update reached every witness then publishing within about a minute and a half</td>
+<td>the median, only if the feeds become independent</td>
+</tr>
+<tr>
+<td>The witnesses to their voters</td>
+<td>Elections</td>
+<td>six voting accounts on 2026-10-05 (<a href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a>)</td>
+<td>the 30-day delay on new stake; votes that expire after a year</td>
+</tr>
+<tr>
+<td>The debt ratio to the treasury</td>
+<td>PXS leaving the treasury enters the ratio</td>
+<td>99.04% of all PXS in the treasury</td>
+<td>at most 1% of the fund a day, and only by vote</td>
+</tr>
+<tr>
+<td>The app to its operator</td>
+<td>The app and its account service</td>
+<td>run by Pixa Rex S.A. (<a href="../start-here/who-does-what.html">Who Does What</a>)</td>
+<td>anyone can run a node or another app</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="where-the-slope-is-steep">Where the slope is steep<a class="anchor" href="#where-the-slope-is-steep" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>The placeholder.</strong> Every distance to a threshold is computed from an assumed price. If PIXA comes to trade, its first market price may differ from the placeholder by any factor, and the collateral ratio will follow by the same factor within about two days of the witnesses switching to it.</li>
+<li><strong>The treasury's PXS.</strong> 99.04% of all PXS sits outside the ratios. Paid out to proposals and held, all of it would bring the collateral ratio to about 7.7 at today's median, within a factor of two of the print stop at 4.</li>
+<li><strong>The allocations.</strong> About 67.5% of all PIXA is stake that the two allocation accounts have still to distribute (<a href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a>). How it reaches the market will shape PIXA's market value, and through it every ratio above.</li>
+<li><strong>Correlated failure.</strong> One feed program, one placeholder and a small set of voters make the parts of the system fail together rather than independently.</li>
+</ul>
+<h2 id="the-designs-claim-assessed">The design's claim, assessed<a class="anchor" href="#the-designs-claim-assessed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The design notes say the supra is &quot;engineered not to be un-shockable, but to be non-cascading&quot;. Part by part:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>The claim</th>
+<th>What the chain shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No cliff: below the floor, the unit degrades continuously and reversibly</td>
+<td>Holds for the conversion value: the haircut is linear in the collateral ratio and lifts when it recovers. It does not hold for a market price, which can gap. The print stop is a step, though a reversible one.</td>
+</tr>
+<tr>
+<td>No chain of promises for a failure to travel down</td>
+<td>Holds: there is no issuer, no reserve and no redemption desk.</td>
+</tr>
+<tr>
+<td>Loose coupling through three separate entities</td>
+<td>The entities are separate legal persons. On chain, the couplings that matter today are tight: one feed program, one placeholder, few voting accounts.</td>
+</tr>
+<tr>
+<td>Failures stay gradual and local</td>
+<td>Not yet tested: no disturbance has reached the system. Dilution is limited per hour, not in total.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="inherited--changed">Inherited → changed<a class="anchor" href="#inherited--changed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><span class="sr-only">Aspect</span></th>
+<th>Steem / Hive</th>
+<th>Pixa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Below the threshold</td>
+<td>the haircut, continuous since Steem's hardfork 14</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Observed under stress</td>
+<td>Steem, 2019-11-13: conversions delivered about 70% of a dollar, and SBD closed at about 52%</td>
+<td>nothing yet</td>
+</tr>
+<tr>
+<td>Feed sources</td>
+<td>many witnesses reading different exchanges</td>
+<td>one placeholder, today</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li>C. S. Holling, &quot;Resilience and Stability of Ecological Systems&quot;, <em>Annual Review of Ecology and Systematics</em> 4 (1973), 1–23.</li>
+<li>B. Walker, C. S. Holling, S. R. Carpenter and A. Kinzig, &quot;Resilience, Adaptability and Transformability in Social–ecological Systems&quot;, <em>Ecology and Society</em> 9(2): 5 (2004).</li>
+<li>P. Bak, C. Tang and K. Wiesenfeld, &quot;Self-organized criticality: An explanation of the 1/f noise&quot;, <em>Physical Review Letters</em> 59 (1987), 381–384.</li>
+<li>P. Bak and K. Chen, &quot;Self-Organized Criticality&quot;, <em>Scientific American</em> 264(1) (January 1991), 46–53.</li>
+<li><strong>PXS design notes</strong> (Pixagram, June 2026), §3.2, §5.3, §5.4 and §8.1.</li>
+<li><strong>Live values,</strong> read at block 917,250 on 2026-10-06: <code>condenser_api.get_dynamic_global_properties</code>, <code>condenser_api.get_feed_history</code>, <code>condenser_api.get_accounts</code>.</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/06-economic-cybernetics/resilience-and-cascades.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="variety-and-regulation.html"><span class="k">Previous</span><span class="t">Variety and Regulation</span></a><a class="next" href="../governance/index.html"><span class="k">Next</span><span class="t">Governance</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#resilience">Resilience</a></li><li><a href="#one-regime-or-two">One regime or two</a></li><li><a href="#how-much-dilution-the-haircut-allows">How much dilution the haircut allows</a></li><li><a href="#self-organised-criticality">Self-organised criticality</a></li><li><a href="#the-couplings">The couplings</a></li><li><a href="#where-the-slope-is-steep">Where the slope is steep</a></li><li><a href="#the-designs-claim-assessed">The design&#x27;s claim, assessed</a></li><li><a href="#inherited--changed">Inherited → changed</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/06-economic-cybernetics/resilience-and-cascades.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/06-economic-cybernetics/resilience-and-cascades.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">Block explorer</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <span class="live" id="footlive"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>
