@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorer — Pixa</title>
+<meta name="description" content="Explore the Pixa blockchain: every block, transaction and operation, read live from api.pixagram.com. Artworks stored on chain show as pixel art.">
+<link rel="canonical" href="https://pixa.org/explorer/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Pixa explorer">
+<meta property="og:description" content="Every block, transaction and operation of the Pixa chain, read live.">
+<meta property="og:url" content="https://pixa.org/explorer/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="{{ROOT}}assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="{{ROOT}}assets/site.css">
+</head>
+<body data-root="{{ROOT}}" class="explorer-page">
+
+{{HEADER}}
+
+<main class="page" id="content">
+
+<section class="xp-head">
+  <nav class="crumbs" id="xp-crumbs" aria-label="Breadcrumb" hidden></nav>
+  <div class="xp-h1row"><h1 class="display-s" id="xp-title">Explorer</h1><div class="xp-nav" id="xp-actions"></div></div>
+  <p class="lead" id="xp-lead">Every block, transaction and operation of the Pixa chain, read by your browser from api.pixagram.com. Artworks stored on chain show as pixel art.</p>
+  <form class="xp-search" id="xp-search" role="search">
+    <label class="xp-field">
+      <span class="sr-only">Block number or transaction id</span>
+      {{ICON:search}}
+      <input id="xp-q" name="q" type="search" placeholder="Block number or transaction id" autocomplete="off" spellcheck="false" enterkeyhint="go">
+    </label>
+    <button class="btn" type="submit">Open</button>
+  </form>
+  <p class="xp-msg" id="xp-msg" role="status" aria-live="polite"></p>
+</section>
+
+<section class="chain" data-chain aria-labelledby="chain-h" hidden>
+  <h2 class="sr-only" id="chain-h">The chain right now</h2>
+  <div class="ribbon-wrap"><div class="ribbon" data-rows="3" role="img" aria-label="Recent blocks, one square per block"></div><div class="ribbon-tip" aria-hidden="true"></div></div>
+  <p class="chain-line"><a data-k="headlink" href="{{ROOT}}explorer/">Block <b data-k="head">{{SNAP_HEAD}}</b></a> was signed <b data-k="age">a moment</b> ago by <b data-k="witness">{{SNAP_WITNESS}}</b>. <b data-k="n">{{SNAP_N}}</b> witnesses are producing, and the median price feed reads <b data-k="feed">{{SNAP_FEED}}</b> PIXA per PXS.</p>
+  <div class="chain-foot">
+    <p class="chain-note">Each square is a block, coloured by its place in the witness schedule: one spectrum is one round, in which every witness signs once. A hollow square is a slot nobody filled. <span class="hover-only">Select a square to open its block.</span><span class="touch-only">Tap a square for its number, and again to open it.</span></p>
+    <p class="chain-stamp" data-k="stamp">Snapshot of {{SNAP_DATE}}. Live figures load from api.pixagram.com when the page can reach it.</p>
+  </div>
+  <script type="application/json">{{CHAIN_SNAPSHOT}}</script>
+</section>
+
+<div id="xp-view" class="xp-view"></div>
+
+<noscript><p class="xp-error">The explorer reads the chain with JavaScript, which is turned off in this browser.</p></noscript>
+
+</main>
+
+{{FOOTER}}
+
+<script src="{{ROOT}}assets/site.js"></script>
+<script src="{{ROOT}}assets/explorer.js"></script>
+</body>
+</html>

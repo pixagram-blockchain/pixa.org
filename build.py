@@ -40,7 +40,10 @@ DOCS_REPO = "https://github.com/pixagram-blockchain/information"
 DOCS_BRANCH = "main"
 NODE = "https://api.pixagram.com"
 
-TABS = [("index.html", "Home"), ("wiki/index.html", "Wiki"), ("witness.html", "Witness setup")]
+TABS = [("index.html", "Home"), ("wiki/index.html", "Wiki"), ("explorer/", "Explorer"), ("witness.html", "Witness setup")]
+# Pages whose links start at the site root, because they are also shown at other addresses:
+# the explorer renders /explorer/{block}/{trx} after 404.html hands those paths to it.
+ROOT_PAGES = {"explorer/index.html": ("/", "explorer/")}
 
 # Pages that used to exist. Each becomes a small redirect so old links keep working.
 REDIRECTS = {
@@ -169,13 +172,15 @@ def snapshot_tokens(text: str) -> str:
 # ============================================================================ pages
 
 def build_pages() -> None:
-    for page in sorted(SRC.glob("*.html")):
-        out = chrome(read(page), "", page.name)
+    for page in sorted(SRC.rglob("*.html")):
+        rel = page.relative_to(SRC).as_posix()
+        root, active = ROOT_PAGES.get(rel, ("../" * rel.count("/"), rel))
+        out = chrome(read(page), root, active)
         out = snapshot_tokens(out)
         out = re.sub(r"<pre>", '<pre class="has-copy">', out)
-        assert "{{" not in out, f"unreplaced token in {page.name}: {re.findall(r'{{[A-Z_:a-z]+}}', out)}"
-        write(ROOT / page.name, out)
-        print(f"built {page.name} ({len(out):,} bytes)")
+        assert "{{" not in out, f"unreplaced token in {rel}: {re.findall(r'{{[A-Z_:a-z]+}}', out)}"
+        write(ROOT / rel, out)
+        print(f"built {rel} ({len(out):,} bytes)")
     for name, (target, why, anchors) in REDIRECTS.items():
         external = target.startswith("http")
         amap = json.dumps(anchors)
@@ -215,6 +220,10 @@ location.replace(t);}})();
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Not found — Pixa</title>
+<script>
+/* /explorer/{{block}}[/{{trx_id}}] has no file of its own: hand the path to the explorer page, which puts it back */
+(function(){{var m=location.pathname.match(/^\\/explorer\\/(.+)$/);if(m){{location.replace("/explorer/?r="+encodeURIComponent(m[1].replace(/\\/+$/,""))+location.hash);}}}})();
+</script>
 <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/site.css">
 </head>
@@ -484,15 +493,18 @@ class Renderer:
         self.docs, self.md = docs, md
         self.diagrams = {}
         self.assets = set()
-        md.add_render_rule("fence", self.fence)
-        md.add_render_rule("code_block", self.code_block)
-        md.add_render_rule("table_open", lambda *a: '<div class="table-wrap"><table>\n')
-        md.add_render_rule("table_close", lambda *a: "</table></div>\n")
-        md.add_render_rule("html_inline", self.html_inline)
-        md.add_render_rule("html_block", self.html_block)
-        md.add_render_rule("heading_close", self.heading_close)
-        md.add_render_rule("blockquote_open", self.blockquote_open)
-        md.add_render_rule("blockquote_close", self.blockquote_close)
+        # Set the rules on the renderer directly. md.add_render_rule() re-binds what it is given
+        # with __get__, and before Python 3.13 that re-binds a bound method to the renderer.
+        rules = md.renderer.rules
+        rules["fence"] = self.fence
+        rules["code_block"] = self.code_block
+        rules["table_open"] = lambda tokens, idx, options, env: '<div class="table-wrap"><table>\n'
+        rules["table_close"] = lambda tokens, idx, options, env: "</table></div>\n"
+        rules["html_inline"] = self.html_inline
+        rules["html_block"] = self.html_block
+        rules["heading_close"] = self.heading_close
+        rules["blockquote_open"] = self.blockquote_open
+        rules["blockquote_close"] = self.blockquote_close
 
     # --- raw HTML: <br>, comments (dropped), and the figure markup the docs' style guide asks for
     #     (<picture>, <source>, <img> with their files copied); anything else is shown as text
@@ -971,6 +983,18 @@ def build_wiki(docs_arg: str | None) -> None:
         svg = re.sub(r"(<svg\b[^>]*>)", r'\1<style>@font-face{font-family:"Normative Pro";src:url("../../assets/fonts/NormativePro.woff2") format("woff2")}</style>', svg, count=1)
         write(WIKI_OUT / "diagrams" / f"{key}.svg", svg)
 
+    # --- what each operation does, for the explorer: the tables of the Operations Reference
+    ops = {}
+    ref = next((r for r in docs.out if r.endswith("/operations-reference.md")), None)
+    if ref:
+        ref_tokens = md.parse(docs.text(ref))
+        for heading, col in (("the 50 operations", 3), ("virtual operations", 2)):
+            for cells in rows_of_table_after(ref_tokens, heading):
+                name = next((c.content for c in cells[1].children or [] if c.type == "code_inline"), None) if len(cells) > col else None
+                if name and re.fullmatch(r"[a-z0-9_]+", name):
+                    ops.setdefault(name, plain_tokens(cells[col].children))
+    write(WIKI_OUT / "ops.json", json.dumps(ops, ensure_ascii=False, separators=(",", ":")))
+
     # --- files the pages show
     for a in sorted(R.assets):
         dest = WIKI_OUT / "_files" / a
@@ -980,7 +1004,7 @@ def build_wiki(docs_arg: str | None) -> None:
     # --- search index and sitemap
     write(WIKI_OUT / "search-index.json", json.dumps({"v": 1, "commit": docs.commit[:7], "pages": pages, "chunks": chunks},
                                                      ensure_ascii=False, separators=(",", ":")))
-    urls = ["", "witness.html"] + sitemap
+    urls = ["", "witness.html", "explorer/"] + sitemap
     write(ROOT / "sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
           + "".join(f"  <url><loc>{SITE}/{u}</loc></url>\n" for u in urls) + "</urlset>\n")
     n_pages = sum(len(s["pages"]) for s in docs.sections)

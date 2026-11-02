@@ -1,0 +1,37 @@
+# Build the site on every pull request, the same way the deploy does, so a change that
+# breaks the build shows up before it is merged.
+name: Check the build
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@v4
+        with:
+          path: site
+
+      - name: Check out the documentation
+        uses: actions/checkout@v4
+        with:
+          repository: pixagram-blockchain/information
+          path: information
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the wiki's packages
+        run: pip install -r site/requirements.txt
+
+      - name: Build
+        working-directory: site
+        run: python3 build.py --docs ../information
