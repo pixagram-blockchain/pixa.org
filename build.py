@@ -484,15 +484,18 @@ class Renderer:
         self.docs, self.md = docs, md
         self.diagrams = {}
         self.assets = set()
-        md.add_render_rule("fence", self.fence)
-        md.add_render_rule("code_block", self.code_block)
-        md.add_render_rule("table_open", lambda *a: '<div class="table-wrap"><table>\n')
-        md.add_render_rule("table_close", lambda *a: "</table></div>\n")
-        md.add_render_rule("html_inline", self.html_inline)
-        md.add_render_rule("html_block", self.html_block)
-        md.add_render_rule("heading_close", self.heading_close)
-        md.add_render_rule("blockquote_open", self.blockquote_open)
-        md.add_render_rule("blockquote_close", self.blockquote_close)
+        # Set the rules on the renderer directly. md.add_render_rule() re-binds what it is given
+        # with __get__, and before Python 3.13 that re-binds a bound method to the renderer.
+        rules = md.renderer.rules
+        rules["fence"] = self.fence
+        rules["code_block"] = self.code_block
+        rules["table_open"] = lambda tokens, idx, options, env: '<div class="table-wrap"><table>\n'
+        rules["table_close"] = lambda tokens, idx, options, env: "</table></div>\n"
+        rules["html_inline"] = self.html_inline
+        rules["html_block"] = self.html_block
+        rules["heading_close"] = self.heading_close
+        rules["blockquote_open"] = self.blockquote_open
+        rules["blockquote_close"] = self.blockquote_close
 
     # --- raw HTML: <br>, comments (dropped), and the figure markup the docs' style guide asks for
     #     (<picture>, <source>, <img> with their files copied); anything else is shown as text
