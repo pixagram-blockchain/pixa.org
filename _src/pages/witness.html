@@ -34,7 +34,7 @@
 <section class="chain" data-chain aria-labelledby="chain-h">
   <h2 class="sr-only" id="chain-h">The chain right now</h2>
   <div class="ribbon-wrap"><div class="ribbon" data-rows="3" role="img" aria-label="Recent blocks, one square per block"></div><div class="ribbon-tip" aria-hidden="true"></div></div>
-  <p class="chain-line">Block <b data-k="head">{{SNAP_HEAD}}</b> was signed <b data-k="age">a moment</b> ago by <b data-k="witness">{{SNAP_WITNESS}}</b>. <b data-k="n">{{SNAP_N}}</b> witnesses are producing, the chain weighs about <b id="hsize">—</b>, and the median price feed reads <b data-k="feed">{{SNAP_FEED}}</b> PIXA per PXS.</p>
+  <p class="chain-line"><a data-k="headlink" href="explorer/">Block <b data-k="head">{{SNAP_HEAD}}</b></a> was signed <b data-k="age">a moment</b> ago by <b data-k="witness">{{SNAP_WITNESS}}</b>. <b data-k="n">{{SNAP_N}}</b> witnesses are producing, the chain weighs about <b id="hsize">—</b>, and the median price feed reads <b data-k="feed">{{SNAP_FEED}}</b> PIXA per PXS.</p>
   <div class="chain-foot">
     <p class="chain-note">Each square is a block, coloured by its place in the witness schedule: one spectrum is one round, in which every witness signs once. A hollow square is a slot nobody filled: a missed block, counted against its witness.</p>
     <p class="chain-stamp" data-k="stamp">Snapshot of {{SNAP_DATE}}. Live figures load from api.pixagram.com when the page can reach it.</p>

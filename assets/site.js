@@ -158,6 +158,7 @@
       var sec = (Date.now() - parseUtc(time)) / 1000;
       txt.textContent = "Block " + fmtInt(head) + ", " + ago(sec) + " ago";
       el.classList.toggle("ok", sec < 30);
+      if (el.tagName === "A") el.setAttribute("href", ROOT + "explorer/" + head);
     }
     on("dgp", function (d) { head = d.head_block_number; time = d.time; paint(); });
     on("dgp-error", function () { if (head == null) { txt.textContent = "api.pixagram.com is not reachable from this page"; el.classList.remove("ok"); } });
@@ -216,14 +217,25 @@
     }
     function paint() {
       set("head", fmtInt(S.head)); set("witness", S.witness || "—"); set("n", S.n);
+      if (F.headlink) F.headlink.setAttribute("href", ROOT + "explorer/" + S.head);
       if (S.feed != null) set("feed", S.feed);
       if (S.time) set("age", ago((Date.now() - parseUtc(S.time)) / 1000));
     }
-    // tooltip
+    // tooltip; a square opens its block in the explorer (on a touch screen, the second tap does)
+    var coarse = window.matchMedia && matchMedia("(hover: none)").matches, tapped = null;
+    function open(num) {
+      if (window.PIXA.navigate) window.PIXA.navigate("/explorer/" + num);
+      else location.href = ROOT + "explorer/" + num;
+    }
+    ribbon.addEventListener("click", function (e) {
+      var c = e.target.closest(".b"); if (!c || !c.dataset.num) return;
+      if (coarse && tapped !== c) { tapped = c; return; }
+      open(c.dataset.num);
+    });
     function point(e) {
       var c = e.target.closest(".b"); if (!c || !tip) { if (tip) tip.classList.remove("on"); return; }
       var t = +c.dataset.t;
-      tip.textContent = c.classList.contains("miss") ? "Missed slot, " + fmtUtcTime(t) : "Block " + fmtInt(+c.dataset.num) + ", signed by " + c.dataset.w + " at " + fmtUtcTime(t);
+      tip.textContent = c.classList.contains("miss") ? "Missed slot, " + fmtUtcTime(t) : "Block " + fmtInt(+c.dataset.num) + ", signed by " + c.dataset.w + " at " + fmtUtcTime(t) + (coarse ? ". Tap again to open it." : "");
       var r = ribbon.getBoundingClientRect(), cr = c.getBoundingClientRect();
       var x = cr.left - r.left + cr.width / 2, w = tip.offsetWidth / 2;
       tip.style.left = Math.max(w, Math.min(r.width - w, x)) + "px"; tip.style.top = (cr.top - r.top) + "px";
@@ -476,5 +488,5 @@
     startPolling(cards.length ? 3000 : 6000);
   });
 
-  window.PIXA = { CONFIG: CONFIG, rpc: rpc, rpcBatch: rpcBatch, on: on, emit: emit, parseAsset: parseAsset, parseUtc: parseUtc, isEpoch: isEpoch, fmtInt: fmtInt, fmtNum: fmtNum, fmtBytes: fmtBytes, fmtDate: fmtDate, ago: ago, esc: esc, $: $, openSearch: openSearch };
+  window.PIXA = { CONFIG: CONFIG, rpc: rpc, rpcBatch: rpcBatch, on: on, emit: emit, spectrum: hueFor, parseAsset: parseAsset, parseUtc: parseUtc, isEpoch: isEpoch, fmtInt: fmtInt, fmtNum: fmtNum, fmtBytes: fmtBytes, fmtDate: fmtDate, ago: ago, esc: esc, $: $, openSearch: openSearch };
 })();
