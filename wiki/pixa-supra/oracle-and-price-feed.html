@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -229,14 +230,91 @@
 </ul></details>
 </nav>
 <main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Pixa Supra (PXS)</a></nav><h1>Oracle and Price Feed</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
-<p>PXS promises no price. Nine witnesses publish its feed, and every one of them publishes the same placeholder, 51.833 PIXA per PXS: PIXA does not trade on any market yet. Read at block 917,250 on 2026-10-06.</p>
+<p>PXS promises no price. 21 witnesses publish its feed, each with its own Big Mac and its own reading of the market: on 2026-11-03 their feeds ranged from 31.731 to 70.792 PIXA per PXS. Seven still published placeholder values, and the median that conversions use, 51.000, rested on them. Read at block 1,722,911.</p>
 </div></div>
-<p>PXS promises no price. What the chain has instead is a reference: the witnesses' statement of how many PIXA one Big Mac costs. The PXS design notes call this sensing part the Oracle (<a href="../reference/glossary.html#oracle">Glossary</a>). This page explains what a feed states, how the chain reduces many feeds to one median, how fast that median can move, what it has read since genesis, and what it cannot do.</p>
+<p>PXS promises no price. What the chain has instead is a reference: the witnesses' statement of how many PIXA one Big Mac costs. The PXS design notes call this sensing part the Oracle (<a href="../reference/glossary.html#oracle">Glossary</a>). This page explains what a feed states, how the feed software arrives at it, how the chain reduces many feeds to one median, how fast that median can move, what it reads today, and what it cannot do.</p>
 <h2 id="what-a-feed-states">What a feed states<a class="anchor" href="#what-a-feed-states" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <p>A feed is a price that a witness publishes with the <code>feed_publish</code> operation: one PXS against a number of PIXA.</p>
-<pre class="hl has-copy"><code>PIXA per PXS = price of one Big Mac ÷ price of one PIXA, in the same currency</code></pre>
-<p>On 2026-10-06 every witness published 6.22 USD ÷ 0.12 USD = 51.833. The 6.22 USD is the US price in The Economist's Big Mac index, July 2026 edition. The 0.12 USD is the placeholder for PIXA (<a href="#the-placeholder">below</a>).</p>
+<pre class="hl has-copy"><code>PIXA per PXS = price of one Big Mac ÷ value of one PIXA, both in the Big Mac&#x27;s currency</code></pre>
+<p><strong>No currency is privileged.</strong> The feed software prices the Big Mac in the currency of the country where the witness runs, values PIXA on a market in whatever currency that market quotes, and converts the PIXA value into the Big Mac's currency at the day's rate. The currency then cancels out: what remains is a ratio of a Big Mac to PIXA, and routing it through the dollar, the franc or the euro gives the same number.</p>
+<p>Three readings made with <code>bigmac-feed</code> v1.3.0 on 2026-11-03, between 08:49 and 08:58 UTC, from the same order book (<a href="#how-the-feed-values-pixa">below</a>):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Where the witness runs</th>
+<th>Big Mac, July 2026 survey</th>
+<th>One PIXA, in that currency</th>
+<th>Feed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>United States</td>
+<td>6.22 USD</td>
+<td>0.138513 USDT, counted as USD</td>
+<td>44.906 PIXA per PXS</td>
+</tr>
+<tr>
+<td>Switzerland</td>
+<td>7.30 CHF</td>
+<td>0.138513 USD × 0.81963 = 0.113529 CHF</td>
+<td>64.301 PIXA per PXS</td>
+</tr>
+<tr>
+<td>Japan</td>
+<td>500 JPY</td>
+<td>0.138513 USD × 157.9 = 21.8712 JPY</td>
+<td>22.861 PIXA per PXS</td>
+</tr>
+</tbody>
+</table></div>
+<p>The three differ because a Big Mac does not cost the same everywhere once its local prices are compared at market exchange rates, which is what The Economist's index measures. The chain's median then orients PXS toward the middle of the Big Macs its witnesses report: a median across places as well as across reporters (<a href="#from-the-witnesses-feeds-to-the-median">below</a>).</p>
 <p>In hived the field is Hive's <code>hbd_exchange_rate</code>. The public API shows it as <code>pxs_exchange_rate</code> (<a href="../developers/differences-from-hive.html#field-renames">field renames</a>).</p>
+<h2 id="how-the-feed-values-pixa">How the feed values PIXA<a class="anchor" href="#how-the-feed-values-pixa" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>PIXA has traded on one market since 2026-10-15, the PIXA/USDT pair on Coinstore (<code>PIXAUSDT</code>), and that is the market the feed software reads by default. The market is thin: on 2026-11-01 and 2026-11-02 together, 28.41 PIXA changed hands.</p>
+<p><strong>The last trade is not a price.</strong> On a thin book, one small order can print far from where buyers and sellers stand. On the morning of 2026-11-03 the last trade was still a sale of 1 PIXA at 0.100 USDT, made the evening before at 20:07 UTC, while the best bid was 0.1349 and the best ask 0.142. On 2026-10-30 a 1-PIXA sale printed at 0.0367 against a book at 0.1339 and 0.145 (<a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/README.md">README</a>). A feed that follows the last trade lets anyone move it for a few cents.</p>
+<p>Since v1.3.0 the feed reads the <strong>order book</strong> instead and values PIXA at its fair value (<a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/market.go#L19-L36">market.go:19-36</a>):</p>
+<ol>
+<li><strong>Impact prices.</strong> The average price of selling 1,000 PIXA (<code>--impact-size</code>) into the bids, and of buying as many from the asks. If a side holds less, the feed uses what that side holds. A dust order at the top of the book barely counts (<a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/market.go#L105-L118">market.go:105-118</a>).</li>
+<li><strong>Impact mid.</strong> The average of the two impact prices.</li>
+<li><strong>Held within the spread.</strong> The impact mid is held between the best bid and the best ask, since a fair price outside them could be traded against at once. This also keeps a thin side, such as a few asks far above the market, from dragging the value away (<a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/market.go#L79-L101">market.go:79-101</a>).</li>
+</ol>
+<p>The book must hold orders on both sides and must not be crossed, and its spread must be at most 25% of the mid (<code>--max-spread</code>). Otherwise the market gives no fair value. With several markets (<code>--pair</code>, repeatable), each is converted into the Big Mac's currency and the median is used.</p>
+<p><strong>A worked reading.</strong> On 2026-11-03 between 08:49 and 08:58 UTC, selling 1,000 PIXA into the bids averaged 0.13402 USDT and buying 1,000 from the asks averaged 0.143006. Their mean, 0.138513, lies between the best bid and the best ask, so it is the fair value. The spread was 5.1% of the mid.</p>
+<p><strong>When no market gives a fair value,</strong> the feed publishes nothing that round, and the chain keeps the witness's previous feed for up to 7 days. A witness may set <code>--token-price</code> as a placeholder for that case; it is off by default (<a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/main.go#L157-L172">main.go:157-172</a>).</p>
+<h2 id="where-the-big-mac-comes-from">Where the Big Mac comes from<a class="anchor" href="#where-the-big-mac-comes-from" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Where it comes from</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Price of a Big Mac</td>
+<td>In order of priority: a price the witness declares (<code>--bigmac-price=&quot;7.30 CHF&quot;</code>); a country it names (<code>--country=CH</code>); the country of the server's public address, looked up once at start-up; the United States if that look-up fails. A country's price is its local price in the latest survey of The Economist's index.</td>
+<td>The server's country, July 2026 survey</td>
+</tr>
+<tr>
+<td>Value of PIXA</td>
+<td>The fair value of one or more order books; the median if several</td>
+<td><code>coinstore:PIXAUSDT</code></td>
+</tr>
+<tr>
+<td>Currency conversion</td>
+<td>Only when the two currencies differ: the European Central Bank's reference rates through Frankfurter, about 30 currencies, and ExchangeRate-API for the others, such as ARS, EGP or VND. A token that tracks a currency counts as that currency: USDT as USD, EURC as EUR, XCHF as CHF. If both sources are down, the last good rate is reused for up to 96 hours.</td>
+<td>Both sources; neither needs a key</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>The euro area.</strong> The index has one row for it, priced in EUR, and every member country uses that row (<a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/bigmac.go#L29-L55">bigmac.go:29-55</a>).</li>
+<li><strong>A country missing from the latest survey.</strong> A detected country falls back to the US price; a country named with <code>--country</code> makes the round fail (<a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/bigmac.go#L161-L174">bigmac.go:161-174</a>).</li>
+<li><strong>A new edition of the index.</strong> The default file is the July 2026 edition (<a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/bigmac.go#L18-L24">bigmac.go:18-24</a>). A later edition reaches a witness through a new release of the software or the <code>--bigmac-url</code> setting.</li>
+<li><strong>A declared price cannot be checked.</strong> A witness that states the Big Mac it pays states something no one else can verify on chain. The median limits what one such statement can do.</li>
+</ul>
 <h2 id="from-the-witnesses-feeds-to-the-median">From the witnesses' feeds to the median<a class="anchor" href="#from-the-witnesses-feeds-to-the-median" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <p>Once an hour, every 1,200 blocks, the chain does the following (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database.cpp#L2418-L2533">database.cpp:2418-2533</a>). The numbers are on <a href="../reference/chain-parameters.html#pixa-supra-pxs-and-the-price-feed">Chain Parameters</a>.</p>
 <ol>
@@ -251,85 +329,138 @@
 <p>The design notes call the two medians <em>variety attenuators</em>: the first, across witnesses, rejects a wrong reporter; the second, across time, rejects a short spike (<a href="../economic-cybernetics/variety-and-regulation.html#attenuators">Variety and Regulation</a>).</p>
 <h2 id="how-fast-it-can-move">How fast it can move<a class="anchor" href="#how-fast-it-can-move" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <ul>
-<li><strong>One witness can move it only a little.</strong> With 9 fresh feeds, the hour's sample is the fifth from either end. One witness can shift it at most to the next feed above or below, and not at all while the others agree, as they do today. To move it further, at least 5 of the 9 must move.</li>
+<li><strong>One witness can move it only a little.</strong> With 21 fresh feeds, the hour's sample is the eleventh from either end. One witness can shift it at most to the next feed above or below. To move it further, at least 11 of the 21 must move.</li>
 <li><strong>Fewer fresh feeds, fewer deciders.</strong> If only 3 witnesses have published in the last 7 days, the sample is the middle of those 3, and any 2 of them decide it.</li>
 <li><strong>About 42 hours of delay.</strong> The median changes only once about half of its 84 samples have changed. A change that every witness makes at once reaches conversions after about 42 hours, and a change that lasts less than that never reaches them.</li>
-<li><strong>The agnostic feed adds a brake.</strong> By default, each publish keeps a witness's new feed within 50% of the feed it has on chain, so a large move takes several hours to pass through even one witness (<a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/blob/96b9d4a/chain.go#L371-L386">chain.go:371-386</a>).</li>
+<li><strong>The software adds no brake of its own.</strong> <code>bigmac-feed</code> publishes each hour what the book and the index give. Its protections act on what it reads: the fair value cannot leave the spread, a spread wider than 25% gives no value, and a failed input publishes nothing. The superseded agnostic feed also limited each publish to ±50% of the witness's current feed; v1.3.0 has no such limit.</li>
 </ul>
 <p>These delays protect conversions from a false or sudden reading. They also mean that a real fall in PIXA's value reaches the median late: for up to about two days after it, conversions still use the older value.</p>
-<h2 id="the-placeholder">The placeholder<a class="anchor" href="#the-placeholder" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
-<p>PIXA does not trade on any market. A feed needs a price for PIXA, so every witness divides by 0.12 USD, a placeholder the witnesses agreed on.</p>
-<ul>
-<li><strong>On 2026-10-06, all 84 samples were 51.833.</strong> The median, the lowest and the highest sample were equal (<code>condenser_api.get_feed_history</code>).</li>
-<li><strong>The Oracle carries no market information today.</strong> The collateral ratio, the print rate and the haircut are computed from the placeholder, not from what PIXA would fetch.</li>
-<li><strong>Two feed programs exist.</strong> <code>bigmac-feed</code> v1.0.3, which the witnesses run today, always divides by the placeholder. The agnostic feed reads a market price for PIXA and uses a placeholder only when its operator sets one. Without a market and without that setting, it publishes nothing, and the chain keeps the witness's previous feed for up to 7 days (<a href="../node-operators/become-a-witness.html#5-publish-the-price-feed">Become a Witness</a>).</li>
-</ul>
-<h2 id="what-it-has-read-since-genesis">What it has read since genesis<a class="anchor" href="#what-it-has-read-since-genesis" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
-<p>The median has had three values. Each change came from software, not from a market:</p>
+<h2 id="what-it-reads-today">What it reads today<a class="anchor" href="#what-it-reads-today" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>On 2026-11-03 at block 1,722,911, the 21 scheduled witnesses published ten different feeds. The chain records each number, not how it was reached; the groups below follow from the arithmetic and from how each feed moved over the previous two days.</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th>From (UTC)</th>
-<th>Feed</th>
+<th>How the feed reads PIXA</th>
+<th>Witnesses</th>
+<th>Feeds, PIXA per PXS</th>
+<th>What the numbers show</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A fixed placeholder</td>
+<td>7</td>
+<td>51.833 (six), 51.000 (one)</td>
+<td>A US Big Mac in dollars ÷ 0.12 USD; 51.000 still uses the January 2026 survey's 6.12 USD</td>
+</tr>
+<tr>
+<td>The last trade</td>
+<td>8</td>
+<td>62.200 (five), 70.792 (two), 51.731 (one)</td>
+<td>A Big Mac in dollars ÷ 0.100 USDT, the 1-PIXA sale of the evening before; 62.200 is the US Big Mac. All eight changed together, at each witness's next publish, whenever a new trade printed</td>
+</tr>
+<tr>
+<td>The order book</td>
+<td>6</td>
+<td>31.731, 50.123 (two), 42.056, 42.210, 43.082</td>
+<td>31.731 and 50.123 equal what v1.3.0 computed that morning for a Big Mac in Brazil (23.90 BRL) and in the euro area (6.19 EUR). The other three were published between 08:23 and 08:27 UTC. Each of the six had stopped following the last trade or the placeholder between 2026-11-02 16:21 and 2026-11-03 08:27 UTC</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>The median still rests on the placeholder.</strong> The hour's sample is the middle of the 21 feeds, the eleventh, and on 2026-11-03 that was 51.833: the seven identical placeholder feeds sit between the lower order-book readings and the higher last-trade readings. The median in force, 51.000 PIXA per PXS, is the median of the last 84 such samples, and 76 of them are placeholder values, 44 at 51.000 and 32 at 51.833. The lowest and highest samples were 50.136 and 72.057 (<code>condenser_api.get_feed_history</code>).</p>
+<ul>
+<li><strong>The collateral ratio, the print rate and the haircut</strong> are therefore still computed mostly from the placeholder, not from what PIXA fetches on its market.</li>
+<li><strong>When most scheduled witnesses read the order book,</strong> the hour's sample becomes a market reading, and the median follows about 42 hours later (<a href="#how-fast-it-can-move">How fast it can move</a>).</li>
+<li><strong>The readings disagree by more than a factor of two,</strong> from 31.731 to 70.792. Part of that is the design, which takes the median of different countries' Big Macs, and part is method: that morning the last trade stood 28% below the order book's fair value.</li>
+</ul>
+<h2 id="what-it-has-read-since-genesis">What it has read since genesis<a class="anchor" href="#what-it-has-read-since-genesis" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Until mid-October every change in the feed came from software, not from a market:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>When (UTC)</th>
+<th>Median feed</th>
 <th>Where it came from</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>2026-09-04 12:00</td>
+<td>from 2026-09-04 12:00</td>
 <td>102.000</td>
 <td>Set at genesis by the chain's code, so that PXS amounts had a PIXA value before any witness published (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database_init.cpp#L433-L441">database_init.cpp:433-441</a>). The first witnesses published the same value.</td>
 </tr>
 <tr>
-<td>2026-09-04 17:39</td>
+<td>from 2026-09-04 17:39</td>
 <td>51.000</td>
 <td>6.12 USD ÷ 0.12 USD: the January 2026 edition of the index, through <code>bigmac-feed</code> v1.0.2</td>
 </tr>
 <tr>
-<td>2026-09-07 12:37</td>
+<td>from 2026-09-07 12:37</td>
 <td>51.833</td>
 <td>6.22 USD ÷ 0.12 USD: the July 2026 edition, through v1.0.3</td>
 </tr>
+<tr>
+<td>on 2026-11-03</td>
+<td>51.000</td>
+<td>The median of 84 hourly samples, 76 of them placeholder values (<a href="#what-it-reads-today">above</a>)</td>
+</tr>
 </tbody>
 </table></div>
-<p>The times are when witnesses began publishing each value. Each change appeared at every witness then publishing within about a minute and a half. The median followed once about half of the samples in its window carried the new value.</p>
-<h2 id="the-agnostic-feed">The agnostic feed<a class="anchor" href="#the-agnostic-feed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
-<p>The agnostic feed is the software closest to the Oracle the design notes describe. Each witness reports the price of a Big Mac where it operates, in its own currency, and the chain's median becomes a median across places as well as across witnesses (<a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/tree/96b9d4a">repository</a>):</p>
+<p>The times in the first three rows are when witnesses began publishing each value. Each of those changes appeared at every witness then publishing within about a minute and a half. The median followed once about half of the samples in its window carried the new value. Since v1.1.0 of the software, released on 2026-10-16, witnesses' feeds can read a market, and they have diverged: on 2026-11-03 the 21 scheduled witnesses published ten different numbers.</p>
+<h2 id="the-feed-software">The feed software<a class="anchor" href="#the-feed-software" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Witnesses choose their feed software: consensus accepts any price a witness publishes. The <a href="https://github.com/pixagram-blockchain/witness"><code>witness</code> repository</a> ships <a href="https://github.com/pixagram-blockchain/bigmac-feed"><code>bigmac-feed</code></a>:</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th>Input</th>
-<th>Where it comes from</th>
-<th>Default</th>
+<th>Version</th>
+<th>Released</th>
+<th>Big Mac</th>
+<th>PIXA</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Price of a Big Mac</td>
-<td>In order of priority: a price given on the command line, a local price the witness declares in <code>bigmac.json</code>, or The Economist's index for a chosen country</td>
-<td><code>bigmac.json</code> if present (the repository's declares 8.50 CHF); otherwise The Economist's index, United States</td>
+<td>v1.0.2</td>
+<td>2026-09-04</td>
+<td>the US price in dollars, January 2026 survey</td>
+<td>a fixed 0.12 USD</td>
 </tr>
 <tr>
-<td>Price of PIXA</td>
-<td>One or more market pairings; the median if several</td>
-<td><code>coinstore:PXAUSDT</code></td>
+<td>v1.0.3</td>
+<td>2026-09-07</td>
+<td>the US price in dollars, July 2026 survey</td>
+<td>a fixed 0.12 USD</td>
 </tr>
 <tr>
-<td>Currency conversion</td>
-<td>The European Central Bank's reference rates, through Frankfurter</td>
-<td>Used only when the two currencies differ</td>
+<td>v1.1.0</td>
+<td>2026-10-16</td>
+<td>same</td>
+<td>the last trade on Coinstore's <code>PIXAUSDT</code>; 0.12 USD only while the pair had not traded</td>
+</tr>
+<tr>
+<td>v1.2.0</td>
+<td>2026-10-21</td>
+<td>the price in the server's country, converted to dollars at the survey's exchange rate</td>
+<td>the last trade</td>
+</tr>
+<tr>
+<td><strong>v1.3.0</strong></td>
+<td><strong>2026-10-30</strong></td>
+<td><strong>the price in the server's country, or a declared price, in its local currency</strong></td>
+<td><strong>the order book's fair value, converted at the day's rate; a placeholder only if one is set</strong></td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>Safety.</strong> The program publishes nothing when an input is missing or absurd, and logs every derivation. Unless told otherwise, it keeps each new feed within ±50% of the witness's current one (<a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/blob/96b9d4a/chain.go#L371-L386">chain.go:371-386</a>, <a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/blob/96b9d4a/feed.go">feed.go</a>).</p>
+<p>The <code>witness</code> repository pinned v1.0.2 with the 0.12 USD placeholder until 2026-10-30, when it moved to the image <code>pixarex/bigmac-feed:v1.3.0</code> and dropped the placeholder (<a href="https://github.com/pixagram-blockchain/witness/commit/704a68f8225ba768226dea3495095e9b9cc0bd1c">commit <code>704a68f</code></a>). <a href="../node-operators/become-a-witness.html#5-publish-the-price-feed">Become a Witness</a> gives the steps.</p>
+<p><strong>The agnostic feed is superseded.</strong> The separate <a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/tree/96b9d4a1f1a203d1fedbf603e7769f005c77cfba"><code>bigmac-feed-agnostic</code></a> program, last changed on 2026-09-07, first combined a local Big Mac, market pairings and currency conversion. v1.3.0 brings those into <code>bigmac-feed</code>, reads the order book instead of the last trade, and leaves out two of the agnostic feed's features: the <code>bigmac.json</code> file, replaced by <code>--bigmac-price</code>, and the ±50% limit per publish.</p>
 <p><strong>What the design asks that the software does not do:</strong></p>
 <ul>
 <li><strong>A basket.</strong> The notes name &quot;a Big Mac, a coffee&quot;. The software reads one good, the Big Mac.</li>
-<li><strong>No outside feed.</strong> The notes say &quot;no external or commercial feed enters the loop&quot;. The software reads three outside sources: The Economist's published index, the ECB's rates and an exchange's ticker. What the design achieves is narrower: the chain accepts no price except the witnesses' own feeds.</li>
+<li><strong>No outside feed.</strong> The notes say &quot;no external or commercial feed enters the loop&quot;. The software reads several outside sources: The Economist's index, an exchange's order book, two exchange-rate services and a service that locates the server. What the design achieves is narrower: the chain accepts no price except the witnesses' own feeds.</li>
 <li><strong>A replaceable basket, by consensus.</strong> The basket lives in each witness's software, not in the chain's rules. A witness can change what it reads without any vote; the median limits what one witness can do with that change.</li>
 </ul>
 <h2 id="who-the-oracle-answers-to">Who the Oracle answers to<a class="anchor" href="#who-the-oracle-answers-to" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
-<p>The design calls the Oracle self-referential: stakeholders elect the witnesses, so the network's own stake decides who reports. Nine witnesses were scheduled on 2026-10-06. On 2026-10-05, six accounts had voted for witnesses, five of them with stake (<a href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a>). The feed is as independent as the witnesses are from one another.</p>
+<p>The design calls the Oracle self-referential: stakeholders elect the witnesses, so the network's own stake decides who reports. On 2026-11-03, 21 witnesses were scheduled, and 23 accounts had cast 182 witness votes between them (<code>database_api.list_witness_votes</code>; <a href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a>). The feed is as independent as the witnesses are from one another, and as their software is: every order-book reading reads the same book.</p>
 <h2 id="what-the-feed-cannot-do">What the feed cannot do<a class="anchor" href="#what-the-feed-cannot-do" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <div class="table-wrap"><table>
 <thead>
@@ -341,7 +472,7 @@
 <tbody>
 <tr>
 <td>One witness publishes a wrong value</td>
-<td>Nothing changes while the others agree.</td>
+<td>It moves the hour's sample at most to the neighbouring feed.</td>
 </tr>
 <tr>
 <td>Most witnesses publish a wrong value</td>
@@ -352,12 +483,28 @@
 <td>No new sample is taken; the median freezes at its last value.</td>
 </tr>
 <tr>
-<td>An outside source fails</td>
-<td>The agnostic feed publishes nothing for that witness; its last feed stays valid for 7 days.</td>
+<td>A trade prints at an absurd price</td>
+<td>A feed that reads the last trade follows it. <code>bigmac-feed</code> v1.3.0 does not: it reads the order book.</td>
 </tr>
 <tr>
-<td>PIXA never trades</td>
-<td>The feed remains a placeholder, and every ratio built on it remains an assumption.</td>
+<td>Someone places small orders far from the market</td>
+<td>The 1,000-PIXA impact price barely counts them, and the fair value cannot leave the spread.</td>
+</tr>
+<tr>
+<td>The order book is thin, one-sided or wider than 25%</td>
+<td>v1.3.0 finds no fair value and publishes nothing; the chain keeps the witness's previous feed for up to 7 days.</td>
+</tr>
+<tr>
+<td>Someone moves the book itself with real orders</td>
+<td>Every order-book reading moves with it, so the median across witnesses does not filter it. Only the median over 84 hours does, by delaying it about 42 hours.</td>
+</tr>
+<tr>
+<td>An outside source fails</td>
+<td>v1.3.0 publishes nothing that round. A cached exchange rate bridges up to 96 hours, and the witness's last feed stays valid for 7 days.</td>
+</tr>
+<tr>
+<td>Placeholder feeds sit in the middle</td>
+<td>The median stays on placeholder values, whatever the market reads (<a href="#what-it-reads-today">today</a>).</td>
 </tr>
 </tbody>
 </table></div>
@@ -369,6 +516,8 @@ rpc<span class="w"> </span>condenser_api.get_feed_history<span class="w"> </span
 rpc<span class="w"> </span>condenser_api.get_witness_schedule<span class="w"> </span><span class="s1">'[]'</span><span class="w">      </span><span class="c1"># the scheduled witnesses</span>
 rpc<span class="w"> </span>condenser_api.get_witness_by_account<span class="w"> </span><span class="s1">'["rex"]'</span><span class="w">   </span><span class="c1"># one witness's feed and when it last published</span></code></pre>
 <p>A witness's feed is the <code>pxs_exchange_rate</code> field, and <code>last_pxs_exchange_update</code> is the time it was published.</p>
+<p>To see what <code>bigmac-feed</code> v1.3.0 would publish now for a given country, without a key and without broadcasting anything:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>pixarex/bigmac-feed:v1.3.0<span class="w"> </span>--dry-run<span class="w"> </span>--once<span class="w"> </span>--witness<span class="o">=</span>anyone<span class="w"> </span>--country<span class="o">=</span>CH</code></pre>
 <h2 id="inherited--changed">Inherited → changed<a class="anchor" href="#inherited--changed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <div class="table-wrap"><table>
 <thead>
@@ -383,6 +532,11 @@ rpc<span class="w"> </span>condenser_api.get_witness_by_account<span class="w"> 
 <td>What a feed states</td>
 <td>HIVE per HBD, one US dollar</td>
 <td>PIXA per PXS, one Big Mac</td>
+</tr>
+<tr>
+<td>Currency of the reference</td>
+<td>the US dollar</td>
+<td>none privileged: each witness prices the Big Mac in its own currency</td>
 </tr>
 <tr>
 <td>Feeds needed for a sample</td>
@@ -402,7 +556,7 @@ rpc<span class="w"> </span>condenser_api.get_witness_by_account<span class="w"> 
 <tr>
 <td>Feed software</td>
 <td>Each witness's choice, reading exchange prices</td>
-<td><code>bigmac-feed</code>; the agnostic feed is published but not yet in use</td>
+<td>Each witness's choice; the <code>witness</code> repository ships <code>bigmac-feed</code> v1.3.0, which reads a local Big Mac and the order book's fair value</td>
 </tr>
 <tr>
 <td>Where the reference is defined</td>
@@ -414,15 +568,17 @@ rpc<span class="w"> </span>condenser_api.get_witness_by_account<span class="w"> 
 <h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <ul>
 <li><strong>Code</strong>, at commit <a href="https://github.com/pixagram-blockchain/pixagram/tree/48f75a28840c24e5a5b42ccb4f94dc8668ecb443"><code>48f75a2</code></a>: the median, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database.cpp#L2418-L2533">database.cpp:2418-2533</a>; the genesis seed, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database_init.cpp#L433-L441">database_init.cpp:433-441</a>; the window and feed age, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/include/hive/protocol/config.hpp#L192-L195">config.hpp:192-195</a>.</li>
-<li><strong>Agnostic feed</strong>, at commit <a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/tree/96b9d4a"><code>96b9d4a</code></a>: README, <a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/blob/96b9d4a/feed.go">feed.go</a>, <a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/blob/96b9d4a/chain.go#L371-L386">chain.go:371-386</a>, <a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/blob/96b9d4a/bigmac.go#L20">bigmac.go:20</a>.</li>
-<li><strong>Live values,</strong> read at block 917,250 on 2026-10-06: <code>condenser_api.get_feed_history</code>, <code>condenser_api.get_witness_schedule</code>, <code>condenser_api.get_witnesses_by_vote</code>.</li>
-<li><strong>Feed history:</strong> <code>condenser_api.get_account_history</code> for each of the nine witnesses, filtered to <code>feed_publish</code>, read on 2026-10-06.</li>
+<li><strong>Feed software:</strong> <code>bigmac-feed</code> v1.3.0 at commit <a href="https://github.com/pixagram-blockchain/bigmac-feed/tree/11f8ad1a4546440416c405f5afcd23e51434ae7c"><code>11f8ad1</code></a>: <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/README.md">README</a>; the fair value, <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/market.go#L19-L36">market.go:19-36</a>, <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/market.go#L79-L101">79-101</a> and <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/market.go#L105-L118">105-118</a>; the Big Mac, <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/bigmac.go#L18-L24">bigmac.go:18-24</a>, <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/bigmac.go#L29-L55">29-55</a>, <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/bigmac.go#L161-L174">161-174</a> and <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/main.go#L89-L121">main.go:89-121</a>; currency conversion, <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/fx.go#L14-L47">fx.go:14-47</a> and <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/fx.go#L141-L177">141-177</a>; the ratio, <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/feed.go#L7-L59">feed.go:7-59</a>; a round with no fair value, <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/main.go#L157-L172">main.go:157-172</a>. Earlier versions: v1.0.2 at <code>c2de164</code>, v1.0.3 at <code>c88c43c</code>, v1.1.0 at <a href="https://github.com/pixagram-blockchain/bigmac-feed/commit/b39f3d74a564c2a1aba9b776ce48d249b905c570"><code>b39f3d7</code></a>, v1.2.0 at <a href="https://github.com/pixagram-blockchain/bigmac-feed/commit/7b03d87b3b0885d5d9482d8781e5cd7f688396d3"><code>7b03d87</code></a>. The <code>witness</code> repository's switch: <a href="https://github.com/pixagram-blockchain/witness/commit/704a68f8225ba768226dea3495095e9b9cc0bd1c"><code>704a68f</code></a>.</li>
+<li><strong>Readings of 2026-11-03, 08:49 to 08:58 UTC:</strong> the program built from <code>11f8ad1</code>, run with <code>--dry-run --once</code> for the United States, Switzerland, Japan, Brazil and the euro area; Coinstore's public order book, trades and daily candles for <code>PIXAUSDT</code> (<code>/api/v1/market/depth/PIXAUSDT</code>, <code>/api/v1/market/trade/PIXAUSDT</code>, <code>/api/v1/market/kline/PIXAUSDT</code>), read in the same minutes; the ECB rates of 2026-11-02, through Frankfurter.</li>
+<li><strong>Live values,</strong> read at block 1,722,911 on 2026-11-03: <code>condenser_api.get_feed_history</code>, <code>condenser_api.get_witness_schedule</code>, <code>condenser_api.get_witnesses_by_vote</code>; the votes, <code>database_api.list_witness_votes</code>.</li>
+<li><strong>Feed history:</strong> <code>condenser_api.get_account_history</code> for each scheduled witness, filtered to <code>feed_publish</code>: from 2026-11-01 to 2026-11-03, read on 2026-11-03; before that, as read on 2026-10-06.</li>
 <li><strong>The index:</strong> <a href="https://github.com/TheEconomist/big-mac-data">The Economist's Big Mac index data</a>.</li>
+<li><strong>Superseded:</strong> <a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/tree/96b9d4a1f1a203d1fedbf603e7769f005c77cfba"><code>bigmac-feed-agnostic</code></a> at commit <code>96b9d4a</code>, 2026-09-07.</li>
 <li><a href="https://hive.io/whitepaper.pdf">Hive whitepaper</a>, §III.4 &quot;Price Feed Consensus&quot;; <a href="https://web.archive.org/web/20160815131730/https://steem.io/SteemWhitePaper.pdf">Steem whitepaper, March 2016 edition</a>, &quot;Minimizing Fraudulent Feeds&quot;.</li>
 <li><strong>PXS design notes</strong> (Pixagram, June 2026), §4.2 and the table of technical parameters.</li>
 </ul>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/oracle-and-price-feed.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="the-four-components.html"><span class="k">Previous</span><span class="t">The Four Components</span></a><a class="next" href="haircut-corridor-and-settlement.html"><span class="k">Next</span><span class="t">Haircut, Corridor and Settlement</span></a></nav></main>
-<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#what-a-feed-states">What a feed states</a></li><li><a href="#from-the-witnesses-feeds-to-the-median">From the witnesses&#x27; feeds to the median</a></li><li><a href="#how-fast-it-can-move">How fast it can move</a></li><li><a href="#the-placeholder">The placeholder</a></li><li><a href="#what-it-has-read-since-genesis">What it has read since genesis</a></li><li><a href="#the-agnostic-feed">The agnostic feed</a></li><li><a href="#who-the-oracle-answers-to">Who the Oracle answers to</a></li><li><a href="#what-the-feed-cannot-do">What the feed cannot do</a></li><li><a href="#read-it-yourself">Read it yourself</a></li><li><a href="#inherited--changed">Inherited → changed</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/05-pixa-supra/oracle-and-price-feed.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/oracle-and-price-feed.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/oracle-and-price-feed.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="the-four-components.html"><span class="k">Previous</span><span class="t">The Four Components</span></a><a class="next" href="haircut-corridor-and-settlement.html"><span class="k">Next</span><span class="t">Haircut, Corridor and Settlement</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#what-a-feed-states">What a feed states</a></li><li><a href="#how-the-feed-values-pixa">How the feed values PIXA</a></li><li><a href="#where-the-big-mac-comes-from">Where the Big Mac comes from</a></li><li><a href="#from-the-witnesses-feeds-to-the-median">From the witnesses&#x27; feeds to the median</a></li><li><a href="#how-fast-it-can-move">How fast it can move</a></li><li><a href="#what-it-reads-today">What it reads today</a></li><li><a href="#what-it-has-read-since-genesis">What it has read since genesis</a></li><li><a href="#the-feed-software">The feed software</a></li><li><a href="#who-the-oracle-answers-to">Who the Oracle answers to</a></li><li><a href="#what-the-feed-cannot-do">What the feed cannot do</a></li><li><a href="#read-it-yourself">Read it yourself</a></li><li><a href="#inherited--changed">Inherited → changed</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/05-pixa-supra/oracle-and-price-feed.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/oracle-and-price-feed.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">
   <div class="footer-in">

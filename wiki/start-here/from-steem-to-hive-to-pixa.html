@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -229,24 +230,94 @@
 </ul></details>
 </nav>
 <main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Start here</a></nav><h1>From STEEM to HIVE to PIXA</h1><div class="prose-doc"><div class="status"><span class="chip fill"><span class="sr-only">Status: </span>Historical</span><div class="status-text">
-<p>, with today's figures checked on 2026-10-05. Every dated fact links to its source, and on-chain facts can be re-read from each chain's public API.</p>
+<p>, with today's figures checked on 2026-11-03: Pixa's witnesses and software at block 1,723,071, and block production on Steem, Hive, Golos and Blurt. Every dated fact links to its source, and on-chain facts can be re-read from each chain's public API.</p>
 </div></div>
-<p>Pixa runs on code that has been in public, adversarial use since 2016. This page traces that lineage: Steem, the first chain where posting and voting are themselves transactions; Hive, the community fork of 2020; and Pixa, a new chain started in 2026 from Hive's code. It also says what Pixa took from them and what it did not.</p>
+<p>Pixa runs on code that has been in public, adversarial use since 2016. This page traces that lineage: Steem, the first chain where posting and voting are themselves transactions; Hive, the community fork of 2020; and Pixa, a new chain started in 2026 from Hive's code. It follows the ideas as well as the dates: what the 2016 design set out to do, which of its rules ten years of hardforks kept or replaced, and how much of the original ambition Pixagram carries today.</p>
 <figure class="diagram" style="--w:760px"><svg aria-label="Diagram: STEEM genesis 2016-03-24; HIVE; PIXA; Golos; Blurt" focusable="false" id="dbbc34e5a66cbd10c" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" viewBox="0 0 760.03125 239.5" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#dbbc34e5a66cbd10c{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:15px;fill:#000000;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#dbbc34e5a66cbd10c .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#dbbc34e5a66cbd10c .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#dbbc34e5a66cbd10c .error-icon{fill:#ffffff;}#dbbc34e5a66cbd10c .error-text{fill:#000000;stroke:#000000;}#dbbc34e5a66cbd10c .edge-thickness-normal{stroke-width:1px;}#dbbc34e5a66cbd10c .edge-thickness-thick{stroke-width:3.5px;}#dbbc34e5a66cbd10c .edge-pattern-solid{stroke-dasharray:0;}#dbbc34e5a66cbd10c .edge-thickness-invisible{stroke-width:0;fill:none;}#dbbc34e5a66cbd10c .edge-pattern-dashed{stroke-dasharray:3;}#dbbc34e5a66cbd10c .edge-pattern-dotted{stroke-dasharray:2;}#dbbc34e5a66cbd10c .marker{fill:#474747;stroke:#474747;}#dbbc34e5a66cbd10c .marker.cross{stroke:#474747;}#dbbc34e5a66cbd10c svg{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:15px;}#dbbc34e5a66cbd10c p{margin:0;}#dbbc34e5a66cbd10c .label{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;color:#000000;}#dbbc34e5a66cbd10c .cluster-label text{fill:#474747;}#dbbc34e5a66cbd10c .cluster-label span{color:#474747;}#dbbc34e5a66cbd10c .cluster-label span p{background-color:transparent;}#dbbc34e5a66cbd10c .label text,#dbbc34e5a66cbd10c span{fill:#000000;color:#000000;}#dbbc34e5a66cbd10c .node rect,#dbbc34e5a66cbd10c .node circle,#dbbc34e5a66cbd10c .node ellipse,#dbbc34e5a66cbd10c .node polygon,#dbbc34e5a66cbd10c .node path{fill:#ffffff;stroke:#000000;stroke-width:1px;}#dbbc34e5a66cbd10c .rough-node .label text,#dbbc34e5a66cbd10c .node .label text,#dbbc34e5a66cbd10c .image-shape .label,#dbbc34e5a66cbd10c .icon-shape .label{text-anchor:middle;}#dbbc34e5a66cbd10c .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#dbbc34e5a66cbd10c .rough-node .label,#dbbc34e5a66cbd10c .node .label,#dbbc34e5a66cbd10c .image-shape .label,#dbbc34e5a66cbd10c .icon-shape .label{text-align:center;}#dbbc34e5a66cbd10c .node.clickable{cursor:pointer;}#dbbc34e5a66cbd10c .root .anchor path{fill:#474747!important;stroke-width:0;stroke:#474747;}#dbbc34e5a66cbd10c .arrowheadPath{fill:#000000;}#dbbc34e5a66cbd10c .edgePath .path{stroke:#474747;stroke-width:1px;}#dbbc34e5a66cbd10c .flowchart-link{stroke:#474747;fill:none;}#dbbc34e5a66cbd10c .edgeLabel{background-color:#ffffff;text-align:center;}#dbbc34e5a66cbd10c .edgeLabel p{background-color:#ffffff;}#dbbc34e5a66cbd10c .edgeLabel rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dbbc34e5a66cbd10c .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#dbbc34e5a66cbd10c .cluster rect{fill:#f4f4f4;stroke:#f4f4f4;stroke-width:1px;}#dbbc34e5a66cbd10c .cluster text{fill:#474747;}#dbbc34e5a66cbd10c .cluster span{color:#474747;}#dbbc34e5a66cbd10c div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:12px;background:#ffffff;border:1px solid hsl(0, 0%, 90%);border-radius:2px;pointer-events:none;z-index:100;}#dbbc34e5a66cbd10c .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#dbbc34e5a66cbd10c rect.text{fill:none;stroke-width:0;}#dbbc34e5a66cbd10c .icon-shape,#dbbc34e5a66cbd10c .image-shape{background-color:#ffffff;text-align:center;}#dbbc34e5a66cbd10c .icon-shape p,#dbbc34e5a66cbd10c .image-shape p{background-color:#ffffff;padding:2px;}#dbbc34e5a66cbd10c .icon-shape .label rect,#dbbc34e5a66cbd10c .image-shape .label rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#dbbc34e5a66cbd10c .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#dbbc34e5a66cbd10c .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#dbbc34e5a66cbd10c .node .neo-node{stroke:#000000;}#dbbc34e5a66cbd10c [data-look="neo"].node rect,#dbbc34e5a66cbd10c [data-look="neo"].cluster rect,#dbbc34e5a66cbd10c [data-look="neo"].node polygon{stroke:url(#dbbc34e5a66cbd10c-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dbbc34e5a66cbd10c [data-look="neo"].swimlane.cluster rect{filter:none;}#dbbc34e5a66cbd10c [data-look="neo"].node path{stroke:url(#dbbc34e5a66cbd10c-gradient);stroke-width:1px;}#dbbc34e5a66cbd10c [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dbbc34e5a66cbd10c [data-look="neo"].node .neo-line path{stroke:#000000;filter:none;}#dbbc34e5a66cbd10c [data-look="neo"].node circle{stroke:url(#dbbc34e5a66cbd10c-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dbbc34e5a66cbd10c [data-look="neo"].node circle .state-start{fill:#000000;}#dbbc34e5a66cbd10c [data-look="neo"].icon-shape .icon{fill:url(#dbbc34e5a66cbd10c-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dbbc34e5a66cbd10c [data-look="neo"].icon-shape .icon-neo path{stroke:url(#dbbc34e5a66cbd10c-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#dbbc34e5a66cbd10c .node rect,#dbbc34e5a66cbd10c .node path{rx:10px;ry:10px;}#dbbc34e5a66cbd10c .cluster rect{rx:16px;ry:16px;}#dbbc34e5a66cbd10c .cluster-label .nodeLabel,#dbbc34e5a66cbd10c .cluster-label span{color:rgb(71, 71, 71)!important;}#dbbc34e5a66cbd10c .edgeLabel,#dbbc34e5a66cbd10c .edgeLabel p{background:rgb(255, 255, 255)!important;color:rgb(71, 71, 71)!important;}#dbbc34e5a66cbd10c :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="dbbc34e5a66cbd10c_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dbbc34e5a66cbd10c_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dbbc34e5a66cbd10c_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dbbc34e5a66cbd10c_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dbbc34e5a66cbd10c_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dbbc34e5a66cbd10c_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="dbbc34e5a66cbd10c_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dbbc34e5a66cbd10c_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="dbbc34e5a66cbd10c_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dbbc34e5a66cbd10c_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="dbbc34e5a66cbd10c_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="dbbc34e5a66cbd10c_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M181.535,83.25L199.808,74.917C218.081,66.583,254.626,49.917,288.659,41.583C322.693,33.25,354.214,33.25,369.974,33.25L385.734,33.25" id="dbbc34e5a66cbd10c-L_STEEM_HIVE_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_STEEM_HIVE_0" data-points="W3sieCI6MTgxLjUzNDk1MzAzNDY4MjA4LCJ5Ijo4My4yNX0seyJ4IjoyOTEuMTcxODc1LCJ5IjozMy4yNX0seyJ4IjozODkuNzM0Mzc1LCJ5IjozMy4yNX1d" data-look="classic" marker-end="url(#dbbc34e5a66cbd10c_flowchart-v2-pointEnd)"/><path d="M476.328,33.25L492.342,33.25C508.357,33.25,540.385,33.25,571.349,33.25C602.313,33.25,632.211,33.25,647.16,33.25L662.109,33.25" id="dbbc34e5a66cbd10c-L_HIVE_PIXA_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_HIVE_PIXA_0" data-points="W3sieCI6NDc2LjMyODEyNSwieSI6MzMuMjV9LHsieCI6NTcyLjQxNDA2MjUsInkiOjMzLjI1fSx7IngiOjY2Ni4xMDkzNzUsInkiOjMzLjI1fV0=" data-look="classic" marker-end="url(#dbbc34e5a66cbd10c_flowchart-v2-pointEnd)"/><path d="M195,119.75L211.029,119.75C227.057,119.75,259.115,119.75,290.505,119.75C321.896,119.75,352.62,119.75,367.982,119.75L383.344,119.75" id="dbbc34e5a66cbd10c-L_STEEM_GOLOS_0" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_STEEM_GOLOS_0" data-points="W3sieCI6MTk1LCJ5IjoxMTkuNzV9LHsieCI6MjkxLjE3MTg3NSwieSI6MTE5Ljc1fSx7IngiOjM4Ny4zNDM3NSwieSI6MTE5Ljc1fV0=" data-look="classic" marker-end="url(#dbbc34e5a66cbd10c_flowchart-v2-pointEnd)"/><path d="M181.535,156.25L199.808,164.583C218.081,172.917,254.626,189.583,288.645,197.917C322.664,206.25,354.156,206.25,369.902,206.25L385.648,206.25" id="dbbc34e5a66cbd10c-L_STEEM_BLURT_0" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_STEEM_BLURT_0" data-points="W3sieCI6MTgxLjUzNDk1MzAzNDY4MjA4LCJ5IjoxNTYuMjV9LHsieCI6MjkxLjE3MTg3NSwieSI6MjA2LjI1fSx7IngiOjM4OS42NDg0Mzc1LCJ5IjoyMDYuMjV9XQ==" data-look="classic" marker-end="url(#dbbc34e5a66cbd10c_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(291.171875, 33.25)"><g class="label" data-id="L_STEEM_HIVE_0" transform="translate(-74.171875, -22.5)"><foreignObject width="148.34375" height="45"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>hard fork with balances<br />2020-03-20</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(572.4140625, 33.25)"><g class="label" data-id="L_HIVE_PIXA_0" transform="translate(-71.6953125, -22.5)"><foreignObject width="143.390625" height="45"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>code only, new genesis<br />2026-09-04</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(291.171875, 119.75)"><g class="label" data-id="L_STEEM_GOLOS_0" transform="translate(-57.9609375, -11.25)"><foreignObject width="115.921875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>code, 2016-10-18</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(291.171875, 206.25)"><g class="label" data-id="L_STEEM_BLURT_0" transform="translate(-70.1328125, -22.5)"><foreignObject width="140.265625" height="45"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>balance snapshot,<br />launched 2020-07-04</p></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="dbbc34e5a66cbd10c-flowchart-STEEM-0" data-look="classic" transform="translate(101.5, 119.75)"><rect class="basic label-container" style="" x="-93.5" y="-36.5" width="187" height="73"/><g class="label" style="" transform="translate(-65.5, -22.5)"><rect/><foreignObject width="131" height="45"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>STEEM<br />genesis 2016-03-24</p></span></div></foreignObject></g></g><g class="node default" id="dbbc34e5a66cbd10c-flowchart-HIVE-1" data-look="classic" transform="translate(433.03125, 33.25)"><rect class="basic label-container" style="" x="-43.296875" y="-25.25" width="86.59375" height="50.5"/><g class="label" style="" transform="translate(-15.296875, -11.25)"><rect/><foreignObject width="30.59375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>HIVE</p></span></div></foreignObject></g></g><g class="node default" id="dbbc34e5a66cbd10c-flowchart-PIXA-3" data-look="classic" transform="translate(709.0703125, 33.25)"><rect class="basic label-container" style="" x="-42.9609375" y="-25.25" width="85.921875" height="50.5"/><g class="label" style="" transform="translate(-14.9609375, -11.25)"><rect/><foreignObject width="29.921875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>PIXA</p></span></div></foreignObject></g></g><g class="node default" id="dbbc34e5a66cbd10c-flowchart-GOLOS-5" data-look="classic" transform="translate(433.03125, 119.75)"><rect class="basic label-container" style="" x="-45.6875" y="-25.25" width="91.375" height="50.5"/><g class="label" style="" transform="translate(-17.6875, -11.25)"><rect/><foreignObject width="35.375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Golos</p></span></div></foreignObject></g></g><g class="node default" id="dbbc34e5a66cbd10c-flowchart-BLURT-7" data-look="classic" transform="translate(433.03125, 206.25)"><rect class="basic label-container" style="" x="-43.3828125" y="-25.25" width="86.765625" height="50.5"/><g class="label" style="" transform="translate(-15.3828125, -11.25)"><rect/><foreignObject width="30.765625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Blurt</p></span></div></foreignObject></g></g></g></g></g><defs><filter id="dbbc34e5a66cbd10c-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="dbbc34e5a66cbd10c-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><linearGradient id="dbbc34e5a66cbd10c-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#000000" stop-opacity="1"/><stop offset="100%" stop-color="hsl(0, 0%, 85.6862745098%)" stop-opacity="1"/></linearGradient></svg><figcaption class="diagram-foot"><span class="hint">Scroll sideways to see the whole diagram.</span><a href="../diagrams/bbc34e5a66cbd10c.svg">Open full size</a></figcaption></figure>
+<h2 id="the-design-of-2016">The design of 2016<a class="anchor" href="#the-design-of-2016" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Steem's whitepaper of March 2016 described an economy before it described a blockchain. It rested on three principles:</p>
+<ul>
+<li><strong>Contribution earns a share.</strong> Whoever contributes to a venture should receive a pro-rata share of it, as founders and early investors receive shares in a start-up.</li>
+<li><strong>Time is capital.</strong> People who give time and attention to writing and curating contribute as much as those who give money. The paper calls this the <em>sweat equity</em> principle.</li>
+<li><strong>The community serves its members,</strong> as a credit union or a food co-op does, rather than selling to outsiders.</li>
+</ul>
+<p>From these came the mechanisms that every chain in this lineage still runs:</p>
+<ul>
+<li><strong>Subjective proof of work.</strong> A computer cannot judge which contributions matter, so stakeholders vote, and the criteria live outside the code: &quot;One community may wish to reward artists, another poets&quot;. Pixagram is a community of that kind (<a href="../social-layer/proof-of-brain.html">Proof-of-Brain</a>).</li>
+<li><strong>A fixed amount, shared by votes.</strong> The chain commits to paying out a set amount, and votes decide who receives it. Each post's share grew with the square of its votes, a curve the paper likened to Metcalfe's law of network value, so that a vote for oneself earned little.</li>
+<li><strong>Curation is work.</strong> A network's value lies in the links between its content, and every vote adds one. Voters who find good work early are paid for it.</li>
+<li><strong>Voting is rate-limited,</strong> so that automation and split accounts gain no extra influence, and only stake committed to vesting can vote.</li>
+<li><strong>Bandwidth instead of fees.</strong> A fee on every action is a micropayment, and micropayments deter people. Each account may instead use a share of the network's capacity in proportion to its stake, and more than its share while the network is quiet.</li>
+</ul>
+<p>The paper also described a launch that none of its successors repeated:</p>
+<ul>
+<li><strong>Mining from zero.</strong> Steem started with no supply. Proof-of-work mining created about 40 STEEM a minute for miners and as much again for the reward pools, and after the first month miners were paid in vesting stake. Accounts that kept orders on both sides of the chain's internal market between STEEM and Steem Dollars earned liquidity rewards.</li>
+<li><strong>Long vesting, a doubling supply.</strong> Steem Power, the vesting form of STEEM, was paid back over two years in 104 weekly instalments. The supply was to double every year, with nine-tenths of the new tokens going to Steem Power holders, so that for them issuance worked like a share split.</li>
+<li><strong>21 block producers a round:</strong> 19 elected by stake-weighted approval votes, one proof-of-work miner, and one slot shared among all other candidates in proportion to their votes, reshuffled every round, with a block every 3 seconds. A candidate kept out by the top 19 had three ways in: wait for the shared slot, mine, or buy stake.</li>
+<li><strong>Steem Dollars,</strong> convertible one way into a dollar's worth of STEEM after a week (<a href="../pixa-supra/from-sbd-to-pxs.html#sbd-as-designed-in-2016">From SBD to PXS</a>).</li>
+</ul>
+<p>Steem's first block was produced on 2016-03-24. It was built by Steemit, Inc., founded by Ned Scott and Dan Larimer, and STEEM briefly ranked third among cryptocurrencies by market value in July and August 2016. The 2017 Bluepaper named the combination of a reward pool and stake-weighted voting <em>Proof-of-Brain</em>.</p>
 <h2 id="steem-20162020">Steem, 2016–2020<a class="anchor" href="#steem-20162020" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
-<p>Steem's first block was produced on 2016-03-24. It was built by Steemit, Inc., founded by Ned Scott and Dan Larimer. Its novelty was simple to state:</p>
+<p>Within three years most of these rules had been revised, each time by a hardfork that the witnesses adopted:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Hardfork</th>
+<th>Activated (UTC)</th>
+<th>What it changed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>2016-07-04 01:00</td>
+<td>Curators' share of a post's reward cut from half to a quarter</td>
+</tr>
+<tr>
+<td>12</td>
+<td>2016-07-26 15:00</td>
+<td>Liquidity rewards end</td>
+</tr>
+<tr>
+<td>14</td>
+<td>2016-09-20 15:00</td>
+<td>Escrow payments with a third-party agent. Printing of Steem Dollars limited, and a haircut on their conversion under stress</td>
+</tr>
+<tr>
+<td>16</td>
+<td>2016-12-06 16:00</td>
+<td>Issuance of 9.5% a year, falling by 0.01 percentage point every 250,000 blocks to a floor of 0.95%, split 75% to rewards, 15% to Steem Power holders and 10% to witnesses. Power-down in 13 weekly instalments instead of 104. Conversions and the price median over 3.5 days instead of a week</td>
+</tr>
+<tr>
+<td>17 and 18</td>
+<td>2017-03-30 15:00</td>
+<td>Mining ends, and the miner's slot passes to a twentieth elected witness. Steem Power can be lent to other accounts</td>
+</tr>
+<tr>
+<td>19</td>
+<td>2017-06-20 15:00</td>
+<td>Rewards linear in votes instead of quadratic. A full-strength vote uses more voting power: about 10 a day can be sustained instead of 40</td>
+</tr>
+<tr>
+<td>20</td>
+<td>2018-09-25 15:00</td>
+<td>Resource Credits replace bandwidth. Accounts can be opened with tickets claimed with credits instead of a fee</td>
+</tr>
+<tr>
+<td>21</td>
+<td>2019-08-27 15:00</td>
+<td>The Steem Proposal System, funded with 10% of issuance taken from the reward pool. Curators' share back to half. Convergent reward curves. A separate pool for downvotes, a quarter of voting mana</td>
+</tr>
+</tbody>
+</table></div>
+<p>Read together, the revisions moved the design in four directions:</p>
 <ul>
-<li><strong>Social actions are transactions.</strong> A post, a comment and a vote are each an operation on the chain.</li>
-<li><strong>Votes direct rewards.</strong> Stake-weighted votes decide who receives each day's new tokens.</li>
-<li><strong>No transaction fees.</strong> Steem used a bandwidth allowance instead.</li>
+<li><strong>From issuance as a split to a budget.</strong> The 2016 supply was to double every year, mostly as new stake for existing holders. From hardfork 16 the chain issued about a tenth as much, and holding stake earned 15% of it.</li>
+<li><strong>From three ways into the schedule to two.</strong> Hardfork 17 removed mining, leaving the shared slot and stake-weighted election. Stake became the one lever that decides the schedule, and in 2020 it decided a dispute.</li>
+<li><strong>From one reward rule to tuned curves.</strong> The 2016 paper chose the square to make self-voting pay little. Hardfork 19 paid every vote in proportion, and hardfork 21 adopted convergent curves that stay close to linear (<a href="../social-layer/proof-of-brain.html">Proof-of-Brain</a> explains Pixa's).</li>
+<li><strong>From no fund to a treasury.</strong> Hardfork 21 turned part of issuance into a fund that stakeholders allocate to proposals. Hive's Decentralized Hive Fund and Pixa's Decentralized Pixa Fund continue it (<a href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a>).</li>
 </ul>
-<p>The 2017 Bluepaper named the combination of a reward pool and stake-weighted voting <em>Proof-of-Brain</em>.</p>
-<p>STEEM briefly ranked third among cryptocurrencies by market value in July and August 2016. Two changes came in the years that followed:</p>
-<ul>
-<li><strong>Larimer left</strong> Steemit, Inc. in March 2017.</li>
-<li><strong>Resource Credits arrived</strong> with hardfork 20 on 2018-09-25. They are the fee-less model Pixa still uses.</li>
-</ul>
-<p>In between, STEEM's market value peaked at about US$1.98 billion on 2018-01-03, when it ranked in the high thirties.</p>
+<p>Larimer left Steemit, Inc. in March 2017. STEEM's market value peaked at about US$1.98 billion on 2018-01-03, when it ranked in the high thirties.</p>
 <h2 id="the-2020-split">The 2020 split<a class="anchor" href="#the-2020-split" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <div class="table-wrap"><table>
 <thead>
@@ -274,8 +345,8 @@
 </tr>
 </tbody>
 </table></div>
-<p>Hive later added two governance rules. From hardfork 24 (2020), newly staked tokens wait 30 days before they count in governance votes; Hive's whitepaper presents this as a defence against a repeat of the takeover. From hardfork 25 (2021), governance votes expire after a year without use. Pixa has applied both rules since genesis (<a href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a>).</p>
-<p>Steem itself continued, and still produces blocks in 2026.</p>
+<p>The 2016 paper had counted on long vesting to keep votes in the hands of long-term holders; hardfork 16 had cut the power-down to 13 weeks, and in 2020 stake held for exchange customers decided the witness election. Hive answered with a delay rather than longer vesting. From hardfork 24 (2020), newly staked tokens wait 30 days before they count in governance votes; Hive's whitepaper presents this as a defence against a repeat of the takeover. From hardfork 25 (2021), governance votes expire after a year without use. Pixa has applied both rules since genesis (<a href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a>).</p>
+<p>Steem itself continued. Its hardfork 23, on 2020-05-20, cut the power-down to four weekly instalments, and the chain still produced blocks on 2026-11-03.</p>
 <h2 id="hive-2020-onward">Hive, 2020 onward<a class="anchor" href="#hive-2020-onward" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <div class="table-wrap"><table>
 <thead>
@@ -313,11 +384,12 @@
 </tr>
 </tbody>
 </table></div>
-<p>Hive is still active in 2026: it produces blocks and trades on major exchanges. Its whitepaper is dated 2020-09-28. Pixa is built on hived 1.28.7, the Hive release that carries hardfork 28.</p>
+<p>Hive's changes fall into three groups: safeguards against a second takeover (hardforks 24 and 25), a second unit that converts both ways within new debt limits (hardforks 25 and 26, described on <a href="../pixa-supra/from-sbd-to-pxs.html#hbd-on-hive">From SBD to PXS</a>), and changes to resources, transactions and authorities (hardforks 26 and 28).</p>
+<p>Hive still produced blocks on 2026-11-03 and trades on major exchanges; that day <code>api.hive.blog</code> ran release 1.28.8, and hardfork 28 was still Hive's latest. Its whitepaper is dated 2020-09-28. Pixa's code started from hived 1.28.7, the Hive release that carries hardfork 28, and its nodes now run 1.30.1, which merges Hive's release 1.28.8 (<a href="#pixa-2026">Pixa, 2026</a>).</p>
 <h2 id="other-branches">Other branches<a class="anchor" href="#other-branches" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <ul>
-<li><strong>Golos</strong> launched on 2016-10-18 as a separate chain built from Steem's code, for Russian-speaking users (<a href="https://forklog.com/sostoyalsya-zapusk-russkoyazychnoj-sotsialno-medijnoj-platformy-golos/">ForkLog</a>). Part of its team moved to the CyberWay platform in 2019. The original chain kept running and still produces blocks in 2026.</li>
-<li><strong>Blurt</strong> launched on 2020-07-04 from a snapshot of Steem balances, with no downvotes, no stable token, and transaction fees set by witnesses (<a href="https://gitlab.com/blurt/blurt">Blurt README</a>). It still produces blocks in 2026.</li>
+<li><strong>Golos</strong> launched on 2016-10-18 as a separate chain built from Steem's code, for Russian-speaking users (<a href="https://forklog.com/sostoyalsya-zapusk-russkoyazychnoj-sotsialno-medijnoj-platformy-golos/">ForkLog</a>). Part of its team moved to the CyberWay platform in 2019. The original chain kept running and still produced blocks on 2026-11-03.</li>
+<li><strong>Blurt</strong> launched on 2020-07-04 from a snapshot of Steem balances, with no downvotes, no second unit, and transaction fees set by witnesses (<a href="https://gitlab.com/blurt/blurt">Blurt README</a>). It still produced blocks on 2026-11-03.</li>
 </ul>
 <h2 id="pixa-2026">Pixa, 2026<a class="anchor" href="#pixa-2026" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <div class="table-wrap"><table>
@@ -346,10 +418,19 @@
 </tr>
 <tr>
 <td>2026-10-07 12:00</td>
-<td>Hardfork 30 activates at block 949,330: small votes count, witness pay and the fund's share are paid exactly, custom operations are priced by size, owner-key history is recorded (<a href="../governance/protocol-upgrades.html#hardfork-30">Protocol Upgrades</a>).</td>
+<td>Hardfork 30 activates at block 949,330: small votes count, witness pay and the fund's share are paid exactly, custom operations are priced by size, owner-key history is recorded, and a witness needs approval from 1% of all stake to be scheduled (<a href="../governance/protocol-upgrades.html#hardfork-30">Protocol Upgrades</a>).</td>
+</tr>
+<tr>
+<td>2026-10-15</td>
+<td>Release 1.30.1 merges Hive's release 1.28.8. It changes no consensus rule in force on Pixa, so 1.30.0 and 1.30.1 nodes run side by side.</td>
+</tr>
+<tr>
+<td>2026-11-03</td>
+<td>21 witnesses are scheduled, the most a round allows: 20 elected and 1 in the shared slot. All 21 run 1.30.1.</td>
 </tr>
 </tbody>
 </table></div>
+<p><strong>Pixa's hardfork numbers are its own.</strong> Hardforks 29 and 30 were written for Pixa. Hive's own hardfork 29, which ships in Hive 1.28.8, sits in Pixa's code as hardfork 31 and cannot activate until a later release schedules it (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/doc/upstream-1.28.8-merge.md">merge notes</a>).</p>
 <p><strong>Pixa is a fork of the code, not of the chain.</strong> Hive and Blurt each began from Steem's account balances. Pixa began from Hive's software and a new genesis:</p>
 <ul>
 <li>no airdrop</li>
@@ -357,30 +438,45 @@
 <li>100 million PIXA created as stake in two allocation accounts</li>
 <li>a seeded community fund</li>
 </ul>
-<p>The details are on <a href="../reference/system-accounts.html#genesis-allocation">System Accounts</a>.</p>
-<p>Dan Larimer's 2016 post &quot;<a href="https://steemit.com/steem/@dan/steemit-s-evil-plan-for-cryptocurrency-world-domination">Steemit's Evil Plan for Cryptocurrency World Domination</a>&quot; set out three phases: a stable currency, a marketplace, then sidechains and smart contracts. Pixagram's 2025 essay argues that it completes that plan. <a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a> sets the plan beside the record and checks the essay; this page keeps to the record.</p>
+<p>The details are on <a href="../reference/system-accounts.html#genesis-allocation">System Accounts</a>. A new genesis brought no inherited balances and no inherited voters. It also meant that all stake began in two accounts, which cannot vote, and on 2026-10-08 the stake that could vote was still concentrated in a few hands (<a href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a>).</p>
+<p><strong>What Pixa changed on purpose:</strong></p>
+<ul>
+<li><strong>Holding earns nothing.</strong> Steem and Hive pay 15% of issuance to stakeholders. Pixa pays them none: issuance goes 70% to content, 15% to the fund and 15% to witnesses, so new PIXA pays for publishing, curating and producing blocks (<a href="../reference/chain-parameters.html#issuance">Issuance</a>).</li>
+<li><strong>Curators receive 40%.</strong> Steem and Hive have given curators half of each post's rewards since 2019. Pixa gives them 40% and keeps the convergent curves of 2019, which Hive replaced with linear curves in 2021 (<a href="../social-layer/proof-of-brain.html">Proof-of-Brain</a>).</li>
+<li><strong>The lessons of 2020 apply from the first block:</strong> the 30-day wait and the one-year vote expiry, allocation accounts that cannot vote, and a treasury account with no keys (<a href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a>).</li>
+<li><strong>A witness needs a minimum of approval.</strong> Since hardfork 30, a witness enters the schedule only with votes from accounts holding 1% of all VESTS (<a href="../reference/chain-parameters.html#blocks-and-witnesses">Blocks and witnesses</a>).</li>
+<li><strong>The artwork is in the post.</strong> Each artwork is stored inside its post, where Steem and Hive posts link to images hosted elsewhere (<a href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a>).</li>
+<li><strong>A Big Mac instead of a dollar.</strong> PXS promises no price. It is a Big Mac referenced supracoin that converts into PIXA at the median of the witnesses' feeds, less a haircut when the network is stretched, and it pays no interest. Since <code>bigmac-feed</code> v1.3.0 (2026-10-30), a witness can price the Big Mac in the currency of the country it runs in, value PIXA at the fair value of the PIXA/USDT order book on Coinstore and convert at the day's rate, so that no currency is privileged; on 2026-11-03, seven of the 21 witnesses still published old placeholder values, and the median in force, 51.000 PIXA per PXS, was itself a placeholder value (<a href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a>).</li>
+</ul>
+<p>Block production, the schedule and irreversibility are described on <a href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a>.</p>
 <h2 id="what-pixa-kept-changed-and-dropped">What Pixa kept, changed and dropped<a class="anchor" href="#what-pixa-kept-changed-and-dropped" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
 <th><span class="sr-only">Aspect</span></th>
-<th>Steem (2016)</th>
-<th>Hive (2020)</th>
+<th>Steem (2016–2020)</th>
+<th>Hive (2020 onward)</th>
 <th>Pixa (2026)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Origin</td>
-<td>New chain</td>
-<td>Hard fork of Steem, balances mirrored</td>
-<td>New chain from Hive's code</td>
+<td>New chain; supply mined from zero</td>
+<td>Hard fork of Steem, balances mirrored except 328 accounts</td>
+<td>New chain from Hive's code; 100 million PIXA created as stake in two allocation accounts</td>
 </tr>
 <tr>
-<td>Consensus</td>
-<td>DPoS, 21 witness slots</td>
+<td>Block producers per round</td>
+<td>21: 19 elected, 1 miner, 1 shared slot; 20 elected and 1 shared from HF17 (2017)</td>
+<td>20 elected and 1 shared</td>
+<td>same; a witness needs approval from 1% of all VESTS (HF30); 21 scheduled on 2026-11-03</td>
+</tr>
+<tr>
+<td>Hardfork activation</td>
+<td>17 of 21 witnesses</td>
 <td>same</td>
-<td>same; 8 witnesses on 2026-10-08</td>
+<td>a supermajority of the scheduled witnesses (HF29); 17 of 21 on 2026-11-03</td>
 </tr>
 <tr>
 <td>Block time</td>
@@ -390,39 +486,39 @@
 </tr>
 <tr>
 <td>Fees</td>
-<td>Bandwidth, then Resource Credits (2018)</td>
-<td>Resource Credits</td>
-<td>Resource Credits; a few operations carry fees (<a href="../reference/chain-parameters.html#figures-you-may-meet-elsewhere">list</a>)</td>
+<td>Bandwidth limits; Resource Credits from HF20 (2018)</td>
+<td>Resource Credits; credit delegation from HF26 (2022)</td>
+<td>Resource Credits; opening an account, creating a proposal and converting PIXA to PXS each cost a fee (<a href="../reference/chain-parameters.html#figures-you-may-meet-elsewhere">list</a>)</td>
 </tr>
 <tr>
-<td>Second token</td>
-<td>SBD, aimed at US$1</td>
-<td>HBD, aimed at US$1</td>
-<td>PXS: no peg; its feed references one Big Mac</td>
+<td>Yearly issuance</td>
+<td>supply doubling (2016); 9.5%, falling to 0.95%, from HF16</td>
+<td>same schedule</td>
+<td>same schedule, counted from Pixa's genesis</td>
 </tr>
 <tr>
-<td>Interest</td>
-<td>SBD interest set by witnesses</td>
-<td>HBD interest on savings</td>
-<td>none</td>
+<td>Split of issuance: content / stake / fund / witnesses</td>
+<td>75 / 15 / 0 / 10 from HF16; 65 / 15 / 10 / 10 from HF21</td>
+<td>65 / 15 / 10 / 10</td>
+<td>70 / 0 / 15 / 15</td>
 </tr>
 <tr>
 <td>Reward for holding stake</td>
-<td>yes</td>
-<td>yes (15% of issuance)</td>
+<td>most of issuance (2016); 15% from HF16</td>
+<td>15%</td>
 <td>none</td>
 </tr>
 <tr>
-<td>Curation share</td>
-<td>25% at launch, 50% from 2019</td>
-<td>50%</td>
-<td>40%</td>
+<td>Power-down</td>
+<td>104 weekly instalments; 13 from HF16; 4 from Steem's HF23 (2020)</td>
+<td>13</td>
+<td>13</td>
 </tr>
 <tr>
-<td>Artworks</td>
-<td>Links in posts</td>
-<td>Links in posts</td>
-<td>Stored inside the post</td>
+<td>Curators' share</td>
+<td>half; a quarter from HF8 (2016); half from HF21 (2019)</td>
+<td>half</td>
+<td>40%</td>
 </tr>
 <tr>
 <td>Reward curves</td>
@@ -431,22 +527,149 @@
 <td>the convergent curves of 2019</td>
 </tr>
 <tr>
-<td>Marketplace</td>
-<td>Proposed in 2016; never built into the protocol</td>
-<td>Second-layer apps</td>
-<td>Planned for 2027</td>
+<td>Downvotes</td>
+<td>drawn from voting power; a separate pool of a quarter of voting mana from HF21</td>
+<td>same as HF21</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Treasury</td>
+<td>none until HF21: the Steem Proposal System, 10% of issuance</td>
+<td>Decentralized Hive Fund, 10%</td>
+<td>Decentralized Pixa Fund, 15%, held by an account with no keys</td>
+</tr>
+<tr>
+<td>Governance safeguards</td>
+<td>none</td>
+<td>30-day wait for new stake (HF24, 2020); votes expire after a year (HF25, 2021)</td>
+<td>both, from genesis; the allocation accounts cannot vote</td>
+</tr>
+<tr>
+<td>Second unit</td>
+<td>SBD, aimed at US$1; converts one way</td>
+<td>HBD, aimed at US$1; converts both ways since HF25</td>
+<td>PXS: promises no price; its feed references one Big Mac</td>
+</tr>
+<tr>
+<td>Debt limits on the second unit</td>
+<td>printing limited and a haircut from HF14 (2016)</td>
+<td>printing stops at 20%, haircut above 30% (HF26, 2022)</td>
+<td>same as Hive</td>
+</tr>
+<tr>
+<td>Interest</td>
+<td>SBD interest set by witnesses</td>
+<td>HBD interest on savings</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Artworks</td>
+<td>Links in posts</td>
+<td>Links in posts</td>
+<td>Stored inside the post</td>
+</tr>
+<tr>
+<td>Commerce</td>
+<td>Escrow operations from HF14 (2016); no marketplace</td>
+<td>Escrow; marketplaces built by second-layer apps</td>
+<td>Escrow on chain, not offered in the app; buying and selling artworks planned for 2027</td>
 </tr>
 </tbody>
 </table></div>
 <p>Every Pixa value in this table, with its source, is on <a href="../reference/chain-parameters.html">Chain Parameters</a>.</p>
+<h2 id="from-the-2016-ambitions-to-pixagram">From the 2016 ambitions to Pixagram<a class="anchor" href="#from-the-2016-ambitions-to-pixagram" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The 2016 paper closed with what Steem would make possible, and Larimer's post of 2016-07-06, &quot;<a href="https://steemit.com/steem/@dan/steemit-s-evil-plan-for-cryptocurrency-world-domination">Steemit's Evil Plan for Cryptocurrency World Domination</a>&quot;, added three phases: a currency, a marketplace, then sidechains and smart contracts. Here is where each ambition stands on Pixagram:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ambition</th>
+<th>From</th>
+<th>On Pixagram</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pay contributors without micropayments: readers vote, the chain pays</td>
+<td>2016 paper</td>
+<td>Votes divide each day's new PIXA among authors and curators; anyone can also pay an author directly with a transfer (<a href="../social-layer/proof-of-brain.html">Proof-of-Brain</a>)</td>
+<td>Live</td>
+</tr>
+<tr>
+<td>Reward the links: curators who find good work early</td>
+<td>2016 paper</td>
+<td>Curators receive 40% of each post's rewards, and earlier votes earn more (<a href="../social-layer/voting-and-curation.html#curation-rewards">Voting and Curation</a>)</td>
+<td>Live, with a smaller share than Steem's and Hive's</td>
+</tr>
+<tr>
+<td>Bandwidth instead of fees</td>
+<td>2016 paper</td>
+<td>Resource Credits; three operations carry a fee (<a href="../tokens-and-economy/resource-credits.html">Resource Credits</a>)</td>
+<td>Live, with three fees</td>
+</tr>
+<tr>
+<td>Onboarding: earn tokens instead of buying them</td>
+<td>2016 paper</td>
+<td>The operator pays each new account's fee and lends it stake, through a fund proposal (<a href="what-is-pixagram.html#how-an-account-starts">What Is Pixagram</a>)</td>
+<td>Live; the proposal runs until 2026-12-31</td>
+</tr>
+<tr>
+<td>A unit merchants can price in, linked to the dollar</td>
+<td>2016 paper; Larimer's first phase</td>
+<td>PXS promises no price. It is a Big Mac referenced supracoin and converts only into PIXA (<a href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a>)</td>
+<td>Changed on purpose</td>
+</tr>
+<tr>
+<td>No single entity can censor what is on chain</td>
+<td>2016 paper</td>
+<td>The chain keeps every valid operation that witnesses include, and apps choose what to show; a majority of witnesses could refuse operations (<a href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a>)</td>
+<td>Inherited, within the limits of elected producers</td>
+</tr>
+<tr>
+<td>Attribution: a public, timestamped record of who posted what</td>
+<td>2016 paper</td>
+<td>The chain records the account, the time and the exact bytes of each artwork; it does not prove who made the work (<a href="../art-on-chain/permanence-and-provenance.html#provenance">Permanence and Provenance</a>)</td>
+<td>Live, narrower than the 2016 claim</td>
+</tr>
+<tr>
+<td>Escrow for trade between strangers</td>
+<td>Hardfork 14 (2016); the July 2025 edition</td>
+<td>The escrow operations are on chain; the app does not offer them (<a href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a>)</td>
+<td>On chain, not in the app</td>
+</tr>
+<tr>
+<td>A marketplace</td>
+<td>Larimer's second phase</td>
+<td>Buying and selling artworks in the protocol (<a href="roadmap.html">Roadmap</a>)</td>
+<td>Planned (2027)</td>
+</tr>
+<tr>
+<td>Sidechains, smart contracts and user-issued tokens</td>
+<td>Larimer's third phase</td>
+<td>None, and none on the roadmap (<a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a>)</td>
+<td>Not built</td>
+</tr>
+<tr>
+<td>A development fund allocated by stakeholders</td>
+<td>Hardfork 21 (2019)</td>
+<td>The Decentralized Pixa Fund: 15% of issuance, paid only to proposals that stakeholders approve (<a href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a>)</td>
+<td>Live</td>
+</tr>
+</tbody>
+</table></div>
+<p>Steem showed that a community can pay for content and curation out of issuance. Hive showed that who holds and votes the stake matters as much as the code. Pixa keeps that machinery, stops paying for holding, and applies it to artworks stored in the chain itself. Pixagram's 2025 essay argues that it completes Larimer's plan; <a href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a> sets the plan beside the record and checks the essay, and this page keeps to the record.</p>
 <h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <ul>
 <li><strong>Steem</strong>
 <ul>
-<li>Genesis: on-chain block 1 (<a href="https://steemworld.org/block/1">SteemWorld</a>); <a href="https://web.archive.org/web/20160815131730/https://steem.io/SteemWhitePaper.pdf">Steem whitepaper, March 2016 edition</a>, which weighs payouts by n²; <a href="https://steem.com/steem-bluepaper.pdf">Steem Bluepaper</a> (origin of the term Proof-of-Brain).</li>
-<li>Reward curves: Hive's code sets linear curves at hardfork 19 and convergent curves at hardfork 21 (<a href="https://github.com/openhive-network/hive/blob/1.28.7/libraries/chain/database_hardfork.cpp">database_hardfork.cpp</a>).</li>
+<li>Whitepaper, March 2016 edition, the paper Steem launched with: <a href="https://web.archive.org/web/20160815131730/https://steem.io/SteemWhitePaper.pdf">archived copy</a>, also kept as <code>20160300steemit-whitepaper.pdf</code> in Steemit's <a href="https://github.com/steemit/whitepaper/blob/da16f36bf23bc53d30b57787d7b9044d9c07399c/20160300steemit-whitepaper.pdf">whitepaper repository</a>. Sections &quot;Introduction&quot;, &quot;Steem (STEEM)&quot;, &quot;Steem Power (SP)&quot;, &quot;Subjective Contributions&quot;, &quot;Rate Limited Voting&quot;, &quot;Payout Distribution&quot;, &quot;Consensus in Steem&quot;, &quot;Mining in Steem&quot;, &quot;Eliminating Transaction Fees&quot;, &quot;Allocation &amp; Supply&quot; and &quot;The Power of Steem&quot;.</li>
+<li>Whitepaper, July 2025 edition, which <a href="http://steem.com">steem.com</a> serves today and which describes Steem as it now runs: <a href="https://github.com/steemit/whitepaper/blob/7806da9f0dd92bea958a0a9b1f5c69588fa2db3f/whitepaper.md"><code>whitepaper.md</code></a> at commit <code>7806da9</code>, sections &quot;Steem Power (SP)&quot;, &quot;Current Allocation &amp; Supply&quot; and &quot;Social Commerce with Escrow Payments&quot;. The paper was revised several times between the two; where this page says what Steem intended at launch, it cites the March 2016 edition.</li>
+<li>Genesis: on-chain block 1 (<a href="https://steemworld.org/block/1">SteemWorld</a>); <a href="https://steem.com/steem-bluepaper.pdf">Steem Bluepaper</a> (origin of the term Proof-of-Brain).</li>
+<li>Hardfork activations: the <code>hardfork_operation</code> virtual operation in each activation block, read with <code>account_history_api.enum_virtual_ops</code> on <code>api.hive.blog</code>, whose history includes Steem's up to block 41,818,752: hardfork 8 at block 2,889,959, 12 at 3,533,567, 17 at 10,629,455, 18 at 10,629,486, 19 at 12,988,978 and 21 at 35,921,786. Hardforks 14, 16 and 20 are on <a href="../pixa-supra/from-sbd-to-pxs.html#sbd-in-practice">From SBD to PXS</a>. Steem's hardfork 23 is at block 43,536,278 of Steem's own chain (<code>condenser_api.get_ops_in_block</code> on <code>api.steemit.com</code>).</li>
+<li>The rules by hardfork: Steem's live configuration, <code>condenser_api.get_config</code> on <code>api.steemit.com</code>, read on 2026-11-03 (<code>STEEM_VESTING_WITHDRAW_INTERVALS_PRE_HF_16</code> 104, <code>STEEM_VESTING_WITHDRAW_INTERVALS</code> 13, <code>STEEM_VESTING_WITHDRAW_INTERVALS_HF_23</code> 4, <code>STEEM_CONTENT_REWARD_PERCENT_HF16</code> 75%, <code>STEEM_CONTENT_REWARD_PERCENT_HF21</code> 65%, <code>STEEM_PROPOSAL_FUND_PERCENT_HF21</code> 10%, <code>STEEM_MAX_VOTED_WITNESSES_HF0</code> 19 and <code>_HF17</code> 20); the curators' share and curves in force today, <code>condenser_api.get_reward_fund</code> on <code>api.steemit.com</code> and <code>api.hive.blog</code> (50% on both; convergent curves on Steem, linear on Hive); and Pixa's code, which keeps each inherited hardfork's branch, at tag <a href="https://github.com/pixagram-blockchain/pixagram/tree/7191f1848957d2378691b2cff8a84a37e4c71ad9"><code>v1.30.1</code></a>: the witness counts, power-down and issuance constants, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/include/hive/protocol/config.hpp#L222-L292">config.hpp:222-292</a>; liquidity rewards ending at hardfork 12, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L1956-L1960">database.cpp:1956-1960</a>; the curators' share by hardfork, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2014-L2022">database.cpp:2014-2022</a>; mining disabled at hardfork 17, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/hive_evaluator.cpp#L582">hive_evaluator.cpp:582</a>; hardforks 17 to 21, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database_hardfork.cpp#L282-L455">database_hardfork.cpp:282-455</a>. Hive's code sets linear curves at hardfork 19 and convergent curves at hardfork 21 (<a href="https://github.com/openhive-network/hive/blob/1.28.7/libraries/chain/database_hardfork.cpp">database_hardfork.cpp</a>).</li>
+<li>Escrow at hardfork 14: <a href="../history-and-design/the-plan-revisited.html#what-was-built">The Plan Revisited</a>.</li>
+<li>Hardforks 17 and 18 and delegation: <a href="https://steemit.com/@steemitblog/consensus-reached-for-hardfork-17-18-the-new-features-are-yours-on-thursday-march-30th-at-11am-est">Steemit blog, &quot;Consensus reached for Hardfork 17 &amp; 18&quot;</a>. Hardfork 20: <a href="https://steemit.com/steem/@steemitblog/hf20-update-hardfork-successful">Steemit blog</a>. Hardfork 21: <a href="https://steemit.com/@steemitblog/hf21-sps-and-eip-explained">Steemit blog, &quot;HF21: SPS and EIP Explained&quot;</a>.</li>
 <li>Rankings: <a href="https://coinmarketcap.com/historical/20160717/">CoinMarketCap snapshot of 2016-07-17</a>; <a href="https://coinmarketcap.com/currencies/steem/historical-data/">CoinMarketCap STEEM historical data</a>.</li>
-<li>Hardfork 20: <a href="https://steemit.com/steem/@steemitblog/hf20-update-hardfork-successful">Steemit blog</a>.</li>
 <li>Larimer's departure: <a href="https://steemit.com/steemit/@steemitblog/joint-statement">Steemit joint statement</a>.</li>
 </ul>
 </li>
@@ -460,10 +683,18 @@
 </li>
 <li><strong>Blurt:</strong> <a href="https://gitlab.com/blurt/blurt">README</a>, which gives the snapshot block, 43,526,969, and <a href="https://blurtwallet.com/faq.html">FAQ</a>.</li>
 <li><strong>Golos:</strong> <a href="https://forklog.com/sostoyalsya-zapusk-russkoyazychnoj-sotsialno-medijnoj-platformy-golos/">launch report</a> and <a href="https://explorer.golos.id/">explorer</a>.</li>
-<li><strong>Pixa:</strong> genesis time and hardforks in <a href="../reference/chain-parameters.html#network-identity">Chain Parameters</a>; <code>condenser_api.get_ops_in_block</code> for blocks 1 and 402,205.</li>
+<li><strong>Block production on 2026-11-03:</strong> <code>get_dynamic_global_properties</code> on <code>api.steemit.com</code>, <code>api.hive.blog</code>, <code>api.golos.id</code> and a public Blurt node, each a few seconds behind the time of reading; Hive's release and latest hardfork from <code>database_api.get_version</code> and <code>database_api.get_hardfork_properties</code> on <code>api.hive.blog</code>.</li>
+<li><strong>Pixa</strong>
+<ul>
+<li>Genesis time and hardforks: <a href="../reference/chain-parameters.html#network-identity">Chain Parameters</a>; <code>condenser_api.get_ops_in_block</code> for blocks 1, 402,205 and 949,330, whose virtual operations record hardforks 1–28, 29 and 30.</li>
+<li>Release 1.30.1: tag <a href="https://github.com/pixagram-blockchain/pixagram/tree/7191f1848957d2378691b2cff8a84a37e4c71ad9"><code>v1.30.1</code></a>, 2026-10-15, and its <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/doc/upstream-1.28.8-merge.md">merge notes</a>.</li>
+<li>Witnesses and versions: <code>condenser_api.get_witness_schedule</code> and <code>condenser_api.get_witnesses_by_vote</code>, read at block 1,723,071 on 2026-11-03.</li>
+<li>The price feed and the median: <a href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a>.</li>
 </ul>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/01-start-here/from-steem-to-hive-to-pixa.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="what-is-pixagram.html"><span class="k">Previous</span><span class="t">What Is Pixagram</span></a><a class="next" href="design-principles.html"><span class="k">Next</span><span class="t">Design Principles</span></a></nav></main>
-<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#steem-20162020">Steem, 2016–2020</a></li><li><a href="#the-2020-split">The 2020 split</a></li><li><a href="#hive-2020-onward">Hive, 2020 onward</a></li><li><a href="#other-branches">Other branches</a></li><li><a href="#pixa-2026">Pixa, 2026</a></li><li><a href="#what-pixa-kept-changed-and-dropped">What Pixa kept, changed and dropped</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/01-start-here/from-steem-to-hive-to-pixa.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/01-start-here/from-steem-to-hive-to-pixa.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/01-start-here/from-steem-to-hive-to-pixa.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="what-is-pixagram.html"><span class="k">Previous</span><span class="t">What Is Pixagram</span></a><a class="next" href="design-principles.html"><span class="k">Next</span><span class="t">Design Principles</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#the-design-of-2016">The design of 2016</a></li><li><a href="#steem-20162020">Steem, 2016–2020</a></li><li><a href="#the-2020-split">The 2020 split</a></li><li><a href="#hive-2020-onward">Hive, 2020 onward</a></li><li><a href="#other-branches">Other branches</a></li><li><a href="#pixa-2026">Pixa, 2026</a></li><li><a href="#what-pixa-kept-changed-and-dropped">What Pixa kept, changed and dropped</a></li><li><a href="#from-the-2016-ambitions-to-pixagram">From the 2016 ambitions to Pixagram</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/01-start-here/from-steem-to-hive-to-pixa.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/01-start-here/from-steem-to-hive-to-pixa.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">
   <div class="footer-in">

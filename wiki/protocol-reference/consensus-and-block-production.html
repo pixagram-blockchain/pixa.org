@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Consensus and Block Production — Pixagram wiki</title>
+<meta name="description" content="This page specifies how the Pixa chain agrees on a single history: which witness may sign each 3-second slot, what a node checks before it accepts a block, h…">
+<link rel="canonical" href="https://pixa.org/wiki/protocol-reference/consensus-and-block-production.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Consensus and Block Production — Pixagram wiki">
+<meta property="og:description" content="This page specifies how the Pixa chain agrees on a single history: which witness may sign each 3-second slot, what a node checks before it accepts a block, h…">
+<meta property="og:url" content="https://pixa.org/wiki/protocol-reference/consensus-and-block-production.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body class="wiki-page" data-root="../../">
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    <button class="icon-btn drawer-btn" type="button" aria-label="Open the wiki menu" aria-controls="drawer" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#menu"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="../../index.html">Home</a>
+      <a href="../../wiki/index.html" aria-current="page">Wiki</a>
+      <a href="../../explorer/">Explorer</a>
+      <a href="../../witness.html">Witness setup</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="scrim"></div>
+<div class="wiki">
+<nav class="drawer" id="drawer" aria-label="Wiki">
+<div class="drawer-head"><span class="brand-word">Wiki</span><button class="icon-btn drawer-close" type="button" aria-label="Close the wiki menu"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#close"/></svg></button></div>
+<a class="nav-i home-link" href="../index.html"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#menu_book"/></svg><span>Wiki home</span></a>
+<div class="part">Understand</div>
+<details>
+<summary class="nav-i"><span class="n">01</span><span>Start here</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../start-here/index.html">Overview</a></li>
+<li><a class="nav-i" href="../start-here/what-is-pixagram.html">What Is Pixagram</a></li>
+<li><a class="nav-i" href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a></li>
+<li><a class="nav-i" href="../start-here/design-principles.html">Design Principles</a></li>
+<li><a class="nav-i" href="../start-here/roadmap.html">Roadmap</a></li>
+<li><a class="nav-i" href="../start-here/who-does-what.html">Who Does What</a></li>
+<li><a class="nav-i" href="../start-here/faq.html">FAQ</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">02</span><span>Social layer</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../social-layer/index.html">Overview</a></li>
+<li><a class="nav-i" href="../social-layer/proof-of-brain.html">Proof-of-Brain</a></li>
+<li><a class="nav-i" href="../social-layer/posting-and-rewards.html">Posting and Rewards</a></li>
+<li><a class="nav-i" href="../social-layer/voting-and-curation.html">Voting and Curation</a></li>
+<li><a class="nav-i" href="../social-layer/communities.html">Communities</a></li>
+<li><a class="nav-i" href="../social-layer/censorship-resilience-and-moderation.html">Censorship Resilience and Moderation</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">03</span><span>Art on chain</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../art-on-chain/index.html">Overview</a></li>
+<li><a class="nav-i" href="../art-on-chain/pixel-art-on-chain.html">Pixel Art On Chain</a></li>
+<li><a class="nav-i" href="../art-on-chain/permanence-and-provenance.html">Permanence and Provenance</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">04</span><span>Tokens and economy</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../tokens-and-economy/index.html">Overview</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/tokens-at-a-glance.html">Tokens at a Glance</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/pixa-power.html">Pixa Power</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/resource-credits.html">Resource Credits</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a></li>
+<li><a class="nav-i" href="../tokens-and-economy/genesis-and-distribution.html">Genesis and Distribution</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">05</span><span>Pixa Supra (PXS)</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../pixa-supra/index.html">Overview</a></li>
+<li><a class="nav-i" href="../pixa-supra/pxs-at-a-glance.html">PXS at a Glance</a></li>
+<li><a class="nav-i" href="../pixa-supra/supracoin-vs-stablecoin.html">Supracoin vs Stablecoin</a></li>
+<li><a class="nav-i" href="../pixa-supra/the-four-components.html">The Four Components</a></li>
+<li><a class="nav-i" href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a></li>
+<li><a class="nav-i" href="../pixa-supra/haircut-corridor-and-settlement.html">Haircut, Corridor and Settlement</a></li>
+<li><a class="nav-i" href="../pixa-supra/from-sbd-to-pxs.html">From SBD to PXS</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">06</span><span>Economic cybernetics</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economic-cybernetics/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/viable-system-model.html">Viable System Model</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/variety-and-regulation.html">Variety and Regulation</a></li>
+<li><a class="nav-i" href="../economic-cybernetics/resilience-and-cascades.html">Resilience and Cascades</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">07</span><span>Governance</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../governance/index.html">Overview</a></li>
+<li><a class="nav-i" href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a></li>
+<li><a class="nav-i" href="../governance/decentralized-pixa-fund.html">Decentralized Pixa Fund</a></li>
+<li><a class="nav-i" href="../governance/protocol-upgrades.html">Protocol Upgrades</a></li>
+<li><a class="nav-i" href="../governance/decentralization-and-safeguards.html">Decentralization and Safeguards</a></li>
+<li><a class="nav-i" href="../governance/constitution.html">Constitution</a></li>
+</ul></details>
+<div class="part">Use and build</div>
+<details>
+<summary class="nav-i"><span class="n">08</span><span>Guides</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../guides/index.html">Overview</a></li>
+<li><a class="nav-i" href="../guides/create-an-account.html">Create an Account</a></li>
+<li><a class="nav-i" href="../guides/keys-and-recovery.html">Keys and Recovery</a></li>
+<li><a class="nav-i" href="../guides/publish-your-first-artwork.html">Publish Your First Artwork</a></li>
+<li><a class="nav-i" href="../guides/wallet-basics.html">Wallet Basics</a></li>
+<li><a class="nav-i" href="../guides/take-part-in-governance.html">Take Part in Governance</a></li>
+<li><a class="nav-i" href="../guides/create-a-community.html">Create a Community</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">09</span><span>Developers</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../developers/index.html">Overview</a></li>
+<li><a class="nav-i" href="../developers/chain-architecture.html">Chain Architecture</a></li>
+<li><a class="nav-i" href="../developers/developer-quickstart.html">Developer Quickstart</a></li>
+<li><a class="nav-i" href="../developers/differences-from-hive.html">Differences from Hive</a></li>
+<li><a class="nav-i" href="../developers/artwork-encoding-spec.html">Artwork Encoding Spec</a></li>
+<li><a class="nav-i" href="../developers/sdks-and-libraries.html">SDKs and Libraries</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">10</span><span>Node operators</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../node-operators/index.html">Overview</a></li>
+<li><a class="nav-i" href="../node-operators/run-a-node.html">Run a Node</a></li>
+<li><a class="nav-i" href="../node-operators/run-an-api-node.html">Run an API Node</a></li>
+<li><a class="nav-i" href="../node-operators/become-a-witness.html">Become a Witness</a></li>
+<li><a class="nav-i" href="../node-operators/cli-wallet.html">CLI Wallet</a></li>
+</ul></details>
+<div class="part">Protocol, API and security</div>
+<details open>
+<summary class="nav-i"><span class="n">11</span><span>Protocol reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="index.html">Overview</a></li>
+<li><a class="nav-i" href="operations-reference.html">Operations Reference</a></li>
+<li><a class="nav-i" href="transaction-lifecycle.html">Transaction Lifecycle</a></li>
+<li><a class="nav-i" href="data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="consensus-and-block-production.html" aria-current="page">Consensus and Block Production</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../api-reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../api-reference/json-rpc.html">JSON-RPC Surface</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">13</span><span>Security</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../security/index.html">Overview</a></li>
+</ul></details>
+<div class="part">The application</div>
+<details>
+<summary class="nav-i"><span class="n">14</span><span>Pixagram product</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../product/index.html">Overview</a></li>
+<li><a class="nav-i" href="../product/feed-and-discovery.html">Feed and Discovery</a></li>
+<li><a class="nav-i" href="../product/search.html">Search</a></li>
+<li><a class="nav-i" href="../product/notifications.html">Notifications</a></li>
+<li><a class="nav-i" href="../product/account-settings.html">Account Settings</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">15</span><span>Search and indexing</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../search-and-indexing/index.html">Overview</a></li>
+<li><a class="nav-i" href="../search-and-indexing/paph.html">PAPH</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">16</span><span>AI and knowledge</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../ai-and-knowledge/index.html">Overview</a></li>
+</ul></details>
+<div class="part">Marketplace, infrastructure and economics</div>
+<details>
+<summary class="nav-i"><span class="n">17</span><span>Marketplace</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../marketplace/index.html">Overview</a></li>
+<li><a class="nav-i" href="../marketplace/nfts-and-marketplace.html">NFTs and Marketplace</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">18</span><span>Infrastructure</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../infrastructure/index.html">Overview</a></li>
+<li><a class="nav-i" href="../infrastructure/architecture.html">Architecture</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">19</span><span>Economics lab</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../economics-lab/index.html">Overview</a></li>
+<li><a class="nav-i" href="../economics-lab/reward-examples.html">Reward Examples</a></li>
+</ul></details>
+<div class="part">History, reference and about</div>
+<details>
+<summary class="nav-i"><span class="n">20</span><span>History and design</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../history-and-design/index.html">Overview</a></li>
+<li><a class="nav-i" href="../history-and-design/network-timeline.html">Network Timeline</a></li>
+<li><a class="nav-i" href="../history-and-design/the-plan-revisited.html">The Plan Revisited</a></li>
+<li><a class="nav-i" href="../history-and-design/essays.html">Essays</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">21</span><span>Reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../reference/index.html">Overview</a></li>
+<li><a class="nav-i" href="../reference/chain-parameters.html">Chain Parameters</a></li>
+<li><a class="nav-i" href="../reference/system-accounts.html">System Accounts</a></li>
+<li><a class="nav-i" href="../reference/glossary.html">Glossary</a></li>
+<li><a class="nav-i" href="../reference/risks-and-open-problems.html">Risks and Open Problems</a></li>
+<li><a class="nav-i" href="../reference/sources-and-credits.html">Sources and Credits</a></li>
+</ul></details>
+<details>
+<summary class="nav-i"><span class="n">22</span><span>About these pages</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
+<ul class="nav-pages">
+<li><a class="nav-i" href="../about/index.html">Overview</a></li>
+<li><a class="nav-i" href="../about/style-guide.html">Style Guide</a></li>
+<li><a class="nav-i" href="../about/contributing.html">Contributing</a></li>
+</ul></details>
+</nav>
+<main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Protocol reference</a></nav><h1>Consensus and Block Production</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
+<p>hived 1.30.1, under hardfork 30. On 2026-11-03 at block 1,722,917, 21 witnesses were scheduled out of 22 eligible, all running 1.30.1; every one of the last 128 slots had a block, and the last irreversible block was the head block. Last checked 2026-11-03.</p>
+</div></div>
+<p>This page specifies how the Pixa chain agrees on a single history: which witness may sign each 3-second slot, what a node checks before it accepts a block, how it chooses between competing blocks, when a block becomes irreversible, and how a hardfork is switched on. It is written for node operators and developers who need the rules as the code applies them. Elections, voters and pay are on <a href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a>, the constants on <a href="../reference/chain-parameters.html#blocks-and-witnesses">Chain Parameters</a>, and the path of a single transaction on <a href="transaction-lifecycle.html">Transaction Lifecycle</a>.</p>
+<h2 id="at-a-glance">At a glance<a class="anchor" href="#at-a-glance" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Slot</td>
+<td>3 seconds, at most one block</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/include/hive/protocol/config.hpp#L62">config.hpp:62</a></td>
+</tr>
+<tr>
+<td>Round</td>
+<td>21 slots: up to 20 elected witnesses and 1 timeshare witness; no mining slot</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/include/hive/protocol/config.hpp#L222-L228">config.hpp:222-228</a></td>
+</tr>
+<tr>
+<td>Who can be scheduled</td>
+<td>a witness with a signing key and, since HF30, approval from at least 1% of all VESTS</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L155-L176">witness_schedule.cpp:155-176</a></td>
+</tr>
+<tr>
+<td>Schedule</td>
+<td>rebuilt every 21 blocks, one round ahead, in shuffled order</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L497-L530">witness_schedule.cpp:497-530</a></td>
+</tr>
+<tr>
+<td>Irreversible</td>
+<td>once all but a quarter (rounded down) of the next round's witnesses have approved the block or a block built on it: 16 of 21</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L3157-L3178">database.cpp:3157-3178</a></td>
+</tr>
+<tr>
+<td>Hardfork quorum</td>
+<td>17 of 21 producing witnesses, scaled down in proportion when fewer produce</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/include/hive/chain/witness_schedule.hpp#L15-L39">witness_schedule.hpp:15-39</a></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="the-round">The round<a class="anchor" href="#the-round" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The chain rebuilds its schedule every 21 blocks. When it applies a block whose number is a multiple of 21, it puts into force the schedule it built at the previous such block, then builds the next one (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L497-L530">witness_schedule.cpp:497-530</a>). The schedule that governs a round is therefore fixed 21 blocks before the round begins, a rule of Hive's hardfork 26 that Pixa has applied since block 1 (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/hardfork.d/1_26.hf#L23-L25">1_26.hf:23-25</a>).</p>
+<h3 id="who-can-be-scheduled">Who can be scheduled<a class="anchor" href="#who-can-be-scheduled" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<ul>
+<li><strong>A signing key.</strong> A witness whose registered signing key is the null key, <code>PIX1111111111111111111111111111111114T1Anm</code> in the API, is disabled and never scheduled (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/include/hive/chain/detail/state/witness_objects.hpp#L88">witness_objects.hpp:88</a>).</li>
+<li><strong>Approval, since hardfork 30.</strong> A witness's approval is its <code>votes</code> field: the effective Pixa Power of the accounts voting for it (<a href="../governance/witnesses-and-dpos.html#how-witnesses-are-elected">how votes count</a>). Since hardfork 30 a witness is eligible only with approval of at least 1% of all VESTS, rounded up: 936,081.295484 VESTS at block 1,722,917 (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L155-L176">witness_schedule.cpp:155-176</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/hardfork.d/1_30.hf#L9-L18">1_30.hf:13</a>).</li>
+<li><strong>A fallback.</strong> If no witness with a signing key reaches 1%, the floor is ignored and every witness with a key is eligible, so a chain without votes still has producers (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L155-L176">witness_schedule.cpp:155-176</a>).</li>
+<li><strong>Before hardfork 30</strong> every witness with a signing key was eligible. While 21 or fewer had one, all of them were scheduled, whatever their approval.</li>
+</ul>
+<h3 id="filling-the-slots">Filling the slots<a class="anchor" href="#filling-the-slots" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<figure class="diagram" style="--w:1232px"><svg aria-label="Diagram: Registered witnesses; Signing key, and approval of at least 1% of VESTS?; Not scheduled; Top 20 by approval: elected; Earliest virtual time: timeshare slot; Shuffled; 3-second slots, in turn" focusable="false" id="d697ab6f8078f07f7" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" viewBox="0 0 1231.546875 284.5" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#d697ab6f8078f07f7{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:15px;fill:#000000;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#d697ab6f8078f07f7 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#d697ab6f8078f07f7 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#d697ab6f8078f07f7 .error-icon{fill:#ffffff;}#d697ab6f8078f07f7 .error-text{fill:#000000;stroke:#000000;}#d697ab6f8078f07f7 .edge-thickness-normal{stroke-width:1px;}#d697ab6f8078f07f7 .edge-thickness-thick{stroke-width:3.5px;}#d697ab6f8078f07f7 .edge-pattern-solid{stroke-dasharray:0;}#d697ab6f8078f07f7 .edge-thickness-invisible{stroke-width:0;fill:none;}#d697ab6f8078f07f7 .edge-pattern-dashed{stroke-dasharray:3;}#d697ab6f8078f07f7 .edge-pattern-dotted{stroke-dasharray:2;}#d697ab6f8078f07f7 .marker{fill:#474747;stroke:#474747;}#d697ab6f8078f07f7 .marker.cross{stroke:#474747;}#d697ab6f8078f07f7 svg{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:15px;}#d697ab6f8078f07f7 p{margin:0;}#d697ab6f8078f07f7 .label{font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;color:#000000;}#d697ab6f8078f07f7 .cluster-label text{fill:#474747;}#d697ab6f8078f07f7 .cluster-label span{color:#474747;}#d697ab6f8078f07f7 .cluster-label span p{background-color:transparent;}#d697ab6f8078f07f7 .label text,#d697ab6f8078f07f7 span{fill:#000000;color:#000000;}#d697ab6f8078f07f7 .node rect,#d697ab6f8078f07f7 .node circle,#d697ab6f8078f07f7 .node ellipse,#d697ab6f8078f07f7 .node polygon,#d697ab6f8078f07f7 .node path{fill:#ffffff;stroke:#000000;stroke-width:1px;}#d697ab6f8078f07f7 .rough-node .label text,#d697ab6f8078f07f7 .node .label text,#d697ab6f8078f07f7 .image-shape .label,#d697ab6f8078f07f7 .icon-shape .label{text-anchor:middle;}#d697ab6f8078f07f7 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#d697ab6f8078f07f7 .rough-node .label,#d697ab6f8078f07f7 .node .label,#d697ab6f8078f07f7 .image-shape .label,#d697ab6f8078f07f7 .icon-shape .label{text-align:center;}#d697ab6f8078f07f7 .node.clickable{cursor:pointer;}#d697ab6f8078f07f7 .root .anchor path{fill:#474747!important;stroke-width:0;stroke:#474747;}#d697ab6f8078f07f7 .arrowheadPath{fill:#000000;}#d697ab6f8078f07f7 .edgePath .path{stroke:#474747;stroke-width:1px;}#d697ab6f8078f07f7 .flowchart-link{stroke:#474747;fill:none;}#d697ab6f8078f07f7 .edgeLabel{background-color:#ffffff;text-align:center;}#d697ab6f8078f07f7 .edgeLabel p{background-color:#ffffff;}#d697ab6f8078f07f7 .edgeLabel rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#d697ab6f8078f07f7 .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#d697ab6f8078f07f7 .cluster rect{fill:#f4f4f4;stroke:#f4f4f4;stroke-width:1px;}#d697ab6f8078f07f7 .cluster text{fill:#474747;}#d697ab6f8078f07f7 .cluster span{color:#474747;}#d697ab6f8078f07f7 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"Normative Pro","Helvetica Neue",Arial,sans-serif;font-size:12px;background:#ffffff;border:1px solid hsl(0, 0%, 90%);border-radius:2px;pointer-events:none;z-index:100;}#d697ab6f8078f07f7 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#d697ab6f8078f07f7 rect.text{fill:none;stroke-width:0;}#d697ab6f8078f07f7 .icon-shape,#d697ab6f8078f07f7 .image-shape{background-color:#ffffff;text-align:center;}#d697ab6f8078f07f7 .icon-shape p,#d697ab6f8078f07f7 .image-shape p{background-color:#ffffff;padding:2px;}#d697ab6f8078f07f7 .icon-shape .label rect,#d697ab6f8078f07f7 .image-shape .label rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#d697ab6f8078f07f7 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#d697ab6f8078f07f7 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#d697ab6f8078f07f7 .node .neo-node{stroke:#000000;}#d697ab6f8078f07f7 [data-look="neo"].node rect,#d697ab6f8078f07f7 [data-look="neo"].cluster rect,#d697ab6f8078f07f7 [data-look="neo"].node polygon{stroke:url(#d697ab6f8078f07f7-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#d697ab6f8078f07f7 [data-look="neo"].swimlane.cluster rect{filter:none;}#d697ab6f8078f07f7 [data-look="neo"].node path{stroke:url(#d697ab6f8078f07f7-gradient);stroke-width:1px;}#d697ab6f8078f07f7 [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#d697ab6f8078f07f7 [data-look="neo"].node .neo-line path{stroke:#000000;filter:none;}#d697ab6f8078f07f7 [data-look="neo"].node circle{stroke:url(#d697ab6f8078f07f7-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#d697ab6f8078f07f7 [data-look="neo"].node circle .state-start{fill:#000000;}#d697ab6f8078f07f7 [data-look="neo"].icon-shape .icon{fill:url(#d697ab6f8078f07f7-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#d697ab6f8078f07f7 [data-look="neo"].icon-shape .icon-neo path{stroke:url(#d697ab6f8078f07f7-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#d697ab6f8078f07f7 .node rect,#d697ab6f8078f07f7 .node path{rx:10px;ry:10px;}#d697ab6f8078f07f7 .cluster rect{rx:16px;ry:16px;}#d697ab6f8078f07f7 .cluster-label .nodeLabel,#d697ab6f8078f07f7 .cluster-label span{color:rgb(71, 71, 71)!important;}#d697ab6f8078f07f7 .edgeLabel,#d697ab6f8078f07f7 .edgeLabel p{background:rgb(255, 255, 255)!important;color:rgb(71, 71, 71)!important;}#d697ab6f8078f07f7 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="d697ab6f8078f07f7_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="d697ab6f8078f07f7_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="d697ab6f8078f07f7_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="d697ab6f8078f07f7_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="d697ab6f8078f07f7_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="d697ab6f8078f07f7_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="d697ab6f8078f07f7_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="d697ab6f8078f07f7_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="d697ab6f8078f07f7_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="d697ab6f8078f07f7_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="d697ab6f8078f07f7_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="d697ab6f8078f07f7_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M199.25,131L202.917,131C206.583,131,213.917,131,220.583,131C227.25,131,233.25,131,236.25,131L239.25,131" id="d697ab6f8078f07f7-L_R_Q_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_R_Q_0" data-points="W3sieCI6MTk5LjI1LCJ5IjoxMzF9LHsieCI6MjIxLjI1LCJ5IjoxMzF9LHsieCI6MjQzLjI1LCJ5IjoxMzF9XQ==" data-look="classic" marker-end="url(#d697ab6f8078f07f7_flowchart-v2-pointEnd)"/><path d="M437.054,93.522L458.004,83.477C478.955,73.432,520.856,53.341,558.633,43.295C596.409,33.25,630.06,33.25,646.885,33.25L663.711,33.25" id="d697ab6f8078f07f7-L_Q_N_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Q_N_0" data-points="W3sieCI6NDM3LjA1MzcwNzA2NzM3MTIsInkiOjkzLjUyMjQ1NzA2NzM3MTJ9LHsieCI6NTYyLjc1NzgxMjUsInkiOjMzLjI1fSx7IngiOjY2Ny43MTA5Mzc1LCJ5IjozMy4yNX1d" data-look="classic" marker-end="url(#d697ab6f8078f07f7_flowchart-v2-pointEnd)"/><path d="M474.531,131L489.236,131C503.94,131,533.349,131,562.326,131C591.302,131,619.846,131,634.118,131L648.391,131" id="d697ab6f8078f07f7-L_Q_E_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Q_E_0" data-points="W3sieCI6NDc0LjUzMTI1LCJ5IjoxMzF9LHsieCI6NTYyLjc1NzgxMjUsInkiOjEzMX0seyJ4Ijo2NTIuMzkwNjI1LCJ5IjoxMzF9XQ==" data-look="classic" marker-end="url(#d697ab6f8078f07f7_flowchart-v2-pointEnd)"/><path d="M434.243,171.288L455.662,182.74C477.081,194.192,519.92,217.096,555.376,228.548C590.833,240,618.909,240,632.947,240L646.984,240" id="d697ab6f8078f07f7-L_Q_T_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Q_T_0" data-points="W3sieCI6NDM0LjI0MzEzODUzMDk3NjEsInkiOjE3MS4yODgxMTE0NjkwMjM5fSx7IngiOjU2Mi43NTc4MTI1LCJ5IjoyNDB9LHsieCI6NjUwLjk4NDM3NSwieSI6MjQwfV0=" data-look="classic" marker-end="url(#d697ab6f8078f07f7_flowchart-v2-pointEnd)"/><path d="M830.078,131L833.979,131C837.88,131,845.682,131,855.829,135.486C865.975,139.972,878.466,148.944,884.712,153.43L890.958,157.916" id="d697ab6f8078f07f7-L_E_S_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_E_S_0" data-points="W3sieCI6ODMwLjA3ODEyNSwieSI6MTMxfSx7IngiOjg1My40ODQzNzUsInkiOjEzMX0seyJ4Ijo4OTQuMjA2Mjc4NjY5NzI0NywieSI6MTYwLjI1fV0=" data-look="classic" marker-end="url(#d697ab6f8078f07f7_flowchart-v2-pointEnd)"/><path d="M831.484,240L835.151,240C838.818,240,846.151,240,856.063,235.514C865.975,231.028,878.466,222.056,884.712,217.57L890.958,213.084" id="d697ab6f8078f07f7-L_T_S_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_T_S_0" data-points="W3sieCI6ODMxLjQ4NDM3NSwieSI6MjQwfSx7IngiOjg1My40ODQzNzUsInkiOjI0MH0seyJ4Ijo4OTQuMjA2Mjc4NjY5NzI0NywieSI6MjEwLjc1fV0=" data-look="classic" marker-end="url(#d697ab6f8078f07f7_flowchart-v2-pointEnd)"/><path d="M983.234,185.5L986.901,185.5C990.568,185.5,997.901,185.5,1004.568,185.5C1011.234,185.5,1017.234,185.5,1020.234,185.5L1023.234,185.5" id="d697ab6f8078f07f7-L_S_O_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_S_O_0" data-points="W3sieCI6OTgzLjIzNDM3NSwieSI6MTg1LjV9LHsieCI6MTAwNS4yMzQzNzUsInkiOjE4NS41fSx7IngiOjEwMjcuMjM0Mzc1LCJ5IjoxODUuNX1d" data-look="classic" marker-end="url(#d697ab6f8078f07f7_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_R_Q_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(562.7578125, 33.25)"><g class="label" data-id="L_Q_N_0" transform="translate(-7.8828125, -11.25)"><foreignObject width="15.765625" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>no</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(562.7578125, 131)"><g class="label" data-id="L_Q_E_0" transform="translate(-10.8046875, -11.25)"><foreignObject width="21.609375" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>yes</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(562.7578125, 240)"><g class="label" data-id="L_Q_T_0" transform="translate(-66.2265625, -11.25)"><foreignObject width="132.453125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>yes, below the top 20</p></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_E_S_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_T_S_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_S_O_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="d697ab6f8078f07f7-flowchart-R-0" data-look="classic" transform="translate(103.625, 131)"><rect class="basic label-container" style="" x="-95.625" y="-25.25" width="191.25" height="50.5"/><g class="label" style="" transform="translate(-67.625, -11.25)"><rect/><foreignObject width="135.25" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Registered witnesses</p></span></div></foreignObject></g></g><g class="node default" id="d697ab6f8078f07f7-flowchart-Q-1" data-look="classic" transform="translate(358.890625, 131)"><polygon points="115.640625,0 231.28125,-115.640625 115.640625,-231.28125 0,-115.640625" class="label-container" transform="translate(-115.140625, 115.640625)"/><g class="label" style="" transform="translate(-79.140625, -22.5)"><rect/><foreignObject width="158.28125" height="45"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Signing key, and approval<br />of at least 1% of VESTS?</p></span></div></foreignObject></g></g><g class="node default" id="d697ab6f8078f07f7-flowchart-N-3" data-look="classic" transform="translate(741.234375, 33.25)"><rect class="basic label-container" style="" x="-73.5234375" y="-25.25" width="147.046875" height="50.5"/><g class="label" style="" transform="translate(-45.5234375, -11.25)"><rect/><foreignObject width="91.046875" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Not scheduled</p></span></div></foreignObject></g></g><g class="node default" id="d697ab6f8078f07f7-flowchart-E-5" data-look="classic" transform="translate(741.234375, 131)"><rect class="basic label-container" style="" x="-88.84375" y="-36.5" width="177.6875" height="73"/><g class="label" style="" transform="translate(-60.84375, -22.5)"><rect/><foreignObject width="121.6875" height="45"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Top 20 by approval:<br />elected</p></span></div></foreignObject></g></g><g class="node default" id="d697ab6f8078f07f7-flowchart-T-7" data-look="classic" transform="translate(741.234375, 240)"><rect class="basic label-container" style="" x="-90.25" y="-36.5" width="180.5" height="73"/><g class="label" style="" transform="translate(-62.25, -22.5)"><rect/><foreignObject width="124.5" height="45"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Earliest virtual time:<br />timeshare slot</p></span></div></foreignObject></g></g><g class="node default" id="d697ab6f8078f07f7-flowchart-S-9" data-look="classic" transform="translate(929.359375, 185.5)"><rect class="basic label-container" style="" x="-53.875" y="-25.25" width="107.75" height="50.5"/><g class="label" style="" transform="translate(-25.875, -11.25)"><rect/><foreignObject width="51.75" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Shuffled</p></span></div></foreignObject></g></g><g class="node default" id="d697ab6f8078f07f7-flowchart-O-13" data-look="classic" transform="translate(1125.390625, 185.5)"><rect class="basic label-container" style="" x="-98.15625" y="-25.25" width="196.3125" height="50.5"/><g class="label" style="" transform="translate(-70.15625, -11.25)"><rect/><foreignObject width="140.3125" height="22.5"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>3-second slots, in turn</p></span></div></foreignObject></g></g></g></g></g><defs><filter id="d697ab6f8078f07f7-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="d697ab6f8078f07f7-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><linearGradient id="d697ab6f8078f07f7-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#000000" stop-opacity="1"/><stop offset="100%" stop-color="hsl(0, 0%, 85.6862745098%)" stop-opacity="1"/></linearGradient></svg><figcaption class="diagram-foot"><span class="hint">Scroll sideways to see the whole diagram.</span><a href="../diagrams/697ab6f8078f07f7.svg">Open full size</a></figcaption></figure>
+<ol>
+<li><strong>Elected.</strong> The eligible witnesses with the most approval, ties broken by name, up to 20 (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L177-L189">witness_schedule.cpp:177-189</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/include/hive/chain/detail/state/witness_objects_multiindex.hpp#L32-L37">witness_objects_multiindex.hpp:32-37</a>).</li>
+<li><strong>Mining.</strong> No slot. Steem launched with one slot for a proof-of-work miner. Its hardfork 17 (2017-03-30) gave that slot to a 20th elected witness, and Pixa applied hardfork 17 at block 1 (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database_hardfork.cpp#L282-L296">database_hardfork.cpp:282-296</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/include/hive/protocol/config.hpp#L222-L228">config.hpp:222-228</a>).</li>
+<li><strong>Timeshare.</strong> The slots still open, one when 21 or more witnesses are eligible, go to eligible witnesses not yet chosen, in the order of their <em>virtual scheduled time</em> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L226-L251">witness_schedule.cpp:226-251</a>). Each witness the queue passes has its virtual time moved forward by a fixed lap divided by its approval plus one (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L253-L274">253-274</a>). Among the runners-up, one with twice the approval of another therefore comes round about twice as often.</li>
+</ol>
+<h3 id="when-fewer-than-21-are-eligible">When fewer than 21 are eligible<a class="anchor" href="#when-fewer-than-21-are-eligible" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>All of them are scheduled. The chain checks that the schedule holds exactly the smaller of 21 and the number eligible, and at least one witness (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L276-L286">witness_schedule.cpp:276-286</a>). Slots go round the shorter list: the witness of absolute slot <em>s</em> is entry <em>s</em> mod <em>n</em> of the shuffled list of the <em>n</em> scheduled witnesses (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L944-L950">database.cpp:944-950</a>), so each signs about 21 ÷ <em>n</em> of every 21 blocks. Pixa ran this way from genesis, with 4 to 9 witnesses in daily samples up to hardfork 30, until block 1,536,297 (2026-10-27 21:21 UTC), when the schedule first held 21 (<a href="#how-a-round-is-paid">How a round is paid</a> shows how to tell).</p>
+<h3 id="the-shuffle">The shuffle<a class="anchor" href="#the-shuffle" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>At each rebuild the scheduled witnesses are shuffled with a xorshift generator seeded from the timestamp of the block being applied (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L461-L480">witness_schedule.cpp:461-480</a>). Every node computes the same order. Steem's whitepaper gives the reason for shuffling: in a fixed order, a witness could keep ignoring the blocks of the witness placed before it (<a href="https://web.archive.org/web/20160815131730/https://steem.io/SteemWhitePaper.pdf">Steem whitepaper, March 2016 edition</a>, &quot;Consensus in Steem&quot;).</p>
+<h3 id="censorship-and-its-limits">Censorship and its limits<a class="anchor" href="#censorship-and-its-limits" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<ul>
+<li><strong>One witness can delay, not exclude.</strong> A witness can leave a transaction out of its own blocks; the next slot belongs to another witness, which can include it (<a href="../governance/witnesses-and-dpos.html#what-witnesses-do">what witnesses can and cannot do</a>).</li>
+<li><strong>Fewer ways around the elected witnesses.</strong> Steem's whitepaper offered three ways around censorship by the elected witnesses: wait for the timeshared slot, win the proof-of-work slot, or acquire more stake. It held that censoring is &quot;a good way for elected witnesses to lose their job&quot; (<a href="https://web.archive.org/web/20160815131730/https://steem.io/SteemWhitePaper.pdf">Steem whitepaper, March 2016 edition</a>, &quot;Consensus in Steem&quot;). On Pixa the mining slot does not exist, and the timeshared slot is open only to witnesses above the 1% floor. What remains is stake: votes that replace the witnesses.</li>
+<li><strong>A majority can do more.</strong> Witnesses acting together can refuse whatever they choose, and no rule of the protocol prevents it. The remedies are votes and, in the last resort, a fork (<a href="../governance/protocol-upgrades.html#who-takes-part">Protocol Upgrades</a>).</li>
+</ul>
+<h2 id="slots">Slots<a class="anchor" href="#slots" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>Length.</strong> A slot lasts 3 seconds (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/include/hive/protocol/config.hpp#L62">config.hpp:62</a>). Slot times are multiples of 3 seconds counted from the Unix epoch, and a block belongs to the slot its timestamp falls in (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L952-L983">database.cpp:952-983</a>).</li>
+<li><strong>The absolute slot.</strong> <code>current_aslot</code> counts slots since genesis, 2026-09-04 12:00:00 UTC. Each block advances it by one, plus one for every empty slot before it (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2984-L2994">database.cpp:2984-2994</a>). At block 1,722,917 (2026-11-03 08:53:12 UTC) it stood at 1,724,264, the time since genesis divided by 3 seconds, so 1,347 slots since genesis had no block.</li>
+<li><strong>The owner of a slot</strong> is the scheduled witness at that position in the shuffled list (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L944-L950">database.cpp:944-950</a>).</li>
+</ul>
+<h3 id="producing-a-block">Producing a block<a class="anchor" href="#producing-a-block" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>A node running the <code>witness</code> plugin signs a block only when all of these hold (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/witness_plugin.cpp#L310-L355">witness_plugin.cpp:310-355</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/witness_plugin.cpp#L469-L525">469-525</a>):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Default</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Caught up.</strong> Production starts once the next slot is not in the past, that is, once the node has synced. <code>enable-stale-production = true</code> skips this check.</td>
+<td>off</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/witness_plugin.cpp#L310-L355">witness_plugin.cpp:325-331</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/witness_plugin.cpp#L593-L640">593-607</a></td>
+</tr>
+<tr>
+<td><strong>Its turn.</strong> The slot belongs to a witness named in the node's <code>witness</code> setting.</td>
+<td>—</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/witness_plugin.cpp#L310-L355">333-336</a></td>
+</tr>
+<tr>
+<td><strong>The right key.</strong> The node holds the private key of that witness's registered signing key (<code>private-key</code>).</td>
+<td>—</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/witness_plugin.cpp#L310-L355">338-344</a></td>
+</tr>
+<tr>
+<td><strong>Participation.</strong> At least <code>required-participation</code> of the last 128 slots had a block, so that a node cut off on a minority fork stops producing.</td>
+<td>33%</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/witness_plugin.cpp#L310-L355">347-353</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L554-L558">database.cpp:554-558</a></td>
+</tr>
+<tr>
+<td><strong>Timing.</strong> The plugin checks every 200 ms and produces when the clock, rounded to the second, reaches the slot time: from half a second before the slot. Half a second after it, it gives the slot up.</td>
+<td>—</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/witness_plugin.cpp#L31-L33">witness_plugin.cpp:31-33</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/witness_plugin.cpp#L469-L525">469-506</a></td>
+</tr>
+</tbody>
+</table></div>
+<p>The <code>witness</code> repository's <a href="https://github.com/pixagram-blockchain/witness/blob/704a68f8225ba768226dea3495095e9b9cc0bd1c/pixagram/config.ini"><code>config.ini</code></a> leaves <code>enable-stale-production</code> and <code>required-participation</code> at their defaults; <a href="../node-operators/become-a-witness.html#2-set-up-the-node">Become a Witness</a> explains why, and why the clock must be <a href="../node-operators/become-a-witness.html#check-the-clock-to-the-millisecond">right to the millisecond</a>.</p>
+<p><strong>What goes into the block</strong> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/block_producer.cpp#L31-L85">block_producer.cpp:31-85</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/block_producer.cpp#L111-L216">111-216</a>):</p>
+<ul>
+<li><strong>Transactions.</strong> The producer re-applies its pending transactions in the order it received them. It leaves out any that has expired or now fails, and any that would bring the block to the voted maximum size; those still valid stay pending for a later block.</li>
+<li><strong>The header.</strong> It names the previous block, the slot time, the witness and the merkle root of the transactions (<a href="data-model.html#a-block">Data Model</a>). Header extensions report the version the node runs and the hardfork it votes for, whenever these differ from what the chain has recorded for the witness (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/block_producer.cpp#L87-L109">block_producer.cpp:87-109</a>).</li>
+<li><strong>The signature.</strong> The header is signed with the block-signing key, which must be the one registered on chain (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/block_producer.cpp#L31-L85">block_producer.cpp:31-85</a>).</li>
+</ul>
+<h3 id="empty-slots">Empty slots<a class="anchor" href="#empty-slots" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>When a block arrives after empty slots, the chain charges each empty slot to the witness scheduled for it: its <code>total_missed</code> rises by one and a <code>producer_missed</code> virtual operation is recorded (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2955-L2975">database.cpp:2955-2975</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database_witness.cpp#L284-L306">database_witness.cpp:284-306</a>). A slot is not charged to the witness that produces the arriving block, even when that witness was the one scheduled for it. The 128-bit window <code>recent_slots_filled</code> keeps the last 128 slots, 1 for a block, and <code>participation_count</code> counts the ones (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2984-L2994">database.cpp:2984-2994</a>).</p>
+<ul>
+<li><strong>No automatic removal.</strong> From Steem's hardfork 14 (2016) to its hardfork 20 (2018), a witness that had produced nothing for a day lost its signing key. Pixa applied both hardforks at block 1, so that rule has never run: a witness that stops producing stays scheduled until its voters move or it changes its own key (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database_witness.cpp#L284-L306">database_witness.cpp:294-301</a>).</li>
+<li><strong>Empty slots are not paid</strong> (<a href="#how-a-round-is-paid">How a round is paid</a>).</li>
+<li><strong>The counters lag the slots.</strong> On 2026-11-03 the 23 registered witnesses' <code>total_missed</code> added up to 1,210, against 1,347 empty slots since genesis. Under the rule above, the difference is the empty slots that belonged to the producer of the next block.</li>
+</ul>
+<h2 id="validating-a-block">Validating a block<a class="anchor" href="#validating-a-block" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Every node checks every block before it applies it. Work that needs no chain state runs first, on worker threads, as the block arrives; the rest runs in order against the state, in <code>_apply_block</code> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2271-L2453">database.cpp:2271-2453</a>).</p>
+<h3 id="checks-that-need-no-state">Checks that need no state<a class="anchor" href="#checks-that-need-no-state" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<ul>
+<li><strong>The block.</strong> The node decompresses and decodes it, computes its id, recovers the public key that signed it from <code>witness_signature</code>, and computes the merkle root of its transactions (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/blockchain_worker_thread_pool.cpp#L183-L202">blockchain_worker_thread_pool.cpp:183-202</a>).</li>
+<li><strong>Its transactions.</strong> The node runs each operation's <code>validate()</code>. A node that produces blocks, or one started with <code>p2p-force-validate</code>, also recovers each transaction's signing keys and the authorities it needs (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/blockchain_worker_thread_pool.cpp#L283-L320">283-320</a>).</li>
+</ul>
+<p>The results are cached; an error found here is raised when the block is applied.</p>
+<h3 id="checks-against-the-state">Checks against the state<a class="anchor" href="#checks-against-the-state" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Check</th>
+<th>Failure</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>The transactions' merkle root equals the header's <code>transaction_merkle_root</code></td>
+<td><code>Merkle check failed</code></td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2325-L2350">database.cpp:2325-2350</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>previous</code> is the id of the node's head block</td>
+<td>assertion</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2923-L2945">database.cpp:2923-2945</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>The timestamp is later than the head block's</td>
+<td>assertion</td>
+<td>same</td>
+</tr>
+<tr>
+<td>4</td>
+<td>The key recovered from the signature is the named witness's registered signing key</td>
+<td>assertion</td>
+<td>same</td>
+</tr>
+<tr>
+<td>5</td>
+<td>The named witness is the one scheduled for the timestamp's slot</td>
+<td><code>Witness produced block at wrong time</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>6</td>
+<td>The uncompressed block is no larger than the voted maximum block size</td>
+<td><code>Block size is larger than voted on block size</code></td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2355-L2360">database.cpp:2355-2360</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>The witness runs at least the current hardfork version, as its blocks report</td>
+<td><code>Block produced by witness that is not running current hardfork</code></td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2368-L2378">database.cpp:2368-2378</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Every transaction passes the node's checks, except the Resource Credit check</td>
+<td>the transaction's own error</td>
+<td><a href="transaction-lifecycle.html#7-applied-in-a-block">Transaction Lifecycle</a></td>
+</tr>
+</tbody>
+</table></div>
+<p>Then the chain does the work of every block: the slot and participation counters, the producer's last block, irreversibility, the schedule (every 21 blocks), the price feed median, issuance, payouts and any hardfork due (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2402-L2444">database.cpp:2402-2444</a>).</p>
+<h3 id="what-a-node-may-skip">What a node may skip<a class="anchor" href="#what-a-node-may-skip" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>When</th>
+<th>What is skipped</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A block arrives over P2P at a node that does not produce blocks and was not started with <code>p2p-force-validate</code></td>
+<td>The signatures and authorities of the transactions in it. The witness's signature on the block is still checked.</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/p2p/p2p_plugin.cpp#L164">p2p_plugin.cpp:164</a></td>
+</tr>
+<tr>
+<td>The node replays its own block log, unless started with <code>validate-during-replay</code></td>
+<td>Block and transaction signatures, authorities, TaPoS, the merkle root, the schedule, and operation validation</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/chain/chain_plugin.cpp#L1253-L1268">chain_plugin.cpp:1253-1268</a></td>
+</tr>
+<tr>
+<td>A block at or below a checkpoint the operator configured</td>
+<td>Most checks, but not the merkle root</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/chain/chain_plugin.cpp#L1071-L1085">chain_plugin.cpp:1071-1085</a></td>
+</tr>
+</tbody>
+</table></div>
+<p>A node that does not produce blocks therefore relies on the witnesses, which check every signature, for the authority of the transactions in the blocks it follows.</p>
+<h2 id="forks-and-irreversibility">Forks and irreversibility<a class="anchor" href="#forks-and-irreversibility" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<h3 id="choosing-between-forks">Choosing between forks<a class="anchor" href="#choosing-between-forks" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<ul>
+<li><strong>The fork database</strong> holds the blocks that are not yet irreversible. A new block is attached to its parent there, and the head is the highest block on any branch (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/fork_database.cpp#L73-L107">fork_database.cpp:73-107</a>).</li>
+<li><strong>Longest chain.</strong> A block that does not raise the head's number is stored and not applied. A block that makes another branch longer than the node's makes the node pop its blocks back to the common ancestor and apply the other branch (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/sync_block_writer.cpp#L96-L123">sync_block_writer.cpp:96-123</a>); the transactions it pops go back to pending (<a href="transaction-lifecycle.html#8-irreversible">Transaction Lifecycle</a>).</li>
+<li><strong>The window.</strong> The fork database keeps only the blocks above the last irreversible block (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/sync_block_writer.cpp#L59">sync_block_writer.cpp:59</a>). A block below that window is refused as unlinkable, not as invalid, so the node fetches what it lacks from its peers instead of disconnecting them (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/fork_database.cpp#L73-L107">fork_database.cpp:73-107</a>).</li>
+</ul>
+<h3 id="the-last-irreversible-block">The last irreversible block<a class="anchor" href="#the-last-irreversible-block" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>The witnesses of the next round's schedule decide (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L3055-L3061">database.cpp:3055-3061</a>). For each of them the chain takes the highest block it has approved, by producing it or by a fast confirmation. It then walks each branch down from its tip and adds up the approvals; the first block reached with enough approvals becomes the last irreversible block (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L3120-L3228">database.cpp:3120-3228</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/sync_block_writer.cpp#L267-L367">sync_block_writer.cpp:267-367</a>).</p>
+<ul>
+<li><strong>How many.</strong> All but a quarter of the <em>n</em> scheduled witnesses, the quarter rounded down: <em>n</em> − ⌊<em>n</em> × 25%⌋ (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L3157-L3178">database.cpp:3157-3178</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/include/hive/protocol/config.hpp#L438">config.hpp:438</a>). With 21 scheduled, 16; with 8, 6.</li>
+<li><strong>Final means final.</strong> An irreversible block is written to the block log and its state committed; no fork can replace it (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L3230-L3260">database.cpp:3230</a>).</li>
+<li><strong>Until block 864,000</strong> (2026-10-04 12:51:27 UTC), irreversibility trailed the head by a fixed 21 blocks, about 63 seconds. <code>HIVE_START_MINER_VOTING_BLOCK</code>, 30 days of blocks, is a rule from Steem's mining period that Pixa's code keeps (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L3126-L3135">database.cpp:3126-3135</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/include/hive/protocol/config.hpp#L179">config.hpp:179</a>).</li>
+<li><strong>A stall stops the chain.</strong> If six of 21 scheduled witnesses stop producing and confirming, blocks continue but none becomes irreversible. A node then refuses any block that would put the head 10,000 blocks, about 8 hours 20 minutes, past the last irreversible block (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2997-L3004">database.cpp:2997-3004</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/include/hive/protocol/config.hpp#L426">config.hpp:426</a>). The absent witnesses' return, or votes that replace them in the schedule, restores progress.</li>
+</ul>
+<h3 id="fast-confirmation">Fast confirmation<a class="anchor" href="#fast-confirmation" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>Since Hive's hardfork 26, which Pixa has applied since block 1, a witness does not wait for its next slot to approve a block (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/hardfork.d/1_26.hf#L23-L25">1_26.hf:23-25</a>):</p>
+<ol>
+<li>When a witness node accepts a block less than 60 seconds old, it signs a <code>witness_block_approve</code> operation (operation 16) for each witness it runs on the next round's schedule, except the block's own producer, whose block already counts. It signs with the block-signing key and broadcasts the transaction to its peers (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/witness_plugin.cpp#L219-L307">witness_plugin.cpp:219-307</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/include/hive/protocol/config.hpp#L491">config.hpp:491</a>).</li>
+<li>Every node counts the approval, ignoring witnesses not on that schedule and approvals older than the witness's last one, and recomputes the last irreversible block (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L3063-L3118">database.cpp:3063-3118</a>). An approval can make a node switch to the branch it confirms.</li>
+<li>The operation never enters a block: a block that contains one is invalid (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/hive_evaluator.cpp#L693-L697">hive_evaluator.cpp:693-697</a>, <a href="operations-reference.html#disabled-or-unusable">Operations Reference</a>).</li>
+</ol>
+<p><strong>On 2026-11-03</strong> <code>last_irreversible_block_num</code> equalled <code>head_block_number</code> each time it was read, at blocks 1,722,718 and 1,722,917 (<code>condenser_api.get_dynamic_global_properties</code>): the head block was already irreversible when read.</p>
+<h2 id="hardfork-activation">Hardfork activation<a class="anchor" href="#hardfork-activation" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>The governance side is on <a href="../governance/protocol-upgrades.html#how-a-hardfork-activates">Protocol Upgrades</a>. The mechanics:</p>
+<ol>
+<li><strong>Signalling.</strong> A block's header extensions carry the producer's running version and its hardfork vote, a version with a time. The chain records both on the witness (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database_witness.cpp#L219-L269">database_witness.cpp:219-269</a>). The producer adds them automatically when its software knows a hardfork the chain has not applied (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/block_producer.cpp#L87-L109">block_producer.cpp:87-109</a>).</li>
+<li><strong>Tally.</strong> At each rebuild the chain counts the scheduled witnesses that produced a block in the last 42 blocks, and the votes among them (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L295-L330">witness_schedule.cpp:295-330</a>). Votes for a hardfork already applied are ignored (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L396-L438">396-438</a>).</li>
+<li><strong>Quorum.</strong> Pixa scales Hive's 17 of 21 to the witnesses producing: ⌈<em>n</em> × 17 ÷ 21⌉, at least 1 and at most <em>n</em> (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/include/hive/chain/witness_schedule.hpp#L15-L39">witness_schedule.hpp:15-39</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L361-L364">witness_schedule.cpp:361-364</a>). With 21 producing, 17. <code>get_witness_schedule</code> shows the figure for the scheduled count as <code>hardfork_required_witnesses</code>. Upstream Hive keeps a fixed 17, which a chain with fewer than 17 witnesses can never reach.</li>
+<li><strong>Activation.</strong> Once a quorum votes for the same version and time, the chain records it as <code>next_hardfork</code>. The hardfork applies in the first block whose timestamp is at or after that time (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database_hardfork.cpp#L126-L149">database_hardfork.cpp:126-149</a>). If support falls below the quorum first, the next hardfork reverts to the current one (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L396-L438">witness_schedule.cpp:396-438</a>).</li>
+<li><strong>Refusal.</strong> From then on, a block from a witness that reports an older version is invalid (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2368-L2378">database.cpp:2368-2378</a>).</li>
+</ol>
+<p><strong>Numbering.</strong> Pixa's own hardforks are 29 and 30. Upstream Hive 1.28.8, merged into 1.30.1, brings a different hardfork 29; its features are compiled as hardfork 31, which the mainnet build cannot activate (<code>HIVE_NUM_HARDFORKS</code> is 30) (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/hardfork.d/0-preamble.hf#L15-L22">0-preamble.hf:15-22</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/hardfork.d/1_31.hf#L1-L34">1_31.hf:1-34</a>). A guard written for hardfork 30 stopped witness votes from bringing it forward of its compiled time (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database_hardfork.cpp#L126-L149">database_hardfork.cpp:126-149</a>).</p>
+<p><strong>On 2026-11-03</strong> no hardfork was pending: <code>next_hardfork</code> was 1.30.0, the current version (<code>database_api.get_hardfork_properties</code>). Of the 21 scheduled witnesses, 8 still carried their vote for 1.30.0 at 2026-10-07 12:00; the 13 registered after hardfork 30 carried the default vote, 0.0.0, which the tally ignores.</p>
+<h2 id="parameters-the-witnesses-set">Parameters the witnesses set<a class="anchor" href="#parameters-the-witnesses-set" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Each witness publishes values for the account creation fee, the maximum block size and the two parameters of free account tickets, <code>account_subsidy_budget</code> and <code>account_subsidy_decay</code>. When it builds a schedule, the chain sorts the scheduled witnesses by each value and takes the middle one, entry ⌊<em>n</em> ÷ 2⌋ counted from zero, the 11th of 21 (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L58-L143">witness_schedule.cpp:58-143</a>). Since Hive's hardfork 28, the maximum block size takes effect when that schedule comes into force (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L42-L56">witness_schedule.cpp:42-56</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L497-L530">497-530</a>). Interest on PXS is set to 0 whatever a witness publishes (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L58-L143">witness_schedule.cpp:58-143</a>).</p>
+<p>On 2026-11-03 all 21 scheduled witnesses published the same four values: 20.000 PIXA, 2,097,152 bytes, 797 and 347,321 (<code>median_props</code> in <code>get_witness_schedule</code>). What each value does is on <a href="../reference/chain-parameters.html#transaction-and-block-size">Chain Parameters</a> and <a href="../reference/chain-parameters.html#accounts-and-keys">Accounts and keys</a>.</p>
+<h2 id="how-a-round-is-paid">How a round is paid<a class="anchor" href="#how-a-round-is-paid" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Each block issues the witness share of new PIXA, as Pixa Power, to its producer (<a href="../reference/chain-parameters.html#issuance">Issuance</a>). How much a single block pays depends on the schedule (<a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L1823-L1848">database.cpp:1823-1848</a>):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Schedule</th>
+<th>One block pays</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>21 witnesses</td>
+<td>the share × 21 × the slot's weight ÷ 25. The weight is 1 for an elected witness and 5 for the timeshare witness, and 25 = 20 × 1 + 1 × 5. An elected block pays 0.84 times the share, the timeshare block 4.2 times; a round of 21 blocks pays exactly 21 shares.</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L455-L459">witness_schedule.cpp:455-459</a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/include/hive/chain/detail/state/witness_objects.hpp#L191-L193">witness_objects.hpp:191-193</a></td>
+</tr>
+<tr>
+<td>Fewer than 21, since HF30</td>
+<td>exactly the share</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/hardfork.d/1_30.hf#L9-L18">1_30.hf:18</a></td>
+</tr>
+<tr>
+<td>Fewer than 21, before HF30</td>
+<td>the share × 21 ÷ <em>n</em>, so the chain issued more than its nominal rate</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L1823-L1848">database.cpp:1823-1848</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>On chain.</strong> In blocks 1,722,872 to 1,722,934 (2026-11-03), each elected producer received 0.118999 VESTS and the timeshare producer 0.595999 VESTS (<code>producer_reward</code> in <code>condenser_api.get_ops_in_block</code>). Under the partial schedule after hardfork 30, the daily samples paid 0.140999 or 0.141999 VESTS a block. That difference dates the change: block 1,536,296 (2026-10-27 21:21:18 UTC) paid 0.141999 VESTS, block 1,536,297 paid 0.118999, and a daily sample has found the full rate every day since.</p>
+<h2 id="the-schedule-on-2026-11-03">The schedule on 2026-11-03<a class="anchor" href="#the-schedule-on-2026-11-03" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<p>Read at block 1,722,917 (<code>get_witnesses_by_vote</code>, <code>get_witness_schedule</code>), with approval as a share of all 93,608,129.548369 VESTS:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>Witness</th>
+<th>Approval</th>
+<th>Slot</th>
+<th><code>total_missed</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>rex</code></td>
+<td>12.96%</td>
+<td>elected</td>
+<td>27</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>blockforge</code></td>
+<td>12.90%</td>
+<td>elected</td>
+<td>252</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>boitata</code></td>
+<td>12.90%</td>
+<td>elected</td>
+<td>118</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>merlion</code></td>
+<td>12.90%</td>
+<td>elected</td>
+<td>172</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>nodeprime</code></td>
+<td>12.90%</td>
+<td>elected</td>
+<td>93</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>top.witness</code></td>
+<td>12.89%</td>
+<td>elected</td>
+<td>13</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>matus</code></td>
+<td>4.90%</td>
+<td>elected</td>
+<td>245</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>anti</code></td>
+<td>4.86%</td>
+<td>elected</td>
+<td>34</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>chainguard</code></td>
+<td>4.86%</td>
+<td>elected</td>
+<td>10</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>aliento</code></td>
+<td>3.17%</td>
+<td>elected</td>
+<td>4</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>initminer</code></td>
+<td>3.04%</td>
+<td>none: null signing key</td>
+<td>29</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>elmerlin</code></td>
+<td>1.84%</td>
+<td>elected</td>
+<td>0</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>whale</code></td>
+<td>1.84%</td>
+<td>elected</td>
+<td>11</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>juraj04</code></td>
+<td>1.82%</td>
+<td>elected</td>
+<td>56</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>cleesan</code></td>
+<td>1.81%</td>
+<td>elected</td>
+<td>0</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>arm.witness</code></td>
+<td>1.80%</td>
+<td>elected</td>
+<td>0</td>
+</tr>
+<tr>
+<td>17</td>
+<td><code>larry</code></td>
+<td>1.80%</td>
+<td>elected</td>
+<td>1</td>
+</tr>
+<tr>
+<td>18</td>
+<td><code>majso</code></td>
+<td>1.80%</td>
+<td>elected</td>
+<td>0</td>
+</tr>
+<tr>
+<td>19</td>
+<td><code>waynebockts</code></td>
+<td>1.73%</td>
+<td>elected</td>
+<td>2</td>
+</tr>
+<tr>
+<td>20</td>
+<td><code>stormwind</code></td>
+<td>1.72%</td>
+<td>elected</td>
+<td>17</td>
+</tr>
+<tr>
+<td>21</td>
+<td><code>lukas123654</code></td>
+<td>1.72%</td>
+<td>elected</td>
+<td>1</td>
+</tr>
+<tr>
+<td>22</td>
+<td><code>katka7</code></td>
+<td>1.72%</td>
+<td>timeshare, in turn</td>
+<td>1</td>
+</tr>
+<tr>
+<td>23</td>
+<td><code>uykodusan</code></td>
+<td>1.71%</td>
+<td>timeshare, in turn</td>
+<td>124</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>Two candidates for one timeshare slot.</strong> <code>katka7</code> and <code>uykodusan</code> are the only eligible witnesses below the top 20, with almost equal approval, so they take the timeshare slot in turn. In the rounds starting at blocks 1,722,883, 1,722,904 and 1,722,925, it went to <code>katka7</code>, <code>uykodusan</code> and <code>katka7</code>.</li>
+<li><strong>One key for two witnesses.</strong> <code>katka7</code> and <code>lukas123654</code> registered the same block-signing key, <code>PIX5ZjNEYoDqzErJBWhNsA9DW7NxLb3G3FBZymQagdASVkJaxJA5Y</code>. The protocol allows it: whoever holds that key signs for both.</li>
+<li><strong><code>initminer</code></strong>, the genesis witness, has 3.04% approval but the null signing key, so it is skipped. Its last block was 970,717.</li>
+<li><strong>Versions.</strong> All 21 scheduled witnesses run 1.30.1, the <code>majority_version</code>. Every slot in the 63 blocks read had its block, and <code>participation_count</code> was 128 of 128.</li>
+<li><strong>Missed slots</strong> are counted since each witness registered, under the rule in <a href="#empty-slots">Empty slots</a>; they include periods when fewer witnesses shared the slots.</li>
+</ul>
+<h2 id="read-it-yourself">Read it yourself<a class="anchor" href="#read-it-yourself" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>rpc<span class="o">()</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.pixagram.com<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">"{\"jsonrpc\":\"2.0\",\"method\":\"</span><span class="nv">$1</span><span class="s2">\",\"params\":</span><span class="nv">$2</span><span class="s2">,\"id\":1}"</span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
+
+rpc<span class="w"> </span>condenser_api.get_dynamic_global_properties<span class="w"> </span><span class="s1">'[]'</span><span class="w">   </span><span class="c1"># head, last irreversible block, current_aslot, participation_count</span>
+rpc<span class="w"> </span>condenser_api.get_witness_schedule<span class="w"> </span><span class="s1">'[]'</span><span class="w">            </span><span class="c1"># the round: current_shuffled_witnesses, weights, median_props, quorum</span>
+rpc<span class="w"> </span>condenser_api.get_witnesses_by_vote<span class="w"> </span><span class="s1">'["",30]'</span><span class="w">      </span><span class="c1"># approval (votes), signing key, total_missed, versions and votes</span>
+rpc<span class="w"> </span>database_api.get_hardfork_properties<span class="w"> </span><span class="s1">'{}'</span><span class="w">          </span><span class="c1"># last hardfork, next_hardfork and its time</span>
+rpc<span class="w"> </span>block_api.get_block_header<span class="w"> </span><span class="s1">'{"block_num":1722917}'</span><span class="w"> </span><span class="c1"># producer, timestamp, header extensions</span>
+rpc<span class="w"> </span>condenser_api.get_ops_in_block<span class="w"> </span><span class="s1">'[1722910,true]'</span><span class="w">    </span><span class="c1"># producer_reward and any producer_missed</span></code></pre>
+<p>The share of empty slots since genesis is <code>current_aslot</code> minus <code>head_block_number</code>; the round's weights are <code>elected_weight</code>, <code>timeshare_weight</code> and <code>witness_pay_normalization_factor</code>.</p>
+<h2 id="inherited--changed">Inherited → changed<a class="anchor" href="#inherited--changed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><span class="sr-only">Aspect</span></th>
+<th>Steem / Hive</th>
+<th>Pixa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Slots per round</td>
+<td>Steem at launch: 19 elected, 1 proof-of-work miner, 1 timeshared; since Steem's HF17 (2017): 20 elected, 1 timeshared</td>
+<td>20 elected, 1 timeshared, from block 1</td>
+</tr>
+<tr>
+<td>Who can be scheduled</td>
+<td>any witness with a signing key</td>
+<td>also approval of at least 1% of all VESTS, since HF30</td>
+</tr>
+<tr>
+<td>Slot</td>
+<td>3 s</td>
+<td>same</td>
+</tr>
+<tr>
+<td>Schedule fixed one round ahead</td>
+<td>Hive, since HF26 (2022)</td>
+<td>same, from block 1</td>
+</tr>
+<tr>
+<td>Irreversibility</td>
+<td>Steem: the block 75% of the scheduled witnesses have built on; Hive since HF26: fast confirmations as well</td>
+<td>same as Hive; a fixed 21-block lag until block 864,000</td>
+</tr>
+<tr>
+<td>Hardfork quorum</td>
+<td>17 of 21</td>
+<td>⌈17/21⌉ of the witnesses producing; 17 with 21</td>
+</tr>
+<tr>
+<td>Witness that stops producing</td>
+<td>Steem HF14 to HF20: signing key removed after a day</td>
+<td>never removed</td>
+</tr>
+<tr>
+<td>Pay per block</td>
+<td>21 blocks' worth per round; the timeshare slot weighs 5</td>
+<td>same with 21 scheduled; with fewer, the nominal share since HF30</td>
+</tr>
+<tr>
+<td>Transaction signatures in P2P blocks, on nodes that do not produce</td>
+<td>not checked unless <code>p2p-force-validate</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>Upstream Hive's HF29</td>
+<td>Hive 1.28.8</td>
+<td>compiled as HF31, not activatable on mainnet</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<ul>
+<li><strong>Code</strong>, at tag <a href="https://github.com/pixagram-blockchain/pixagram/tree/7191f1848957d2378691b2cff8a84a37e4c71ad9"><code>v1.30.1</code></a> (commit <code>7191f18</code>, 2026-10-15). Paths are relative to <code>libraries/</code>:
+<ul>
+<li>schedule: <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/witness_schedule.cpp#L497-L530"><code>chain/witness_schedule.cpp</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/include/hive/chain/witness_schedule.hpp#L15-L39"><code>chain/include/hive/chain/witness_schedule.hpp:15-39</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/include/hive/chain/detail/state/witness_objects.hpp#L191-L193"><code>witness_objects.hpp</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/include/hive/chain/detail/state/witness_objects_multiindex.hpp#L32-L37"><code>witness_objects_multiindex.hpp:32-37</code></a></li>
+<li>slots, validation and irreversibility: <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database.cpp#L2271-L2453"><code>chain/database.cpp</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database_witness.cpp#L284-L306"><code>chain/database_witness.cpp</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/fork_database.cpp#L73-L107"><code>chain/fork_database.cpp</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/sync_block_writer.cpp#L267-L367"><code>chain/sync_block_writer.cpp</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/blockchain_worker_thread_pool.cpp#L183-L202"><code>chain/blockchain_worker_thread_pool.cpp</code></a></li>
+<li>hardforks: <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/chain/database_hardfork.cpp#L126-L149"><code>chain/database_hardfork.cpp</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/hardfork.d/0-preamble.hf#L15-L22"><code>protocol/hardfork.d/</code></a></li>
+<li>production: <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/witness_plugin.cpp#L310-L355"><code>plugins/witness/witness_plugin.cpp</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/witness/block_producer.cpp#L31-L85"><code>plugins/witness/block_producer.cpp</code></a>; skips: <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/p2p/p2p_plugin.cpp#L164"><code>plugins/p2p/p2p_plugin.cpp:164</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/plugins/chain/chain_plugin.cpp#L1253-L1268"><code>plugins/chain/chain_plugin.cpp</code></a></li>
+<li>constants: <a href="https://github.com/pixagram-blockchain/pixagram/blob/7191f1848957d2378691b2cff8a84a37e4c71ad9/libraries/protocol/include/hive/protocol/config.hpp#L62"><code>protocol/include/hive/protocol/config.hpp</code></a></li>
+</ul>
+</li>
+<li><strong>Witness configuration:</strong> <a href="https://github.com/pixagram-blockchain/witness/tree/704a68f8225ba768226dea3495095e9b9cc0bd1c"><code>witness</code></a> repository at commit <code>704a68f</code>, <a href="https://github.com/pixagram-blockchain/witness/blob/704a68f8225ba768226dea3495095e9b9cc0bd1c/pixagram/config.ini"><code>pixagram/config.ini</code></a>.</li>
+<li><strong>Live chain</strong>, 2026-11-03, <code>api.pixagram.com</code>: <code>condenser_api.get_dynamic_global_properties</code>, <code>get_witness_schedule</code>, <code>get_witnesses_by_vote</code>, <code>database_api.list_witnesses</code> and <code>database_api.get_hardfork_properties</code> at block 1,722,917; <code>condenser_api.get_ops_in_block</code> for blocks 1,722,872 to 1,722,934, for one block a day from block 949,430, and by bisection to block 1,536,297; <code>block_api.get_block_header</code> for blocks 1 and 864,000; <code>database_api.get_config</code>.</li>
+<li><a href="https://web.archive.org/web/20160815131730/https://steem.io/SteemWhitePaper.pdf">Steem whitepaper, March 2016 edition</a>, &quot;Consensus in Steem&quot;, pp. 21-22.</li>
+</ul>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/11-protocol-reference/consensus-and-block-production.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="data-model.html"><span class="k">Previous</span><span class="t">Data Model</span></a><a class="next" href="../api-reference/index.html"><span class="k">Next</span><span class="t">API reference</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#at-a-glance">At a glance</a></li><li><a href="#the-round">The round</a></li><li class="sub"><a href="#who-can-be-scheduled">Who can be scheduled</a></li><li class="sub"><a href="#filling-the-slots">Filling the slots</a></li><li class="sub"><a href="#when-fewer-than-21-are-eligible">When fewer than 21 are eligible</a></li><li class="sub"><a href="#the-shuffle">The shuffle</a></li><li class="sub"><a href="#censorship-and-its-limits">Censorship and its limits</a></li><li><a href="#slots">Slots</a></li><li class="sub"><a href="#producing-a-block">Producing a block</a></li><li class="sub"><a href="#empty-slots">Empty slots</a></li><li><a href="#validating-a-block">Validating a block</a></li><li class="sub"><a href="#checks-that-need-no-state">Checks that need no state</a></li><li class="sub"><a href="#checks-against-the-state">Checks against the state</a></li><li class="sub"><a href="#what-a-node-may-skip">What a node may skip</a></li><li><a href="#forks-and-irreversibility">Forks and irreversibility</a></li><li class="sub"><a href="#choosing-between-forks">Choosing between forks</a></li><li class="sub"><a href="#the-last-irreversible-block">The last irreversible block</a></li><li class="sub"><a href="#fast-confirmation">Fast confirmation</a></li><li><a href="#hardfork-activation">Hardfork activation</a></li><li><a href="#parameters-the-witnesses-set">Parameters the witnesses set</a></li><li><a href="#how-a-round-is-paid">How a round is paid</a></li><li><a href="#the-schedule-on-2026-11-03">The schedule on 2026-11-03</a></li><li><a href="#read-it-yourself">Read it yourself</a></li><li><a href="#inherited--changed">Inherited → changed</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/11-protocol-reference/consensus-and-block-production.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/11-protocol-reference/consensus-and-block-production.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div>
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../wiki/index.html">Wiki</a></li>
+          <li><a href="../../explorer/">Explorer</a></li>
+          <li><a href="../../witness.html">Witness setup</a></li>
+          <li><a href="../../skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">pixablocks.org</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <a class="live" id="footlive" href="../../explorer/"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../assets/site.js"></script>
+</body>
+</html>

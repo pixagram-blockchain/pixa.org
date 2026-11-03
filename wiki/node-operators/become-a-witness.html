@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -229,7 +230,7 @@
 </ul></details>
 </nav>
 <main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Node operators</a></nav><h1>Become a Witness</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
-<p>8 witnesses on 2026-10-08; up to 21 elected, 1 required. For the <code>witness</code> repository at commit <code>e3b8841</code>, <code>pixadock/pixagram:1.30.0</code>, <code>pixadock/bigmac-feed:v1.0.3</code> and the agnostic feed at commit <code>96b9d4a</code>. Commands were run on 2026-10-05, except those that need a registered witness.</p>
+<p>21 witnesses scheduled on 2026-11-03; up to 21 elected, 1 required. For the <code>witness</code> repository at commit <code>704a68f</code>, with <code>pixadock/pixagram:1.30.1</code> and <code>pixarex/bigmac-feed:v1.3.0</code>. Steps 1 to 4 were run on 2026-10-05 with 1.30.0, which 1.30.1 replaced on 2026-10-15 without a hardfork; the feed's dry runs on 2026-11-03. Commands that need a registered witness were not run.</p>
 </div></div>
 <p>A witness runs a node that produces blocks in turn, publishes a price feed every hour and asks stakeholders for their votes. What witnesses decide, how they are elected and how they are paid is on <a href="../governance/witnesses-and-dpos.html">Witnesses and DPoS</a>. This page is the procedure: keys, node, registration, price feed and upkeep. <a href="../../index.html">pixa.org</a>'s <a href="../../witness.html">node operator guide</a> walks through the same setup, together with an API node, from renting the server onward; this page pins the versions and gives the expected output of each step.</p>
 <h2 id="what-you-commit-to">What you commit to<a class="anchor" href="#what-you-commit-to" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
@@ -275,7 +276,7 @@
 </ul>
 <h2 id="1-create-a-signing-key">1. Create a signing key<a class="anchor" href="#1-create-a-signing-key" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <p>Generate it offline, with the wallet inside the node image. Nothing is sent anywhere.</p>
-<pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>--entrypoint<span class="w"> </span>/home/hived/bin/cli_wallet<span class="w"> </span>pixadock/pixagram:1.30.0<span class="w"> </span>-o</code></pre>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>--entrypoint<span class="w"> </span>/home/hived/bin/cli_wallet<span class="w"> </span>pixadock/pixagram:1.30.1<span class="w"> </span>-o</code></pre>
 <p>At the <code>new &gt;&gt;&gt;</code> prompt, type:</p>
 <pre class="hl has-copy"><code>suggest_brain_key</code></pre>
 <p>Expected output (your values differ):</p>
@@ -289,7 +290,7 @@
 <pre class="hl has-copy"><span class="lang">Shell</span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/pixagram-blockchain/witness.git
 <span class="nb">cd</span><span class="w"> </span>witness
 grep<span class="w"> </span><span class="s1">'image: pixadock/pixagram'</span><span class="w"> </span>docker-compose.yml</code></pre>
-<p>Expected output: the line <code>image: pixadock/pixagram:1.30.0</code>, indented. The repository pins every image version; this page describes its commit <code>e3b8841</code>.</p>
+<p>Expected output: the line <code>image: pixadock/pixagram:1.30.1</code>, indented. The repository pins every image version; this page describes its commit <code>704a68f</code>.</p>
 <p><strong>Fill in <code>pixagram/config.ini</code>.</strong> Near the end, two lines ship commented out, because hived stops with <code>unable to parse private key</code> when <code>private-key =</code> is present but empty. Open the file with <code>nano pixagram/config.ini</code>, remove the <code>#</code> from both lines and fill them in:</p>
 <pre class="hl has-copy"><span class="lang">INI</span><code><span class="na">witness</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"your-account"</span>
 <span class="na">private-key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">5…the wif_priv_key from step 1</span></code></pre>
@@ -429,95 +430,106 @@ on chain: your-account signs with PIX… url https://pixagram.com/…</code></pr
 </table></div>
 <p>Your votes for the fee and the block size count through the median of the scheduled witnesses (<a href="../reference/chain-parameters.html#accounts-and-keys">account fee</a>, <a href="../reference/chain-parameters.html#transaction-and-block-size">block size</a>).</p>
 <h2 id="5-publish-the-price-feed">5. Publish the price feed<a class="anchor" href="#5-publish-the-price-feed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
-<p><strong>PXS promises no price.</strong> Its feed is each witness's statement of how many PIXA one Big Mac costs. The chain takes the median of the witnesses' feeds once an hour, conversions use the median of the last 84 samples, and a feed older than 7 days stops counting (<a href="../reference/chain-parameters.html#pixa-supra-pxs-and-the-price-feed">the rules</a>). Until PIXA trades on a market, every feed uses the agreed placeholder price of 0.12 USD for PIXA.</p>
-<h3 id="today-bigmac-feed-v103">Today: <code>bigmac-feed</code> v1.0.3<a class="anchor" href="#today-bigmac-feed-v103" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
-<p>The <code>bigmac-feed</code> service in the repository reads the US price of a Big Mac from The Economist's index and divides it by <code>--token-price</code>, the placeholder. It broadcasts through your own node over Docker's internal network, which is why <code>config.ini</code> loads <code>database_api</code>, <code>condenser_api</code> and <code>network_broadcast_api</code>.</p>
-<p><strong>Check the version first.</strong> On 2026-10-05 the repository pins v1.0.2, which reads the January 2026 edition of the index and publishes 51.000 PIXA per PXS. Every live witness publishes 51.833, the value v1.0.3 computes from the July 2026 edition. On the witness server, in the <code>witness</code> directory:</p>
-<pre class="hl has-copy"><span class="lang">Shell</span><code>grep<span class="w"> </span><span class="s1">'bigmac-feed:'</span><span class="w"> </span>docker-compose.yml</code></pre>
-<p>If it prints <code>v1.0.2</code>, pin v1.0.3 in <code>docker-compose.override.yml</code>, which <code>git pull</code> leaves alone:</p>
-<pre class="hl has-copy"><span class="lang">YAML</span><code><span class="nt">services</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">bigmac-feed</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pixadock/bigmac-feed:v1.0.3</span></code></pre>
-<p>Then start the feed:</p>
-<pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>bigmac-feed
-docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>bigmac-feed</code></pre>
-<p>Expected output, once an hour:</p>
-<pre class="hl has-copy"><code>Big Mac = $6.22 (as of 2026-07-01) → 1 PXS = 51.833 PIXA
-Feed published by your-account: 1.000 PXS = 51.833 PIXA</code></pre>
-<h3 id="next-the-agnostic-feed">Next: the agnostic feed<a class="anchor" href="#next-the-agnostic-feed" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
-<p>The <a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic">agnostic feed</a> succeeds <code>bigmac-feed</code>. It keeps the same feed orientation and signing, and changes where the inputs come from:</p>
+<p><strong>PXS promises no price.</strong> Its feed is each witness's statement of how many PIXA one Big Mac costs. The chain takes the middle feed of the scheduled witnesses once an hour, conversions use the median of the last 84 samples, and a feed older than 7 days stops counting (<a href="../reference/chain-parameters.html#pixa-supra-pxs-and-the-price-feed">the rules</a>). How the feed is computed, and why, is on <a href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a>.</p>
+<p>The <code>bigmac-feed</code> service in the repository runs <code>bigmac-feed</code> v1.3.0. Every hour it:</p>
+<ol>
+<li>prices one Big Mac in the local currency of the country your server runs in, from The Economist's index, or uses the country or the price you set;</li>
+<li>values PIXA at the fair value of the PIXA/USDT order book on Coinstore, not at its last trade;</li>
+<li>converts that value into the Big Mac's currency at the day's rate, when the two differ;</li>
+<li>publishes <code>1.000 PXS = &lt;Big Mac ÷ PIXA&gt; PIXA</code> through your own node, over Docker's internal network, which is why <code>config.ini</code> loads <code>database_api</code>, <code>condenser_api</code> and <code>network_broadcast_api</code>.</li>
+</ol>
+<p>It needs no placeholder price. If the market gives no fair value, it publishes nothing that hour, and the chain keeps your previous feed.</p>
+<h3 id="check-the-version">Check the version<a class="anchor" href="#check-the-version" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>In the <code>witness</code> directory:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>grep<span class="w"> </span><span class="s1">'bigmac-feed:'</span><span class="w"> </span>docker-compose.yml
+ls<span class="w"> </span>docker-compose.override.yml</code></pre>
+<p>Expected output: the line <code>image: pixarex/bigmac-feed:v1.3.0</code>, indented, then <code>ls: cannot access 'docker-compose.override.yml': No such file or directory</code>. Until 2026-10-30 the repository pinned v1.0.2 with a fixed 0.12 USD price for PIXA.</p>
+<ul>
+<li><strong>An older version</strong> means an older copy of the repository: update it as in <a href="#2-set-up-the-node">step 2</a>, with <code>git pull</code>.</li>
+<li><strong>An override file</strong> may hold a feed pinned by an earlier version of this page, <code>pixadock/bigmac-feed:v1.0.3</code> or <code>bigmac-feed-agnostic:local</code>, and it overrides the repository. Delete its <code>bigmac-feed</code> section, or the whole file if that is all it holds.</li>
+</ul>
+<h3 id="try-it-without-a-key">Try it without a key<a class="anchor" href="#try-it-without-a-key" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>pixarex/bigmac-feed:v1.3.0<span class="w"> </span>--dry-run<span class="w"> </span>--once<span class="w"> </span>--witness<span class="o">=</span>your-account</code></pre>
+<p>A dry run computes everything, broadcasts nothing and needs no key. Expected output from a server in the United States on 2026-11-03. Each line starts with the date and time, and the numbers follow the order book and the day's exchange rate:</p>
+<pre class="hl has-copy"><code>Big Mac country: USA (detected from public IP)
+Big Mac Feed — witnesses=your-account rpc=https://api.pixagram.com markets=[coinstore PIXAUSDT] impact-size=1000 PIXA max-spread=25% interval=1h0m0s dry-run=true
+Big Mac in United States = 6.22 USD (as of 2026-07-01) | PIXA = 0.138513 USDT [coinstore PIXAUSDT: bid 0.1349 / ask 0.142, 1000-PIXA impact 0.13402 / 0.143006] → 1 PXS = 44.906 PIXA
+Dry run: would publish 1.000 PXS = 44.906 PIXA for your-account</code></pre>
+<p>Read the third line before going further: it names the Big Mac your feed will use and the market it read.</p>
+<h3 id="choose-your-big-mac">Choose your Big Mac<a class="anchor" href="#choose-your-big-mac" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
+<p>The detected country is your server's, which may not be yours: a server rented abroad reports the Big Mac of its data centre's country. Two settings change that:</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th><span class="sr-only">Aspect</span></th>
-<th><code>bigmac-feed</code> v1.0.3</th>
-<th>Agnostic feed</th>
+<th>Setting</th>
+<th>Effect</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Big Mac price</td>
-<td>The US price, from a pinned edition of the index</td>
-<td>The price you observe, in your currency (<code>bigmac.json</code>); or any country's, from the latest edition of the index</td>
+<td><code>--country=CH</code></td>
+<td>The local price of that country in the latest survey of the index. Two- or three-letter ISO codes; the euro area is <code>EUZ</code>, and any member country maps to it. A country missing from the survey makes the feed publish nothing.</td>
+<td>Switzerland: 7.30 CHF</td>
 </tr>
 <tr>
-<td>PIXA price</td>
-<td>Always <code>--token-price</code></td>
-<td>Market pairings (default <code>coinstore:PXAUSDT</code>), the median if several; <code>--token-price</code> only as a declared placeholder</td>
-</tr>
-<tr>
-<td>Different currencies</td>
-<td>—</td>
-<td>Converted with the ECB reference rate, through Frankfurter</td>
-</tr>
-<tr>
-<td>Protection</td>
-<td>—</td>
-<td>Moves at most ±50% per publish towards the target (<code>--max-change</code>); publishes nothing if any input is missing or absurd</td>
-</tr>
-<tr>
-<td>Trial run</td>
-<td>—</td>
-<td><code>--dry-run</code> computes everything and broadcasts nothing</td>
+<td><code>--bigmac-price=&quot;7.30 CHF&quot;</code></td>
+<td>A price you observe yourself, with its currency. It overrides <code>--country</code>. Nobody can check it on chain, so say on your witness page where it comes from.</td>
+<td>7.30 CHF</td>
 </tr>
 </tbody>
 </table></div>
-<p>No published image exists on 2026-10-05. Build it next to the <code>witness</code> directory, then return to it:</p>
-<pre class="hl has-copy"><span class="lang">Shell</span><code><span class="nb">cd</span><span class="w"> </span>..
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/pixagram-blockchain/bigmac-feed-agnostic.git
-git<span class="w"> </span>-C<span class="w"> </span>bigmac-feed-agnostic<span class="w"> </span>checkout<span class="w"> </span>-q<span class="w"> </span>96b9d4a<span class="w">      </span><span class="c1"># the version this page describes</span>
-docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>bigmac-feed-agnostic:local<span class="w"> </span>bigmac-feed-agnostic
-<span class="nb">cd</span><span class="w"> </span>witness</code></pre>
-<p><strong>Try it without a key.</strong> With no <code>bigmac.json</code>, it uses the US price from the index:</p>
-<pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>bigmac-feed-agnostic:local<span class="w"> </span>--dry-run<span class="w"> </span>--once<span class="w"> </span>--witness<span class="w"> </span>your-account<span class="w"> </span>--token-price<span class="w"> </span><span class="m">0</span>.12</code></pre>
-<p>Expected output, after a warning that a placeholder is configured:</p>
-<pre class="hl has-copy"><code>Big Mac = 6.22 USD [The Economist index, United States, edition 2026-07-01] | PXA = 0.12 USD [fixed placeholder] → 1 PXS = 51.833 PIXA
-DRY RUN — your-account would publish: 1.000 PXS = 51.833 PIXA</code></pre>
-<p>The dry run reads your current feed from the chain to apply the ±50% limit. For an account that is not yet a witness, the second line reads <code>ERROR: your-account: read current feed: witness &quot;your-account&quot; not found on chain</code> instead; add <code>--max-change 0</code> to try it before registering.</p>
-<p><strong>Declare the Big Mac you observe.</strong> Create <code>bigmac.json</code> in the <code>witness</code> directory; the feed reads it again before every publish, so later edits need no restart.</p>
-<pre class="hl has-copy"><span class="lang">Shell</span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>bigmac.json<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
-<span class="s">{ "currency": "CHF", "price": "7.30 CHF" }</span>
-<span class="s">EOF</span>
-docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">/bigmac.json:/data/bigmac.json:ro"</span><span class="w"> </span>bigmac-feed-agnostic:local<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--dry-run<span class="w"> </span>--once<span class="w"> </span>--witness<span class="w"> </span>your-account<span class="w"> </span>--token-price<span class="w"> </span><span class="m">0</span>.12</code></pre>
-<p>Expected output on 2026-10-05; the exchange rate changes daily:</p>
-<pre class="hl has-copy"><code>Big Mac = 7.3 CHF [bigmac.json] | PXA = 0.12 USD [fixed placeholder] = 0.0997248 CHF | FX USD→CHF 0.83104 (ECB 2026-10-05) → 1 PXS = 73.201 PIXA
-DRY RUN — your-account would publish: 1.000 PXS = 73.201 PIXA</code></pre>
-<p>Each witness's feed then reflects its own Big Mac, and the chain's median combines them. Create <code>bigmac.json</code> before you mount it: if the file is missing, Docker creates a directory in its place and the feed publishes nothing.</p>
-<p><strong>Switch the stack to it.</strong> Replace <code>docker-compose.override.yml</code> with:</p>
+<p>Try a setting before you keep it:</p>
+<pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>pixarex/bigmac-feed:v1.3.0<span class="w"> </span>--dry-run<span class="w"> </span>--once<span class="w"> </span>--witness<span class="o">=</span>your-account<span class="w"> </span>--bigmac-price<span class="o">=</span><span class="s2">"7.30 CHF"</span></code></pre>
+<p>Expected output on 2026-11-03, after the first two lines:</p>
+<pre class="hl has-copy"><code>Big Mac = 7.3 CHF (--bigmac-price) | PIXA = 0.138513 USDT [coinstore PIXAUSDT: bid 0.1349 / ask 0.142, 1000-PIXA impact 0.13402 / 0.143006] = 0.113529 CHF | FX USD→CHF 0.81963 (ECB 2026-11-02) → 1 PXS = 64.301 PIXA
+Dry run: would publish 1.000 PXS = 64.301 PIXA for your-account</code></pre>
+<p>To keep it, create <code>docker-compose.override.yml</code> in the <code>witness</code> directory; <code>git pull</code> leaves that file alone. Compose replaces the whole <code>command</code> list, so repeat the repository's three lines before yours:</p>
 <pre class="hl has-copy"><span class="lang">YAML</span><code><span class="nt">services</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">bigmac-feed</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bigmac-feed-agnostic:local</span>
 <span class="w">    </span><span class="nt">command</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--witness=${WITNESS_ACCOUNT}</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--rpc=http://pixagram:7777</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--token-price=0.12</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--interval=1h</span>
-<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./bigmac.json:/data/bigmac.json:ro</span></code></pre>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--country=CH</span></code></pre>
+<h3 id="start-it">Start it<a class="anchor" href="#start-it" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h3>
 <pre class="hl has-copy"><span class="lang">Shell</span><code>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>bigmac-feed
 docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f<span class="w"> </span>bigmac-feed</code></pre>
-<p><strong>When PIXA trades,</strong> remove the <code>--token-price=0.12</code> line and run <code>docker compose up -d bigmac-feed</code>; <code>docker compose restart</code> would keep the old command. The feed then reads the default pairing. While the pairing is not listed, it logs <code>coinstore PXAUSDT: symbol not listed</code> and publishes nothing; the chain keeps your previous feed.</p>
+<p>After any change to its settings, run <code>docker compose up -d bigmac-feed</code> again; <code>docker compose restart</code> keeps the old command. Expected output, once an hour, with your Big Mac and that hour's numbers:</p>
+<pre class="hl has-copy"><code>Big Mac in United States = 6.22 USD (as of 2026-07-01) | PIXA = 0.138513 USDT [coinstore PIXAUSDT: …] → 1 PXS = 44.906 PIXA
+Feed published by your-account: 1.000 PXS = 44.906 PIXA</code></pre>
+<p>Until your registration in step 4 is in a block, every publish fails with an error from the node. When the feed publishes nothing, it says why:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Log line</th>
+<th>Meaning</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WARNING: no fair value: coinstore PIXAUSDT: spread … is wider than --max-spread 25.0%, no fair value</code></td>
+<td>The book is too thin to read</td>
+<td>Nothing. The chain keeps your previous feed for up to 7 days.</td>
+</tr>
+<tr>
+<td><code>ERROR: no PIXA fair value from any of the 1 market(s); nothing published, the chain keeps the previous feed</code></td>
+<td>No market gave a fair value this hour</td>
+<td>The same. If it lasts for days, raise it with the other witnesses before you set <code>--token-price</code>.</td>
+</tr>
+<tr>
+<td><code>ERROR: fx USD→…: …</code></td>
+<td>No exchange rate for your Big Mac's currency, and no saved rate younger than 96 hours</td>
+<td>Check the server's outgoing connections.</td>
+</tr>
+<tr>
+<td><code>ERROR: … is not in the latest Big Mac survey</code></td>
+<td>The country set with <code>--country</code> is not in the index</td>
+<td>Choose another country, or declare a price.</td>
+</tr>
+</tbody>
+</table></div>
 <h2 id="keep-it-healthy">Keep it healthy<a class="anchor" href="#keep-it-healthy" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <ul>
 <li>
@@ -552,7 +564,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"
 <h2 id="before-you-announce">Before you announce<a class="anchor" href="#before-you-announce" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <ul class="contains-task-list">
 <li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; <code>get_witness_by_account</code> shows your signing key and URL, and once you are scheduled, your missed count stays flat.</li>
-<li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; Your feed is published, less than an hour old, and matches the other witnesses' reference.</li>
+<li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; Your feed is published, less than an hour old, and its log line names the Big Mac and the market you expect.</li>
 <li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; <code>config.ini</code> and <code>.env</code> are <code>chmod 600</code>, backed up, and in no git commit.</li>
 <li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; <code>timedatectl</code> reports a synchronized clock, and the offset is under 50 ms.</li>
 <li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; Your witness URL says who runs the node, where, and how to reach you.</li>
@@ -561,16 +573,16 @@ docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"
 <p>Then ask for votes: tell stakeholders why you run a witness and what you run besides it. They vote as shown in <a href="../governance/witnesses-and-dpos.html#how-to-vote">Witnesses and DPoS</a>. Since hardfork 30 your witness is scheduled only once accounts holding at least 1% of all Pixa Power have voted for it, so registering alone produces no blocks (<a href="../governance/witnesses-and-dpos.html#how-witnesses-are-elected">Witnesses and DPoS</a>).</p>
 <h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <ul>
-<li><strong>Repository</strong> <a href="https://github.com/pixagram-blockchain/witness/tree/e3b88414f563e02beff7587a3722d076214652c3"><code>pixagram-blockchain/witness</code></a> at commit <code>e3b8841</code>: <a href="https://github.com/pixagram-blockchain/witness/blob/e3b88414f563e02beff7587a3722d076214652c3/README.md"><code>README.md</code></a> (keys, clock incident, verification), <a href="https://github.com/pixagram-blockchain/witness/blob/e3b88414f563e02beff7587a3722d076214652c3/docker-compose.yml"><code>docker-compose.yml</code></a>, <a href="https://github.com/pixagram-blockchain/witness/blob/e3b88414f563e02beff7587a3722d076214652c3/pixagram/config.ini"><code>pixagram/config.ini</code></a>.</li>
-<li><strong>Feeds:</strong> <a href="https://github.com/pixagram-blockchain/bigmac-feed/tree/c88c43c8b3b8e08ff472fe523b33277b9940ffb2"><code>bigmac-feed</code></a> v1.0.3 at commit <code>c88c43c</code> (<a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/c88c43c8b3b8e08ff472fe523b33277b9940ffb2/main.go"><code>main.go</code></a>); <a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/tree/96b9d4a1f1a203d1fedbf603e7769f005c77cfba"><code>bigmac-feed-agnostic</code></a> at commit <code>96b9d4a</code> (<a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/blob/96b9d4a1f1a203d1fedbf603e7769f005c77cfba/README.md">README</a>). Both feed images' log lines were captured on 2026-10-05 without a node; the agnostic feed's dry runs reached <code>api.pixagram.com</code> read-only.</li>
+<li><strong>Repository</strong> <a href="https://github.com/pixagram-blockchain/witness/tree/704a68f8225ba768226dea3495095e9b9cc0bd1c"><code>pixagram-blockchain/witness</code></a> at commit <code>704a68f</code>, 2026-10-30: <a href="https://github.com/pixagram-blockchain/witness/blob/704a68f8225ba768226dea3495095e9b9cc0bd1c/README.md"><code>README.md</code></a> (keys, clock incident, verification, the 1.30.1 upgrade), <a href="https://github.com/pixagram-blockchain/witness/blob/704a68f8225ba768226dea3495095e9b9cc0bd1c/docker-compose.yml"><code>docker-compose.yml</code></a>, <a href="https://github.com/pixagram-blockchain/witness/blob/704a68f8225ba768226dea3495095e9b9cc0bd1c/pixagram/config.ini"><code>pixagram/config.ini</code></a>. Since commit <code>e3b8841</code>, which the first version of this page described, only the image versions, the feed's settings and the README changed.</li>
+<li><strong>Feed:</strong> <a href="https://github.com/pixagram-blockchain/bigmac-feed/tree/11f8ad1a4546440416c405f5afcd23e51434ae7c"><code>bigmac-feed</code></a> v1.3.0 at commit <code>11f8ad1</code>, 2026-10-30: <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/README.md">README</a> and <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/main.go"><code>main.go</code></a> for the settings and log lines, <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/11f8ad1a4546440416c405f5afcd23e51434ae7c/chain.go#L280-L290"><code>chain.go:280-290</code></a> for the line logged after each publish. The dry runs above were made on 2026-11-03 between 08:49 and 08:58 UTC with the program built from that commit, which its README calls v1.3.0, and reached <code>api.pixagram.com</code>, Coinstore and the exchange-rate services read-only. Docker Hub refused anonymous pulls from the test machine that day, so the image itself was not run. The superseded <a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic/tree/96b9d4a1f1a203d1fedbf603e7769f005c77cfba"><code>bigmac-feed-agnostic</code></a> is at commit <code>96b9d4a</code>.</li>
 <li><strong>Registration:</strong> the <code>witness_update</code> above, signed by dpixa, matched the public node's serialization (<code>condenser_api.get_transaction_hex</code>) on 2026-10-05. Validation of the properties: <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/hive_operations.cpp#L312-L336"><code>hive_operations.cpp:312-336</code></a> at commit <code>48f75a2</code>.</li>
 <li><strong>Log lines:</strong> <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/plugins/witness/witness_plugin.cpp#L342"><code>witness_plugin.cpp:342</code></a>, <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/plugins/witness/witness_plugin.cpp#L427">427</a> and <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/plugins/witness/witness_plugin.cpp#L625">625</a>.</li>
-<li><strong>Live values,</strong> 2026-10-05: <code>condenser_api.get_witnesses_by_vote</code> and <code>condenser_api.get_chain_properties</code>.</li>
+<li><strong>Live values,</strong> 2026-10-05: <code>condenser_api.get_witnesses_by_vote</code> and <code>condenser_api.get_chain_properties</code>; the number of scheduled witnesses, <code>condenser_api.get_witness_schedule</code> at block 1,722,911 on 2026-11-03.</li>
 <li><strong>Monitoring:</strong> <a href="https://github.com/pixagram-blockchain/witness-status/tree/a376149c1c04e97d1b2391d4394699c6dc8c202c"><code>witness-status</code></a> at commit <code>a376149</code>.</li>
 <li><strong>The same procedure on the developer site:</strong> <a href="../../index.html">pixa.org</a>, <a href="../../witness.html">Run a Pixagram node</a>, node operator guide version 1.0, 2026-09-05.</li>
 </ul>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/10-node-operators/become-a-witness.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="run-an-api-node.html"><span class="k">Previous</span><span class="t">Run an API Node</span></a><a class="next" href="cli-wallet.html"><span class="k">Next</span><span class="t">CLI Wallet</span></a></nav></main>
-<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#what-you-commit-to">What you commit to</a></li><li><a href="#before-you-start">Before you start</a></li><li><a href="#the-two-keys">The two keys</a></li><li><a href="#1-create-a-signing-key">1. Create a signing key</a></li><li><a href="#2-set-up-the-node">2. Set up the node</a></li><li class="sub"><a href="#check-the-clock-to-the-millisecond">Check the clock to the millisecond</a></li><li><a href="#3-start-the-node-and-let-it-sync">3. Start the node and let it sync</a></li><li><a href="#4-register-on-chain">4. Register on chain</a></li><li><a href="#5-publish-the-price-feed">5. Publish the price feed</a></li><li class="sub"><a href="#today-bigmac-feed-v103">Today: bigmac-feed v1.0.3</a></li><li class="sub"><a href="#next-the-agnostic-feed">Next: the agnostic feed</a></li><li><a href="#keep-it-healthy">Keep it healthy</a></li><li><a href="#before-you-announce">Before you announce</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/10-node-operators/become-a-witness.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/10-node-operators/become-a-witness.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/10-node-operators/become-a-witness.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="run-an-api-node.html"><span class="k">Previous</span><span class="t">Run an API Node</span></a><a class="next" href="cli-wallet.html"><span class="k">Next</span><span class="t">CLI Wallet</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#what-you-commit-to">What you commit to</a></li><li><a href="#before-you-start">Before you start</a></li><li><a href="#the-two-keys">The two keys</a></li><li><a href="#1-create-a-signing-key">1. Create a signing key</a></li><li><a href="#2-set-up-the-node">2. Set up the node</a></li><li class="sub"><a href="#check-the-clock-to-the-millisecond">Check the clock to the millisecond</a></li><li><a href="#3-start-the-node-and-let-it-sync">3. Start the node and let it sync</a></li><li><a href="#4-register-on-chain">4. Register on chain</a></li><li><a href="#5-publish-the-price-feed">5. Publish the price feed</a></li><li class="sub"><a href="#check-the-version">Check the version</a></li><li class="sub"><a href="#try-it-without-a-key">Try it without a key</a></li><li class="sub"><a href="#choose-your-big-mac">Choose your Big Mac</a></li><li class="sub"><a href="#start-it">Start it</a></li><li><a href="#keep-it-healthy">Keep it healthy</a></li><li><a href="#before-you-announce">Before you announce</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/10-node-operators/become-a-witness.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/10-node-operators/become-a-witness.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">
   <div class="footer-in">

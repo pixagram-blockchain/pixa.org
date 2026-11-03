@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -229,7 +230,7 @@
 </ul></details>
 </nav>
 <main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Reference</a></nav><h1>Chain Parameters</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
-<p>This page describes hived 1.30.0 (hardfork 30, active since block 949,330 on 2026-10-07 12:00 UTC). Last checked against the code and the live chain on 2026-10-08, at block 977,074.</p>
+<p>This page describes hived 1.30.0 (hardfork 30, active since block 949,330 on 2026-10-07 12:00 UTC); nodes run 1.30.1, a maintenance release with the same constants. Last checked against the code and the live chain on 2026-10-08, at block 977,074; the witness and price-feed rows on 2026-11-03, at block 1,722,911.</p>
 </div></div>
 <p>This page is the reference for every protocol number in these pages. Other pages may quote a number when it helps the reader, but they link here, and this page wins if the two disagree. When the chain changes, it is corrected here first.</p>
 <p>Each row gives the value in upstream Hive, the value on the Pixa chain, the kind of number it is, and its source. <strong>Bold</strong> marks a Pixa value that differs from Hive. Numbered notes follow each table.</p>
@@ -341,7 +342,7 @@
 <tr>
 <td>Release</td>
 <td>1.28.7</td>
-<td><strong>1.30.0</strong></td>
+<td><strong>1.30.0</strong>; nodes run 1.30.1 ⁷</td>
 <td>Software</td>
 <td><a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/include/hive/protocol/config.hpp#L143">config.hpp:143</a></td>
 </tr>
@@ -361,6 +362,7 @@
 <li>These are the symbol bytes in the legacy, pre-NAI wire format. Clients that hard-code Steem's bytes produce invalid signatures.</li>
 <li>A new chain: no balances were carried over from Steem or Hive. What genesis created is in <a href="#genesis">Genesis</a>.</li>
 <li>Hardforks 1–28 all applied at block 1; hardfork 29 at block 402,205 (2026-09-18 12:00 UTC); hardfork 30 at block 949,330 (2026-10-07 12:00 UTC). What each changed is on <a href="../governance/protocol-upgrades.html">Protocol Upgrades</a>.</li>
+<li>1.30.1, tagged on 2026-10-15, is a maintenance release without a hardfork: it merged upstream Hive 1.28.8, and every value in its <code>config.hpp</code> is that of 1.30.0 (<a href="https://github.com/pixagram-blockchain/pixagram/tree/7191f1848957d2378691b2cff8a84a37e4c71ad9"><code>v1.30.1</code></a>). On 2026-11-03 all 21 scheduled witnesses ran it (<code>get_witnesses_by_vote</code>).</li>
 </ol>
 <h2 id="genesis">Genesis<a class="anchor" href="#genesis" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <div class="table-wrap"><table>
@@ -450,7 +452,7 @@
 <tr>
 <td>Witnesses scheduled</td>
 <td>21</td>
-<td>8 on 2026-10-08</td>
+<td>21 on 2026-11-03; 8 on 2026-10-08</td>
 <td>State</td>
 <td><code>get_witness_schedule</code></td>
 </tr>
@@ -1024,7 +1026,7 @@
 <td>HIVE per HBD (US dollar)</td>
 <td><strong>PIXA per PXS (one Big Mac)</strong> ¹</td>
 <td>Software</td>
-<td><a href="https://github.com/pixagram-blockchain/bigmac-feed-agnostic">bigmac-feed-agnostic</a></td>
+<td><a href="https://github.com/pixagram-blockchain/bigmac-feed/tree/11f8ad1a4546440416c405f5afcd23e51434ae7c">bigmac-feed</a></td>
 </tr>
 <tr>
 <td>Feed sample</td>
@@ -1064,7 +1066,7 @@
 <tr>
 <td>Live median</td>
 <td>—</td>
-<td>51.833 PIXA per PXS ³</td>
+<td>51.000 PIXA per PXS ³</td>
 <td>State</td>
 <td><code>get_current_median_history_price</code></td>
 </tr>
@@ -1113,20 +1115,20 @@
 </tbody>
 </table></div>
 <ol>
-<li>With the agnostic feed, each witness enters the price of a Big Mac where it operates. On 2026-10-05 every witness published 51.833, the value <code>bigmac-feed</code> v1.0.3 computes from the US price (<a href="../node-operators/become-a-witness.html#5-publish-the-price-feed">Become a Witness</a>). The feed software is not part of consensus.</li>
+<li>The feed software sets what a feed means. <code>bigmac-feed</code> v1.3.0, which the <code>witness</code> repository ships since 2026-10-30, prices one Big Mac in the local currency of the witness's country, or at a price the witness declares, and divides it by the fair value of PIXA's order book converted into that currency, so no currency is privileged (<a href="../pixa-supra/oracle-and-price-feed.html#what-a-feed-states">Oracle and Price Feed</a>, <a href="../node-operators/become-a-witness.html#5-publish-the-price-feed">Become a Witness</a>). The feed software is not part of consensus.</li>
 <li>The chain takes no sample in an hour when too few witnesses have a current feed; the median in force then stays as it was. <code>get_config</code> still prints <code>HIVE_MIN_FEEDS: 7</code>; the runtime check differs.</li>
-<li>On 2026-10-08. See the placeholder note below.</li>
+<li>On 2026-11-03, at block 1,722,911; 51.833 on 2026-10-08. See the note below.</li>
 <li>Witnesses cannot publish any other value (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/include/hive/protocol/hive_operations.hpp#L432">hive_operations.hpp:432</a>).</li>
 <li>The debt ratio is the value of the PXS outside the treasury as a share of that PXS plus all PIXA. While it is under 20%, part of each author reward is paid in PXS. At or above 20%, that part is paid in PIXA (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database.cpp#L2943-L2964">database.cpp:2943-2964</a>).</li>
 <li>Above 30%, one PXS converts to at most <strong>3P ÷ 7S PIXA</strong>, where P is the PIXA supply and S the PXS outside the treasury (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database.cpp#L2500-L2528">database.cpp:2500-2528</a>).</li>
 <li>Refused if PXS would pass 20% (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/hive_evaluator_transfer.cpp#L579-L580">hive_evaluator_transfer.cpp:579-580</a>).</li>
 </ol>
-<p><strong>The live median is a placeholder, not a market reading.</strong> As of 2026-10-08, every witness publishes 6.22 USD (a US Big Mac) ÷ 0.12 USD, and 0.12 USD is an agreed placeholder price for PIXA. PIXA does not trade on any market yet. The feed in use, <code>bigmac-feed</code> v1.0.3, always divides by the placeholder; its successor, the agnostic feed, reads market prices and uses the placeholder only when told to with <code>--token-price</code>. Once a market exists, a witness's feed reads it only after the witness runs the agnostic feed without that setting (<a href="../node-operators/become-a-witness.html#5-publish-the-price-feed">Become a Witness</a>).</p>
+<p><strong>The live median still rests on the placeholder.</strong> On 2026-10-08 every witness published 6.22 USD (a US Big Mac) ÷ 0.12 USD, an agreed placeholder price for PIXA. PIXA has traded on one market since 2026-10-15, and on 2026-11-03 the 21 scheduled witnesses published ten different feeds, from 31.731 to 70.792 PIXA per PXS: fourteen read the market, each with its own country's Big Mac, and seven still published the placeholder values 51.833 or 51.000. The seven sat in the middle of the feeds, so the hour's sample was 51.833, and 76 of the 84 samples behind the median of 51.000 were placeholder values (<a href="../pixa-supra/oracle-and-price-feed.html#what-it-reads-today">what the feeds read</a>).</p>
 <p><strong>The same thresholds as collateral ratios.</strong> Let R be the value of all PIXA divided by the value of the PXS outside the treasury, both at the median feed. The debt ratio d and R are linked by R = 1/d − 1. This gives:</p>
 <ul>
 <li>PXS printing stops at R ≤ <strong>4×</strong>.</li>
 <li>The haircut starts at R &lt; <strong>2.33×</strong>. Below that, a PXS settles for the factor <strong>min(1, 3R ÷ 7)</strong> of its feed value.</li>
-<li>On 2026-10-08, R was about 1,145×: 100,780,034 PIXA against 1,699 PXS outside the treasury, at 51.833.</li>
+<li>On 2026-10-08, R was about 1,145×: 100,780,034 PIXA against 1,699 PXS outside the treasury, at 51.833. On 2026-11-03, about 155×: 100,931,814 PIXA against 12,771 PXS, at 51.000.</li>
 <li>The protocol has no upper threshold.</li>
 </ul>
 <p>The PXS design notes describe a corridor of &quot;roughly 3× to 10×&quot;; the numbers on this page are the ones the chain enforces (<a href="../pixa-supra/haircut-corridor-and-settlement.html#corridor-and-thresholds-design-and-chain">the two compared</a>).</p>
@@ -1290,7 +1292,7 @@ rpc<span class="w"> </span>database_api.list_proposals<span class="w"> </span><s
 </tr>
 </tbody>
 </table></div>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/21-reference/chain-parameters.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">Reference</span></a><a class="next" href="system-accounts.html"><span class="k">Next</span><span class="t">System Accounts</span></a></nav></main>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/21-reference/chain-parameters.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">Reference</span></a><a class="next" href="system-accounts.html"><span class="k">Next</span><span class="t">System Accounts</span></a></nav></main>
 <aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#network-identity">Network identity</a></li><li><a href="#genesis">Genesis</a></li><li><a href="#blocks-and-witnesses">Blocks and witnesses</a></li><li><a href="#transaction-and-block-size">Transaction and block size</a></li><li><a href="#accounts-and-keys">Accounts and keys</a></li><li><a href="#posts-and-comments">Posts and comments</a></li><li><a href="#voting-and-curation">Voting and curation</a></li><li><a href="#pixa-power-staking">Pixa Power (staking)</a></li><li><a href="#issuance">Issuance</a></li><li><a href="#pixa-supra-pxs-and-the-price-feed">Pixa Supra (PXS) and the price feed</a></li><li><a href="#decentralized-pixa-fund-dpf">Decentralized Pixa Fund (DPF)</a></li><li><a href="#resource-credits">Resource Credits</a></li><li><a href="#reading-live-values">Reading live values</a></li><li><a href="#figures-you-may-meet-elsewhere">Figures you may meet elsewhere</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/21-reference/chain-parameters.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/21-reference/chain-parameters.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">

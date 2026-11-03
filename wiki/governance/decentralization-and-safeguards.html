@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -229,7 +230,7 @@
 </ul></details>
 </nav>
 <main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Governance</a></nav><h1>Decentralization and Safeguards</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
-<p>Figures were read at block 979,332 on 2026-10-08, five weeks after genesis. Stake is highly concentrated today. The safeguards below limit what concentrated stake can do, but they do not spread it.</p>
+<p>Figures were read at block 979,332 on 2026-10-08, five weeks after genesis, and the table's again at block 1,723,276 on 2026-11-03. Stake is highly concentrated today. The safeguards below limit what concentrated stake can do, but they do not spread it.</p>
 </div></div>
 <p>A chain is as decentralized as the stake that elects its witnesses and funds its proposals. This page gives those figures as they stand, explains where they come from, and lists the protocol rules that limit what any holder can do. It also shows how to recompute the figures yourself, and says what is expected to change them.</p>
 <h2 id="the-figures-on-2026-10-08">The figures on 2026-10-08<a class="anchor" href="#the-figures-on-2026-10-08" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
@@ -237,45 +238,60 @@
 <thead>
 <tr>
 <th>Measure</th>
-<th>Value</th>
+<th>2026-10-08</th>
+<th>2026-11-03</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Accounts</td>
 <td>100</td>
+<td>224</td>
 </tr>
 <tr>
 <td>Stake held by <code>pixa.rex</code> and <code>pixa.team</code>, which cannot vote</td>
 <td>72.29%</td>
+<td>72.01%</td>
 </tr>
 <tr>
 <td>Stake that can vote: outside those two accounts, and matured for 30 days</td>
 <td>27.71%</td>
+<td>27.00%</td>
 </tr>
 <tr>
 <td>Accounts voting for witnesses</td>
 <td>7, five of them with stake; none through a proxy</td>
+<td>23</td>
 </tr>
 <tr>
 <td>Their share of the stake that can vote</td>
 <td>49.55% ¹</td>
+<td>48.11%</td>
 </tr>
 <tr>
 <td>Share of the stake outside the allocation accounts held by its five largest holders</td>
 <td>93.00%</td>
+<td>89.06%</td>
 </tr>
 <tr>
 <td>Accounts whose votes on posts move rewards, with more than 2.5 Pixa Power ²</td>
 <td>75</td>
+<td>193</td>
 </tr>
 <tr>
 <td>Accounts voting for the one funded DPF proposal</td>
 <td>4</td>
+<td>5</td>
 </tr>
 <tr>
 <td>Accounts voting for the DPF's funding threshold</td>
 <td>3, one of them with stake</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Witnesses scheduled</td>
+<td>8</td>
+<td>21</td>
 </tr>
 </tbody>
 </table></div>
@@ -290,7 +306,7 @@
 <li><strong>The voters came from the team allocation.</strong> The three largest witness voters hold 99.5% of the stake that voted for witnesses. They received it from <code>pixa.team</code> on 2026-09-04. The two voters without stake, <code>tine</code> and <code>eddiespino</code>, hold only delegated stake, which carries no governance weight.</li>
 <li><strong>One holder has a voice it does not use.</strong> On 2026-10-05 at 18:12 UTC, 10,884,615 VESTS finished their 30-day wait, 10,384,615 of them belonging to <code>pixa</code>, the operator's working account. <code>pixa</code> holds about 40% of the stake that can vote and casts no governance vote. Its share falls each week as it powers down, 1,153,846 VESTS at a time from 2026-10-10, to nothing by about 2026-12-05.</li>
 </ul>
-<p><strong>Who runs the witnesses.</strong> Witnesses do not have to say who operates them. On 2026-10-08, three of the eight scheduled witnesses gave a <a href="http://pixagram.com">pixagram.com</a> address as their website, and five gave the address of the public API node each runs (<a href="../infrastructure/architecture.html#the-six-public-nodes">Architecture</a>). One of them, <code>rex</code>, is the account the app uses to open new accounts.</p>
+<p><strong>Who runs the witnesses.</strong> Witnesses do not have to say who operates them, and two may sign with the same key: on 2026-11-03 two witnesses that produce blocks, one elected and one taking the timeshare slot in turn, had registered the same block-signing key (<a href="../protocol-reference/consensus-and-block-production.html#the-schedule-on-2026-11-03">Consensus and Block Production</a>). On 2026-10-08, three of the eight scheduled witnesses gave a <a href="http://pixagram.com">pixagram.com</a> address as their website, and five gave the address of the public API node each runs (<a href="../infrastructure/architecture.html#the-six-public-nodes">Architecture</a>). One of them, <code>rex</code>, is the account the app uses to open new accounts.</p>
 <p><strong>What this means.</strong> The protocol keeps the powers apart. The allocations cannot vote, the fund has no keys, and the rules change only through the witnesses. Today, though, a small group of accounts that received the team allocation stands behind each of these powers. Those accounts elect every witness, set the DPF's funding threshold and cast most of the votes that move rewards. The separation exists in the code; it does not yet exist in practice.</p>
 <h2 id="safeguards-in-the-protocol">Safeguards in the protocol<a class="anchor" href="#safeguards-in-the-protocol" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <div class="table-wrap"><table>
@@ -486,9 +502,9 @@ top 5 holders, outside allocations: 93.00%</code></pre>
 <li>the allocation accounts' restriction: <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database.cpp#L2762-L2810">database.cpp:2762-2810</a></li>
 </ul>
 </li>
-<li><strong>Live chain</strong>, read on 2026-10-08: <code>condenser_api.get_accounts</code> for all 100 accounts and <code>condenser_api.get_witnesses_by_vote</code> at block 979,332; <code>database_api.list_witness_votes</code> and <code>list_proposal_votes</code>; the account histories of <code>pixa.rex</code> and <code>pixa.team</code> (2026-10-05).</li>
+<li><strong>Live chain</strong>, read on 2026-10-08: <code>condenser_api.get_accounts</code> for all 100 accounts and <code>condenser_api.get_witnesses_by_vote</code> at block 979,332; <code>database_api.list_witness_votes</code> and <code>list_proposal_votes</code>; the account histories of <code>pixa.rex</code> and <code>pixa.team</code> (2026-10-05). On 2026-11-03, at block 1,723,276: the script above for all 224 accounts, <code>database_api.list_proposal_votes</code> and <code>condenser_api.get_witness_schedule</code>.</li>
 </ul>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/07-governance/decentralization-and-safeguards.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="protocol-upgrades.html"><span class="k">Previous</span><span class="t">Protocol Upgrades</span></a><a class="next" href="constitution.html"><span class="k">Next</span><span class="t">Constitution</span></a></nav></main>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/07-governance/decentralization-and-safeguards.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="protocol-upgrades.html"><span class="k">Previous</span><span class="t">Protocol Upgrades</span></a><a class="next" href="constitution.html"><span class="k">Next</span><span class="t">Constitution</span></a></nav></main>
 <aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#the-figures-on-2026-10-08">The figures on 2026-10-08</a></li><li><a href="#where-the-concentration-comes-from">Where the concentration comes from</a></li><li><a href="#safeguards-in-the-protocol">Safeguards in the protocol</a></li><li><a href="#what-the-safeguards-do-not-do">What the safeguards do not do</a></li><li><a href="#what-should-change-the-figures">What should change the figures</a></li><li><a href="#check-the-figures-yourself">Check the figures yourself</a></li><li><a href="#inherited--changed">Inherited → changed</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/07-governance/decentralization-and-safeguards.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/07-governance/decentralization-and-safeguards.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">

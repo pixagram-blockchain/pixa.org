@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -229,7 +230,7 @@
 </ul></details>
 </nav>
 <main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Pixa Supra (PXS)</a></nav><h1>The Four Components</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
-<p>, with differences from the design. The four-part model comes from the PXS design notes (June 2026); this page matches each part to what runs on chain. Figures read at block 917,250 on 2026-10-06.</p>
+<p>, with differences from the design. The four-part model comes from the PXS design notes (June 2026); this page matches each part to what runs on chain. Figures read at block 917,250 on 2026-10-06; the Oracle's as of 2026-11-03.</p>
 </div></div>
 <p>PXS promises no price. The design notes describe what it is instead as a relation between four parts: an <strong>Oracle</strong> that senses, an <strong>Atlas</strong> that bears, a <strong>Macro</strong> that regulates and a <strong>Supra</strong> that is observed. None of the four is PXS by itself. This page explains each part, shows where it sits in the chain's code and data, and marks where the model and the chain differ.</p>
 <h2 id="the-model">The model<a class="anchor" href="#the-model" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
@@ -249,8 +250,8 @@
 <ul>
 <li><strong>One good, not a basket.</strong> The software reads the price of a Big Mac only.</li>
 <li><strong>The basket lives outside consensus.</strong> It is defined in each witness's software, so it changes without a vote.</li>
-<li><strong>Outside inputs.</strong> The feed in use reads The Economist's index; the agnostic feed would add the ECB's rates and an exchange's ticker.</li>
-<li><strong>A placeholder.</strong> While PIXA does not trade, every feed divides by the same agreed price, and the Oracle reads no market at all.</li>
+<li><strong>Outside inputs.</strong> The feed software reads The Economist's index, the order book of PIXA's one market and two exchange-rate services.</li>
+<li><strong>A placeholder in the middle.</strong> On 2026-11-03, 14 of the 21 witnesses read PIXA's market, each with its own country's Big Mac. The other seven still divided by an agreed placeholder price, and because their identical feeds sat in the middle, the median still rested on them (<a href="oracle-and-price-feed.html#what-it-reads-today">Oracle and Price Feed</a>).</li>
 </ul>
 <h2 id="atlas-the-collateral-base">Atlas: the collateral base<a class="anchor" href="#atlas-the-collateral-base" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <p><strong>In the design.</strong> The network's own substance, PIXA and Pixa Power, the same token in two phases: liquid, and staked with a 13-week power-down. It is not a reserve set aside for PXS holders, and no one can top it up or draw it down to support PXS. It is volatile, because the activity it stands for is.</p>
@@ -258,12 +259,12 @@
 <p><strong>Where they differ.</strong></p>
 <ul>
 <li><strong>Who holds it.</strong> The design speaks of a creative economy. On 2026-10-06, 67,990,000 VESTS, about 67.5% of all PIXA, were the stake of the two allocation accounts, <code>pixa.rex</code> and <code>pixa.team</code>, still to be distributed (<a href="../tokens-and-economy/genesis-and-distribution.html#where-the-stake-is-now">Genesis and Distribution</a>).</li>
-<li><strong>What it is worth.</strong> The chain counts PIXA and values PXS against it at the median, which rests on the placeholder. What the Atlas would bear in a market depends on how many buyers PIXA finds, including as the allocations are distributed over the coming years.</li>
+<li><strong>What it is worth.</strong> The chain counts PIXA and values PXS against it at the median, which on 2026-11-03 still rested on the placeholder. What the Atlas would bear in a market depends on how many buyers PIXA finds, on a market that is still thin, including as the allocations are distributed over the coming years.</li>
 <li><strong>Who can change it.</strong> No account can add to it or take from it to support PXS. The protocol itself changes it every block: issuance adds PIXA, fees and conversions into PXS burn some, and conversions out of PXS create more (<a href="../tokens-and-economy/supply-inflation-and-yield.html">Supply, Inflation and Yield</a>).</li>
 </ul>
 <h2 id="supra-what-a-holder-holds">Supra: what a holder holds<a class="anchor" href="#supra-what-a-holder-holds" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <p><strong>In the design.</strong> The observable: &quot;a projection of the Atlas read through the Oracle&quot;. The holder holds neither a slice of any basket nor a claim against anyone, but the regulated relation itself, which settles in PIXA at the haircut. &quot;Underlying&quot; is the wrong word, the notes say, because the Supra and the Atlas are one body seen in two registers.</p>
-<p><strong>On chain.</strong> A PXS balance: liquid, in savings, unclaimed in a reward balance, inside a pending conversion or in an open order. The protocol settles it in only one way, by converting it into PIXA that it creates for the purpose. 2,414.312 PXS were outside the treasury on 2026-10-06, held by 23 accounts and four pending conversions (<a href="pxs-at-a-glance.html#pxs-on-2026-10-06">PXS at a Glance</a>).</p>
+<p><strong>On chain.</strong> A PXS balance: liquid, in savings, unclaimed in a reward balance, inside a pending conversion or in an open order. The protocol settles it in only one way, by converting it into PIXA that it creates for the purpose. 2,414.312 PXS were outside the treasury on 2026-10-06, held by 23 accounts and four pending conversions (<a href="pxs-at-a-glance.html#where-pxs-stands">PXS at a Glance</a>).</p>
 <p><strong>Where they differ.</strong> Nowhere in substance, and the chain makes the notes' point concrete. What a PXS is worth depends on the feed being right, on the Atlas being large enough to keep the haircut away, and on a market for the PIXA it converts into. A holder cannot separate PXS from PIXA.</p>
 <h2 id="macro-the-regulated-flow">Macro: the regulated flow<a class="anchor" href="#macro-the-regulated-flow" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <p><strong>In the design.</strong> The regulator: a flow, not a stock, and the one part that can be acted on. The Atlas cannot be commanded, the supply is never minted or burned to chase a price, and the Supra is defined by the others. Only the Macro moves, and the haircut moves it.</p>
@@ -317,14 +318,14 @@
 <tr>
 <th><span class="sr-only">Aspect</span></th>
 <th>PXS design notes</th>
-<th>The chain, 2026-10-06</th>
+<th>The chain, 2026-10-06; the Oracle on 2026-11-03</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Oracle</td>
 <td>a basket read by 21 elected witnesses; no outside feed</td>
-<td>one good, read by up to 21 elected witnesses, 9 today; an outside index; a placeholder for PIXA</td>
+<td>one good, read by up to 21 elected witnesses, 21 scheduled; outside sources for the Big Mac, PIXA's market and exchange rates; seven placeholder feeds still at the median</td>
 </tr>
 <tr>
 <td>Atlas</td>
@@ -386,7 +387,7 @@
 <li><strong>Code</strong>, at commit <a href="https://github.com/pixagram-blockchain/pixagram/tree/48f75a28840c24e5a5b42ccb4f94dc8668ecb443"><code>48f75a2</code></a>: the references are on <a href="haircut-corridor-and-settlement.html#sources">Haircut, Corridor and Settlement</a> and <a href="oracle-and-price-feed.html#sources">Oracle and Price Feed</a>.</li>
 <li><strong>Live values,</strong> read on 2026-10-06: <code>condenser_api.get_dynamic_global_properties</code> at block 917,250; <code>condenser_api.get_accounts</code> for <code>pixa.rex</code> and <code>pixa.team</code> at block 916,161.</li>
 </ul>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/the-four-components.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="supracoin-vs-stablecoin.html"><span class="k">Previous</span><span class="t">Supracoin vs Stablecoin</span></a><a class="next" href="oracle-and-price-feed.html"><span class="k">Next</span><span class="t">Oracle and Price Feed</span></a></nav></main>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/the-four-components.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="supracoin-vs-stablecoin.html"><span class="k">Previous</span><span class="t">Supracoin vs Stablecoin</span></a><a class="next" href="oracle-and-price-feed.html"><span class="k">Next</span><span class="t">Oracle and Price Feed</span></a></nav></main>
 <aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#the-model">The model</a></li><li><a href="#one-rule-adjust-never-defend">One rule: adjust, never defend</a></li><li><a href="#oracle-the-sensor">Oracle: the sensor</a></li><li><a href="#atlas-the-collateral-base">Atlas: the collateral base</a></li><li><a href="#supra-what-a-holder-holds">Supra: what a holder holds</a></li><li><a href="#macro-the-regulated-flow">Macro: the regulated flow</a></li><li><a href="#the-model-against-the-chain">The model against the chain</a></li><li><a href="#inherited--changed">Inherited → changed</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/05-pixa-supra/the-four-components.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/the-four-components.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">

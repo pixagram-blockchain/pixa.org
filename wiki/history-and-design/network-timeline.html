@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -229,7 +230,7 @@
 </ul></details>
 </nav>
 <main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">History and design</a></nav><h1>Network Timeline</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
-<p>Dated from the chain's blocks, the repositories' commits and the published documents. Last entry 2026-10-08.</p>
+<p>Dated from the chain's blocks, the repositories' commits and the published documents. Last entry 2026-11-03.</p>
 </div></div>
 <p>Every dated fact about the Pixa network in one place: what happened, when, and where the date comes from. Each entry is a block timestamp, a commit, a release or a document, so it can be checked. Events that are only planned are on the <a href="../start-here/roadmap.html">Roadmap</a>; the Steem and Hive history that leads up to genesis is on <a href="../start-here/from-steem-to-hive-to-pixa.html">From STEEM to HIVE to PIXA</a>.</p>
 <p>Times are UTC. Blocks come every 3 seconds, but a slot is missed now and then, so a block's time is read from <code>condenser_api.get_block_header</code>, not computed from its number: by 2026-10-08 the head block, 979,867, sat 1,075 slots, about 54 minutes, behind where an unbroken sequence would put it. Where PXS is mentioned, PXS promises no price; the feed figures are the witnesses' reference, not a market.</p>
@@ -444,6 +445,79 @@
 </tr>
 </tbody>
 </table></div>
+<h2 id="2026-10-and-2026-11-a-market-for-pixa-and-the-feed-reads-it">2026-10 and 2026-11: a market for PIXA, and the feed reads it<a class="anchor" href="#2026-10-and-2026-11-a-market-for-pixa-and-the-feed-reads-it" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Date and time</th>
+<th>Block</th>
+<th>Event</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-10-15 12:55</td>
+<td></td>
+<td>Tag <code>v1.30.1</code>, &quot;Bastion Anchor&quot;, commit <code>7191f18</code>: a maintenance release that merges upstream Hive 1.28.8, with no hardfork</td>
+<td><a href="https://github.com/pixagram-blockchain/pixagram/releases/tag/v1.30.1"><code>pixagram</code> repository</a></td>
+</tr>
+<tr>
+<td>2026-10-15 14:57</td>
+<td></td>
+<td>The <code>witness</code> repository moves to 1.30.1</td>
+<td><a href="https://github.com/pixagram-blockchain/witness/commit/fd14ef42a27d793577f52b02e963b0e7182da19d"><code>witness</code> commit <code>fd14ef4</code></a></td>
+</tr>
+<tr>
+<td>2026-10-15</td>
+<td></td>
+<td>The first trades in PIXA on a market: the PIXA/USDT pair on Coinstore, the market the price feed reads</td>
+<td>Coinstore's daily candles, <code>/api/v1/market/kline/PIXAUSDT</code></td>
+</tr>
+<tr>
+<td>2026-10-16 07:09</td>
+<td></td>
+<td><code>bigmac-feed</code> v1.1.0 values PIXA at the pair's last trade, and uses the 0.12 USD placeholder only while the pair has not traded</td>
+<td><a href="https://github.com/pixagram-blockchain/bigmac-feed/commit/b39f3d74a564c2a1aba9b776ce48d249b905c570"><code>bigmac-feed</code> commit <code>b39f3d7</code></a></td>
+</tr>
+<tr>
+<td>2026-10-21 19:04</td>
+<td></td>
+<td><code>bigmac-feed</code> v1.2.0 prices the Big Mac of the country the server runs in, converted to dollars at the survey's rate</td>
+<td><a href="https://github.com/pixagram-blockchain/bigmac-feed/commit/7b03d87b3b0885d5d9482d8781e5cd7f688396d3"><code>bigmac-feed</code> commit <code>7b03d87</code></a></td>
+</tr>
+<tr>
+<td>2026-10-27 21:21:21</td>
+<td>1,536,297</td>
+<td>The schedule holds 21 witnesses for the first time: 20 elected and the timeshare slot. From this block an elected witness's block pays 21/25 of the nominal share, 0.118999 VESTS</td>
+<td><a href="../protocol-reference/consensus-and-block-production.html#how-a-round-is-paid">Consensus and Block Production</a></td>
+</tr>
+<tr>
+<td>2026-10-30 11:02</td>
+<td></td>
+<td><code>bigmac-feed</code> v1.3.0: the order book's fair value instead of the last trade, and the Big Mac in its local currency, so no currency is privileged</td>
+<td><a href="https://github.com/pixagram-blockchain/bigmac-feed/commit/11f8ad1a4546440416c405f5afcd23e51434ae7c"><code>bigmac-feed</code> commit <code>11f8ad1</code></a></td>
+</tr>
+<tr>
+<td>2026-10-30 11:55</td>
+<td></td>
+<td>The <code>witness</code> repository moves to <code>pixarex/bigmac-feed:v1.3.0</code> and drops the 0.12 USD placeholder</td>
+<td><a href="https://github.com/pixagram-blockchain/witness/commit/704a68f8225ba768226dea3495095e9b9cc0bd1c"><code>witness</code> commit <code>704a68f</code></a></td>
+</tr>
+<tr>
+<td>2026-11-02 16:21 to 2026-11-03 08:27</td>
+<td></td>
+<td>Six witnesses move from the placeholder or the last trade to readings of the order book</td>
+<td><code>feed_publish</code> in <code>condenser_api.get_account_history</code></td>
+</tr>
+<tr>
+<td>2026-11-03 08:52</td>
+<td>1,722,911</td>
+<td>21 witnesses scheduled, all on 1.30.1. Their feeds take ten values, from 31.731 to 70.792 PIXA per PXS; seven are still the placeholder, and the median, 51.000, rests on placeholder values</td>
+<td><a href="../pixa-supra/oracle-and-price-feed.html#what-it-reads-today">Oracle and Price Feed</a></td>
+</tr>
+</tbody>
+</table></div>
 <h2 id="figures-over-time">Figures over time<a class="anchor" href="#figures-over-time" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <p>Values a reader may want to compare with today's. Each is the value at the date given; the live value is one call away (<a href="../reference/chain-parameters.html#reading-live-values">Chain Parameters</a>).</p>
 <div class="table-wrap"><table>
@@ -453,6 +527,7 @@
 <th>2026-09-04</th>
 <th>2026-10-05</th>
 <th>2026-10-08</th>
+<th>2026-11-03</th>
 <th>Call</th>
 </tr>
 </thead>
@@ -462,6 +537,7 @@
 <td>102.000, then 51.000</td>
 <td>51.833</td>
 <td>51.833</td>
+<td>51.000</td>
 <td><code>get_current_median_history_price</code></td>
 </tr>
 <tr>
@@ -469,6 +545,7 @@
 <td>1 (<code>initminer</code>)</td>
 <td>9</td>
 <td>8</td>
+<td>21</td>
 <td><code>get_witness_schedule</code></td>
 </tr>
 <tr>
@@ -476,12 +553,14 @@
 <td></td>
 <td>0.329 PIXA</td>
 <td>0.141 PIXA</td>
+<td>0.119 PIXA elected, 0.596 timeshare</td>
 <td><code>producer_reward</code> operations</td>
 </tr>
 <tr>
 <td>Vote dust deduction</td>
 <td>50,000,000 rshares</td>
 <td>50,000,000</td>
+<td>50,000</td>
 <td>50,000</td>
 <td>code</td>
 </tr>
@@ -490,6 +569,7 @@
 <td>2,500 Pixa Power</td>
 <td>2,500</td>
 <td>2.5</td>
+<td>2.5</td>
 <td>code</td>
 </tr>
 <tr>
@@ -497,6 +577,7 @@
 <td>0</td>
 <td>481,746.405 PIXA</td>
 <td>517,193.258 PIXA</td>
+<td>506,129.928 PIXA</td>
 <td><code>get_reward_fund</code></td>
 </tr>
 <tr>
@@ -504,6 +585,7 @@
 <td>9, three of them with balances</td>
 <td>83</td>
 <td>100</td>
+<td>224</td>
 <td><code>get_account_count</code></td>
 </tr>
 <tr>
@@ -511,6 +593,7 @@
 <td>100,000,000</td>
 <td></td>
 <td>100,778,228.955</td>
+<td>100,931,814.101</td>
 <td><code>get_dynamic_global_properties</code></td>
 </tr>
 <tr>
@@ -518,6 +601,7 @@
 <td>245,098.039</td>
 <td></td>
 <td>250,870.204</td>
+<td>261,134.493</td>
 <td><code>get_dynamic_global_properties</code></td>
 </tr>
 </tbody>
@@ -532,13 +616,14 @@ rpc<span class="w"> </span>account_history_api.get_ops_in_block<span class="w"> 
 <p>A transaction's block is in its account history (<code>condenser_api.get_account_history</code>); a post's creation time is in <code>bridge.get_post</code>.</p>
 <h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <ul>
-<li><strong>Chain:</strong> <code>condenser_api.get_block_header</code> for blocks 1, 342,000, 402,205, 864,000, 905,693 and 949,330; <code>block_api.get_block_range</code> over blocks 900,000 to 949,330 for the <code>hardfork_version_vote</code> extensions; <code>database_api.list_proposals</code>; <code>condenser_api.get_witness_schedule</code> and <code>get_witnesses_by_vote</code> on 2026-10-05 and 2026-10-08; <code>get_dynamic_global_properties</code> and <code>get_reward_fund</code> on 2026-10-08.</li>
-<li><strong>Repositories:</strong> <a href="https://github.com/pixagram-blockchain/pixagram"><code>pixagram</code></a> commit dates for <code>48f75a2</code>, <code>eb4574a</code>, <code>d986a23</code>, <code>8e50002</code> and <code>746118e</code>; <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev"><code>pixagram-ui-dev</code></a> commit <code>ca1d157</code>; <a href="https://github.com/pixagram-blockchain/dpixa"><code>dpixa</code></a> commit <code>fddb47d</code>; <a href="https://github.com/pixagram-blockchain/paph-js"><code>paph-js</code></a> CHANGELOG.</li>
+<li><strong>Chain:</strong> <code>condenser_api.get_block_header</code> for blocks 1, 342,000, 402,205, 864,000, 905,693 and 949,330; <code>block_api.get_block_range</code> over blocks 900,000 to 949,330 for the <code>hardfork_version_vote</code> extensions; <code>database_api.list_proposals</code>; <code>condenser_api.get_witness_schedule</code> and <code>get_witnesses_by_vote</code> on 2026-10-05, 2026-10-08 and 2026-11-03; <code>get_dynamic_global_properties</code> and <code>get_reward_fund</code> on 2026-10-08 and 2026-11-03; <code>feed_publish</code> operations from <code>condenser_api.get_account_history</code> for 2026-11-01 to 2026-11-03.</li>
+<li><strong>Repositories:</strong> <a href="https://github.com/pixagram-blockchain/pixagram"><code>pixagram</code></a> commit dates for <code>48f75a2</code>, <code>eb4574a</code>, <code>d986a23</code>, <code>8e50002</code>, <code>746118e</code> and <code>7191f18</code>, and the <code>v1.30.1</code> tag; <a href="https://github.com/pixagram-blockchain/bigmac-feed"><code>bigmac-feed</code></a> and <a href="https://github.com/pixagram-blockchain/witness"><code>witness</code></a> commit dates, in UTC; <a href="https://github.com/pixagram-blockchain/pixagram-ui-dev"><code>pixagram-ui-dev</code></a> commit <code>ca1d157</code>; <a href="https://github.com/pixagram-blockchain/dpixa"><code>dpixa</code></a> commit <code>fddb47d</code>; <a href="https://github.com/pixagram-blockchain/paph-js"><code>paph-js</code></a> CHANGELOG.</li>
+<li><strong>Market:</strong> Coinstore's public daily candles for <code>PIXAUSDT</code>, read on 2026-11-03.</li>
 <li><strong>Documents:</strong> <a href="../../index.html">pixa.org</a>'s node operator guide, version 1.0 of 2026-09-05; the essays listed on <a href="essays.html">Essays</a>.</li>
 <li>The other pages cited in each row hold the detail and their own sources.</li>
 </ul>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/20-history-and-design/network-timeline.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">History and design</span></a><a class="next" href="the-plan-revisited.html"><span class="k">Next</span><span class="t">The Plan Revisited</span></a></nav></main>
-<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#before-genesis">Before genesis</a></li><li><a href="#2026-09-genesis-and-hardfork-29">2026-09: genesis and hardfork 29</a></li><li><a href="#2026-10-hardfork-30">2026-10: hardfork 30</a></li><li><a href="#figures-over-time">Figures over time</a></li><li><a href="#how-to-date-something-yourself">How to date something yourself</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/20-history-and-design/network-timeline.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/20-history-and-design/network-timeline.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/20-history-and-design/network-timeline.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">History and design</span></a><a class="next" href="the-plan-revisited.html"><span class="k">Next</span><span class="t">The Plan Revisited</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#before-genesis">Before genesis</a></li><li><a href="#2026-09-genesis-and-hardfork-29">2026-09: genesis and hardfork 29</a></li><li><a href="#2026-10-hardfork-30">2026-10: hardfork 30</a></li><li><a href="#2026-10-and-2026-11-a-market-for-pixa-and-the-feed-reads-it">2026-10 and 2026-11: a market for PIXA, and the feed reads it</a></li><li><a href="#figures-over-time">Figures over time</a></li><li><a href="#how-to-date-something-yourself">How to date something yourself</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/20-history-and-design/network-timeline.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/20-history-and-design/network-timeline.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">
   <div class="footer-in">

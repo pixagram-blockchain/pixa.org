@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -229,7 +230,7 @@
 </ul></details>
 </nav>
 <main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">History and design</a></nav><h1>The Plan Revisited</h1><div class="prose-doc"><div class="status"><span class="chip fill"><span class="sr-only">Status: </span>Historical</span><div class="status-text">
-<p>Larimer's three-phase plan for Steem (2016-07-06), what Steem, Hive and Pixa built of it, and the claims of Pixagram's essay of 2025-12-20 checked against the chain. Last checked 2026-10-06.</p>
+<p>Larimer's three-phase plan for Steem (2016-07-06), what Steem, Hive and Pixa built of it, and the claims of Pixagram's essay of 2025-12-20 checked against the chain. Last checked 2026-10-06; the price feed on 2026-11-03.</p>
 </div></div>
 <p>In July 2016, about three months after Steem's first block, Dan Larimer set out a plan for it in three phases: a currency, then a marketplace, then sidechains and smart contracts. In December 2025, an essay by Pixagram's co-founder argued that Pixagram completes that plan. This page sets the plan beside the record of the ten years since, then checks the essay's claims against the chain and the code. It quotes both and reports what the record shows.</p>
 <h2 id="the-plan-2016">The plan, 2016<a class="anchor" href="#the-plan-2016" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
@@ -369,7 +370,7 @@
 <thead>
 <tr>
 <th>The essay</th>
-<th>The chain on 2026-10-06</th>
+<th>The chain on 2026-10-06; the feed on 2026-11-03</th>
 <th>Details</th>
 </tr>
 </thead>
@@ -381,8 +382,8 @@
 </tr>
 <tr>
 <td>&quot;Each witness manually selects their country's Big Mac price&quot;</td>
-<td>Not today. At any one time, every witness has published the same feed: since 2026-09-04 17:39 UTC, the US Big Mac price in The Economist's index divided by a placeholder price for PIXA of 0.12 USD. The agnostic feed would let each witness declare a local price.</td>
-<td><a href="../pixa-supra/oracle-and-price-feed.html#what-it-has-read-since-genesis">Oracle and Price Feed</a></td>
+<td>Partly, since October 2026. Until then every witness published the same feed: the US Big Mac price in The Economist's index divided by a placeholder price for PIXA of 0.12 USD. Since <code>bigmac-feed</code> v1.2.0 (2026-10-21) the feed prices the Big Mac of the country the witness's server runs in, and since v1.3.0 (2026-10-30) in that country's own currency; a witness may also name another country or declare the price it pays. On 2026-11-03 seven of the 21 scheduled witnesses still published the placeholder.</td>
+<td><a href="../pixa-supra/oracle-and-price-feed.html#where-the-big-mac-comes-from">Oracle and Price Feed</a></td>
 </tr>
 <tr>
 <td>PXS is &quot;backed by a minimum 300% reserve of liquid PIXA tokens&quot;, with &quot;an aspirational target of 1000%&quot;</td>
@@ -486,7 +487,7 @@
 <li><strong>SBD and HBD prices:</strong> <a href="../pixa-supra/from-sbd-to-pxs.html#sources">From SBD to PXS</a>.</li>
 <li><strong>The essay:</strong> Matias Affolter, &quot;<a href="https://www.linkedin.com/pulse/how-pixagram-completes-vision-blockchain-world-domination-8ntve/">How Pixagram Completes the Vision for Blockchain World Domination</a>&quot;, LinkedIn, 2025-12-20.</li>
 </ul>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/20-history-and-design/the-plan-revisited.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="network-timeline.html"><span class="k">Previous</span><span class="t">Network Timeline</span></a><a class="next" href="essays.html"><span class="k">Next</span><span class="t">Essays</span></a></nav></main>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/20-history-and-design/the-plan-revisited.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="network-timeline.html"><span class="k">Previous</span><span class="t">Network Timeline</span></a><a class="next" href="essays.html"><span class="k">Next</span><span class="t">Essays</span></a></nav></main>
 <aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#the-plan-2016">The plan, 2016</a></li><li><a href="#what-was-built">What was built</a></li><li><a href="#what-the-record-shows">What the record shows</a></li><li><a href="#the-2025-essay-checked">The 2025 essay, checked</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/20-history-and-design/the-plan-revisited.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/20-history-and-design/the-plan-revisited.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">

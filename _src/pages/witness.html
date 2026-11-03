@@ -96,7 +96,7 @@
 
   <aside class="note">{{ICON:info}}<div>
     <strong class="h">What a witness earns</strong>
-    <p>Every block a witness signs pays it VESTS — PIXA staked in the account — straight away. At the time of writing one block pays <b id="rwd">0.370</b> VESTS. <span id="rwdn">8</span> witnesses share 28,800 blocks a day, so each signs about <b id="rwdb">3,600</b> and receives about <b id="rwdd">1,332</b> VESTS a day. The price feed values PIXA at a reference of 0.12 USD, so you can do the conversion yourself. Pay per block falls as more witnesses join (with the full 21, a top-20 seat comes to roughly 160 VESTS a day) and inflation narrows every 250,000 blocks, so treat these as today's figures, not a promise. VESTS become liquid PIXA through a power-down paid in 13 weekly instalments.</p>
+    <p>Every block a witness signs pays it VESTS — PIXA staked in the account — straight away. At the time of writing one block by an elected witness pays <b id="rwd">0.119</b> VESTS. <span id="rwdn">21</span> witnesses share 28,800 blocks a day, so each signs about <b id="rwdb">1,371</b> and an elected witness receives about <b id="rwdd">163</b> VESTS a day; the one timeshare slot, which the runners-up take in turn, pays five times as much per block. The schedule has been full since 27 October 2026, so the pay now moves with inflation, which narrows every 250,000 blocks, and with missed blocks: treat these as today's figures, not a promise. What they are worth in money depends on PIXA's market, which this page does not quote. VESTS become liquid PIXA through a power-down paid in 13 weekly instalments.</p>
   </div></aside>
 </section>
 
@@ -349,14 +349,21 @@ client.broadcast.sendOperations(ops, PrivateKey.fromString(ACTIVE_WIF))
 <!-- ============================================================================ -->
 <section id="s7" class="step">
   <h2><span class="n">7</span><span>Price feed</span></h2>
-  <p>PXS, Pixa Supra, promises no price: it is a Big Mac referenced supracoin. Whenever the chain converts between PXS and PIXA — treasury payouts, the printed value of rewards — it uses the median of the prices all witnesses publish. A witness that publishes none, or one older than seven days, is flagged on the status page.</p>
-  <p>The feed refers to the price of one Big Mac. The feed container in your stack fetches the US Big Mac price from The Economist's index, divides it by a PIXA/USD reference price, and publishes the result through your own node every hour. The reference is the <code>--token-price</code> argument in <code>docker-compose.yml</code>, currently <code>0.12</code>; at a Big Mac of 6.12 USD that gives the 51 PIXA per PXS the chain shows today.</p>
-<pre><code>docker compose logs -f bigmac-feed
-<span class="c"># Big Mac = $6.12 (as of 2026-01-…) → 1 PXS = 51.000 PIXA</span></code></pre>
-  <p>Keep <code>--token-price</code> in line with the reference the other witnesses use — the status page shows each feed's deviation from the median, and a large one is visible to every voter. When the reference changes, edit the value and reload only that container:</p>
-<pre><code>nano docker-compose.yml             <span class="c"># change --token-price=0.12</span>
-docker compose up -d bigmac-feed</code></pre>
-  <p>Nothing here leaves the machine except the signed transaction: the feed talks to hived over the internal Compose network, which is why the witness config loads <code>database_api</code>, <code>condenser_api</code> and <code>network_broadcast_api</code> alongside the <code>witness</code> plugin. If you publish your feed by other means, remove the service.</p>
+  <p>PXS, Pixa Supra, promises no price: it is a Big Mac referenced supracoin. Whenever the chain converts between PXS and PIXA — treasury payouts, the printed value of rewards — it uses the median of the prices the witnesses publish. A witness that publishes none, or one older than seven days, is flagged on the status page.</p>
+  <p>Each feed says how many PIXA buy one Big Mac where the witness runs, and no currency is privileged. The <code>bigmac-feed</code> container in your stack, <code>pixarex/bigmac-feed:v1.3.0</code>, works it out every hour:</p>
+  <ol>
+    <li>the local price of a Big Mac, in the local currency, for the country your server is in, from The Economist's index;</li>
+    <li>the fair value of PIXA on the PIXA/USDT order book: the average price of selling and of buying 1,000 PIXA, held inside the spread. Never the last trade, which a single 1-PIXA order can move;</li>
+    <li>that value converted into the Big Mac's currency at the day's rate, then Big Mac ÷ PIXA, published through your own node.</li>
+  </ol>
+  <p>Try it first. A dry run needs no key and broadcasts nothing:</p>
+<pre><code>docker run --rm pixarex/bigmac-feed:v1.3.0 --dry-run --once --witness=<span class="v">your-account</span>
+<span class="c"># Big Mac in United States = 6.22 USD (as of 2026-07-01) | PIXA = 0.138513 USDT [coinstore PIXAUSDT: …] → 1 PXS = 44.906 PIXA</span></code></pre>
+  <p>The detected country is your server's, which may not be yours. To set it, add <code>--country=CH</code> (any ISO code), or the price you pay, <code>--bigmac-price="7.30 CHF"</code>, in a <code>docker-compose.override.yml</code> that repeats the service's three <code>command</code> lines. Then reload only that container:</p>
+<pre><code>docker compose up -d bigmac-feed
+docker compose logs -f bigmac-feed     <span class="c"># Feed published by your-account: 1.000 PXS = … PIXA</span></code></pre>
+  <p>There is no reference price to keep in line any more: witnesses in different countries publish different feeds by design, and the chain takes their median. When the book is too thin to read — one side empty, or a spread above 25% — the feed publishes nothing that hour and the chain keeps your last one. Coming from v1.0.x? <code>git pull</code> brings the new image and drops <code>--token-price</code>; delete any override that still pins an older feed. Every step with its expected output is in <a href="wiki/node-operators/become-a-witness.html#5-publish-the-price-feed">Become a Witness</a>, and how the median is made in <a href="wiki/pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a>.</p>
+  <p>The signed transaction never passes through a third party: the feed talks to hived over the internal Compose network, which is why the witness config loads <code>database_api</code>, <code>condenser_api</code> and <code>network_broadcast_api</code> alongside the <code>witness</code> plugin. Its only outside requests are reads: the index, the order book, exchange rates and, once at start-up, your server's country. If you publish your feed by other means, remove the service.</p>
 </section>
 
 <!-- ============================================================================ -->
@@ -445,6 +452,7 @@ crontab -e
       <tr><td><code>https://</code> fails, Caddy logs ACME errors</td><td>DNS not pointing here yet, or 80/443 closed</td><td>Fix DNS or firewall; Caddy retries by itself</td></tr>
       <tr><td>Jussi restarts for a minute after boot</td><td>It resolves Hivemind's address while Hivemind is still starting</td><td>Nothing — wait</td></tr>
       <tr><td>Feed container logs an error every hour</td><td>Account not yet registered as witness, or wrong key in <code>.env</code></td><td>Finish step 6; check that <code>.env</code> holds the <b>active</b> key</td></tr>
+      <tr><td>Feed logs <code>no fair value</code> and publishes nothing</td><td>The PIXA order book is one-sided or its spread is above 25% this hour</td><td>Nothing — the chain keeps your last feed for up to seven days</td></tr>
       <tr><td>Disk almost full</td><td>The chain grew, or logs did</td><td>Resize the volume; the block log must never be deleted</td></tr>
     </tbody>
   </table></div>
@@ -455,7 +463,7 @@ crontab -e
   <h2>Before you announce</h2>
   <ul class="check">
     <li><input class="cb" type="checkbox" id="c1"><label for="c1">The node logs <code>Generated block</code> and the status page shows you producing with a flat missed count.</label></li>
-    <li><input class="cb" type="checkbox" id="c2"><label for="c2">Your price feed is published, at the median, less than an hour old.</label></li>
+    <li><input class="cb" type="checkbox" id="c2"><label for="c2">Your price feed is published, less than an hour old, and its log line names the Big Mac and the market you expect.</label></li>
     <li><input class="cb" type="checkbox" id="c3"><label for="c3"><code>config.ini</code> and <code>.env</code> are <code>chmod 600</code>, backed up in a password manager, and not in any git commit.</label></li>
     <li><input class="cb" type="checkbox" id="c4"><label for="c4">Password login and root login over SSH are off; the provider firewall allows only the ports in step 1.</label></li>
     <li><input class="cb" type="checkbox" id="c5"><label for="c5"><code>timedatectl</code> says the clock is synchronised.</label></li>
@@ -494,7 +502,7 @@ crontab -e
       <tr><td>Power-down</td><td>13 weekly instalments</td></tr>
       <tr><td>Chain ID</td><td><code>706978616772616d000000000000000000000000000000000000000000000000</code> (ASCII "pixagram", padded)</td></tr>
       <tr><td>Key prefix</td><td><code>PIX</code></td></tr>
-      <tr><td>Node software</td><td>hived 1.30.1, hardfork 30 active since block 949330; images <code>pixadock/pixagram:1.30.1</code>, <code>pixadock/pixagram-haf:1.30.1</code>, <code>pixadock/hivemind:1.28.8</code>, <code>pixadock/bigmac-feed:v1.0.3</code></td></tr>
+      <tr><td>Node software</td><td>hived 1.30.1, hardfork 30 active since block 949330; images <code>pixadock/pixagram:1.30.1</code>, <code>pixadock/pixagram-haf:1.30.1</code>, <code>pixadock/hivemind:1.28.8</code>, <code>pixarex/bigmac-feed:v1.3.0</code></td></tr>
     </tbody>
   </table></div>
 

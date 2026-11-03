@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -229,7 +230,7 @@
 </ul></details>
 </nav>
 <main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Start here</a></nav><h1>Who Does What</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
-<p>This page describes the structure as the project states it. Where a role leaves a trace on chain, the page gives the account so you can check it. Last checked 2026-10-05.</p>
+<p>This page describes the structure as the project states it. Where a role leaves a trace on chain, the page gives the account so you can check it. Last checked 2026-10-05; the witnesses and the price feed on 2026-11-03.</p>
 </div></div>
 <p>Pixagram is built and run by several parties with separate jobs. Three legal entities share the off-chain work. Elected witnesses run the chain, and stakeholders govern the community fund. This page says who does what. It also lists what none of them can do alone.</p>
 <h2 id="the-three-entities">The three entities<a class="anchor" href="#the-three-entities" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
@@ -277,7 +278,7 @@
 <tbody>
 <tr>
 <td><strong>Witnesses</strong></td>
-<td>Elected block producers: up to 21 elected, 1 required, 9 on 2026-10-05 (<a href="https://pixagram.com/witness-status/">status page</a>)</td>
+<td>Elected block producers: up to 21 elected, 1 required, 21 scheduled on 2026-11-03 (<a href="https://pixagram.com/witness-status/">status page</a>)</td>
 <td>Which blocks are produced; the account creation fee and block size, through the median of their votes; the price feed; whether a new protocol version activates</td>
 </tr>
 <tr>
@@ -328,7 +329,7 @@
 </tr>
 <tr>
 <td>Set the price PXS converts at</td>
-<td>No one alone. PXS promises no price: conversions use the median of the witnesses' feeds, reduced by the haircut when the network is stretched. Today every feed uses the same placeholder price for PIXA (<a href="../pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a>).</td>
+<td>No one alone. PXS promises no price: conversions use the median of the witnesses' feeds, reduced by the haircut when the network is stretched. Each witness prices the Big Mac of its own country; on 2026-11-03, 14 of the 21 read PIXA's market, and the median still rested on the placeholder price the other seven publish (<a href="../pixa-supra/oracle-and-price-feed.html#what-it-reads-today">Oracle and Price Feed</a>).</td>
 </tr>
 <tr>
 <td>Print PIXA outside issuance</td>
@@ -347,7 +348,7 @@
 <li>Proposal 1 and the return proposal: <code>database_api.list_proposals</code>, read on 2026-10-05.</li>
 <li>An account opened by <code>rex</code> with a 20.000 PIXA fee and a 100 VESTS delegation: <code>condenser_api.get_ops_in_block</code> at block 894,437.</li>
 </ul>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/01-start-here/who-does-what.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="roadmap.html"><span class="k">Previous</span><span class="t">Roadmap</span></a><a class="next" href="faq.html"><span class="k">Next</span><span class="t">FAQ</span></a></nav></main>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/01-start-here/who-does-what.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="roadmap.html"><span class="k">Previous</span><span class="t">Roadmap</span></a><a class="next" href="faq.html"><span class="k">Next</span><span class="t">FAQ</span></a></nav></main>
 <aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#the-three-entities">The three entities</a></li><li><a href="#the-networks-own-roles">The network&#x27;s own roles</a></li><li><a href="#what-no-single-party-can-do">What no single party can do</a></li><li><a href="#who-pays-for-what-today">Who pays for what today</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/01-start-here/who-does-what.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/01-start-here/who-does-what.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">

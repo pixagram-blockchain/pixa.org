@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -358,7 +359,7 @@ Two to four sentences: what this page answers, and for whom.
 <tr>
 <td>Liquid token</td>
 <td>PIXA</td>
-<td>Use PXA only when naming a market pair, such as PXA/USDT.</td>
+<td>In market pairs too: the pair the price feed reads is PIXA/USDT (<code>PIXAUSDT</code>). PXA appears in the app and in older documents.</td>
 </tr>
 <tr>
 <td>Staked token</td>
@@ -511,7 +512,7 @@ Two to four sentences: what this page answers, and for whom.
 <tr>
 <td>&quot;21 witnesses required&quot;, or &quot;21 witnesses&quot; as a current fact</td>
 <td>&quot;up to 21 elected, 1 required; <em>N</em> active today&quot;</td>
-<td>One witness is enough to run the chain, and the live count is lower than 21.</td>
+<td>One witness is enough to run the chain, and the live count changes: 8 on 2026-10-08, 21 on 2026-11-03.</td>
 </tr>
 <tr>
 <td>&quot;250k PXS&quot; or &quot;250,000 PXS&quot; for the fund's seed</td>
@@ -534,6 +535,7 @@ Two to four sentences: what this page answers, and for whom.
 <p>PXS promises no price. Nothing defends it, and no one owes its holder anything. It is a unit oriented toward one Big Mac's worth of purchasing power, and it converts into PIXA. The words used about it must describe exactly that and nothing more. Words that imply a promise are false, because no such promise exists, and they mislead the people who rely on them.</p>
 <p><strong>Lead with what PXS does not guarantee.</strong> Wherever a page <em>describes</em> PXS (what it is, how it behaves, what it refers to), the description opens with what PXS does not promise. Only after that may you describe the reference it is oriented toward. A plain mention of PXS as a unit, such as a balance, a fee or a symbol in a table, needs no disclaimer.</p>
 <p><strong>In one phrase.</strong> Where a single phrase must say what PXS is, call it a <em>Big Mac referenced supracoin</em>, and put it after the statement that PXS promises no price. Never call PXS pegged, not even to the Big Mac.</p>
+<p><strong>No privileged currency or territory.</strong> The reference is one Big Mac where each witness operates, priced in that place's own currency, and the median runs across places. Never present it as a dollar amount or as the US Big Mac. A dollar figure such as 6.22 USD may appear only as what one feed, one country or the old placeholder computed, and must say so.</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -566,6 +568,10 @@ Two to four sentences: what this page answers, and for whom.
 <td>&quot;guaranteed&quot;, &quot;pegged&quot;, &quot;= 1 USD / EUR&quot;, &quot;your value is safe&quot;</td>
 <td>Remove them.</td>
 </tr>
+<tr>
+<td>&quot;one Big Mac, 6.22 USD&quot;, &quot;the US Big Mac price&quot; as the reference</td>
+<td>&quot;one Big Mac, priced by each witness in its own currency&quot;</td>
+</tr>
 </tbody>
 </table></div>
 <p>The words that fit are oracle, atlas, supra, macro, haircut, projection and orientation. The <a href="../reference/glossary.html#design-vocabulary">Glossary</a> defines each.</p>
@@ -578,7 +584,7 @@ Two to four sentences: what this page answers, and for whom.
 <li>Risk is moved, not removed. Say where it sits.</li>
 <li>The reference is a direction, never a destination.</li>
 </ol>
-<p><strong>Say where the design and the chain differ.</strong> The PXS design notes describe a corridor of roughly 3× to 10× and 21 witnesses. The chain enforces different thresholds, and fewer witnesses run today (see <a href="../reference/chain-parameters.html#pixa-supra-pxs-and-the-price-feed">Chain Parameters</a>). Until PIXA trades on a market, the feed uses a placeholder price for PIXA, and any PXS page must say so. <a href="../pixa-supra/pxs-at-a-glance.html#where-the-design-and-the-chain-differ">PXS at a Glance</a> lists the differences.</p>
+<p><strong>Say where the design and the chain differ.</strong> The PXS design notes describe a corridor of roughly 3× to 10× and 21 witnesses. The chain enforces different thresholds (see <a href="../reference/chain-parameters.html#pixa-supra-pxs-and-the-price-feed">Chain Parameters</a>). While placeholder feeds still decide the median, any PXS page that quotes the median must say so, with the date it was read (<a href="../pixa-supra/oracle-and-price-feed.html#what-it-reads-today">Oracle and Price Feed</a>). <a href="../pixa-supra/pxs-at-a-glance.html#where-the-design-and-the-chain-differ">PXS at a Glance</a> lists the differences.</p>
 <h2 id="tokens-rewards-and-money">Tokens, rewards and money<a class="anchor" href="#tokens-rewards-and-money" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <ul>
 <li><strong>No price talk.</strong> No price predictions, and no &quot;investment&quot;, &quot;returns&quot;, &quot;profit&quot;, &quot;passive income&quot;, &quot;APR&quot; or &quot;APY&quot;. Mention &quot;yield&quot; only to say there is none.</li>
@@ -633,7 +639,7 @@ Two to four sentences: what this page answers, and for whom.
 <li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; The page is listed in its folder's <code>README.md</code> and in the repository's <code>README.md</code>.</li>
 <li class="task-list-item enabled">&lt;input class=&quot;task-list-item-checkbox&quot;  type=&quot;checkbox&quot;&gt; <code>python3 .github/scripts/check_docs.py</code> passes.</li>
 </ul>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/22-about/style-guide.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">About these pages</span></a><a class="next" href="contributing.html"><span class="k">Next</span><span class="t">Contributing</span></a></nav></main>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/22-about/style-guide.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">About these pages</span></a><a class="next" href="contributing.html"><span class="k">Next</span><span class="t">Contributing</span></a></nav></main>
 <aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#the-three-rules">The three rules</a></li><li><a href="#page-template">Page template</a></li><li><a href="#registers">Registers</a></li><li><a href="#names">Names</a></li><li><a href="#retired-names-and-claims">Retired names and claims</a></li><li><a href="#writing-about-pxs">Writing about PXS</a></li><li><a href="#tokens-rewards-and-money">Tokens, rewards and money</a></li><li><a href="#numbers-and-units">Numbers and units</a></li><li><a href="#sources-and-citations">Sources and citations</a></li><li><a href="#diagrams-and-images">Diagrams and images</a></li><li><a href="#security-and-disclosure">Security and disclosure</a></li><li><a href="#files-folders-and-links">Files, folders and links</a></li><li><a href="#before-you-submit">Before you submit</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/22-about/style-guide.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/22-about/style-guide.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">

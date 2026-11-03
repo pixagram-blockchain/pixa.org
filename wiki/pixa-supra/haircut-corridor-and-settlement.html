@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -229,7 +230,7 @@
 </ul></details>
 </nav>
 <main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Pixa Supra (PXS)</a></nav><h1>Haircut, Corridor and Settlement</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
-<p>PXS promises no price. The chain applies Hive's debt limits unchanged: PXS printing stops at a debt ratio of 20%, and the haircut starts above 30%. The corridor of about 3× to 10× in the PXS design notes is not in the code. On 2026-10-06, at block 917,250, neither limit was near: the collateral ratio was about 804×, measured at a placeholder price.</p>
+<p>PXS promises no price. The chain applies Hive's debt limits unchanged: PXS printing stops at a debt ratio of 20%, and the haircut starts above 30%. The corridor of about 3× to 10× in the PXS design notes is not in the code. Neither limit was near on 2026-10-06, at block 917,250, when the collateral ratio was about 804×, nor on 2026-11-03, at block 1,723,044, when it was about 155×. Both were measured at a median that rested on a placeholder price.</p>
 </div></div>
 <p>PXS promises no price. What the protocol has instead is a procedure: how a PXS converts into PIXA, and how much less it delivers when the PXS outside the treasury grows large against all PIXA. That reduction is the haircut. This page sets out the procedure in both directions, derives the haircut from the code, compares the design's corridor with the chain's thresholds, and shows how far the network stands from each.</p>
 <h2 id="three-numbers-decide-everything">Three numbers decide everything<a class="anchor" href="#three-numbers-decide-everything" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
@@ -239,6 +240,7 @@
 <th>Symbol</th>
 <th>What it is</th>
 <th>On 2026-10-06</th>
+<th>On 2026-11-03</th>
 </tr>
 </thead>
 <tbody>
@@ -246,24 +248,27 @@
 <td><em>P</em></td>
 <td>All PIXA, liquid and staked, including the reward fund</td>
 <td>100,675,253.214 PIXA</td>
+<td>100,931,814.101 PIXA</td>
 </tr>
 <tr>
 <td><em>S</em></td>
 <td>PXS outside the treasury</td>
 <td>2,414.312 PXS</td>
+<td>12,771.174 PXS</td>
 </tr>
 <tr>
 <td><em>m</em></td>
 <td>The median feed, in PIXA per PXS</td>
 <td>51.833</td>
+<td>51.000</td>
 </tr>
 </tbody>
 </table></div>
 <p><em>P</em> is <code>current_supply</code> in <code>condenser_api.get_dynamic_global_properties</code>. <em>S</em> is <code>current_pxs_supply</code> in the same call, less the <code>pxs_balance</code> of <code>pixa.omnibus</code> from <code>condenser_api.get_accounts</code>. <em>m</em> is <code>market_median_history</code> in <code>condenser_api.get_feed_history</code>, the median before any haircut.</p>
 <p>Two ratios follow from them:</p>
 <ul>
-<li><strong>Collateral ratio</strong> <em>R</em> = <em>P</em> ÷ (<em>S</em> × <em>m</em>): the value of all PIXA divided by the value of the PXS outside the treasury, both at the median feed. About <strong>804</strong> on 2026-10-06.</li>
-<li><strong>Debt ratio</strong> <em>d</em> = 1 ÷ (1 + <em>R</em>): the PXS outside the treasury as a share of the combined value. <strong>0.124%</strong> on 2026-10-06.</li>
+<li><strong>Collateral ratio</strong> <em>R</em> = <em>P</em> ÷ (<em>S</em> × <em>m</em>): the value of all PIXA divided by the value of the PXS outside the treasury, both at the median feed. About <strong>804</strong> on 2026-10-06 and <strong>155</strong> on 2026-11-03.</li>
+<li><strong>Debt ratio</strong> <em>d</em> = 1 ÷ (1 + <em>R</em>): the PXS outside the treasury as a share of the combined value. <strong>0.124%</strong> on 2026-10-06 and <strong>0.641%</strong> on 2026-11-03.</li>
 </ul>
 <p>The treasury's PXS counts in neither ratio. The chain leaves it out of the debt ratio (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database.cpp#L2918-L2941">database.cpp:2918-2941</a>) and out of the haircut (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database.cpp#L2502-L2505">2502-2505</a>). The thresholds themselves are on <a href="../reference/chain-parameters.html#pixa-supra-pxs-and-the-price-feed">Chain Parameters</a>.</p>
 <h2 id="converting-pxs-into-pixa">Converting PXS into PIXA<a class="anchor" href="#converting-pxs-into-pixa" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
@@ -353,20 +358,20 @@
 </ul>
 <p>The notes present the corridor as a change to Hive's machinery: &quot;the fixed debt cap becoming a continuous haircut over a corridor&quot;. In the code, Hive's cap already is this haircut, continuous below its threshold. Pixa runs it unchanged (<a href="from-sbd-to-pxs.html#what-pixa-kept-and-changed">From SBD to PXS</a>).</p>
 <h2 id="where-the-network-stands">Where the network stands<a class="anchor" href="#where-the-network-stands" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
-<p>On 2026-10-06, <em>R</em> was about 804 and the debt ratio 0.124%: printing on, no haircut. Two facts qualify that distance.</p>
-<p><strong>It is measured at a placeholder.</strong> <em>R</em> moves in proportion to PIXA's value counted in Big Macs, and today that value comes from an agreed placeholder, not a market (<a href="oracle-and-price-feed.html#the-placeholder">Oracle and Price Feed</a>). With today's supplies, printing would stop only if PIXA were worth about 200 times less, in Big Macs, than the placeholder assumes, and the haircut would start at about 345 times less.</p>
-<p><strong>Almost all PXS sits in the treasury.</strong> <code>pixa.omnibus</code> held 249,266.219 PXS, 99.04% of all PXS, and none of it counts in the ratios. PXS paid to proposals does count while its recipients hold it. If all of the treasury's PXS were outside it, <em>R</em> would be about 7.7 at today's median: printing would stop at about 1.9 times less value in Big Macs, and the haircut would start at about 3.3 times less. The fund pays at most 1% of its balance a day, and only to proposals that stakeholders approve (<a href="../governance/decentralized-pixa-fund.html#how-it-pays">Decentralized Pixa Fund</a>).</p>
+<p>On 2026-10-06, <em>R</em> was about 804 and the debt ratio 0.124%. On 2026-11-03, with five times as much PXS outside the treasury, <em>R</em> was about 155 and the debt ratio 0.641%. Both times printing was on and no haircut applied. Two facts qualify that distance.</p>
+<p><strong>It is measured at a placeholder.</strong> <em>R</em> moves in proportion to PIXA's value counted in Big Macs. On 2026-10-06 that value came from an agreed placeholder, not a market. On 2026-11-03 most witnesses read PIXA's market, but the median still rested on the placeholder that seven of them publish (<a href="oracle-and-price-feed.html#what-it-reads-today">Oracle and Price Feed</a>). With the supplies of 2026-11-03, printing would stop if PIXA were worth about 39 times less, in Big Macs, than the median assumes, and the haircut would start at about 66 times less.</p>
+<p><strong>Most PXS sits in the treasury.</strong> <code>pixa.omnibus</code> held 249,266.219 PXS on 2026-10-06, 99.04% of all PXS, and 248,363.319 PXS on 2026-11-03, 95.11%. None of it counts in the ratios. PXS paid to proposals does count while its recipients hold it. If all of the treasury's PXS were outside it, <em>R</em> would be about 7.6 at the median of 2026-11-03: printing would stop at about 1.9 times less value in Big Macs, and the haircut would start at about 3.2 times less. The fund pays at most 1% of its balance a day, and only to proposals that stakeholders approve (<a href="../governance/decentralized-pixa-fund.html#how-it-pays">Decentralized Pixa Fund</a>).</p>
 <h2 id="how-to-tell-whether-the-haircut-applies">How to tell whether the haircut applies<a class="anchor" href="#how-to-tell-whether-the-haircut-applies" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <pre class="hl has-copy"><span class="lang">Shell</span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://api.pixagram.com<span class="w"> </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"jsonrpc":"2.0","method":"condenser_api.get_feed_history","params":[],"id":1}'</span></code></pre>
 <ul>
-<li><strong>The two medians.</strong> The haircut is in force when <code>current_median_history</code> differs from <code>market_median_history</code>. The second is never corrected. On 2026-10-06 both were 51.833 PIXA per PXS.</li>
+<li><strong>The two medians.</strong> The haircut is in force when <code>current_median_history</code> differs from <code>market_median_history</code>. The second is never corrected. Both were 51.833 PIXA per PXS on 2026-10-06, and both 51.000 on 2026-11-03.</li>
 <li><strong>The warning.</strong> Each hour the correction applies, the chain records a <code>system_warning</code> virtual operation. Its text uses Hive's names: &quot;HIVE price corrected upward due to 30% HBD cutoff rule, from … to …&quot; (<a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database.cpp#L2517-L2524">database.cpp:2517-2524</a>).</li>
 <li><strong>Printing.</strong> <code>pxs_print_rate</code> in <code>condenser_api.get_dynamic_global_properties</code> is 10000 while printing is on and 0 while it is stopped.</li>
 </ul>
 <h2 id="what-the-haircut-does-not-do">What the haircut does not do<a class="anchor" href="#what-the-haircut-does-not-do" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <ul>
-<li><strong>It does not set a market price.</strong> PXS has no market today. On Steem in 2019, SBD traded below even its reduced conversion value (<a href="from-sbd-to-pxs.html#sbd-in-practice">From SBD to PXS</a>).</li>
+<li><strong>It does not set a market price.</strong> PXS has no market today: the chain's own order book for PIXA against PXS held no orders on 2026-11-03. On Steem in 2019, SBD traded below even its reduced conversion value (<a href="from-sbd-to-pxs.html#sbd-in-practice">From SBD to PXS</a>).</li>
 <li><strong>It does not protect PXS holders.</strong> It protects PIXA holders against dilution by lowering what each PXS delivers.</li>
 <li><strong>It does not act on transfers or trades.</strong> It changes what conversions at the median deliver, the fund's included, and the chain's own valuation of PXS.</li>
 <li><strong>It is not a reserve.</strong> No assets are set aside, and nothing is bought or sold.</li>
@@ -420,12 +425,12 @@
 <li>the constants: <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/include/hive/protocol/config.hpp#L199-L202">config.hpp:199-202</a> and <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/protocol/include/hive/protocol/config.hpp#L365-L372">365-372</a></li>
 </ul>
 </li>
-<li><strong>Live values,</strong> read in one batch request at block 917,250 on 2026-10-06 09:14 UTC: <code>condenser_api.get_dynamic_global_properties</code>, <code>condenser_api.get_feed_history</code>, <code>condenser_api.get_accounts</code> for <code>pixa.omnibus</code>, <code>database_api.list_hbd_conversion_requests</code>.</li>
+<li><strong>Live values,</strong> read in one batch request at block 917,250 on 2026-10-06 09:14 UTC, and in another at block 1,723,044 on 2026-11-03 08:59 UTC: <code>condenser_api.get_dynamic_global_properties</code>, <code>condenser_api.get_feed_history</code>, <code>condenser_api.get_accounts</code> for <code>pixa.omnibus</code>, <code>database_api.list_hbd_conversion_requests</code>, and on 2026-11-03 <code>condenser_api.get_order_book</code>.</li>
 <li><strong>Conversions:</strong> <code>condenser_api.get_ops_in_block</code> for blocks 572,803, 673,588, 752,436 and 853,232.</li>
 <li><strong>Hardfork dates</strong> for Steem and Hive: the <code>hardfork_operation</code> virtual operation in each activation block (<a href="from-sbd-to-pxs.html#sources">From SBD to PXS</a>).</li>
 <li><strong>PXS design notes</strong> (Pixagram, June 2026), §4.3, §4.4 and §4.6.</li>
 </ul>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/haircut-corridor-and-settlement.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="oracle-and-price-feed.html"><span class="k">Previous</span><span class="t">Oracle and Price Feed</span></a><a class="next" href="from-sbd-to-pxs.html"><span class="k">Next</span><span class="t">From SBD to PXS</span></a></nav></main>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/haircut-corridor-and-settlement.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="oracle-and-price-feed.html"><span class="k">Previous</span><span class="t">Oracle and Price Feed</span></a><a class="next" href="from-sbd-to-pxs.html"><span class="k">Next</span><span class="t">From SBD to PXS</span></a></nav></main>
 <aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#three-numbers-decide-everything">Three numbers decide everything</a></li><li><a href="#converting-pxs-into-pixa">Converting PXS into PIXA</a></li><li><a href="#converting-pixa-into-pxs">Converting PIXA into PXS</a></li><li><a href="#when-printing-stops">When printing stops</a></li><li><a href="#the-haircut">The haircut</a></li><li><a href="#corridor-and-thresholds-design-and-chain">Corridor and thresholds: design and chain</a></li><li><a href="#where-the-network-stands">Where the network stands</a></li><li><a href="#how-to-tell-whether-the-haircut-applies">How to tell whether the haircut applies</a></li><li><a href="#what-the-haircut-does-not-do">What the haircut does not do</a></li><li><a href="#inherited--changed">Inherited → changed</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/05-pixa-supra/haircut-corridor-and-settlement.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/haircut-corridor-and-settlement.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">

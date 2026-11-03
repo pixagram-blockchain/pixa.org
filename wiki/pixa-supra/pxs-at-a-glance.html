@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -229,7 +230,7 @@
 </ul></details>
 </nav>
 <main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Pixa Supra (PXS)</a></nav><h1>PXS at a Glance</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
-<p>PXS promises no price. It runs on the rules Hive applies to HBD, with interest fixed at zero and a price feed that refers to one Big Mac; while PIXA does not trade on any market, that feed is a placeholder. Figures read at block 917,250 on 2026-10-06.</p>
+<p>PXS promises no price. It runs on the rules Hive applies to HBD, with interest fixed at zero and a price feed that refers to one Big Mac. The witnesses' feeds can read PIXA's market since 2026-10-16, but on 2026-11-03 the median still rested on placeholder values. Figures read at block 917,250 on 2026-10-06 and at block 1,723,044 on 2026-11-03.</p>
 </div></div>
 <p>This page is the short version of the Pixa Supra pages: what PXS does not promise, what it is, what you can do with it, and where it stands today. The pages it links to go into each part.</p>
 <h2 id="what-pxs-does-not-promise">What PXS does not promise<a class="anchor" href="#what-pxs-does-not-promise" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
@@ -292,58 +293,68 @@
 </tbody>
 </table></div>
 <p>The values, with their sources in the code, are on <a href="../reference/chain-parameters.html#pixa-supra-pxs-and-the-price-feed">Chain Parameters</a>.</p>
-<h2 id="pxs-on-2026-10-06">PXS on 2026-10-06<a class="anchor" href="#pxs-on-2026-10-06" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
+<h2 id="where-pxs-stands">Where PXS stands<a class="anchor" href="#where-pxs-stands" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <div class="table-wrap"><table>
 <thead>
 <tr>
 <th><span class="sr-only">Aspect</span></th>
-<th>Value</th>
+<th>2026-10-06</th>
+<th>2026-11-03</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>PXS in existence</td>
 <td>251,680.531 PXS</td>
+<td>261,134.493 PXS</td>
 </tr>
 <tr>
 <td>held by the treasury, <code>pixa.omnibus</code></td>
 <td>249,266.219 PXS, 99.04%</td>
+<td>248,363.319 PXS, 95.11%</td>
 </tr>
 <tr>
 <td>outside the treasury</td>
 <td>2,414.312 PXS: 1,367.458 in the balances of 23 accounts, and 1,046.854 in four conversions waiting to settle</td>
+<td>12,771.174 PXS, of which 24.143 in 11 conversions waiting to settle</td>
 </tr>
 <tr>
 <td>Median feed</td>
 <td>51.833 PIXA per PXS, a placeholder</td>
+<td>51.000 PIXA per PXS, resting on placeholder values (<a href="oracle-and-price-feed.html#what-it-reads-today">why</a>)</td>
 </tr>
 <tr>
 <td>Collateral ratio</td>
-<td>about 804 (<a href="haircut-corridor-and-settlement.html#three-numbers-decide-everything">how it is computed</a>)</td>
+<td>about 804</td>
+<td>about 155 (<a href="haircut-corridor-and-settlement.html#three-numbers-decide-everything">how it is computed</a>)</td>
 </tr>
 <tr>
 <td>Debt ratio</td>
 <td>0.124%</td>
+<td>0.641%</td>
 </tr>
 <tr>
 <td>PXS printing</td>
 <td>on: <code>pxs_print_rate</code> is 10000</td>
+<td>on</td>
 </tr>
 <tr>
 <td>Haircut</td>
 <td>not in force: the current and market medians are equal</td>
+<td>not in force</td>
 </tr>
 <tr>
-<td>Market</td>
+<td>Market on chain, PIXA against PXS</td>
+<td>no orders and no trades</td>
 <td>no orders and no trades</td>
 </tr>
 </tbody>
 </table></div>
-<p>Read with <code>condenser_api.get_dynamic_global_properties</code> (<code>current_pxs_supply</code>, <code>pxs_print_rate</code>), <code>condenser_api.get_accounts</code>, <code>database_api.list_accounts</code>, <code>database_api.list_hbd_conversion_requests</code>, <code>condenser_api.get_feed_history</code>, <code>condenser_api.get_order_book</code> and <code>condenser_api.get_ticker</code>.</p>
+<p>Read with <code>condenser_api.get_dynamic_global_properties</code> (<code>current_pxs_supply</code>, <code>pxs_print_rate</code>), <code>condenser_api.get_accounts</code>, <code>database_api.list_accounts</code> (2026-10-06 only), <code>database_api.list_hbd_conversion_requests</code>, <code>condenser_api.get_feed_history</code>, <code>condenser_api.get_order_book</code> and <code>condenser_api.get_ticker</code>.</p>
 <p>Two facts shape these numbers:</p>
 <ul>
-<li><strong>The median is a placeholder.</strong> PIXA does not trade on any market yet. Every witness divides the US price of a Big Mac, 6.22 USD, by 0.12 USD, an agreed placeholder for one PIXA. The collateral ratio and the distance to every threshold are therefore computed from an assumption, not from a market (<a href="oracle-and-price-feed.html#the-placeholder">why</a>).</li>
-<li><strong>The treasury holds almost all PXS.</strong> Its PXS counts in neither ratio. Paid out to proposals and held, it would: if all of it left the treasury, the collateral ratio would be about 7.7 at today's median (<a href="haircut-corridor-and-settlement.html#where-the-network-stands">where the network stands</a>).</li>
+<li><strong>The median still rests on the placeholder.</strong> On 2026-10-06 every witness divided the US price of a Big Mac, 6.22 USD, by 0.12 USD, an agreed placeholder for one PIXA. PIXA has traded on one market since 2026-10-15, and by 2026-11-03 14 of the 21 scheduled witnesses read it. The other seven still publish placeholder values, and these sit in the middle of the feeds, so the median, 51.000, is still one of them. The collateral ratio and the distance to every threshold are therefore still computed mostly from an assumption, not from a market (<a href="oracle-and-price-feed.html#what-it-reads-today">why</a>).</li>
+<li><strong>The treasury holds most PXS.</strong> Its PXS counts in neither ratio. Paid out to proposals and held, it would: if all of it left the treasury, the collateral ratio would be about 7.6 at the median of 2026-11-03 (<a href="haircut-corridor-and-settlement.html#where-the-network-stands">where the network stands</a>).</li>
 </ul>
 <h2 id="where-the-design-and-the-chain-differ">Where the design and the chain differ<a class="anchor" href="#where-the-design-and-the-chain-differ" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <div class="table-wrap"><table>
@@ -351,14 +362,14 @@
 <tr>
 <th><span class="sr-only">Aspect</span></th>
 <th>PXS design notes (June 2026)</th>
-<th>The chain, 2026-10-06</th>
+<th>The chain, 2026-11-03</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Witnesses</td>
 <td>21 elected</td>
-<td>up to 21 elected, 1 required; 9 today</td>
+<td>up to 21 elected, 1 required; 21 scheduled</td>
 </tr>
 <tr>
 <td>Reference</td>
@@ -368,12 +379,12 @@
 <tr>
 <td>Inputs</td>
 <td>&quot;no external or commercial feed enters the loop&quot;</td>
-<td>the feed in use reads The Economist's index; the agnostic feed, not yet in use, adds ECB rates and an exchange ticker</td>
+<td>the feed software reads The Economist's index, an exchange's order book and exchange-rate services</td>
 </tr>
 <tr>
 <td>Market reading</td>
 <td>witnesses report real prices</td>
-<td>a placeholder while PIXA does not trade</td>
+<td>14 of 21 witnesses read PIXA's market; the median still rests on the placeholder the other seven publish</td>
 </tr>
 <tr>
 <td>Haircut starts</td>
@@ -461,12 +472,12 @@
 <h2 id="sources">Sources<a class="anchor" href="#sources" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
 <ul>
 <li><strong>Rules and code references:</strong> <a href="../reference/chain-parameters.html#pixa-supra-pxs-and-the-price-feed">Chain Parameters</a> and <a href="haircut-corridor-and-settlement.html#sources">Haircut, Corridor and Settlement</a>.</li>
-<li><strong>Live values,</strong> read in one batch request at block 917,250 on 2026-10-06 09:14 UTC, with the calls named above.</li>
+<li><strong>Live values,</strong> read in one batch request at block 917,250 on 2026-10-06 09:14 UTC, and in another at block 1,723,044 on 2026-11-03 08:59 UTC, with the calls named above. The feeds of 2026-11-03: <a href="oracle-and-price-feed.html#sources">Oracle and Price Feed</a>.</li>
 <li><strong>PXS design notes</strong> (Pixagram, June 2026), Part IV and its table of technical parameters.</li>
 <li><a href="https://hive.io/whitepaper.pdf">Hive whitepaper</a>, §II.1 &quot;Assets&quot; and §III.4 &quot;Price Feed Consensus&quot;.</li>
 </ul>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/pxs-at-a-glance.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">Pixa Supra (PXS)</span></a><a class="next" href="supracoin-vs-stablecoin.html"><span class="k">Next</span><span class="t">Supracoin vs Stablecoin</span></a></nav></main>
-<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#what-pxs-does-not-promise">What PXS does not promise</a></li><li><a href="#what-pxs-is">What PXS is</a></li><li><a href="#how-pxs-enters-and-leaves">How PXS enters and leaves</a></li><li><a href="#pxs-on-2026-10-06">PXS on 2026-10-06</a></li><li><a href="#where-the-design-and-the-chain-differ">Where the design and the chain differ</a></li><li><a href="#where-to-go-next">Where to go next</a></li><li><a href="#inherited--changed">Inherited → changed</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/05-pixa-supra/pxs-at-a-glance.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/pxs-at-a-glance.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/pxs-at-a-glance.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">Pixa Supra (PXS)</span></a><a class="next" href="supracoin-vs-stablecoin.html"><span class="k">Next</span><span class="t">Supracoin vs Stablecoin</span></a></nav></main>
+<aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#what-pxs-does-not-promise">What PXS does not promise</a></li><li><a href="#what-pxs-is">What PXS is</a></li><li><a href="#how-pxs-enters-and-leaves">How PXS enters and leaves</a></li><li><a href="#where-pxs-stands">Where PXS stands</a></li><li><a href="#where-the-design-and-the-chain-differ">Where the design and the chain differ</a></li><li><a href="#where-to-go-next">Where to go next</a></li><li><a href="#inherited--changed">Inherited → changed</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/05-pixa-supra/pxs-at-a-glance.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/05-pixa-supra/pxs-at-a-glance.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">
   <div class="footer-in">

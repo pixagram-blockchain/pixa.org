@@ -136,11 +136,13 @@ def refresh_snapshot() -> None:
     rng = rpc("block_api.get_block_range", {"starting_block_num": head - 999, "count": 1000})
     tx = sum(len(json.dumps(b.get("transactions", []), separators=(",", ":"))) for b in rng["blocks"])
     bpb = round(160 + 0.6 * tx / max(1, len(rng["blocks"])), 1)
-    reward = None
-    for _, op in reversed(rpc("condenser_api.get_account_history", [d["current_witness"], -1, 30])):
-        if op["op"][0] == "producer_reward":
-            reward = float(op["op"][1]["vesting_shares"].split()[0])
-            break
+    # Pay of one block by an elected witness: the median producer_reward over the last round. With a
+    # full schedule the timeshare slot pays five times as much, so one block alone can mislead.
+    ops = rpc(None, batch=[{"jsonrpc": "2.0", "method": "condenser_api.get_ops_in_block", "params": [head - i, True], "id": i}
+                           for i in range(21)])
+    rewards = sorted(float(op["op"][1]["vesting_shares"].split()[0])
+                     for r in ops for op in r.get("result", []) if op["op"][0] == "producer_reward")
+    reward = rewards[len(rewards) // 2] if rewards else None
     q, b = float(p["quote"].split()[0]), float(p["base"].split()[0])
     snap = {
         "taken": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),

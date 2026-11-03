@@ -149,6 +149,7 @@
 <li><a class="nav-i" href="../protocol-reference/operations-reference.html">Operations Reference</a></li>
 <li><a class="nav-i" href="../protocol-reference/transaction-lifecycle.html">Transaction Lifecycle</a></li>
 <li><a class="nav-i" href="../protocol-reference/data-model.html">Data Model</a></li>
+<li><a class="nav-i" href="../protocol-reference/consensus-and-block-production.html">Consensus and Block Production</a></li>
 </ul></details>
 <details>
 <summary class="nav-i"><span class="n">12</span><span>API reference</span><svg class="icon chev" aria-hidden="true"><use href="../../assets/icons.svg#keyboard_arrow_down"/></svg></summary>
@@ -229,7 +230,7 @@
 </ul></details>
 </nav>
 <main class="doc" id="content"><nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Wiki</a><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#chevron_right"/></svg><a href="index.html">Developers</a></nav><h1>Chain Architecture</h1><div class="prose-doc"><div class="status"><span class="chip"><span class="px-live" aria-hidden="true"></span><span class="sr-only">Status: </span>Live</span><div class="status-text">
-<p>Describes hived 1.30.0 and the public API stack of the <code>pixagram-node</code> repository at commit <code>4a271e8</code>. Checked against the six public nodes on 2026-10-05 and 2026-10-08.</p>
+<p>Describes hived 1.30.0 and the public API stack of the <code>pixagram-node</code> repository at commit <code>4a271e8</code>. Checked against the six public nodes on 2026-10-05 and 2026-10-08; on 2026-11-03 all six ran 1.30.1, a release without a hardfork.</p>
 </div></div>
 <p>This page shows the parts of the Pixa network a developer talks to, what each part does, and where each kind of data lives. Read it before the <a href="developer-quickstart.html">Developer Quickstart</a> if you are new to Hive-family chains, or before running a node (<a href="../node-operators/run-a-node.html">Run a Node</a>).</p>
 <h2 id="the-parts-at-a-glance">The parts at a glance<a class="anchor" href="#the-parts-at-a-glance" aria-label="Link to this section"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#link"/></svg></a></h2>
@@ -427,7 +428,7 @@
 <tr>
 <td>Node software</td>
 <td>hived (Hive), steemd (Steem)</td>
-<td>hived 1.30.0, a fork of Hive's 1.28.7</td>
+<td>hived, forked from Hive's 1.28.7; 1.30.1 merged Hive's 1.28.8 (<a href="../governance/protocol-upgrades.html#1301-a-release-without-a-hardfork">Protocol Upgrades</a>)</td>
 </tr>
 <tr>
 <td>Social indexer</td>
@@ -455,7 +456,7 @@
 <li><a href="https://hive.io/whitepaper.pdf">Hive whitepaper</a> (2020), §III.5 &quot;Node Types&quot; and §IV.1 &quot;Integration&quot;; <a href="https://steem.com/steem-whitepaper.pdf">Steem whitepaper</a>, &quot;Consensus in Steem&quot;.</li>
 <li>Comment archive: <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/external_storage/rocksdb_comment_archive.cpp"><code>rocksdb_comment_archive.cpp</code></a>, called at payout from <a href="https://github.com/pixagram-blockchain/pixagram/blob/48f75a28840c24e5a5b42ccb4f94dc8668ecb443/libraries/chain/database_comment.cpp#L118"><code>database_comment.cpp:118</code></a>.</li>
 </ul>
-</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/09-developers/chain-architecture.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/1cb11231af37783829140bdf61eabdef713ea7c9">information@1cb1123</a>, 2026-10-08. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">Developers</span></a><a class="next" href="developer-quickstart.html"><span class="k">Next</span><span class="t">Developer Quickstart</span></a></nav></main>
+</div><footer class="doc-foot"><a class="btn text small" href="https://github.com/pixagram-blockchain/information/edit/main/09-developers/chain-architecture.md"><svg class="icon" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a><span>Built from <a href="https://github.com/pixagram-blockchain/information/tree/e4afea2fb0d7e678c94eb2ae5c06ce65647046d3">information@e4afea2</a>, 2026-11-03. Text under the <a href="https://github.com/pixagram-blockchain/information/blob/main/LICENSE">MIT License</a>; the Pixagram name and logo are not covered by it.</span></footer><nav class="pager" aria-label="Previous and next page"><a class="prev" href="index.html"><span class="k">Previous</span><span class="t">Developers</span></a><a class="next" href="developer-quickstart.html"><span class="k">Next</span><span class="t">Developer Quickstart</span></a></nav></main>
 <aside class="otp" aria-label="Page tools"><h2>On this page</h2><nav class="toc" aria-label="On this page"><ul><li><a href="#the-parts-at-a-glance">The parts at a glance</a></li><li><a href="#the-chain-blocks-transactions-operations">The chain: blocks, transactions, operations</a></li><li><a href="#what-a-node-keeps-on-disk">What a node keeps on disk</a></li><li><a href="#how-a-read-travels">How a read travels</a></li><li><a href="#how-a-write-travels">How a write travels</a></li><li><a href="#where-each-kind-of-data-lives">Where each kind of data lives</a></li><li><a href="#compared-with-hive">Compared with Hive</a></li><li><a href="#sources">Sources</a></li></ul></nav><div class="src"><a href="https://github.com/pixagram-blockchain/information/blob/main/09-developers/chain-architecture.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#code"/></svg>View the Markdown</a><a href="https://github.com/pixagram-blockchain/information/edit/main/09-developers/chain-architecture.md"><svg class="icon sm" aria-hidden="true"><use href="../../assets/icons.svg#edit"/></svg>Suggest a change</a></div></aside>
 </div>
 <footer class="footer">
