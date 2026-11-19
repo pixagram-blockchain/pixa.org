@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Build pixa.org.
 
-    python3 build.py                  the two pages, the redirects and the wiki
-    python3 build.py --pages          only index.html, witness.html and the redirects
+    python3 build.py                  the pages, the redirects and the wiki
+    python3 build.py --pages          only the pages (index, witness, bigmac, explorer) and the redirects
     python3 build.py --docs DIR       build the wiki from a local copy of pixagram-blockchain/information
-    python3 build.py --snapshot       refresh _src/chain-snapshot.json from api.pixagram.com first
+    python3 build.py --snapshot       first refresh _src/chain-snapshot.json from api.pixagram.com
+                                      and _src/bigmac/*.csv from pixagram-blockchain/bigmac-feed
 
-Pages:  _src/pages/*.html + _src/partials/   ->  ./index.html, ./witness.html
+Pages:  _src/pages/*.html + _src/partials/   ->  ./index.html, ./witness.html, ./bigmac.html
 Wiki:   the Markdown in pixagram-blockchain/information  ->  ./wiki/
 
 The pages need nothing but Python 3. The wiki needs the packages in requirements.txt;
@@ -33,6 +34,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 SRC, PART = ROOT / "_src" / "pages", ROOT / "_src" / "partials"
 SNAPSHOT = ROOT / "_src" / "chain-snapshot.json"
+# Copies of the Big Mac price files, shown by bigmac.html until its own requests land.
+PRICES = ROOT / "_src" / "bigmac"
+PRICE_FILES = ("latest.csv", "delivery.csv")
+PRICES_RAW = "https://raw.githubusercontent.com/pixagram-blockchain/bigmac-feed/main/"
+PRICE_HEADER = "country_code,currency_code,low,high,median,date"
 MERMAID = ROOT / "_src" / "mermaid"
 WIKI_OUT = ROOT / "wiki"
 SITE = "https://pixa.org"
@@ -40,7 +46,8 @@ DOCS_REPO = "https://github.com/pixagram-blockchain/information"
 DOCS_BRANCH = "main"
 NODE = "https://api.pixagram.com"
 
-TABS = [("index.html", "Home"), ("wiki/index.html", "Wiki"), ("explorer/", "Explorer"), ("witness.html", "Witness setup")]
+TABS = [("index.html", "Home"), ("wiki/index.html", "Wiki"), ("explorer/", "Explorer"), ("witness.html", "Witness setup"),
+        ("bigmac.html", "Big Mac prices")]
 # Pages whose links start at the site root, because they are also shown at other addresses:
 # the explorer renders /explorer/{block}/{trx} after 404.html hands those paths to it.
 ROOT_PAGES = {"explorer/index.html": ("/", "explorer/")}
@@ -156,6 +163,28 @@ def refresh_snapshot() -> None:
     print(f"snapshot: block {head:,}, {s['num_scheduled_witnesses']} witnesses, feed {snap['feed']}")
 
 
+def refresh_prices() -> None:
+    """Copy the price files from the bigmac-feed repository. A file that cannot be read keeps its last copy."""
+    for name in PRICE_FILES:
+        try:
+            with urllib.request.urlopen(PRICES_RAW + name, timeout=30) as r:
+                text = r.read().decode("utf-8")
+        except Exception as e:  # the build must not depend on the network
+            print(f"prices: {name} not refreshed ({e})", file=sys.stderr)
+            continue
+        if not text.startswith(PRICE_HEADER):
+            print(f"prices: {name} not refreshed (unexpected header)", file=sys.stderr)
+            continue
+        write(PRICES / name, text)
+        print(f"prices: {name}, {len(text.strip().splitlines()) - 1} rows")
+
+
+def price_snapshot() -> str:
+    """The price files as one JSON object, safe inside a <script> element."""
+    snap = {name.removesuffix(".csv"): read(PRICES / name) for name in PRICE_FILES}
+    return json.dumps(snap, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+
+
 def snapshot_tokens(text: str) -> str:
     snap = json.loads(read(SNAPSHOT))
     taken = datetime.strptime(snap["taken"], "%Y-%m-%dT%H:%M:%SZ")
@@ -166,6 +195,8 @@ def snapshot_tokens(text: str) -> str:
         "{{SNAP_REWARD}}": f"{snap['reward']:.3f}" if snap.get("reward") else "0.370",
         "{{CHAIN_SNAPSHOT}}": json.dumps({k: snap[k] for k in ("head", "time", "witness", "n", "shuffle", "feed", "blocks")}, separators=(",", ":")),
     }
+    if "{{BIGMAC_SNAPSHOT}}" in text:
+        reps["{{BIGMAC_SNAPSHOT}}"] = price_snapshot()
     for k, v in reps.items():
         text = text.replace(k, v)
     return text
@@ -180,7 +211,7 @@ def build_pages() -> None:
         out = chrome(read(page), root, active)
         out = snapshot_tokens(out)
         out = re.sub(r"<pre>", '<pre class="has-copy">', out)
-        assert "{{" not in out, f"unreplaced token in {rel}: {re.findall(r'{{[A-Z_:a-z]+}}', out)}"
+        assert not re.search(r"{{[A-Z_:a-z]+}}", out), f"unreplaced token in {rel}: {re.findall(r'{{[A-Z_:a-z]+}}', out)}"
         write(ROOT / rel, out)
         print(f"built {rel} ({len(out):,} bytes)")
     for name, (target, why, anchors) in REDIRECTS.items():
@@ -1006,7 +1037,7 @@ def build_wiki(docs_arg: str | None) -> None:
     # --- search index and sitemap
     write(WIKI_OUT / "search-index.json", json.dumps({"v": 1, "commit": docs.commit[:7], "pages": pages, "chunks": chunks},
                                                      ensure_ascii=False, separators=(",", ":")))
-    urls = ["", "witness.html", "explorer/"] + sitemap
+    urls = ["", "witness.html", "bigmac.html", "explorer/"] + sitemap
     write(ROOT / "sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
           + "".join(f"  <url><loc>{SITE}/{u}</loc></url>\n" for u in urls) + "</urlset>\n")
     n_pages = sum(len(s["pages"]) for s in docs.sections)
@@ -1164,12 +1195,13 @@ def build_wiki_home(docs: Docs, R: Renderer, md, add_search) -> None:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Build pixa.org")
-    ap.add_argument("--pages", action="store_true", help="build index.html, witness.html and the redirects only")
+    ap.add_argument("--pages", action="store_true", help="build the pages and the redirects only")
     ap.add_argument("--docs", help="path to a checkout of pixagram-blockchain/information")
-    ap.add_argument("--snapshot", action="store_true", help="refresh the chain snapshot from api.pixagram.com first")
+    ap.add_argument("--snapshot", action="store_true", help="first refresh the chain snapshot from api.pixagram.com and the Big Mac price files from bigmac-feed")
     a = ap.parse_args()
     if a.snapshot:
         refresh_snapshot()
+        refresh_prices()
     build_pages()
     if not a.pages:
         build_wiki(a.docs)

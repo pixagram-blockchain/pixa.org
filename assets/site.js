@@ -19,7 +19,10 @@
     status: "https://pixagram.com/witness-status/",
     statusJson: "https://raw.githubusercontent.com/pixagram-blockchain/witness-status/data/status.json",
     skillRaw: "https://raw.githubusercontent.com/pixagram-blockchain/pixagram-skill/main/SKILL.md",
-    hfSpace: "https://huggingface.co/spaces/primerz/face-to-pixel-art-4K"
+    hfSpace: "https://huggingface.co/spaces/primerz/face-to-pixel-art-4K",
+    bigmacLatest: "https://raw.githubusercontent.com/pixagram-blockchain/bigmac-feed/main/latest.csv",
+    bigmacDelivery: "https://raw.githubusercontent.com/pixagram-blockchain/bigmac-feed/main/delivery.csv",
+    fx: "https://api.frankfurter.dev/v2"
   };
 
   function $(id) { return document.getElementById(id); }

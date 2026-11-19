@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Big Mac prices — the reference behind the PXS feed</title>
+<meta name="description" content="The pick-up price of a Big Mac, country by country and in each country's own currency: the file the Pixa price feed reads. Convert it to any currency.">
+<link rel="canonical" href="https://pixa.org/bigmac.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Big Mac prices — the reference behind the PXS feed">
+<meta property="og:description" content="The pick-up price of a Big Mac, country by country, in each country's own currency.">
+<meta property="og:url" content="https://pixa.org/bigmac.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-root="">
+
+<a class="skip" href="#content">Skip to content</a>
+<header class="appbar" id="appbar">
+  <div class="appbar-in">
+    
+    <a class="brand" href="index.html" aria-label="Pixa developer resources, home">
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <span class="brand-word">Pixa</span>
+    </a>
+    <nav class="tabs" aria-label="Site">
+      <a href="index.html">Home</a>
+      <a href="wiki/index.html">Wiki</a>
+      <a href="explorer/">Explorer</a>
+      <a href="witness.html">Witness setup</a>
+      <a href="bigmac.html" aria-current="page">Big Mac prices</a>
+    </nav>
+    <div class="appbar-actions">
+      <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
+      <a class="btn text gh-btn" href="https://github.com/pixagram-blockchain">GitHub</a>
+    </div>
+  </div>
+</header>
+
+
+<main class="page" id="content">
+
+<section class="hero">
+  <h1 class="display-l">Big Mac prices</h1>
+  <p class="lead">PXS promises no price. Its feed refers to one Big Mac where each witness runs, priced in that country's own currency. These are the prices the feed reads, country by country.</p>
+  <div class="btnrow">
+    <a class="btn" href="#prices"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#keyboard_arrow_down"/></svg>See the prices</a>
+    <a class="btn outlined" href="https://github.com/pixagram-blockchain/bigmac-feed#reporting-a-price">Report a price</a>
+    <a class="btn text" href="https://github.com/pixagram-blockchain/bigmac-feed/blob/main/latest.csv"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#open_in_new"/></svg>latest.csv</a>
+  </div>
+</section>
+
+<!-- ============================================================================ -->
+<section id="prices">
+  <h2>Pick-up prices by country</h2>
+  <p>The pick-up price is what the restaurant itself charges for the burger on its own: at the counter, at the kiosk or in the McDonald's app. Where several restaurants were read, low and high are the cheapest and the dearest, and the median is the price the feed uses.</p>
+
+  <div class="bm-tools">
+    <label for="bm-cur">Convert to</label>
+    <select class="bm-select" id="bm-cur" aria-describedby="bm-fx"><option value="EUR">EUR</option></select>
+    <p class="bm-fx" id="bm-fx" role="status">Each price is shown in its country's currency.</p>
+  </div>
+
+  <div class="table-wrap"><table class="bm-table" id="bm-table">
+    <caption class="sr-only">Big Mac prices by country: pick-up price in the local currency, the same price in the selected currency, the delivery-app price, the day observed and the sources</caption>
+    <thead><tr>
+      <th scope="col" data-sort="country"><button type="button">Country</button></th>
+      <th scope="col" class="num">Pick-up price</th>
+      <th scope="col" class="num" data-sort="converted"><button type="button">In <span id="bm-curname">EUR</span></button></th>
+      <th scope="col" class="num">Delivery apps</th>
+      <th scope="col">Observed</th>
+      <th scope="col">Sources</th>
+    </tr></thead>
+    <tbody><tr class="bm-empty"><td colspan="6">Reading the prices…</td></tr></tbody>
+  </table></div>
+  <p class="bm-status" id="bm-status" role="status"></p>
+  <noscript><p class="bm-status">This table is drawn by a script. The prices themselves are two plain files: <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/main/latest.csv">latest.csv</a> and <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/main/delivery.csv">delivery.csv</a>.</p></noscript>
+  <script type="application/json" id="bm-snapshot">{"latest":"country_code,currency_code,low,high,median,date,sources\nCH,CHF,7.50,7.50,7.50,2026-11-19,\"McDonald's app (Android), read by the Pixa team on 19 November 2026; restaurant not recorded | McDonald's Switzerland, November 2026, \"\"über sieben Franken\"\": https://www.moneycab.com/?p=2047609\"\nDE,EUR,5.99,8.39,6.99,2026-10-24,\"McDonald's app, all 1,367 restaurants, eaten in; median column holds the usual price, average 6.95 (Der BigMac Index, M. Zekri): https://muenchen.t-online.de/region/muenchen/id_101499852/mcdonald-s-muenchen-hier-gibt-es-den-guenstigsten-big-mac-deutschlands.html | https://dortmund.t-online.de/region/dortmund/id_101499366/mcdonald-s-dortmund-wo-der-big-mac-am-guenstigsten-ist.html\"\nFR,EUR,6.50,6.50,6.50,2026-10-01,\"Average over 1,500+ restaurants, early October 2026; lowest and highest not recorded: https://france-inflation.com/prix-du-big-mac-en-france.php\"\nJP,JPY,500,500,500,2026-02-25,\"McDonald's Japan, in-store price at standard restaurants since 25 February 2026: https://www.watch.impress.co.jp/docs/news/2088070.html | https://www.pricey.jp/web/articles/4450\"\nKR,KRW,5700,5700,5700,2026-02-20,\"McDonald's Korea price list since 20 February 2026: https://biz.sbs.co.kr/amp/article/20000292415 | https://www.insight.co.kr/news/543599\"\nTW,TWD,78,78,78,2026-07-16,\"McDonald's Taiwan single-item price, unchanged by the 27 May 2026 adjustment: https://www.money101.com.tw/blog/%e9%ba%a5%e7%95%b6%e5%8b%9e%e8%8f%9c%e5%96%ae-%e6%97%a9%e9%a4%90-%e8%b6%85%e5%80%bc%e5%85%a8%e9%a4%90-11-%e5%83%b9%e6%a0%bc-%e5%84%aa%e6%83%a0-%e4%bf%a1%e7%94%a8%e5%8d%a1%e6%8e%a8%e8%96%a6 | https://www.nownews.com/news/6840276\"\nUA,UAH,149,159,154,2026-05-19,\"Restaurant prices after the May 2026 change: https://news.telegraf.com.ua/ukr/obshhestvo/5940509-menyu-mcdonalds-podorozhalo-na-glazakh-chto-stoit-uzhe-300-griven-foto\"\nUS,USD,5.69,6.89,6.29,2026-09-30,\"McDonald's app, two restaurants in Fresno, California, reported by Reuters; too few to stand for the country: https://www.techbook.de/mobile-lifestyle/mcdonalds-ki | https://www.clubic.com/actualite-631894-votre-big-mac-n-aura-bientot-plus-le-meme-prix-partout-grace-a-l-ia.html\"\n","delivery":"country_code,currency_code,low,high,median,date,sources\nCH,CHF,8.70,9.10,8.90,2026-11-19,\"Uber Eats, Zürich Letzipark 8.70: https://www.ubereats.com/ch/brand-city/z%C3%BCrich-zh/mcdonalds | Uber Eats, Affoltern am Albis 8.90: https://www.ubereats.com/ch-de/store/mcdonalds-affoltern-aa/ae5GCeu0WbujFzDz3LMbBg | Uber Eats, Ebikon 8.90: https://www.ubereats.com/ch/store/mcdonalds-ebikon-mall-of-switzerland/ngZ3aBvkTUKFylvbU5LoOA | Uber Eats, Brugg 9.10: https://www.ubereats.com/ch/store/mcdonalds-brugg/ypCOLnpLXvuKQkkFxACg3g | Uber Eats, Zermatt 9.10: https://www.ubereats.com/ch/store/mcdonalds-zermatt/GebyWe7cV_q6ySW_tbn2qA\"\nDE,EUR,7.69,7.99,7.69,2026-11-19,\"Uber Eats, Berlin Hansastraße 7.69: https://www.ubereats.com/de/brand-city/berlin-be/mcdonalds | Uber Eats, Berlin Bitterfelder Straße 7.69: https://www.ubereats.com/de-en/brand-city/berlin-be/mcdonalds | Wolt, Berlin Heerstraße 7.99, prices of 22 September 2026: https://speisekartenpreise.org/mcdonalds/\"\nFI,EUR,7.60,7.60,7.60,2026-11-19,\"Uber Eats, Helsinki Kamppi 7.60: https://www.ubereats.com/fi/store/mcdonalds-helsinki-kamppi/kYXfkNsWUjG_ID-SDM6xOQ\"\nFR,EUR,7.85,7.85,7.85,2026-11-19,\"Uber Eats, Paris, section \"\"Nos produits à l'unité\"\" 7.85, read by the Pixa team; no page link kept\"\n"}</script>
+</section>
+
+<!-- ============================================================================ -->
+<section id="two">
+  <h2>Two prices for one burger</h2>
+  <p>A delivery app such as Uber Eats keeps its own price list for the same restaurant, and it is usually higher than what the restaurant charges at pick-up. <span id="bm-gap"></span> Choosing pick-up inside a delivery app does not change that: the app still shows its own list.</p>
+  <p>The feed reads the pick-up price only. The delivery price is kept in a second file and shown here so the difference stays visible.</p>
+  <div class="table-wrap"><table class="kv">
+    <tbody>
+      <tr><td><a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/main/latest.csv"><code>latest.csv</code></a></td><td>The pick-up price per country. The feed reads its <code>median</code> column.</td></tr>
+      <tr><td><a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/main/delivery.csv"><code>delivery.csv</code></a></td><td>The price delivery apps list, before their fees. For comparison only.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============================================================================ -->
+<section id="rules">
+  <h2>What goes in the file</h2>
+  <ul>
+    <li><strong>The burger on its own</strong>, never the menu or meal.</li>
+    <li><strong>The price a customer pays</strong>, in the country's own currency. No currency and no country is privileged.</li>
+    <li><strong>A source someone else can check</strong>: McDonald's own price list or announcement, a count of restaurant prices that says how it was made, a press report of a restaurant price, or a price a witness read in the McDonald's app or at the counter, with the place and the day.</li>
+    <li><strong>No row without a source.</strong> A country that is not listed has no pick-up price anyone could check yet, and no other country's price stands in for it.</li>
+  </ul>
+  <aside class="note"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#info"/></svg><div>
+    <strong class="h">Your country is missing, or its price is old</strong>
+    <p>Read the price of a Big Mac on its own at your restaurant: in the McDonald's app, start an order to collect there. Then <a href="https://github.com/pixagram-blockchain/bigmac-feed#reporting-a-price">add it to the file</a>. Several restaurants make a better row than one.</p>
+  </div></aside>
+</section>
+
+<!-- ============================================================================ -->
+<section id="feed">
+  <h2>How the feed uses it</h2>
+  <p>Each witness publishes how many PIXA the chain should count for one PXS, and the chain uses the median of those feeds. Starting with version 1.4.0, <a href="https://github.com/pixagram-blockchain/bigmac-feed"><code>bigmac-feed</code></a> takes the <code>median</code> of the witness's own country from <code>latest.csv</code>, divides it by PIXA's fair value in the same currency, and publishes the result. A witness on an earlier version still reads The Economist's index.</p>
+  <p>A witness whose country has no row states the price it pays with <code>--bigmac-price</code>. The feed never borrows another country's price.</p>
+  <p class="muted">Exchange rates on this page come from <a href="https://frankfurter.dev">Frankfurter</a>, which blends the reference rates central banks publish. They only convert the display; the files hold local prices and nothing else.</p>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <svg class="mark" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 2500"><g><path d=" M 1150 2200 L 2010 2200 C 2114.864 2200 2200 2114.864 2200 2010 L 2200 490 C 2200 385.136 2114.864 300 2010 300 L 490 300 C 385.136 300 300 385.136 300 490 L 300 2010 C 300 2114.864 385.136 2200 490 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 1750 L 1150 2200 Z M 1390 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 L 1110 1050 C 1076.885 1050 1050 1076.885 1050 1110 L 1050 1110 L 1050 1390 C 1050 1423.115 1076.885 1450 1110 1450 L 1390 1450 C 1423.115 1450 1450 1423.115 1450 1390 L 1450 1390 L 1450 1110 C 1450 1076.885 1423.115 1050 1390 1050 Z M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 L 1831 482 L 1831 482 L 1831 482 Z " fill-rule="evenodd" fill="rgb(0,0,0)"/><path d=" M 1831 482 L 1686.82 482 C 1659.324 482 1637 504.324 1637 531.82 L 1637 620.18 C 1637 647.676 1659.324 670 1686.82 670 L 1750 670 Q 1790.5 672.5 1809 688 C 1827.5 703.5 1830.438 735.625 1831 750 L 1831 814.18 C 1831 841.676 1853.324 864 1880.82 864 L 1969.18 864 C 1996.676 864 2019 841.676 2019 814.18 L 2019 670 L 2019 620.18 L 2019 553 C 2018 510.667 1987.333 483.333 1940 482 L 1880.82 482 L 1831 482 Z M 1110 1050 L 1390 1050 C 1423.115 1050 1450 1076.885 1450 1110 L 1450 1390 C 1450 1423.115 1423.115 1450 1390 1450 L 1110 1450 C 1076.885 1450 1050 1423.115 1050 1390 L 1050 1110 C 1050 1076.885 1076.885 1050 1110 1050 L 1110 1050 Z M 1150 1750 L 1150 2200 L 750 2200 L 750 1670 L 750 1670 L 750 1250 L 750 830 C 750 785.847 785.847 750 830 750 L 1670 750 C 1714.153 750 1750 785.847 1750 830 L 1750 1670 C 1750 1714.153 1714.153 1750 1670 1750 L 1150 1750 L 1150 1750 Z " fill-rule="evenodd" fill="rgb(255,255,255)"/></g></svg>
+      <p class="foot-title">Pixa</p>
+      <p>Developer resources for the Pixa blockchain: the node guide, the wiki and the live network, read straight from the chain.</p>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h2>This site</h2>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="wiki/index.html">Wiki</a></li>
+          <li><a href="explorer/">Explorer</a></li>
+          <li><a href="witness.html">Witness setup</a></li>
+          <li><a href="bigmac.html">Big Mac prices</a></li>
+          <li><a href="skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Network</h2>
+        <ul>
+          <li><a href="https://pixagram.com">pixagram.com</a></li>
+          <li><a href="https://pixablocks.org/">pixablocks.org</a></li>
+          <li><a href="https://pixagram.com/witness-status/">Witness status</a></li>
+          <li><a href="https://github.com/pixagram-blockchain">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Community</h2>
+        <ul>
+          <li><a href="https://t.me/omnibus_pixagram/1">Telegram</a></li>
+          <li><a href="https://x.com/pixagram_omni">X</a></li>
+          <li><a href="https://www.linkedin.com/company/pixagram-blockchain/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <span>© 2026 Pixagram</span>
+      <a class="live" id="footlive" href="explorer/"><i aria-hidden="true"></i><span>Connecting to api.pixagram.com</span></a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="assets/site.js"></script>
+<script src="assets/bigmac.js"></script>
+</body>
+</html>
