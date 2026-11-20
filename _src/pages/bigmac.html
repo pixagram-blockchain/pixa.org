@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Big Mac prices — the reference behind the PXS feed</title>
+<meta name="description" content="The pick-up price of a Big Mac, country by country and in each country's own currency: the file the Pixa price feed reads. Convert it to any currency.">
+<link rel="canonical" href="https://pixa.org/bigmac.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Pixa">
+<meta property="og:title" content="Big Mac prices — the reference behind the PXS feed">
+<meta property="og:description" content="The pick-up price of a Big Mac, country by country, in each country's own currency.">
+<meta property="og:url" content="https://pixa.org/bigmac.html">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-root="">
+
+{{HEADER}}
+
+<main class="page" id="content">
+
+<section class="hero">
+  <h1 class="display-l">Big Mac prices</h1>
+  <p class="lead">PXS promises no price. Its feed refers to one Big Mac where each witness runs, priced in that country's own currency. These are the prices the feed reads, country by country.</p>
+  <div class="btnrow">
+    <a class="btn" href="#prices">{{ICON:keyboard_arrow_down}}See the prices</a>
+    <a class="btn outlined" href="https://github.com/pixagram-blockchain/bigmac-feed#reporting-a-price">Report a price</a>
+    <a class="btn text" href="https://github.com/pixagram-blockchain/bigmac-feed/blob/main/latest.csv">{{ICON:open_in_new}}latest.csv</a>
+  </div>
+</section>
+
+<!-- ============================================================================ -->
+<section id="prices">
+  <h2>Pick-up prices by country</h2>
+  <p>The pick-up price is what the restaurant itself charges for the burger on its own: at the counter, at the kiosk or in the McDonald's app. Where several restaurants were read, low and high are the cheapest and the dearest, and the median is the price the feed uses.</p>
+
+  <div class="bm-tools">
+    <label for="bm-cur">Convert to</label>
+    <select class="bm-select" id="bm-cur" aria-describedby="bm-fx"><option value="EUR">EUR</option></select>
+    <p class="bm-fx" id="bm-fx" role="status">Each price is shown in its country's currency.</p>
+  </div>
+
+  <div class="table-wrap"><table class="bm-table" id="bm-table">
+    <caption class="sr-only">Big Mac prices by country: pick-up price in the local currency, the same price in the selected currency, the delivery-app price, the day observed and the sources</caption>
+    <thead><tr>
+      <th scope="col" data-sort="country"><button type="button">Country</button></th>
+      <th scope="col" class="num">Pick-up price</th>
+      <th scope="col" class="num" data-sort="converted"><button type="button">In <span id="bm-curname">EUR</span></button></th>
+      <th scope="col" class="num">Delivery apps</th>
+      <th scope="col">Observed</th>
+      <th scope="col">Sources</th>
+    </tr></thead>
+    <tbody><tr class="bm-empty"><td colspan="6">Reading the prices…</td></tr></tbody>
+  </table></div>
+  <p class="bm-status" id="bm-status" role="status"></p>
+  <noscript><p class="bm-status">This table is drawn by a script. The prices themselves are two plain files: <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/main/latest.csv">latest.csv</a> and <a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/main/delivery.csv">delivery.csv</a>.</p></noscript>
+  <script type="application/json" id="bm-snapshot">{{BIGMAC_SNAPSHOT}}</script>
+</section>
+
+<!-- ============================================================================ -->
+<section id="two">
+  <h2>Two prices for one burger</h2>
+  <p>A delivery app such as Uber Eats keeps its own price list for the same restaurant, and it is usually higher than what the restaurant charges at pick-up. <span id="bm-gap"></span> Choosing pick-up inside a delivery app does not change that: the app still shows its own list.</p>
+  <p>The feed reads the pick-up price only. The delivery price is kept in a second file and shown here so the difference stays visible.</p>
+  <div class="table-wrap"><table class="kv">
+    <tbody>
+      <tr><td><a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/main/latest.csv"><code>latest.csv</code></a></td><td>The pick-up price per country. The feed reads its <code>median</code> column.</td></tr>
+      <tr><td><a href="https://github.com/pixagram-blockchain/bigmac-feed/blob/main/delivery.csv"><code>delivery.csv</code></a></td><td>The price delivery apps list, before their fees. For comparison only.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============================================================================ -->
+<section id="rules">
+  <h2>What goes in the file</h2>
+  <ul>
+    <li><strong>The burger on its own</strong>, never the menu or meal.</li>
+    <li><strong>The price a customer pays</strong>, in the country's own currency. No currency and no country is privileged.</li>
+    <li><strong>A source someone else can check</strong>: McDonald's own price list or announcement, a count of restaurant prices that says how it was made, a press report of a restaurant price, a price a witness read in the McDonald's app or at the counter, with the place and the day, or, for a country nobody has read yet, The Economist's latest Big Mac index.</li>
+    <li><strong>No row without a source.</strong> A country that is not listed has no pick-up price anyone could check yet, and no other country's price stands in for it.</li>
+  </ul>
+  <aside class="note">{{ICON:info}}<div>
+    <strong class="h">Your country is missing, or its price is old</strong>
+    <p>Read the price of a Big Mac on its own at your restaurant: in the McDonald's app, start an order to collect there. Then <a href="https://github.com/pixagram-blockchain/bigmac-feed#reporting-a-price">add it to the file</a>. Several restaurants make a better row than one.</p>
+  </div></aside>
+</section>
+
+<!-- ============================================================================ -->
+<section id="feed">
+  <h2>How the feed uses it</h2>
+  <p>Each witness publishes how many PIXA the chain should count for one PXS, and the chain uses the median of those feeds. Starting with version 1.4.0, <a href="https://github.com/pixagram-blockchain/bigmac-feed"><code>bigmac-feed</code></a> takes the <code>median</code> of the witness's own country from <code>latest.csv</code>, divides it by PIXA's fair value in the same currency, and publishes the result. A witness on an earlier version still reads The Economist's index.</p>
+  <p>A witness whose country has no row states the price it pays with <code>--bigmac-price</code>. The feed never borrows another country's price.</p>
+  <p class="muted">Exchange rates on this page come from <a href="https://frankfurter.dev">Frankfurter</a>, which blends the reference rates central banks publish. They only convert the display; the files hold local prices and nothing else. Rows sourced to The Economist use its <a href="https://github.com/TheEconomist/big-mac-data">Big Mac index data</a>, © The Economist, under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+</section>
+
+</main>
+
+{{FOOTER}}
+
+<script src="assets/site.js"></script>
+<script src="assets/bigmac.js"></script>
+</body>
+</html>

@@ -11,6 +11,7 @@ cross-origin requests.
 | `index.html` | Home: the live chain, a clickable component map, quick links, the `SKILL.md` download, the repository index and the public endpoints |
 | `explorer/` | The block explorer: `/explorer/{block}`, `/explorer/{block}/{trx_id}`, and `/explorer/{trx_id}`, which finds the block |
 | `witness.html` | The node operator guide, witness and API node |
+| `bigmac.html` | The Big Mac prices the price feed reads: the pick-up price per country in its own currency, the delivery-app price beside it, and a currency to convert to |
 | `wiki/` | The documentation, generated from the `information` repository: every section and page, the contents, and search |
 | `library.html`, `interface.html`, `activity.html` | Redirects, so old links keep working: to the wiki, and to the witness status dashboard |
 
@@ -37,7 +38,8 @@ pip install -r requirements.txt        # the wiki only; the pages need nothing b
 python3 build.py                       # the pages, the redirects and the wiki
 python3 build.py --pages               # the pages and the redirects only
 python3 build.py --docs ../information # build the wiki from a local checkout of the docs
-python3 build.py --snapshot            # first refresh the chain snapshot from api.pixagram.com
+python3 build.py --snapshot            # first refresh the chain snapshot from api.pixagram.com,
+                                       # and the Big Mac price copies from the bigmac-feed repository
 python3 serve.py                       # preview on http://127.0.0.1:8000/, with GitHub Pages' 404 handling
 ```
 
@@ -46,7 +48,7 @@ and `../pixagram-blockchain/information`, and clones it into `_cache/` if none i
 
 ### The pages
 
-`index.html` and `witness.html` are assembled from `_src/pages/*.html` and the partials in
+`index.html`, `witness.html` and `bigmac.html` are assembled from `_src/pages/*.html` and the partials in
 `_src/partials/` (header with the tabs, footer, inline logo). Edit there and rebuild; the root
 `*.html` files are rewritten. `{{ICON:name}}` places an icon from the sprite.
 
@@ -54,8 +56,16 @@ and `../pixagram-blockchain/information`, and clones it into `_cache/` if none i
 block, the witnesses, the feed and the last 160 block headers for the ribbon. Refresh it with
 `--snapshot` before a release so the first paint is close to the truth.
 
+`_src/bigmac/latest.csv` and `_src/bigmac/delivery.csv` are copies of the two price files of
+[pixagram-blockchain/bigmac-feed](https://github.com/pixagram-blockchain/bigmac-feed). They are
+built into `bigmac.html`, which draws its table from them and then from the repository's own
+files, so the page shows prices even when GitHub cannot be reached. `--snapshot` refreshes the
+copies; a file that cannot be read keeps its last copy. `assets/bigmac.js` draws the table and
+treats everything in the files as text.
+
 Shared configuration (RPC node, GitHub organisation, LinkedIn, X, Telegram, explorer, app and
-canary addresses) is the `CONFIG` object at the top of `assets/site.js`.
+canary addresses, the price files and the exchange-rate service) is the `CONFIG` object at the
+top of `assets/site.js`.
 
 ### The wiki
 
@@ -145,6 +155,8 @@ at commit `6f8a817` (4 September 2026). Re-copy when the skill changes.
 | explorer | `condenser_api.get_block`, `get_ops_in_block`, `get_transaction`, `block_api.get_block_range` | one block or transaction per view; the latest 20 blocks |
 | witness | `block_api.get_block_range`, `condenser_api.get_account_history` | chain size and witness pay |
 | home | `https://huggingface.co/api/spaces/primerz/face-to-pixel-art-4K` | Space runtime state |
+| bigmac | `raw.githubusercontent.com/pixagram-blockchain/bigmac-feed/main/latest.csv`, `delivery.csv` | the prices, read once on load; the copies built into the page are shown until then |
+| bigmac | `https://api.frankfurter.dev/v2/rates?base=…`, `/v2/currencies` | exchange rates for the chosen currency and the list of currencies; display only |
 | wiki | `wiki/search-index.json` | built with the wiki, fetched on first search |
 
 ## Deployment

@@ -30,6 +30,7 @@
       <a href="wiki/index.html">Wiki</a>
       <a href="explorer/">Explorer</a>
       <a href="witness.html" aria-current="page">Witness setup</a>
+      <a href="bigmac.html">Big Mac prices</a>
     </nav>
     <div class="appbar-actions">
       <button class="search-trigger" type="button" data-search-open aria-label="Search the wiki"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#search"/></svg><span>Search the wiki</span><kbd>/</kbd></button>
@@ -379,7 +380,7 @@ client.broadcast.sendOperations(ops, PrivateKey.fromString(ACTIVE_WIF))
   <p>Try it first. A dry run needs no key and broadcasts nothing:</p>
 <pre class="has-copy"><code>docker run --rm pixarex/bigmac-feed:v1.3.0 --dry-run --once --witness=<span class="v">your-account</span>
 <span class="c"># Big Mac in United States = 6.22 USD (as of 2026-07-01) | PIXA = 0.138513 USDT [coinstore PIXAUSDT: …] → 1 PXS = 44.906 PIXA</span></code></pre>
-  <p>The detected country is your server's, which may not be yours. To set it, add <code>--country=CH</code> (any ISO code), or the price you pay, <code>--bigmac-price="7.30 CHF"</code>, in a <code>docker-compose.override.yml</code> that repeats the service's three <code>command</code> lines. Then reload only that container:</p>
+  <p>The detected country is your server's, which may not be yours. To set it, add <code>--country=CH</code> (any ISO code), or the price you pay, <code>--bigmac-price="7.30 CHF"</code>, in a <code>docker-compose.override.yml</code> that repeats the service's three <code>command</code> lines. Pixa also keeps its own file of pick-up prices, which the feed reads from version 1.4.0: see <a href="bigmac.html">Big Mac prices</a>. Then reload only that container:</p>
 <pre class="has-copy"><code>docker compose up -d bigmac-feed
 docker compose logs -f bigmac-feed     <span class="c"># Feed published by your-account: 1.000 PXS = … PIXA</span></code></pre>
   <p>There is no reference price to keep in line any more: witnesses in different countries publish different feeds by design, and the chain takes their median. When the book is too thin to read — one side empty, or a spread above 25% — the feed publishes nothing that hour and the chain keeps your last one. Coming from v1.0.x? <code>git pull</code> brings the new image and drops <code>--token-price</code>; delete any override that still pins an older feed. Every step with its expected output is in <a href="wiki/node-operators/become-a-witness.html#5-publish-the-price-feed">Become a Witness</a>, and how the median is made in <a href="wiki/pixa-supra/oracle-and-price-feed.html">Oracle and Price Feed</a>.</p>
@@ -558,6 +559,7 @@ crontab -e
           <li><a href="wiki/index.html">Wiki</a></li>
           <li><a href="explorer/">Explorer</a></li>
           <li><a href="witness.html">Witness setup</a></li>
+          <li><a href="bigmac.html">Big Mac prices</a></li>
           <li><a href="skill/SKILL.md" download="SKILL.md">SKILL.md</a></li>
         </ul>
       </div>

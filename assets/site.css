@@ -689,3 +689,26 @@ pre.field-json { margin: 0; padding: 12px 14px; font-size: 12.5px; max-height: 3
   pre { white-space: pre-wrap; }
   .chain { border: 1px solid #000; }
 }
+
+/* ===== Big Mac prices (bigmac.html) ============================================ */
+.bm-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 28px 0 0; }
+.bm-tools label { font-size: 14px; color: var(--text-2); }
+.bm-select { appearance: none; -webkit-appearance: none; height: 44px; max-width: 100%; padding: 0 44px 0 16px; border: 1px solid var(--outline); border-radius: var(--r-sm); background: var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 12px center / 20px; color: var(--ink); font: 400 15px/20px var(--plain); cursor: pointer; }
+.bm-select:hover { background-color: var(--fill-low); }
+.bm-fx, .bm-status { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-2); }
+.bm-status { margin: -8px 0 0; }
+.bm-table th, .bm-table td { white-space: nowrap; }
+.bm-table tbody th { font-weight: 400; }
+.bm-table .bm-sub { display: block; font-size: 13px; line-height: 1.45; color: var(--text-2); }
+.bm-table p.bm-sub { margin: 10px 0 2px; }
+.bm-table thead button { all: unset; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.bm-table thead button:hover { color: var(--ink); }
+.bm-table thead button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: var(--r-xs); }
+.bm-table thead th[aria-sort] { color: var(--ink); }
+.bm-table thead th[aria-sort="ascending"] button::after { content: "\2191"; }
+.bm-table thead th[aria-sort="descending"] button::after { content: "\2193"; }
+.bm-table td.bm-src { white-space: normal; min-width: 240px; max-width: 420px; }
+.bm-src summary { cursor: pointer; white-space: nowrap; }
+.bm-src ul { margin: 6px 0 4px; padding: 0 0 0 18px; font-size: 14px; line-height: 1.5; color: var(--text-2); }
+.bm-src li { margin: 0 0 6px; overflow-wrap: anywhere; }
+.bm-empty td { color: var(--text-2); white-space: normal; }
